@@ -16,9 +16,9 @@ defined( 'WPINC' ) or die;
  * @since  2.1
  * @since  4.6.3 Broke apart views into more customizable pieces and implemented late escaping.
  * @since 4.8.2 Updated template link.
- * @since TBD Updated template override path.
+ * @since 5.0.4 Updated template override path.
  *
- * @version TBD
+ * @version 5.0.4
  */
 
 // Make sure we don't even try when Pro is inactive.

@@ -15,9 +15,9 @@ defined( 'WPINC' ) or die;
  * @since 3.1
  * @since 4.7.1 Now using new tribe_community_events_field_classes function to set up classes for the input.
  * @since 4.8.2 Updated template link.
- * @since TBD Updated template override path.
+ * @since 5.0.4 Updated template override path.
  *
- * @version TBD
+ * @version 5.0.4
  */
 
 $events_label_singular         = tribe_get_event_label_singular();

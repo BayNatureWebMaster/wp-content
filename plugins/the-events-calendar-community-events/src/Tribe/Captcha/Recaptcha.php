@@ -14,9 +14,13 @@ class Tribe__Events__Community__Captcha__Recaptcha
 	 */
 	protected function get_settings_fields() {
 		return [
+			'tec-events-community-settings-recaptcha-wrapper_open' => [
+				'type' => 'html',
+				'html' => '<div class="tec-settings-form__content-section">',
+			],
 			'recaptcha-heading'   => [
-				'type'  => 'heading',
-				'label' => __( 'reCAPTCHA API Keys', 'tribe-events-community' ),
+				'type' => 'html',
+				'html' => '<h3  class="tec-settings-form__section-header tec-settings-form__section-header--sub">' . __( 'reCAPTCHA API Keys', 'tribe-events-community' ) . '</h3>',
 			],
 			'recaptcha-info'      => [
 				'type' => 'html',
@@ -41,6 +45,10 @@ class Tribe__Events__Community__Captcha__Recaptcha
 				'can_be_empty'    => true,
 				'parent_option'   => Tribe__Events__Community__Main::OPTIONNAME,
 				'size'            => 'large',
+			],
+			'tec-events-community-settings-recaptcha-wrapper_close' => [
+				'type' => 'html',
+				'html' => '</div>',
 			],
 		];
 	}

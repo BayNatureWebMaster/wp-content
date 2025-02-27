@@ -1,293 +1,305 @@
-# Copyright (C) 2024 The Events Calendar
+# Copyright (C) 2025 The Events Calendar
 # This file is distributed under the GPLv2 or later.
 msgid ""
 msgstr ""
-"Project-Id-Version: The Events Calendar: Community 5.0.3\n"
+"Project-Id-Version: The Events Calendar: Community 5.0.5.1\n"
 "Report-Msgid-Bugs-To: https://evnt.is/191x\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2024-09-09T06:36:50-07:00\n"
-"PO-Revision-Date: 2024-09-09 13:36\n"
-"X-Generator: WP-CLI 2.7.1\n"
+"POT-Creation-Date: 2025-02-18T21:16:58+00:00\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"X-Generator: WP-CLI 2.11.0\n"
 "X-Domain: tribe-events-community\n"
 
 #. Plugin Name of the plugin
+#: tribe-community-events.php
 msgid "The Events Calendar: Community"
 msgstr ""
 
 #. Plugin URI of the plugin
+#: tribe-community-events.php
 msgid "https://evnt.is/1acd"
 msgstr ""
 
 #. Description of the plugin
+#: tribe-community-events.php
 msgid "Community is an add-on providing additional functionality to the open source plugin The Events Calendar. Empower users to submit and manage their events on your website. <a href=\"https://theeventscalendar.com/products/community-events/?utm_campaign=in-app&utm_source=docblock&utm_medium=plugin-community\">Check out the full feature list</a>. Need more features? Peruse our selection of <a href=\"https://theeventscalendar.com/products/?utm_campaign=in-app&utm_source=docblock&utm_medium=plugin-community\" target=\"_blank\">plugins</a>."
 msgstr ""
 
 #. Author of the plugin
-#: tribe-community-events.php:275
-#: tribe-community-events.php:276
+#: tribe-community-events.php
+#: tribe-community-events.php:277
+#: tribe-community-events.php:278
 msgid "The Events Calendar"
 msgstr ""
 
 #. Author URI of the plugin
+#: tribe-community-events.php
 msgid "https://evnt.is/1aor"
 msgstr ""
 
-#: src/admin-views/community-options-template.php:29
-msgid "Placed in the Trash"
-msgstr ""
-
-#: src/admin-views/community-options-template.php:30
-msgid "Permanently Deleted"
-msgstr ""
-
-#: src/admin-views/community-options-template.php:77
+#: src/admin-views/community-options-template.php:13
 msgid "Community Settings"
 msgstr ""
 
-#: src/admin-views/community-options-template.php:82
+#: src/admin-views/community-options-template.php:18
 msgid "<p>Community enables users to submit events through a form on your site. Whether soliciting contributions from anonymous users or registered members, you have complete editorial control over what makes it onto the calendar.</p><p>Check out our <a href=\"%s\">Community New User Primer</a> for information on configuring and using the plugin."
 msgstr ""
 
-#: src/admin-views/community-options-template.php:96
-msgid "General"
+#: src/admin-views/community-options-template.php:45
+msgctxt "Label for the Community tab."
+msgid "Community"
 msgstr ""
 
-#: src/admin-views/community-options-template.php:100
-msgid "Allow anonymous submissions"
+#: src/admin-views/settings/tabs/access-control.php:33
+#: src/admin-views/settings/tabs/access-control.php:80
+msgid "Access Control"
 msgstr ""
 
-#: src/admin-views/community-options-template.php:101
-msgid "Check this box to allow users to submit events without having a WordPress account"
+#: src/admin-views/settings/tabs/access-control.php:37
+msgid "Block access to WordPress dashboard"
 msgstr ""
 
-#: src/admin-views/community-options-template.php:107
-msgid "Use visual editor for event descriptions"
+#: src/admin-views/settings/tabs/access-control.php:38
+msgid "Also disables the admin bar"
 msgstr ""
 
-#: src/admin-views/community-options-template.php:113
-msgid "Default Post Type for submitted events"
+#: src/admin-views/settings/tabs/access-control.php:45
+msgid "Roles to block"
 msgstr ""
 
-#: src/admin-views/community-options-template.php:118
-msgid "Default status for submitted events"
+#: src/admin-views/settings/tabs/access-control.php:49
+msgid "Check any roles listed to block access to the dashboard."
 msgstr ""
 
-#: src/admin-views/community-options-template.php:126
-msgid "Spam Prevention"
+#: src/admin-views/settings/tabs/access-control.php:55
+msgid "Redirect URL"
 msgstr ""
 
-#: src/admin-views/community-options-template.php:129
-msgid "To enable spam prevention for anonymous submissions, enter your reCAPTCHA API keys under <a href=\"%1$s\">%2$s</a>"
+#. Translators: %1$s and %2$s are placeholders for the start and end of a link
+#: src/admin-views/settings/tabs/access-control.php:58
+msgid "Redirect for users attempting to access the admin without permissions<br>Enter an absolute or relative URL<br>Leave blank for the %1$sCommunity List View%2$s"
 msgstr ""
 
-#: src/admin-views/community-options-template.php:134
-msgctxt "Click path in The Events Calendar settings to get to the API settings section separated by right arrows (HTML \"&rarr;\")"
-msgid "Events &rarr; Settings &rarr; APIs"
+#: src/admin-views/settings/tabs/access-control.php:70
+msgid "Single geography mode"
 msgstr ""
 
-#: src/admin-views/community-options-template.php:146
-msgid "Terms of Submissions"
+#: src/admin-views/settings/tabs/access-control.php:71
+msgid "Removes the country, state/province and timezone selectors from the submission form"
 msgstr ""
 
-#: src/admin-views/community-options-template.php:150
-msgid "Enable Terms of Submission?"
-msgstr ""
-
-#: src/admin-views/community-options-template.php:153
-msgid "Event submitters will have to agree to your terms to add/edit events."
-msgstr ""
-
-#: src/admin-views/community-options-template.php:157
-msgid "Terms of submission"
-msgstr ""
-
-#: src/admin-views/community-options-template.php:159
-msgid "The Terms of Submission that event submitters will have to agree to upon adding/editing events."
-msgstr ""
-
-#: src/admin-views/community-options-template.php:167
-msgid "Community rewrite slug"
-msgstr ""
-
-#: src/admin-views/community-options-template.php:171
-msgid "The slug used for building the Community URL - it is appended to the main events slug."
-msgstr ""
-
-#: src/admin-views/community-options-template.php:178
-msgid "Add slug"
-msgstr ""
-
-#: src/admin-views/community-options-template.php:182
-msgid "The slug used for building the community \"add event\" URL - it is appended to the main Community slug."
-msgstr ""
-
-#: src/admin-views/community-options-template.php:189
-msgid "List slug"
-msgstr ""
-
-#: src/admin-views/community-options-template.php:193
-msgid "The slug used for building the community \"events list\" URL - it is appended to the main Community slug."
-msgstr ""
-
-#: src/admin-views/community-options-template.php:200
-msgid "Edit slug"
-msgstr ""
-
-#: src/admin-views/community-options-template.php:204
-#: src/admin-views/community-options-template.php:237
-msgid "The slug used for building the community \"edit event\" URL - it is appended to the main Community slug."
-msgstr ""
-
-#: src/admin-views/community-options-template.php:211
-msgid "Venue slug"
-msgstr ""
-
-#: src/admin-views/community-options-template.php:215
-msgid "The slug used for building the community \"edit venue\" URL - it is appended to the main Community slug."
-msgstr ""
-
-#: src/admin-views/community-options-template.php:222
-msgid "Organizer slug"
-msgstr ""
-
-#: src/admin-views/community-options-template.php:226
-msgid "The slug used for building the community \"edit organizer\" URL - it is appended to the main Community slug."
-msgstr ""
-
-#: src/admin-views/community-options-template.php:233
-msgid "Event slug"
-msgstr ""
-
-#: src/admin-views/community-options-template.php:324
-msgid "Community URLs"
-msgstr ""
-
-#: src/admin-views/community-options-template.php:328
-msgid "Cannot be set"
-msgstr ""
-
-#: src/admin-views/community-options-template.php:347
-msgid "Edit the default URLs for Community Pages."
-msgstr ""
-
-#: src/admin-views/community-options-template.php:351
-msgid "Note that these slugs are not translatable. Please write them in the correct language for your site."
-msgstr ""
-
-#: src/admin-views/community-options-template.php:370
-msgid "Current Community URLs"
-msgstr ""
-
-#: src/admin-views/community-options-template.php:372
-msgid "The following are always appended by an event (or post) ID"
-msgstr ""
-
-#: src/admin-views/community-options-template.php:375
-msgid "Edit URL Slugs (unchecked clears all customizations)"
-msgstr ""
-
-#: src/admin-views/community-options-template.php:423
+#: src/admin-views/settings/tabs/alerts.php:11
+#: src/admin-views/settings/tabs/alerts.php:32
 msgid "Alerts"
 msgstr ""
 
-#: src/admin-views/community-options-template.php:427
+#: src/admin-views/settings/tabs/alerts.php:15
 msgid "Send an email alert when a new event is submitted"
 msgstr ""
 
-#: src/admin-views/community-options-template.php:433
+#: src/admin-views/settings/tabs/alerts.php:22
 msgid "Email addresses to be notified"
 msgstr ""
 
-#: src/admin-views/community-options-template.php:435
+#: src/admin-views/settings/tabs/alerts.php:24
 msgid "One address per line"
 msgstr ""
 
-#: src/admin-views/community-options-template.php:443
+#: src/admin-views/settings/tabs/content-creation.php:26
+#: src/admin-views/settings/tabs/content-creation.php:93
+msgid "Content Creation"
+msgstr ""
+
+#: src/admin-views/settings/tabs/content-creation.php:30
+msgid "Allow anonymous submissions"
+msgstr ""
+
+#: src/admin-views/settings/tabs/content-creation.php:31
+msgid "Check this box to allow users to submit events without having a WordPress account"
+msgstr ""
+
+#: src/admin-views/settings/tabs/content-creation.php:38
+msgid "Use visual editor for event descriptions"
+msgstr ""
+
+#: src/admin-views/settings/tabs/content-creation.php:45
+msgid "Default Post Type for submitted events"
+msgstr ""
+
+#: src/admin-views/settings/tabs/content-creation.php:50
+msgid "Default status for submitted events"
+msgstr ""
+
+#: src/admin-views/settings/tabs/content-creation.php:59
+msgid "Spam Prevention"
+msgstr ""
+
+#. Translators: %1$s is a placeholder for the URL to the API settings
+#: src/admin-views/settings/tabs/content-creation.php:62
+msgid "<p><i>To enable spam prevention for anonymous submissions, enter your reCAPTCHA API keys under <a href=\"%1$s\">Events &rarr; Settings &rarr; APIs</a></i></p>"
+msgstr ""
+
+#: src/admin-views/settings/tabs/content-creation.php:71
+#: src/views/community/modules/terms.php:33
+msgid "Terms of Submission"
+msgstr ""
+
+#: src/admin-views/settings/tabs/content-creation.php:75
+msgid "Enable Terms of Submission?"
+msgstr ""
+
+#: src/admin-views/settings/tabs/content-creation.php:78
+msgid "Event submitters will have to agree to your terms to add/edit events."
+msgstr ""
+
+#: src/admin-views/settings/tabs/content-creation.php:83
+msgid "Terms of submission"
+msgstr ""
+
+#: src/admin-views/settings/tabs/content-creation.php:85
+msgid "The Terms of Submission that event submitters will have to agree to upon adding/editing events."
+msgstr ""
+
+#: src/admin-views/settings/tabs/members.php:9
+msgid "Placed in the Trash"
+msgstr ""
+
+#: src/admin-views/settings/tabs/members.php:10
+msgid "Permanently Deleted"
+msgstr ""
+
+#: src/admin-views/settings/tabs/members.php:18
+#: src/admin-views/settings/tabs/members.php:65
 msgid "Members"
 msgstr ""
 
-#: src/admin-views/community-options-template.php:449
-msgid "Control the permissions for your logged in users. Allow them to:"
+#: src/admin-views/settings/tabs/members.php:21
+msgid "Control the permissions for your logged in users."
 msgstr ""
 
-#: src/admin-views/community-options-template.php:454
+#: src/admin-views/settings/tabs/members.php:27
 msgid "Edit their submissions"
 msgstr ""
 
-#: src/admin-views/community-options-template.php:455
+#: src/admin-views/settings/tabs/members.php:28
 msgid "Users can edit their events, venues, and organizers"
 msgstr ""
 
-#: src/admin-views/community-options-template.php:461
+#: src/admin-views/settings/tabs/members.php:35
 msgid "Remove their submissions"
 msgstr ""
 
-#: src/admin-views/community-options-template.php:462
+#: src/admin-views/settings/tabs/members.php:36
 msgid "Users can delete their events"
 msgstr ""
 
-#: src/admin-views/community-options-template.php:468
+#: src/admin-views/settings/tabs/members.php:43
 msgid "Deleted events should be:"
 msgstr ""
 
-#: src/admin-views/community-options-template.php:478
-#: src/Tribe/Main.php:1148
+#: src/admin-views/settings/tabs/members.php:51
+#: src/Tribe/Main.php:1196
 #: src/views/community/event-list-shortcode.php:42
 #: src/views/community/event-list.php:38
 msgid "My Events"
 msgstr ""
 
-#: src/admin-views/community-options-template.php:482
+#: src/admin-views/settings/tabs/members.php:55
 msgid "Events per page"
 msgstr ""
 
-#: src/admin-views/community-options-template.php:483
+#: src/admin-views/settings/tabs/members.php:56
 msgid "This is the number of events displayed per page"
 msgstr ""
 
-#: src/admin-views/community-options-template.php:493
-msgid "Access Control"
-msgstr ""
-
-#: src/admin-views/community-options-template.php:497
-msgid "Block access to WordPress dashboard"
-msgstr ""
-
-#: src/admin-views/community-options-template.php:498
-msgid "Also disables the admin bar"
-msgstr ""
-
-#: src/admin-views/community-options-template.php:504
-msgid "Roles to block"
-msgstr ""
-
-#: src/admin-views/community-options-template.php:508
-msgid "Check any roles listed to block access to the dashboard."
-msgstr ""
-
-#: src/admin-views/community-options-template.php:513
-msgid "Redirect URL"
-msgstr ""
-
-#: src/admin-views/community-options-template.php:515
-msgid "Redirect for users attempting to access the admin without permissions<br>Enter an absolute or relative URL<br>Leave blank for the %1$sCommunity List View%2$s"
-msgstr ""
-
-#: src/admin-views/community-options-template.php:526
-msgid "Single geography mode"
-msgstr ""
-
-#: src/admin-views/community-options-template.php:527
-msgid "Removes the country, state/province and timezone selectors from the submission form"
-msgstr ""
-
+#: src/admin-views/settings/tabs/tickets.php:13
 #: src/admin-views/tickets/payment-options.php:9
 #: src/Tribe/Tickets/Main.php:1436
 msgid "Community Tickets"
+msgstr ""
+
+#: src/admin-views/settings/tabs/urls.php:14
+msgid "Community rewrite slug"
+msgstr ""
+
+#: src/admin-views/settings/tabs/urls.php:18
+msgid "The slug used for building the Community URL - it is appended to the main events slug."
+msgstr ""
+
+#: src/admin-views/settings/tabs/urls.php:26
+msgid "Add slug"
+msgstr ""
+
+#: src/admin-views/settings/tabs/urls.php:30
+msgid "The slug used for building the community \"add event\" URL - it is appended to the main Community slug."
+msgstr ""
+
+#: src/admin-views/settings/tabs/urls.php:38
+msgid "List slug"
+msgstr ""
+
+#: src/admin-views/settings/tabs/urls.php:42
+msgid "The slug used for building the community \"events list\" URL - it is appended to the main Community slug."
+msgstr ""
+
+#: src/admin-views/settings/tabs/urls.php:50
+msgid "Edit slug"
+msgstr ""
+
+#: src/admin-views/settings/tabs/urls.php:54
+#: src/admin-views/settings/tabs/urls.php:90
+msgid "The slug used for building the community \"edit event\" URL - it is appended to the main Community slug."
+msgstr ""
+
+#: src/admin-views/settings/tabs/urls.php:62
+msgid "Venue slug"
+msgstr ""
+
+#: src/admin-views/settings/tabs/urls.php:66
+msgid "The slug used for building the community \"edit venue\" URL - it is appended to the main Community slug."
+msgstr ""
+
+#: src/admin-views/settings/tabs/urls.php:74
+msgid "Organizer slug"
+msgstr ""
+
+#: src/admin-views/settings/tabs/urls.php:78
+msgid "The slug used for building the community \"edit organizer\" URL - it is appended to the main Community slug."
+msgstr ""
+
+#: src/admin-views/settings/tabs/urls.php:86
+msgid "Event slug"
+msgstr ""
+
+#: src/admin-views/settings/tabs/urls.php:189
+#: src/admin-views/settings/tabs/urls.php:279
+msgid "Community URLs"
+msgstr ""
+
+#: src/admin-views/settings/tabs/urls.php:194
+msgid "Edit the default URLs for Community Pages."
+msgstr ""
+
+#: src/admin-views/settings/tabs/urls.php:195
+msgid "Note that these slugs are not translatable. Please write them in the correct language for your site."
+msgstr ""
+
+#: src/admin-views/settings/tabs/urls.php:205
+msgid "Cannot be set!"
+msgstr ""
+
+#. translators: %1$s is the shortcode %2$s is the url to the Permalinks Settings
+#: src/admin-views/settings/tabs/urls.php:210
+msgctxt "Pretty permalinks error for URL slugs"
+msgid "Community requires non-default (pretty) Permalinks to be enabled or the <code>%1$s</code> shortcode to exist on a post or page.<br><br>You cannot edit Community slugs for your events pages as you do not have pretty Permalinks enabled. In order to edit the slugs here, first <a href=\"%2$s\">enable pretty Permalinks</a>."
+msgstr ""
+
+#: src/admin-views/settings/tabs/urls.php:235
+msgid "Edit URL Slugs (unchecked clears all customizations)"
 msgstr ""
 
 #: src/admin-views/tickets/payment-options.php:13
@@ -314,127 +326,124 @@ msgstr ""
 msgid "Check this box if you wish to allow community organizers to upload images for their tickets."
 msgstr ""
 
-#: src/admin-views/tickets/payment-options.php:43
+#: src/admin-views/tickets/payment-options.php:45
 #: src/views/community-tickets/modules/payment-options.php:120
 msgid "Ticket Fees"
-msgstr ""
-
-#: src/admin-views/tickets/payment-options.php:48
-msgid "IMPORTANT"
 msgstr ""
 
 #: src/admin-views/tickets/payment-options.php:49
 msgid "Certain fee restrictions apply."
 msgstr ""
 
-#: src/admin-views/tickets/payment-options.php:51
+#. translators: %1$s is the opening anchor tag, %2$s is the closing anchor tag
+#: src/admin-views/tickets/payment-options.php:52
 msgid "Review our %1$sUnderstanding Site Fees KB%2$s for a further explanation so that you set your site fees according to what Community Tickets supports."
 msgstr ""
 
-#: src/admin-views/tickets/payment-options.php:55
+#: src/admin-views/tickets/payment-options.php:56
 msgid "Learn more."
 msgstr ""
 
-#: src/admin-views/tickets/payment-options.php:60
+#: src/admin-views/tickets/payment-options.php:62
 msgid "Ticket Fee Type"
 msgstr ""
 
-#: src/admin-views/tickets/payment-options.php:61
+#: src/admin-views/tickets/payment-options.php:63
 msgid "What type of fee will be charged?"
 msgstr ""
 
-#: src/admin-views/tickets/payment-options.php:65
+#: src/admin-views/tickets/payment-options.php:67
 #: src/views/community/modules/custom/fields/dropdown.php:50
 msgid "None"
 msgstr ""
 
-#: src/admin-views/tickets/payment-options.php:66
+#: src/admin-views/tickets/payment-options.php:68
 msgid "Flat Fee Per Event"
 msgstr ""
 
-#: src/admin-views/tickets/payment-options.php:67
+#: src/admin-views/tickets/payment-options.php:69
 msgid "Flat Fee Per Ticket"
 msgstr ""
 
-#: src/admin-views/tickets/payment-options.php:68
+#: src/admin-views/tickets/payment-options.php:70
 msgid "Percentage Fee Per Transaction"
 msgstr ""
 
-#: src/admin-views/tickets/payment-options.php:69
+#: src/admin-views/tickets/payment-options.php:71
 msgid "Flat & Percentage Fee Per Event"
 msgstr ""
 
-#: src/admin-views/tickets/payment-options.php:70
+#: src/admin-views/tickets/payment-options.php:72
 msgid "Flat & Percentage Fee Per Ticket"
 msgstr ""
 
-#: src/admin-views/tickets/payment-options.php:80
+#: src/admin-views/tickets/payment-options.php:78
 msgid "Fee percentage"
 msgstr ""
 
-#: src/admin-views/tickets/payment-options.php:81
+#: src/admin-views/tickets/payment-options.php:79
 msgid "The percentage fee charged to each ticket transaction."
 msgstr ""
 
-#: src/admin-views/tickets/payment-options.php:93
+#: src/admin-views/tickets/payment-options.php:91
 msgid "Flat fee"
 msgstr ""
 
-#: src/admin-views/tickets/payment-options.php:94
+#: src/admin-views/tickets/payment-options.php:92
 msgid "The flat fee charged per the Ticket Fee Type setting."
 msgstr ""
 
-#: src/admin-views/tickets/payment-options.php:106
+#: src/admin-views/tickets/payment-options.php:104
 msgid "Fee display option"
 msgstr ""
 
-#: src/admin-views/tickets/payment-options.php:115
+#: src/admin-views/tickets/payment-options.php:113
 msgid "Fees will be subtracted from the cost of the ticket (paid tickets only)"
 msgstr ""
 
-#: src/admin-views/tickets/payment-options.php:120
+#: src/admin-views/tickets/payment-options.php:118
 msgid "Additional fees will be subtracted from the individual ticket price. The fee will be displayed on the event submission form, but ticket prices will not be restricted to accommodate the fee."
 msgstr ""
 
-#: src/admin-views/tickets/payment-options.php:122
-#: src/admin-views/tickets/payment-options.php:133
-#: src/admin-views/tickets/payment-options.php:144
+#: src/admin-views/tickets/payment-options.php:120
+#: src/admin-views/tickets/payment-options.php:131
+#: src/admin-views/tickets/payment-options.php:142
 msgid "Learn more"
 msgstr ""
 
-#: src/admin-views/tickets/payment-options.php:126
+#: src/admin-views/tickets/payment-options.php:124
 msgid "Fees will be added to the price of the ticket"
 msgstr ""
 
-#: src/admin-views/tickets/payment-options.php:131
+#: src/admin-views/tickets/payment-options.php:129
 msgid "Additional fees will be added to the individual ticket price. The fee will also be displayed on the event submission form, but ticket prices will not be restricted to accommodate the fee."
 msgstr ""
 
-#: src/admin-views/tickets/payment-options.php:137
+#: src/admin-views/tickets/payment-options.php:135
 msgid "Display fees in addition to subtotal on the Cart page"
 msgstr ""
 
-#: src/admin-views/tickets/payment-options.php:142
+#: src/admin-views/tickets/payment-options.php:140
 msgid "Additional fees will be added to the total ticket price (applies to paid and free tickets)."
 msgstr ""
 
-#: src/admin-views/tickets/payment-options.php:152
+#: src/admin-views/tickets/payment-options.php:150
 msgid "Add flat fees to free tickets"
 msgstr ""
 
-#: src/admin-views/tickets/payment-options.php:153
+#: src/admin-views/tickets/payment-options.php:151
 msgid "When checked, flat fees will be added to free tickets as well as paid tickets."
 msgstr ""
 
-#: src/admin-views/tickets/payment-options.php:193
+#: src/admin-views/tickets/payment-options.php:183
 msgid "Split Payment Settings"
 msgstr ""
 
-#: src/admin-views/tickets/payment-options.php:197
+#: src/admin-views/tickets/payment-options.php:187
 msgid "Enable split payments"
 msgstr ""
 
-#: src/admin-views/tickets/payment-options.php:199
+#: src/admin-views/tickets/payment-options.php:189
 msgid ""
 "Leaving this box unchecked means that all funds will be collected by the payment methods configured in WooCommerce.\n"
 "\t\t\t\tCheck this box if you prefer the money for tickets to be distributed to the site and the event\n"
@@ -443,104 +452,104 @@ msgid ""
 "\t\t\t\t"
 msgstr ""
 
-#: src/admin-views/tickets/payment-options.php:209
+#: src/admin-views/tickets/payment-options.php:199
 msgid "Read more"
 msgstr ""
 
-#: src/admin-views/tickets/payment-options.php:230
+#: src/admin-views/tickets/payment-options.php:225
 msgid "Configure PayPal:"
 msgstr ""
 
-#: src/admin-views/tickets/payment-options.php:231
+#: src/admin-views/tickets/payment-options.php:226
 msgid "The following PayPal settings are required for enabling split payments."
 msgstr ""
 
-#: src/admin-views/tickets/payment-options.php:236
+#: src/admin-views/tickets/payment-options.php:231
 msgid "Split Payment method"
 msgstr ""
 
-#: src/admin-views/tickets/payment-options.php:240
+#: src/admin-views/tickets/payment-options.php:235
 msgid "Use the PayPal Payouts API"
 msgstr ""
 
-#: src/admin-views/tickets/payment-options.php:245
+#: src/admin-views/tickets/payment-options.php:240
 msgid "Learn about PayPal's Payouts API "
 msgstr ""
 
-#: src/admin-views/tickets/payment-options.php:247
+#: src/admin-views/tickets/payment-options.php:242
 msgid "Learn more about PayPal's Payouts API"
 msgstr ""
 
-#: src/admin-views/tickets/payment-options.php:248
-#: src/admin-views/tickets/payment-options.php:261
+#: src/admin-views/tickets/payment-options.php:243
+#: src/admin-views/tickets/payment-options.php:256
 msgid "Read more."
 msgstr ""
 
-#: src/admin-views/tickets/payment-options.php:249
+#: src/admin-views/tickets/payment-options.php:244
 msgid "IMPORTANT: You may use any payment gateway we currently support for selling Community Tickets through WooCommerce. However, all Payout funds will be withdrawn from the PayPal account you enter into the PayPal settings."
 msgstr ""
 
-#: src/admin-views/tickets/payment-options.php:250
+#: src/admin-views/tickets/payment-options.php:245
 msgid "For example, if you use Stripe as your payment processor for WooCommerce and you have enabled Split Payments for Community Tickets, your Organizer will be paid via your PayPal account, not your Stripe account. It's important that you have enough funds within your PayPal account in order to successfully pay your organizers."
 msgstr ""
 
-#: src/admin-views/tickets/payment-options.php:253
+#: src/admin-views/tickets/payment-options.php:248
 msgid "Use the legacy PayPal Adaptive Payments API"
 msgstr ""
 
-#: src/admin-views/tickets/payment-options.php:258
+#: src/admin-views/tickets/payment-options.php:253
 msgid "This API has been deprecated by PayPal and you have to have an existing account to use it. "
 msgstr ""
 
-#: src/admin-views/tickets/payment-options.php:260
+#: src/admin-views/tickets/payment-options.php:255
 msgid "Read more about PayPal's Adaptive Payments API"
 msgstr ""
 
-#: src/admin-views/tickets/payment-options.php:268
+#: src/admin-views/tickets/payment-options.php:263
 msgid "Use PayPal sandbox"
 msgstr ""
 
-#: src/admin-views/tickets/payment-options.php:269
+#: src/admin-views/tickets/payment-options.php:264
 msgid "Check this box if you wish all payments to be test payments via PayPal sandbox."
 msgstr ""
 
-#: src/admin-views/tickets/payment-options.php:276
+#: src/admin-views/tickets/payment-options.php:271
 msgid "PayPal API Client ID"
 msgstr ""
 
-#: src/admin-views/tickets/payment-options.php:287
+#: src/admin-views/tickets/payment-options.php:282
 msgid "PayPal API Client Secret"
 msgstr ""
 
-#: src/admin-views/tickets/payment-options.php:298
+#: src/admin-views/tickets/payment-options.php:293
 msgid "PayPal API Username"
 msgstr ""
 
-#: src/admin-views/tickets/payment-options.php:309
+#: src/admin-views/tickets/payment-options.php:304
 msgid "PayPal API Password"
 msgstr ""
 
-#: src/admin-views/tickets/payment-options.php:320
+#: src/admin-views/tickets/payment-options.php:315
 msgid "PayPal API Signature"
 msgstr ""
 
-#: src/admin-views/tickets/payment-options.php:331
+#: src/admin-views/tickets/payment-options.php:326
 msgid "PayPal Application ID"
 msgstr ""
 
-#: src/admin-views/tickets/payment-options.php:342
+#: src/admin-views/tickets/payment-options.php:337
 msgid "Receiver email"
 msgstr ""
 
-#: src/admin-views/tickets/payment-options.php:343
+#: src/admin-views/tickets/payment-options.php:338
 msgid "This is the email address for the PayPal account that will receive payments."
 msgstr ""
 
-#: src/admin-views/tickets/payment-options.php:354
+#: src/admin-views/tickets/payment-options.php:349
 msgid "Invoice prefix"
 msgstr ""
 
-#: src/admin-views/tickets/payment-options.php:355
+#: src/admin-views/tickets/payment-options.php:350
 msgid "Enter a prefix for your PayPal invoices. If you run multiple stores/event sites, entering a value here will ensure that your invoice numbers are unique - PayPal does not accept duplicate invoice numbers."
 msgstr ""
 
@@ -572,17 +581,17 @@ msgstr ""
 msgid "Overview"
 msgstr ""
 
-#: src/Community_Tickets/Tickets/Commerce/Admin/Settings.php:69
-#: src/Community_Tickets/Tickets/Commerce/Admin/Settings.php:78
+#: src/Community_Tickets/Tickets/Commerce/Admin/Settings.php:70
+#: src/Community_Tickets/Tickets/Commerce/Admin/Settings.php:79
 msgid "Default Provider"
 msgstr ""
 
-#: src/Community_Tickets/Tickets/Commerce/Admin/Settings.php:79
+#: src/Community_Tickets/Tickets/Commerce/Admin/Settings.php:80
 msgid "Provider to be used for events created via Community. Changing this will only affect new tickets."
 msgstr ""
 
 #. Translators: %1$s and %2$s are the opening and closing anchor tags, respectively.
-#: src/Community_Tickets/Tickets/Commerce/Admin/Settings.php:168
+#: src/Community_Tickets/Tickets/Commerce/Admin/Settings.php:169
 msgid "To begin using the tickets functionality within The Events Calendar: Community, Please %1$ssetup a provider%2$s."
 msgstr ""
 
@@ -634,31 +643,35 @@ msgctxt "Notice message for the forced deactivation of the Community Tickets plu
 msgid "%1$s could not be activated. The %1$s functionality has been merged into %2$s. %3$sLearn More%4$s."
 msgstr ""
 
-#: src/Events_Community/Integrations/Plugins/Events/Events/Controller.php:190
+#: src/Events_Community/Integrations/Plugins/Events/Controller.php:85
+msgid "Form Defaults"
+msgstr ""
+
+#: src/Events_Community/Integrations/Plugins/Events/Events/Controller.php:191
 msgid "Category"
 msgstr ""
 
-#: src/Events_Community/Integrations/Plugins/Events/Events/Controller.php:206
+#: src/Events_Community/Integrations/Plugins/Events/Events/Controller.php:207
 msgid "Start Date"
 msgstr ""
 
-#: src/Events_Community/Integrations/Plugins/Events/Events/Controller.php:207
+#: src/Events_Community/Integrations/Plugins/Events/Events/Controller.php:208
 msgid "End Date"
 msgstr ""
 
-#: src/Events_Community/Integrations/Plugins/Events/Events/Controller.php:528
-#: src/Events_Community/Integrations/Plugins/Events/Events/Controller.php:540
-#: src/Events_Community/Integrations/Plugins/Events/Events/Controller.php:559
+#: src/Events_Community/Integrations/Plugins/Events/Events/Controller.php:529
+#: src/Events_Community/Integrations/Plugins/Events/Events/Controller.php:541
+#: src/Events_Community/Integrations/Plugins/Events/Events/Controller.php:560
 msgid "Start Time must be prior to End Time."
 msgstr ""
 
 #. translators: %s is the field label.
-#: src/Events_Community/Integrations/Plugins/Events/Events/Controller.php:587
+#: src/Events_Community/Integrations/Plugins/Events/Events/Controller.php:588
 msgctxt "field label for event categories"
 msgid "%s Category"
 msgstr ""
 
-#: src/Events_Community/Integrations/Plugins/Events/Events/Controller.php:589
+#: src/Events_Community/Integrations/Plugins/Events/Events/Controller.php:590
 msgctxt "field label for post tags"
 msgid "Tag"
 msgstr ""
@@ -673,29 +686,23 @@ msgctxt "Option for when there are no organizers available."
 msgid "No Default"
 msgstr ""
 
-#: src/Events_Community/Integrations/Plugins/Events/Organizers/Organizer_Logic.php:302
-#: src/Events_Community/Integrations/Plugins/Events/Venues/Venue_Logic.php:344
-msgctxt "The heading that displays on the settings page for form defaults."
-msgid "Form Defaults"
-msgstr ""
-
-#: src/Events_Community/Integrations/Plugins/Events/Organizers/Organizer_Logic.php:313
+#: src/Events_Community/Integrations/Plugins/Events/Organizers/Organizer_Logic.php:299
 msgctxt "Label for the default organizer option."
 msgid "Default organizer for submitted events"
 msgstr ""
 
-#: src/Events_Community/Integrations/Plugins/Events/Organizers/Organizer_Logic.php:327
+#: src/Events_Community/Integrations/Plugins/Events/Organizers/Organizer_Logic.php:311
 msgctxt "Label for preventing new organizers."
 msgid "Users cannot create new Organizers"
 msgstr ""
 
-#: src/Events_Community/Integrations/Plugins/Events/Organizers/Organizer_Logic.php:328
+#: src/Events_Community/Integrations/Plugins/Events/Organizers/Organizer_Logic.php:312
 msgctxt "Tooltip for preventing new organizers."
 msgid "Users will be limited to choosing from existing organizers."
 msgstr ""
 
 #: src/Events_Community/Integrations/Plugins/Events/Organizers/Routes/Route_Edit.php:112
-#: src/Tribe/Main.php:1054
+#: src/Tribe/Main.php:1102
 msgid "Edit an Organizer"
 msgstr ""
 
@@ -729,7 +736,7 @@ msgid "Organizer updated."
 msgstr ""
 
 #: src/Events_Community/Integrations/Plugins/Events/Venues/Routes/Route_Edit.php:110
-#: src/Tribe/Main.php:1053
+#: src/Tribe/Main.php:1101
 msgid "Edit a Venue"
 msgstr ""
 
@@ -763,30 +770,30 @@ msgctxt "Option for when there are no venues available."
 msgid "Use New Venue/No Default"
 msgstr ""
 
-#: src/Events_Community/Integrations/Plugins/Events/Venues/Venue_Logic.php:355
+#: src/Events_Community/Integrations/Plugins/Events/Venues/Venue_Logic.php:341
 msgctxt "Label for the default venue option."
 msgid "Default venue for submitted events"
 msgstr ""
 
-#: src/Events_Community/Integrations/Plugins/Events/Venues/Venue_Logic.php:370
+#: src/Events_Community/Integrations/Plugins/Events/Venues/Venue_Logic.php:353
 msgctxt "Label for preventing new venues."
 msgid "Users cannot create new Venues"
 msgstr ""
 
-#: src/Events_Community/Integrations/Plugins/Events/Venues/Venue_Logic.php:371
+#: src/Events_Community/Integrations/Plugins/Events/Venues/Venue_Logic.php:354
 msgctxt "Tooltip for preventing new venues."
 msgid "Users will be limited to choosing from existing venues."
 msgstr ""
 
 #: src/Events_Community/Routes/Event/Route_Add.php:95
 #: src/Tribe/Main.php:824
-#: src/Tribe/Main.php:1170
+#: src/Tribe/Main.php:1218
 #: src/Tribe/Templates.php:294
 msgid "Submit an Event"
 msgstr ""
 
 #: src/Events_Community/Routes/Event/Route_Edit.php:111
-#: src/Tribe/Main.php:1052
+#: src/Tribe/Main.php:1100
 msgid "Edit an Event"
 msgstr ""
 
@@ -926,39 +933,39 @@ msgstr ""
 msgid "Past events"
 msgstr ""
 
-#: src/Tribe/Captcha/Abstract_Captcha.php:155
+#: src/Tribe/Captcha/Abstract_Captcha.php:154
 msgid "Invalid value for the Anti-Spam Check"
 msgstr ""
 
-#: src/Tribe/Captcha/Recaptcha.php:19
+#: src/Tribe/Captcha/Recaptcha.php:23
 msgid "reCAPTCHA API Keys"
 msgstr ""
 
-#: src/Tribe/Captcha/Recaptcha.php:23
+#: src/Tribe/Captcha/Recaptcha.php:27
 msgid "Provide reCAPTCHA API keys for both fields to enable reCAPTCHA on your Community form."
 msgstr ""
 
-#: src/Tribe/Captcha/Recaptcha.php:23
+#: src/Tribe/Captcha/Recaptcha.php:27
 msgid "Note: reCAPTCHA only appears for users who are not logged in."
 msgstr ""
 
-#: src/Tribe/Captcha/Recaptcha.php:27
+#: src/Tribe/Captcha/Recaptcha.php:31
 msgid "Site Key"
 msgstr ""
 
-#: src/Tribe/Captcha/Recaptcha.php:28
+#: src/Tribe/Captcha/Recaptcha.php:32
 msgid "Get your Site Key at %s"
 msgstr ""
 
-#: src/Tribe/Captcha/Recaptcha.php:37
+#: src/Tribe/Captcha/Recaptcha.php:41
 msgid "Secret Key"
 msgstr ""
 
-#: src/Tribe/Captcha/Recaptcha.php:38
+#: src/Tribe/Captcha/Recaptcha.php:42
 msgid "Get your Secret Key at %s"
 msgstr ""
 
-#: src/Tribe/Captcha/Recaptcha.php:249
+#: src/Tribe/Captcha/Recaptcha.php:257
 #: src/Tribe/Captcha/Recaptcha_V2.php:125
 msgctxt "failed recaptcha response"
 msgid "reCAPTCHA failed unexpectedly"
@@ -969,7 +976,8 @@ msgctxt "failed recaptcha response validation"
 msgid "reCAPTCHA verification failed"
 msgstr ""
 
-#: src/Tribe/Event_Form.php:33
+#: src/Tribe/Event_Form.php:62
+#: src/Tribe/Event_Form.php:83
 msgctxt "Tribe Community fallback post title"
 msgid "Auto Draft"
 msgstr ""
@@ -987,135 +995,134 @@ msgctxt "Default placeholder text for the virtual event smart URL input."
 msgid "Enter URL for hosted video (YouTube, Vimeo, etc.)"
 msgstr ""
 
-#: src/Tribe/Main.php:949
+#: src/Tribe/Main.php:997
 msgid "Delete"
 msgstr ""
 
-#: src/Tribe/Main.php:953
+#: src/Tribe/Main.php:1001
 msgid "Delete All"
 msgstr ""
 
-#: src/Tribe/Main.php:955
+#: src/Tribe/Main.php:1003
 msgid "Are you sure you want to permanently delete all instances of this recurring event?"
 msgstr ""
 
-#: src/Tribe/Main.php:958
+#: src/Tribe/Main.php:1006
 msgid "Are you sure you want to permanently delete this instance of a recurring event?"
 msgstr ""
 
-#: src/Tribe/Main.php:1028
+#: src/Tribe/Main.php:1076
 #: src/views/community/modules/image.php:95
 msgid "Remove image"
 msgstr ""
 
-#: src/Tribe/Main.php:1045
+#: src/Tribe/Main.php:1093
 msgid "Remove an Event"
 msgstr ""
 
-#: src/Tribe/Main.php:1046
+#: src/Tribe/Main.php:1094
 msgid "Remove a Venue"
 msgstr ""
 
-#: src/Tribe/Main.php:1047
+#: src/Tribe/Main.php:1095
 msgid "Remove an Organizer"
 msgstr ""
 
-#: src/Tribe/Main.php:1048
-#: src/Tribe/Main.php:1055
+#: src/Tribe/Main.php:1096
+#: src/Tribe/Main.php:1103
 msgid "Unknown Post Type"
 msgstr ""
 
-#: src/Tribe/Main.php:1303
+#: src/Tribe/Main.php:1351
 msgid "Community Submission"
 msgstr ""
 
-#: src/Tribe/Main.php:1396
-#: src/Tribe/Main.php:1414
-#: src/Tribe/Main.php:1472
+#: src/Tribe/Main.php:1444
+#: src/Tribe/Main.php:1462
+#: src/Tribe/Main.php:1520
 msgid "You do not have permission to delete this event."
 msgstr ""
 
-#: src/Tribe/Main.php:1409
+#: src/Tribe/Main.php:1457
 msgid "This event does not appear to exist."
 msgstr ""
 
-#: src/Tribe/Main.php:1420
+#: src/Tribe/Main.php:1468
 msgid "Trashed Event: "
 msgstr ""
 
-#: src/Tribe/Main.php:1423
+#: src/Tribe/Main.php:1471
 msgid "There was an error trashing your event: "
 msgstr ""
 
-#: src/Tribe/Main.php:1428
+#: src/Tribe/Main.php:1476
 msgid "Deleted Event: "
 msgstr ""
 
-#: src/Tribe/Main.php:1431
+#: src/Tribe/Main.php:1479
 msgid "There was an error deleting your event: "
 msgstr ""
 
-#: src/Tribe/Main.php:1463
+#: src/Tribe/Main.php:1511
 msgid "Trashed Event #"
 msgstr ""
 
-#: src/Tribe/Main.php:1466
+#: src/Tribe/Main.php:1514
 msgid "Deleted Event #"
 msgstr ""
 
-#: src/Tribe/Main.php:1469
+#: src/Tribe/Main.php:1517
 msgid "This event (#%s) does not appear to exist."
 msgstr ""
 
-#: src/Tribe/Main.php:1488
+#: src/Tribe/Main.php:1536
 msgctxt "As in \"go back to previous page\""
 msgid "Back"
 msgstr ""
 
-#: src/Tribe/Main.php:1545
+#: src/Tribe/Main.php:1593
 #: src/views/community/columns/title.php:42
 msgid "View"
 msgstr ""
 
-#: src/Tribe/Main.php:1558
+#: src/Tribe/Main.php:1606
 #: src/views/community/columns/title.php:48
 msgid "Edit"
 msgstr ""
 
-#: src/Tribe/Main.php:1730
+#: src/Tribe/Main.php:1778
 #: src/views/community/login-form.php:38
 msgid "Lost your password?"
 msgstr ""
 
-#: src/Tribe/Main.php:1859
+#: src/Tribe/Main.php:1907
 msgctxt "failed login message"
 msgid "%1$sERROR%2$s: Invalid username, email address, or incorrect password."
 msgstr ""
 
-#: src/Tribe/Main.php:2099
+#: src/Tribe/Main.php:2147
 msgid "The requested page number was not found."
 msgstr ""
 
-#: src/Tribe/Main.php:2429
-#: src/Tribe/Main.php:2763
-#: src/Tribe/Templates.php:247
-#: tribe-community-events.php:61
-msgid "Community"
-msgstr ""
-
-#: src/Tribe/Main.php:2455
+#: src/Tribe/Main.php:2511
 msgid "This template is also used for Community."
 msgstr ""
 
-#: src/Tribe/Main.php:2746
+#: src/Tribe/Main.php:2802
 msgid "Community: Submit %s"
 msgstr ""
 
-#: src/Tribe/Main.php:2754
+#: src/Tribe/Main.php:2810
 msgid "Community: My %s"
 msgstr ""
 
-#: src/Tribe/Main.php:2781
+#: src/Tribe/Main.php:2819
+#: src/Tribe/Templates.php:247
+#: tribe-community-events.php:63
+msgid "Community"
+msgstr ""
+
+#: src/Tribe/Main.php:2837
 msgid "Settings"
 msgstr ""
 
@@ -1637,17 +1644,17 @@ msgid "Log Out"
 msgstr ""
 
 #. Translators: %s - Event (singular)
-#: src/views/community/modules/header-links.php:24
+#: src/views/community/modules/header-links.php:26
 msgid "Edit %s"
 msgstr ""
 
 #. Translators: %s - Event (singular)
-#: src/views/community/modules/header-links.php:30
+#: src/views/community/modules/header-links.php:32
 msgid "Add New %s"
 msgstr ""
 
 #. Translators: %s - Events (plural)
-#: src/views/community/modules/header-links.php:36
+#: src/views/community/modules/header-links.php:38
 msgid "View Your Submitted %s"
 msgstr ""
 
@@ -1706,10 +1713,6 @@ msgstr ""
 
 #: src/views/community/modules/spam-control.php:36
 msgid "Fake Title"
-msgstr ""
-
-#: src/views/community/modules/terms.php:33
-msgid "Terms of Submission"
 msgstr ""
 
 #: src/views/community/modules/terms.php:58
@@ -1869,11 +1872,11 @@ msgstr ""
 msgid "Enter URL for event information"
 msgstr ""
 
-#: tribe-community-events.php:281
-#: tribe-community-events.php:282
+#: tribe-community-events.php:283
+#: tribe-community-events.php:284
 msgid "Event Tickets"
 msgstr ""
 
-#: tribe-community-events.php:287
+#: tribe-community-events.php:289
 msgid "To begin using The Events Calendar: Community, please install the latest version of either %1s or %2s."
 msgstr ""

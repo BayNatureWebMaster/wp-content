@@ -11,6 +11,7 @@
 namespace TEC\Community_Tickets\Tickets\Commerce\Admin;
 
 use Tribe__Events__Community__Tickets__Main as Main;
+use Tribe__Main;
 
 class Settings {
 
@@ -36,7 +37,7 @@ class Settings {
 	 */
 	public function hooks() {
 		// Priority set to 20, so it runs after the settings for Community Tickets.
-		add_filter( 'tribe_community_settings_tab', [ $this, 'add_additional_options' ], 20, 1 );
+		add_filter( 'tec_events_community_settings_tickets_section', [ $this, 'add_additional_options' ], 20, 1 );
 		add_action( 'admin_notices', [ $this, 'tribe_community_tickets_no_providers_available' ] );
 	}
 
@@ -86,7 +87,7 @@ class Settings {
 		}
 
 		// Add our new settings below the `enable_image_uploads` field.
-		$fields['fields'] = \Tribe__Main::array_insert_after_key( 'enable_image_uploads', $fields['fields'], $provider_handler_settings );
+		$fields = Tribe__Main::array_insert_after_key( 'enable_image_uploads', $fields, $provider_handler_settings );
 
 		return $fields;
 

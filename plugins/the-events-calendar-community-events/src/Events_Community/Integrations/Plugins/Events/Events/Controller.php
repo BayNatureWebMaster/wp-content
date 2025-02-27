@@ -134,6 +134,7 @@ class Controller extends Plugin_Integration_Abstract {
 			10,
 			2
 		);
+		add_filter( 'tec_events_community_event_slug', [ $this, 'overwrite_default_event_slug' ], 15 );
 	}
 
 	/**
@@ -665,5 +666,19 @@ class Controller extends Plugin_Integration_Abstract {
 	 */
 	public function remove_upsells(): void {
 		remove_action( 'tribe_events_cost_table', [ Tribe__Events__Main::instance(), 'maybeShowMetaUpsell' ] );
+	}
+
+	/**
+	 * Overwrites the default event slug for Community.
+	 *
+	 * For example, https://websiteurl/{event_slug}/community
+	 *
+	 * @since 5.0.4
+	 *
+	 * @return string The event slug defined in the tribe options, or 'events' by default.
+	 */
+	public function overwrite_default_event_slug(): string {
+		// Get the event slug from options with a default fallback.
+		return tribe_get_option( 'eventsSlug', 'events' );
 	}
 }

@@ -10,7 +10,7 @@ class Series {
 	 * @since 4.10.0
 	 */
 	public function hooks() {
-		add_filter( 'tribe_community_settings_tab', [ $this, 'include_events_community_settings' ] );
+		add_filter( 'tec_events_community_settings_content_creation_section', [ $this, 'include_events_community_settings' ] );
 		add_action( 'tribe_community_before_event_page', [ $this, 'prevent_tickets_message_on_edit_page' ] );
 	}
 
@@ -25,9 +25,9 @@ class Series {
 	 */
 	public function include_events_community_settings( $settings ) {
 
-		$new_venues_position = array_search( 'prevent_new_venues', array_keys( $settings['fields'] ) );
-		$first_block         = array_slice( $settings['fields'], 0, $new_venues_position );
-		$second_block        = array_slice( $settings['fields'], $new_venues_position );
+		$new_venues_position = array_search( 'prevent_new_venues', array_keys( $settings ) );
+		$first_block         = array_slice( $settings, 0, $new_venues_position );
+		$second_block        = array_slice( $settings, $new_venues_position );
 
 		$first_block['attach_to_series'] = [
 			'type'            => 'checkbox_bool',
@@ -40,7 +40,7 @@ class Series {
 			]
 		];
 
-		$settings['fields'] = array_merge( $first_block, $second_block );
+		$settings = array_merge( $first_block, $second_block );
 
 		return $settings;
 	}

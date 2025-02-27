@@ -16,9 +16,9 @@ defined( 'WPINC' ) or die;
  * @since 4.8.2 Updated template link.
  * @since 4.8.13 Updated the $value variable logic to get the correct input.
  * @since 4.10.7 Added a new class that uses the taxonomy name.
- * @since TBD Updated template file path.
+ * @since 5.0.4 Updated template file path.
  *
- * @version TBD
+ * @version 5.0.4
  */
 
 $uses_select_woo = false;

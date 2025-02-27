@@ -270,11 +270,11 @@ class Organizer_Logic {
 	 *
 	 * @since 5.0.0
 	 *
-	 * @param array $community_tab The existing Community settings tab fields.
+	 * @param array $community_tab_fields The existing Community settings tab fields.
 	 *
 	 * @return array The modified Community settings tab fields.
 	 */
-	public function add_organizer_settings( array $community_tab ): array {
+	public function add_organizer_settings( array $community_tab_fields ): array {
 		// Initialize an empty array for organizer options.
 		$organizer_options = [ _x( 'No Default', 'Option for when there are no organizers available.', 'tribe-events-community' ) ];
 
@@ -292,20 +292,6 @@ class Organizer_Logic {
 			}
 		}
 
-		// The `Form Defaults` heading is shared between Organizer & Venues.
-		$heading_key = 'defaults-heading';
-		if ( ! isset( $community_tab['fields'][ $heading_key ] ) ) {
-			// Add the heading if it doesn't exist.
-			$header_field            = [
-				$heading_key => [
-					'type'        => 'heading',
-					'label'       => _x( 'Form Defaults', 'The heading that displays on the settings page for form defaults.', 'tribe-events-community' ),
-					'conditional' => $organizers_exist,
-				],
-			];
-			$community_tab['fields'] = Tribe__Main::array_insert_before_key( 'alerts-heading', $community_tab['fields'], $header_field );
-		}
-
 		// Define the organizer fields.
 		$organizer_fields = [
 			'defaultCommunityOrganizerID' => [
@@ -319,8 +305,6 @@ class Organizer_Logic {
 			],
 		];
 
-		// Insert the organizer fields after the heading.
-		$community_tab['fields'] = Tribe__Main::array_insert_after_key( $heading_key, $community_tab['fields'], $organizer_fields );
 		$prevent_new_organizers = [
 			'prevent_new_organizers' => [
 				'type'            => 'checkbox_bool',
@@ -331,9 +315,9 @@ class Organizer_Logic {
 			],
 		];
 
-		$community_tab['fields'] = Tribe__Main::array_insert_after_key( 'allowAnonymousSubmissions', $community_tab['fields'], $prevent_new_organizers );
+		$community_tab_fields += $organizer_fields + $prevent_new_organizers;
 
-		return $community_tab;
+		return $community_tab_fields;
 	}
 
 	/**
@@ -355,6 +339,13 @@ class Organizer_Logic {
 		$ce_main        = tribe( Tribe__Events__Community__Main::class );
 		$organizer_slug = $ce_main->get_rewrite_slug( 'organizer' );
 		$edit_slug      = $ce_main->get_rewrite_slug( 'edit' );
+
+		// Ensure it's not already there in case the hook gets called twice.
+		$existing = array_map( 'strtolower', wp_list_pluck( $edit_urls, 'name' ) );
+
+		if ( in_array( $edit_slug . ' ' . $organizer_slug, $existing ) ) {
+			return $edit_urls;
+		}
 
 		// Correct URL construction by ensuring slashes are included properly.
 		$edit_urls[] = [
@@ -424,6 +415,7 @@ class Organizer_Logic {
 	 * organizer ID is empty, not set, or less than or equal to zero for any organizer, the validation fails.
 	 *
 	 * @since 5.0.1
+	 * @since 5.0.5 Update validation to check for empty organizer name if prevent_new_organizers is false.
 	 *
 	 * @param mixed $value The value to filter.
 	 * @param array $submission The submission data containing organizer information.
@@ -433,26 +425,38 @@ class Organizer_Logic {
 	public function custom_organizer_validation( $value, $submission ): bool {
 		$prevent_new_organizers = tribe( 'community.main' )->getOption( 'prevent_new_organizers', false );
 
-		$organizers = $submission['organizer'] ?? null;
+		$organizer_data = $submission['organizer'] ?? null;
 
 		// If the $organizers is empty or not an array, it is not valid.
-		if ( empty( $organizers ) || ! is_array( $organizers ) ) {
+		if ( empty( $organizer_data ) || ! is_array( $organizer_data ) ) {
 			return false;
 		}
 
-		// Validate each organizer based on the prevent_new_organizers flag.
-		foreach ( $organizers['organizerid'] as $index => $organizer_id ) {
-			if ( $prevent_new_organizers ) {
-				if ( empty( $organizer_id ) || 0 >= $organizer_id ) {
-					return false;
+		// We will build a list of organizers based on the data that was submitted.
+		$organizers = [];
+
+		foreach ( $organizer_data as $key => $value ) {
+			$organizer_key = strtolower( $key );
+			if ( is_array( $value ) ) {
+				foreach ( $value as $index => $val ) {
+					$organizers[ $index ][ $organizer_key ] = $val;
 				}
-			} elseif ( 0 >= $organizer_id ) {
-				foreach ( $this->submission_allowed_organizer_fields as $field ) {
-					$field_key = strtolower( $field );
-					if ( 'organizerid' !== $field_key && isset( $organizers[ $field_key ] ) && empty( $organizers[ $field_key ][ $index ] ) ) {
-						return false;
-					}
-				}
+			}
+		}
+
+		// Validate each organizer. If one fails, all fail.
+		foreach ( $organizers as $index => $organizer ) {
+			// If preventing new organizers and the ID is invalid, return false.
+			if (
+				$prevent_new_organizers
+				&& ( empty( $organizer['organizerid'] ) || 0 >= (int) $organizer['organizerid'] )
+			) {
+				return false;
+			}
+
+			// If new and no organizer name is set, return false.
+			if ( 0 >= (int) $organizer['organizerid'] && empty( $organizer['organizer'] ) ) {
+				return false;
 			}
 		}
 

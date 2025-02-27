@@ -250,14 +250,13 @@ class Callback_Add_Edit extends Abstract_Callback {
 	 * Generate the output HTML.
 	 *
 	 * @since 4.10.14
+	 * @since 5.0.2 Simplified the call to `Tribe__Events__Community__Event_Form`. Removed redundant `set_event` and `set_required_fields` calls.
 	 *
 	 * @return string The generated output HTML.
 	 */
 	protected function generate_output(): string {
 		$main       = tribe( 'community.main' );
-		$event_form = new Tribe__Events__Community__Event_Form( $this->event );
-		$event_form->set_event( $this->event );
-		$event_form->set_required_fields( $main->required_fields_for_submission() );
+		$event_form = new Tribe__Events__Community__Event_Form( $this->event, $main->required_fields_for_submission(), [] );
 
 		$message_type = $main->messageType;
 
@@ -309,6 +308,12 @@ class Callback_Add_Edit extends Abstract_Callback {
 
 		$this->event = $this->get_event();
 
+		// We also need to set the Event ID to $_GET so that other pieces of logic work.
+		// phpcs:ignore WordPress.Security.NonceVerification
+		if ( empty( $_GET['event_id'] ) && ! empty( $event_id ) ) {
+			$_GET['event_id'] = $event_id;
+		}
+
 		// Make sure the user has access to the page.
 		$access_message = $this->get_access_message();
 
@@ -331,8 +336,6 @@ class Callback_Add_Edit extends Abstract_Callback {
 
 		// Process the messages if any come back.
 		$this->process_messages( $check_processed_submission );
-
-		$GLOBALS['post'] = $this->event;
 
 		/**
 		 * Allow the user to add content or functions right before the submission template is loaded.

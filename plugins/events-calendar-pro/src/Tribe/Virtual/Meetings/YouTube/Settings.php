@@ -60,6 +60,7 @@ class Settings {
 	 * Adds the YouTube API fields to the ones in the Events > Settings > APIs tab.
 	 *
 	 * @since 7.0.0 Migrated to Events Pro from Events Virtual.
+	 * @since 7.3.2 Add API application class to the wrapper.
 	 *
 	 * @param array<string,array> $fields The current fields.
 	 *
@@ -68,19 +69,24 @@ class Settings {
 	public function add_fields( array $fields = [] ) {
 		$wrapper_classes = tribe_get_classes(
 			[
+				'tec-settings-api-application'       => true,
 				'tribe-settings-youtube-integration' => true,
-				'tribe-common' => true,
+				'tribe-common'                       => true,
 			]
 		);
 
 		$youtube_fields = [
-			$this->get_prefix( 'wrapper_open' )  => [
+			$this->get_prefix( 'youtube-content-wrapper_open' ) => [
 				'type' => 'html',
-				'html' => '<div id="tribe-settings-youtube-integration" class="' . implode( ' ', $wrapper_classes ) . '">',
+				'html' => '<div class="tec-settings-form__content-section">'
 			],
 			$this->get_prefix( 'header' )        => [
 				'type' => 'html',
 				'html' => $this->get_intro_text(),
+			],
+			$this->get_prefix( 'wrapper_open' )  => [
+				'type' => 'html',
+				'html' => '<div id="tribe-settings-youtube-integration" class="' . implode( ' ', $wrapper_classes ) . '">',
 			],
 			$this->get_prefix( 'channel_id' )    => $this->get_channel_id_field(),
 			$this->get_prefix( 'defaults' )      => [
@@ -89,7 +95,11 @@ class Settings {
 			],
 			$this->get_prefix( 'wrapper_close' ) => [
 				'type' => 'html',
-				'html' => '<div class="clear"></div></div>',
+				'html' => '</div>',
+			],
+			$this->get_prefix( 'youtube-content-wrapper_close' ) => [
+				'type' => 'html',
+				'html' => '</div">',
 			],
 		];
 

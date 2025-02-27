@@ -4,6 +4,7 @@ namespace TEC\Events_Community\Integrations\Plugins\Events;
 
 use TEC\Common\Integrations\Traits\Plugin_Integration;
 use TEC\Events_Community\Integrations\Plugin_Integration_Abstract;
+use Tribe__Events__Main;
 
 /**
  * Class Provider
@@ -66,5 +67,25 @@ class Controller extends Plugin_Integration_Abstract {
 	 * @since 5.0.0
 	 */
 	protected function add_filters(): void {
+		add_filter( 'tec_events_community_settings_content_creation_section', [ $this, 'add_defaults_header' ], 10 );
+	}
+
+	/**
+	 * Add header section for defaults.
+	 *
+	 * @since 5.0.4
+	 *
+	 * @param  array $fields The fields for the settings page.
+	 *
+	 * @return array
+	 */
+	public function add_defaults_header( array $fields ): array {
+		$fields['tec-events-community-settings-defaults-heading'] = [
+			'type'        => 'html',
+			'html'        => '<h3 id="tec-events-community-settings-defaults" class="tec-settings-form__section-header tec-settings-form__section-header--sub">' . esc_html__( 'Form Defaults', 'tribe-events-community' ) . '</h3>',
+			'conditional' => Tribe__Events__Main::instance()->get_venue_info() || Tribe__Events__Main::instance()->get_organizer_info(),
+		];
+
+		return $fields;
 	}
 }

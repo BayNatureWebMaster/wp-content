@@ -22,7 +22,7 @@ if ( ! class_exists( 'Tribe__Events__Community__Main' ) ) {
 		/**
 		 * The current version of Community
 		 */
-		const VERSION = '5.0.3';
+		const VERSION = '5.0.5.1';
 
 
 
@@ -411,7 +411,7 @@ if ( ! class_exists( 'Tribe__Events__Community__Main' ) ) {
 			add_filter( 'tribe_events_tab_index', '__return_null' );
 
 			// options page hook
-			add_action( 'tribe_settings_do_tabs', [ $this, 'doSettings' ], 10, 1 );
+			add_action( 'tribe_settings_do_tabs', [ $this, 'do_settings' ], 12, 2 );
 
 			add_action( 'plugin_action_links_' . trailingslashit( $this->pluginDir ) . 'Main.php', [ $this, 'addLinksToPluginActions' ] );
 
@@ -893,22 +893,70 @@ if ( ! class_exists( 'Tribe__Events__Community__Main' ) ) {
 		}
 
 		/**
-		 * Gets the rewrite slug for community pages
+		 * Gets the rewrite slug for community pages.
+		 *
+		 * Applies a filter to allow customization of the events slug.
 		 *
 		 * @since 1.0.6
-		 * @since 5.0.0 refactored logic.
+		 * @since 5.0.0 Refactored logic.
+		 * @since 5.0.4 Added methods for URL slugs.
 		 *
-		 * @return string rewrite slug
+		 * @return string The complete rewrite slug for the community.
 		 */
 		public function getCommunityRewriteSlug() {
-			$events_slug            = $this->get_rewrite_slug( 'events' );
-			$community_rewrite_slug = $this->communityRewriteSlug;
-			// If the community rewrite slug is empty for any reason, reset it back.
-			if ( empty( $this->communityRewriteSlug ) ) {
-				$community_rewrite_slug = $this->get_rewrite_slug( 'community' );
+			// Get the event and community slugs.
+			$event_url_slug     = $this->get_event_url_slug();
+			$community_url_slug = $this->get_community_url_slug();
+
+			return "{$event_url_slug}/{$community_url_slug}";
+		}
+
+		/**
+		 * Retrieves and sanitizes the event URL slug, applying any relevant filters.
+		 *
+		 * @since 5.0.4
+		 *
+		 * @return string The sanitized event slug.
+		 */
+		protected function get_event_url_slug(): string {
+			$default_events_slug = $this->get_rewrite_slug( 'events' );
+
+			/**
+			 * Filters the events slug used in community rewrite.
+			 *
+			 * For example, https://websiteurl/{event_slug}/community
+			 *
+			 * @since 5.0.4
+			 *
+			 * @param string $default_events_slug The default events slug.
+			 */
+			$events_slug = apply_filters( 'tec_events_community_event_slug', $default_events_slug );
+
+			// Fallback if slug is empty.
+			if ( empty( $events_slug ) ) {
+				$events_slug = $default_events_slug;
 			}
 
-			return $events_slug . '/' . $community_rewrite_slug;
+			return sanitize_title( $events_slug );
+		}
+
+		/**
+		 * Retrieves and sanitizes the community URL slug.
+		 *
+		 * @since 5.0.4
+		 *
+		 * @return string The sanitized community URL slug.
+		 */
+		protected function get_community_url_slug(): string {
+			// phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
+			$community_slug = $this->communityRewriteSlug;
+
+			// Fallback if community slug is empty.
+			if ( empty( $community_slug ) ) {
+				$community_slug = $this->get_rewrite_slug( 'community' );
+			}
+
+			return sanitize_title( $community_slug );
 		}
 
 		/**
@@ -2414,11 +2462,10 @@ if ( ! class_exists( 'Tribe__Events__Community__Main' ) ) {
 		 *
 		 * Additionally sets up a filter to append information to the existing events template setting tooltip.
 		 *
-		 * @since 1.0
-		 * @return void
+		 * @since 5.0.4
 		 *
 		 */
-		public function doSettings( $admin_page ) {
+		public function do_settings( $admin_page ) {
 			$tec_settings_page_id = $this->get_settings_strategy()::$settings_page_id;
 
 			if ( ! empty( $admin_page ) && $tec_settings_page_id !== $admin_page ) {
@@ -2426,16 +2473,25 @@ if ( ! class_exists( 'Tribe__Events__Community__Main' ) ) {
 			}
 
 			require_once $this->pluginPath . 'src/admin-views/community-options-template.php';
-			new Tribe__Settings_Tab( 'community', __( 'Community', 'tribe-events-community' ), $communityTab );
-			add_filter( 'tribe_field_tooltip', [ $this, 'amend_template_tooltip' ], 10, 3 );
 
-			add_filter(
-				'tec_events_settings_tabs_ids',
-				function ( $tabs ) {
-					$tabs[] = 'community';
-					return $tabs;
-				}
-			);
+			add_filter( 'tribe_field_tooltip', [ $this, 'amend_template_tooltip' ], 10, 3 );
+		}
+
+		/**
+		 * Add a settings tab.
+		 *
+		 * Additionally sets up a filter to append information to the existing events template setting tooltip.
+		 *
+		 * @since 1.0
+		 * @deprecated 5.0.4
+		 *
+		 * @param string $admin_page The current admin page.
+		 * @param mixed  $deprecated Unused.
+		 */
+		public function doSettings( $admin_page, $deprecated = null ) { // phpcs:ignore Generic.CodeAnalysis.UnusedFunctionParameter.FoundAfterLastUsed
+			_deprecated_function( __METHOD__, '5.0.4' );
+
+			return $this->do_settings( $admin_page );
 		}
 
 		/**
@@ -3589,7 +3645,7 @@ if ( ! class_exists( 'Tribe__Events__Community__Main' ) ) {
 		 * The hooks here are intentionally using anonymous methods as we do not want them to be removed.
 		 *
 		 * @since 5.0.0.1
-		 * @since TBD Updated compatibility logic for WooCommerce HPOS.
+		 * @since 5.0.4 Updated compatibility logic for WooCommerce HPOS.
 		 *
 		 * @return void
 		 */

@@ -3,7 +3,7 @@
  * Plugin Name: The Events Calendar: Community
  * Plugin URI:  https://evnt.is/1acd
  * Description: Community is an add-on providing additional functionality to the open source plugin The Events Calendar. Empower users to submit and manage their events on your website. <a href="https://theeventscalendar.com/products/community-events/?utm_campaign=in-app&utm_source=docblock&utm_medium=plugin-community">Check out the full feature list</a>. Need more features? Peruse our selection of <a href="https://theeventscalendar.com/products/?utm_campaign=in-app&utm_source=docblock&utm_medium=plugin-community" target="_blank">plugins</a>.
- * Version:     5.0.3
+ * Version: 5.0.5.1
  * Requires at least: 6.3
  * Requires PHP: 7.4
  * Author:      The Events Calendar
@@ -41,6 +41,8 @@ define( 'EVENTS_COMMUNITY_FILE', __FILE__ );
 
 // Load the required php min version functions
 require_once dirname( EVENTS_COMMUNITY_FILE ) . '/src/functions/php-min-version.php';
+
+require_once dirname( EVENTS_COMMUNITY_FILE ) . '/vendor/autoload.php';
 
 /**
  * Verifies if we need to warn the user about min PHP version and bail to avoid fatals

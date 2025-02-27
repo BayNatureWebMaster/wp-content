@@ -214,7 +214,7 @@ class Tribe__Events__Community__Tickets__Main {
 		add_action( 'wp_router_generate_routes', [ $this, 'generate_routes' ] );
 		add_action( 'tribe_events_community_event_list_table_row_actions', [ $this, 'report_links' ] );
 
-		add_filter( 'tribe_community_settings_tab', [ $this, 'community_tickets_settings' ] );
+		add_filter( 'tec_events_community_settings_tickets_section', [ $this, 'community_tickets_settings' ] );
 
 		add_action( 'woocommerce_order_item_meta_start', [ $this, 'add_order_item_details' ], 10, 3 );
 

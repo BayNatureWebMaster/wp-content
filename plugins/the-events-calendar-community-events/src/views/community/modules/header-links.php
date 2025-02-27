@@ -17,7 +17,9 @@ defined( 'WPINC' ) or die;
  *
  */
 
-$post_id = get_the_ID();
+// phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited
+$post_id      = get_the_ID();
+$event_status = get_post_status( $post_id );
 
 $message_edit = sprintf(
 	/* Translators: %s - Event (singular) */
@@ -40,7 +42,7 @@ $message_view_submitted = sprintf(
 $label = $message_add;
 
 // If the post ID is anything other than 0, we are editing.
-if ( 0 !== $post_id ) {
+if ( 'auto-draft' !== $event_status ) {
 	$label = $message_edit;
 }
 /**

@@ -3,9 +3,9 @@
 Contributors: theeventscalendar, brianjessee, camwynsp, aguseo, bordoni, borkweb, brianjessee, GeoffBel, jentheo, leahkoerper, lucatume, neillmcshea, vicskf, zbtirrell
 Tags: widget, events, simple, tooltips, grid, month, list, calendar, event, venue, community, registration, api, dates, date, plugin, posts, sidebar, template, theme, time, google maps, google, maps, conference, workshop, concert, meeting, seminar, summit, forum, shortcode, The Events Calendar, The Events Calendar PRO
 Donate link: https://evnt.is/29
-Stable tag: 5.0.3
+Stable tag: 5.0.5.1
 Requires at least: 6.3
-Tested up to: 6.6.1
+Tested up to: 6.6.2
 Requires PHP: 7.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -163,18 +163,38 @@ Our Premium Plugins:
 
 == Changelog ==
 
+= [5.0.5.1] 2025-02-19 =
+
+* Fix - Corrected an issue where split payments weren't working due to a missing PayPal library. [CE-264]
+* Language - 0 new strings added, 8 updated, 0 fuzzied, and 0 obsoleted.
+
+= [5.0.5] 2024-10-21 =
+
+* Fix - Organizer validation updated to only require name rather than all fields. [CE-248]
+* Fix - Venue validation updated to only require name rather than all fields. [CE-249]
+* Fix - Correct text in Community URLs tab. [CE-250]
+* Language - 0 new strings added, 1 updated, 0 fuzzied, and 1 obsoleted
+
+= [5.0.4] 2024-09-26 =
+
+* Version - Events Community 5.0.4 is only compatible with The Events Calendar 6.7.0 and higher.
+* Feature - New and improved settings layout and styles. [TEC-5124]
+* Tweak - Introduced a new filter tec_events_community_event_slug allowing customization of the event slug. By default, when The Events Calendar is installed, the Events URL Slug will be used. [CE-243]
+* Language - 6 new strings added, 171 updated, 1 fuzzied, and 9 obsoleted
+
 = [5.0.3] 2024-09-11 =
 
 * Fix - Corrected an issue where a fatal would occur when saving an event with specific Taxonomy for users other than admin. [CE-236]
 * Fix - Fix reCaptcha for anonymous event submissions. [TEC-5143]
 * Fix - Updated compatibility logic for WooCommerce HPOS. [ETP-940]
-* Tweak - Updated template override paths in `src/views/integrations/the-events-calendar/modules/[file].php`. [TECTRIA-223]
+* Tweak - Updated template override paths in `src/views/integrations/the-events-calendar/modules/[file].php`. [TEC-5149]
 * Language - 0 new strings added, 70 updated, 0 fuzzied, and 0 obsoleted
 
 = [5.0.2] 2024-08-29 =
 
 * Fix - Set the global $post variable with the event when on the Event Submission page to fix issues with third party plugins. [CE-238][CE-239][CE-240]
 * Tweak - Changed views: `community/modules/header-links`
+* Tweak - Changed views: `integrations/the-events-calendar/modules/cost`, `integrations/the-events-calendar/modules/custom`, `integrations/the-events-calendar/modules/datepickers`, `integrations/the-events-calendar/modules/organizer`, `integrations/the-events-calendar/modules/series`, `integrations/the-events-calendar/modules/taxonomy`, `integrations/the-events-calendar/modules/venue`, `integrations/the-events-calendar/modules/website`
 * Language - 0 new strings added, 4 updated, 0 fuzzied, and 0 obsoleted
 
 = [5.0.1.1] 2024-08-07 =

@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit3ba91f80769cafecc923d9d421244ba2
+class ComposerStaticInita24d29fe98fa92b36701f9701b18dba7
 {
     public static $prefixLengthsPsr4 = array (
         'T' => 
@@ -71,9 +71,12 @@ class ComposerStaticInit3ba91f80769cafecc923d9d421244ba2
         'RRule\\RRuleInterface' => __DIR__ . '/..' . '/rlanvin/php-rrule/src/RRuleInterface.php',
         'RRule\\RSet' => __DIR__ . '/..' . '/rlanvin/php-rrule/src/RSet.php',
         'RRule\\RfcParser' => __DIR__ . '/..' . '/rlanvin/php-rrule/src/RfcParser.php',
+        'TEC\\Events_Pro\\Admin\\Controller' => __DIR__ . '/../..' . '/src/Events_Pro/Admin/Controller.php',
+        'TEC\\Events_Pro\\Admin\\Settings' => __DIR__ . '/../..' . '/src/Events_Pro/Admin/Settings.php',
         'TEC\\Events_Pro\\Base\\Query_Filters' => __DIR__ . '/../..' . '/src/Events_Pro/Base/Query_Filters.php',
         'TEC\\Events_Pro\\Block_Templates\\Controller' => __DIR__ . '/../..' . '/src/Events_Pro/Block_Templates/Controller.php',
         'TEC\\Events_Pro\\Block_Templates\\Single_Venue\\Single_Block_Template' => __DIR__ . '/../..' . '/src/Events_Pro/Block_Templates/Single_Venue/Single_Block_Template.php',
+        'TEC\\Events_Pro\\Blocks\\Calendar\\Block' => __DIR__ . '/../..' . '/src/Events_Pro/Blocks/Calendar/Block.php',
         'TEC\\Events_Pro\\Blocks\\Controller' => __DIR__ . '/../..' . '/src/Events_Pro/Blocks/Controller.php',
         'TEC\\Events_Pro\\Blocks\\Single_Venue\\Block' => __DIR__ . '/../..' . '/src/Events_Pro/Blocks/Single_Venue/Block.php',
         'TEC\\Events_Pro\\Compatibility\\Event_Automator\\Zapier\\Maps\\Event' => __DIR__ . '/../..' . '/src/Events_Pro/Compatibility/Event_Automator/Zapier/Maps/Event.php',
@@ -119,6 +122,7 @@ class ComposerStaticInit3ba91f80769cafecc923d9d421244ba2
         'TEC\\Events_Pro\\Custom_Tables\\V1\\Events\\Event_Sequence' => __DIR__ . '/../..' . '/src/Events_Pro/Custom_Tables/V1/Events/Event_Sequence.php',
         'TEC\\Events_Pro\\Custom_Tables\\V1\\Events\\Occurrences\\Occurrences_Generator' => __DIR__ . '/../..' . '/src/Events_Pro/Custom_Tables/V1/Events/Occurrences/Occurrences_Generator.php',
         'TEC\\Events_Pro\\Custom_Tables\\V1\\Events\\Provisional\\ID_Generator' => __DIR__ . '/../..' . '/src/Events_Pro/Custom_Tables/V1/Events/Provisional/ID_Generator.php',
+        'TEC\\Events_Pro\\Custom_Tables\\V1\\Events\\Provisional\\Meta' => __DIR__ . '/../..' . '/src/Events_Pro/Custom_Tables/V1/Events/Provisional/Meta.php',
         'TEC\\Events_Pro\\Custom_Tables\\V1\\Events\\Provisional\\Provider' => __DIR__ . '/../..' . '/src/Events_Pro/Custom_Tables/V1/Events/Provisional/Provider.php',
         'TEC\\Events_Pro\\Custom_Tables\\V1\\Events\\Recurrence' => __DIR__ . '/../..' . '/src/Events_Pro/Custom_Tables/V1/Events/Recurrence.php',
         'TEC\\Events_Pro\\Custom_Tables\\V1\\Events\\Recurrence_Rule' => __DIR__ . '/../..' . '/src/Events_Pro/Custom_Tables/V1/Events/Recurrence_Rule.php',
@@ -153,6 +157,7 @@ class ComposerStaticInit3ba91f80769cafecc923d9d421244ba2
         'TEC\\Events_Pro\\Custom_Tables\\V1\\Models\\Provider' => __DIR__ . '/../..' . '/src/Events_Pro/Custom_Tables/V1/Models/Provider.php',
         'TEC\\Events_Pro\\Custom_Tables\\V1\\Models\\Provisional_Post' => __DIR__ . '/../..' . '/src/Events_Pro/Custom_Tables/V1/Models/Provisional_Post.php',
         'TEC\\Events_Pro\\Custom_Tables\\V1\\Models\\Provisional_Post_Cache' => __DIR__ . '/../..' . '/src/Events_Pro/Custom_Tables/V1/Models/Provisional_Post_Cache.php',
+        'TEC\\Events_Pro\\Custom_Tables\\V1\\Models\\Provisional_Post_Meta' => __DIR__ . '/../..' . '/src/Events_Pro/Custom_Tables/V1/Models/Provisional_Post_Meta.php',
         'TEC\\Events_Pro\\Custom_Tables\\V1\\Models\\Series' => __DIR__ . '/../..' . '/src/Events_Pro/Custom_Tables/V1/Models/Series.php',
         'TEC\\Events_Pro\\Custom_Tables\\V1\\Models\\Series_Relationship' => __DIR__ . '/../..' . '/src/Events_Pro/Custom_Tables/V1/Models/Series_Relationship.php',
         'TEC\\Events_Pro\\Custom_Tables\\V1\\Models\\Validators\\Valid_ExDate' => __DIR__ . '/../..' . '/src/Events_Pro/Custom_Tables/V1/Models/Validators/Valid_ExDate.php',
@@ -231,6 +236,7 @@ class ComposerStaticInit3ba91f80769cafecc923d9d421244ba2
         'TEC\\Events_Pro\\Integrations\\Plugins\\Elementor\\Widgets\\Event_Organizer' => __DIR__ . '/../..' . '/src/Events_Pro/Integrations/Plugins/Elementor/Widgets/Event_Organizer.php',
         'TEC\\Events_Pro\\Integrations\\Plugins\\Elementor\\Widgets\\Event_Venue' => __DIR__ . '/../..' . '/src/Events_Pro/Integrations/Plugins/Elementor/Widgets/Event_Venue.php',
         'TEC\\Events_Pro\\Integrations\\Plugins\\Elementor\\Widgets\\Related_Events' => __DIR__ . '/../..' . '/src/Events_Pro/Integrations/Plugins/Elementor/Widgets/Related_Events.php',
+        'TEC\\Events_Pro\\Integrations\\Themes\\Kadence\\Provider' => __DIR__ . '/../..' . '/src/Events_Pro/Integrations/Themes/Kadence/Provider.php',
         'TEC\\Events_Pro\\Legacy\\Query_Filters' => __DIR__ . '/../..' . '/src/Events_Pro/Legacy/Query_Filters.php',
         'TEC\\Events_Pro\\Linked_Posts\\Contracts\\Taxonomy_Abstract' => __DIR__ . '/../..' . '/src/Events_Pro/Linked_Posts/Contracts/Taxonomy_Abstract.php',
         'TEC\\Events_Pro\\Linked_Posts\\Contracts\\Taxonomy_Interface' => __DIR__ . '/../..' . '/src/Events_Pro/Linked_Posts/Contracts/Taxonomy_Interface.php',
@@ -249,6 +255,7 @@ class ComposerStaticInit3ba91f80769cafecc923d9d421244ba2
         'TEC\\Events_Pro\\Site_Health\\Provider' => __DIR__ . '/../..' . '/src/Events_Pro/Site_Health/Provider.php',
         'TEC\\Events_Pro\\Telemetry\\Provider' => __DIR__ . '/../..' . '/src/Events_Pro/Telemetry/Provider.php',
         'TEC\\Events_Pro\\Telemetry\\Telemetry' => __DIR__ . '/../..' . '/src/Events_Pro/Telemetry/Telemetry.php',
+        'TEC\\Events_Pro\\Views\\Hide_End_Time_Provider' => __DIR__ . '/../..' . '/src/Events_Pro/Views/Hide_End_Time_Provider.php',
         'TEC\\Events_Virtual\\Compatibility\\Event_Automator\\Zapier\\Maps\\Event' => __DIR__ . '/../..' . '/src/Events_Virtual/Compatibility/Event_Automator/Zapier/Maps/Event.php',
         'TEC\\Events_Virtual\\Compatibility\\Event_Automator\\Zapier\\Zapier_Provider' => __DIR__ . '/../..' . '/src/Events_Virtual/Compatibility/Event_Automator/Zapier/Zapier_Provider.php',
         'TEC\\Events_Virtual\\Custom_Tables\\V1\\Provider' => __DIR__ . '/../..' . '/src/Events_Virtual/Custom_Tables/V1/Provider.php',
@@ -285,6 +292,7 @@ class ComposerStaticInit3ba91f80769cafecc923d9d421244ba2
         'Tribe\\Events\\Pro\\Integrations\\Elementor\\Widgets\\Widget_Event_Single_Legacy_Replacement' => __DIR__ . '/../..' . '/src/Tribe/Integrations/Elementor/Widgets/Widget_Event_Single_Legacy_Replacement.php',
         'Tribe\\Events\\Pro\\Integrations\\Elementor\\Widgets\\Widget_Events_View' => __DIR__ . '/../..' . '/src/Tribe/Integrations/Elementor/Widgets/Widget_Events_View.php',
         'Tribe\\Events\\Pro\\Integrations\\Elementor\\Widgets_Manager' => __DIR__ . '/../..' . '/src/Tribe/Integrations/Elementor/Widgets_Manager.php',
+        'Tribe\\Events\\Pro\\Integrations\\Event_Automator\\Power_Automate_Provider' => __DIR__ . '/../..' . '/src/Tribe/Integrations/Event_Automator/Power_Automate_Provider.php',
         'Tribe\\Events\\Pro\\Integrations\\Event_Automator\\Service_Provider' => __DIR__ . '/../..' . '/src/Tribe/Integrations/Event_Automator/Service_Provider.php',
         'Tribe\\Events\\Pro\\Integrations\\Event_Automator\\Zapier_Provider' => __DIR__ . '/../..' . '/src/Tribe/Integrations/Event_Automator/Zapier_Provider.php',
         'Tribe\\Events\\Pro\\Integrations\\Fusion\\Service_Provider' => __DIR__ . '/../..' . '/src/Tribe/Integrations/Fusion/Service_Provider.php',
@@ -314,6 +322,8 @@ class ComposerStaticInit3ba91f80769cafecc923d9d421244ba2
         'Tribe\\Events\\Pro\\Views\\V2\\Service_Provider' => __DIR__ . '/../..' . '/src/Tribe/Views/V2/Service_Provider.php',
         'Tribe\\Events\\Pro\\Views\\V2\\Shortcodes\\Hooks' => __DIR__ . '/../..' . '/src/Tribe/Views/V2/Shortcodes/Hooks.php',
         'Tribe\\Events\\Pro\\Views\\V2\\Shortcodes\\Manager' => __DIR__ . '/../..' . '/src/Tribe/Views/V2/Shortcodes/Manager.php',
+        'Tribe\\Events\\Pro\\Views\\V2\\Shortcodes\\REST\\V1\\Calender_Embed' => __DIR__ . '/../..' . '/src/Tribe/Views/V2/Shortcodes/REST/V1/Calender_Embed.php',
+        'Tribe\\Events\\Pro\\Views\\V2\\Shortcodes\\REST\\V1\\Provider' => __DIR__ . '/../..' . '/src/Tribe/Views/V2/Shortcodes/REST/V1/Provider.php',
         'Tribe\\Events\\Pro\\Views\\V2\\Shortcodes\\Service_Provider' => __DIR__ . '/../..' . '/src/Tribe/Views/V2/Shortcodes/Service_Provider.php',
         'Tribe\\Events\\Pro\\Views\\V2\\Shortcodes\\Shortcode_Tribe_Event_Countdown' => __DIR__ . '/../..' . '/src/Tribe/Views/V2/Shortcodes/Shortcode_Tribe_Event_Countdown.php',
         'Tribe\\Events\\Pro\\Views\\V2\\Shortcodes\\Shortcode_Tribe_Events_List' => __DIR__ . '/../..' . '/src/Tribe/Views/V2/Shortcodes/Shortcode_Tribe_Events_List.php',
@@ -510,9 +520,9 @@ class ComposerStaticInit3ba91f80769cafecc923d9d421244ba2
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit3ba91f80769cafecc923d9d421244ba2::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit3ba91f80769cafecc923d9d421244ba2::$prefixDirsPsr4;
-            $loader->classMap = ComposerStaticInit3ba91f80769cafecc923d9d421244ba2::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInita24d29fe98fa92b36701f9701b18dba7::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInita24d29fe98fa92b36701f9701b18dba7::$prefixDirsPsr4;
+            $loader->classMap = ComposerStaticInita24d29fe98fa92b36701f9701b18dba7::$classMap;
 
         }, null, ClassLoader::class);
     }

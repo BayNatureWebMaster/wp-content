@@ -17,14 +17,6 @@ use TEC\Event_Automator\Zapier\REST\V1\Endpoints\New_Events;
 use TEC\Event_Automator\Zapier\REST\V1\Endpoints\Updated_Events;
 use TEC\Event_Automator\Zapier\Settings;
 
-use TEC\Event_Automator\Zapier\REST\V1\Endpoints\Actions\Find_Attendees;
-use TEC\Event_Automator\Zapier\REST\V1\Endpoints\Actions\Find_Tickets;
-use TEC\Event_Automator\Zapier\REST\V1\Endpoints\Attendees;
-use TEC\Event_Automator\Zapier\REST\V1\Endpoints\Checkin;
-use TEC\Event_Automator\Zapier\REST\V1\Endpoints\Orders;
-use TEC\Event_Automator\Zapier\REST\V1\Endpoints\Refunded_Orders;
-use TEC\Event_Automator\Zapier\REST\V1\Endpoints\Updated_Attendees;
-
 /**
  * Class Zapier_Provider
  *
@@ -81,7 +73,7 @@ class Zapier_Provider extends Service_Provider {
 	 * @since 7.0.0
 	 */
 	protected function add_filters() {
-		add_filter( 'tribe_addons_tab_fields', [ $this, 'filter_tec_integrations_tab_fields' ] );
+		add_filter( 'tec_settings_gmaps_js_api_start', [ $this, 'filter_tec_integrations_tab_fields' ] );
 		add_filter( 'rest_pre_dispatch', [ $this, 'pre_dispatch_verification_for_create_events' ], 10, 3 );
 		add_filter( 'rest_pre_dispatch', [ $this, 'pre_dispatch_verification_for_update_events' ], 10, 3 );
 		add_filter( 'rest_request_before_callbacks', [ $this, 'modify_rest_api_params_before_validation' ], 1, 3 );
@@ -114,14 +106,6 @@ class Zapier_Provider extends Service_Provider {
 		$this->container->make( Create_Events::class )->add_to_dashboard();
 		$this->container->make( Update_Events::class )->add_to_dashboard();
 		$this->container->make( Find_Events::class )->add_to_dashboard();
-
-		$this->container->make( Attendees::class )->add_to_dashboard();
-		$this->container->make( Updated_Attendees::class )->add_to_dashboard();
-		$this->container->make( Checkin::class )->add_to_dashboard();
-		$this->container->make( Orders::class )->add_to_dashboard();
-		$this->container->make( Refunded_Orders::class )->add_to_dashboard();
-		$this->container->make( Find_Attendees::class )->add_to_dashboard();
-		$this->container->make( Find_Tickets::class )->add_to_dashboard();
 	}
 
 	/**

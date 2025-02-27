@@ -16,9 +16,9 @@ defined( 'WPINC' ) or die;
  * @link https://evnt.is/1ao4 Help article for Community & Tickets template files.
  *
  * @since 4.10.0
- * @since TBD Updated template file path.
+ * @since 5.0.4 Updated template file path.
  *
- * @version TBD
+ * @version 5.0.4
  */
 
 // If the user cannot create new series *and* if there are no series

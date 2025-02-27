@@ -311,11 +311,11 @@ class Venue_Logic {
 	 *
 	 * @since 5.0.0
 	 *
-	 * @param array $community_tab The existing Community settings tab fields.
+	 * @param array $community_tab_fields The existing Community settings tab fields.
 	 *
 	 * @return array The modified Community settings tab fields.
 	 */
-	public function add_venue_settings( array $community_tab ): array {
+	public function add_venue_settings( array $community_tab_fields ): array {
 		// Initialize an empty array for venue options.
 		$venue_options = [ _x( 'Use New Venue/No Default', 'Option for when there are no venues available.', 'tribe-events-community' ) ];
 
@@ -334,20 +334,6 @@ class Venue_Logic {
 			}
 		}
 
-		// The `Form Defaults` heading is shared between Organizer & Venues.
-		$heading_key = 'defaults-heading';
-		if ( ! isset( $community_tab['fields'][ $heading_key ] ) ) {
-			// Add the heading if it doesn't exist.
-			$header_field            = [
-				$heading_key => [
-					'type'        => 'heading',
-					'label'       => _x( 'Form Defaults', 'The heading that displays on the settings page for form defaults.', 'tribe-events-community' ),
-					'conditional' => $venue_exist,
-				],
-			];
-			$community_tab['fields'] = Tribe__Main::array_insert_before_key( 'alerts-heading', $community_tab['fields'], $header_field );
-		}
-
 		// Define the venue fields.
 		$venue_fields = [
 			'defaultCommunityVenueID' => [
@@ -361,9 +347,6 @@ class Venue_Logic {
 			],
 		];
 
-		// Insert the venue fields after the heading.
-		$community_tab['fields'] = Tribe__Main::array_insert_after_key( $heading_key, $community_tab['fields'], $venue_fields );
-
 		$prevent_new_venues = [
 			'prevent_new_venues' => [
 				'type'            => 'checkbox_bool',
@@ -374,9 +357,9 @@ class Venue_Logic {
 			],
 		];
 
-		$community_tab['fields'] = Tribe__Main::array_insert_after_key( 'allowAnonymousSubmissions', $community_tab['fields'], $prevent_new_venues );
+		$community_tab_fields += $venue_fields + $prevent_new_venues;
 
-		return $community_tab;
+		return $community_tab_fields;
 	}
 
 	/**
@@ -398,6 +381,13 @@ class Venue_Logic {
 		$ce_main    = tribe( Tribe__Events__Community__Main::class );
 		$venue_slug = $ce_main->get_rewrite_slug( 'venue' );
 		$edit_slug  = $ce_main->get_rewrite_slug( 'edit' );
+
+		// Ensure it's not already there in case the hook gets called twice.
+		$existing = array_map( 'strtolower', wp_list_pluck( $edit_urls, 'name' ) );
+
+		if ( in_array( $edit_slug . ' ' . $venue_slug, $existing ) ) {
+			return $edit_urls;
+		}
 
 		// Correct URL construction by ensuring slashes are included properly.
 		$edit_urls[] = [
@@ -467,6 +457,7 @@ class Venue_Logic {
 	 * venue ID is empty, not set, or less than or equal to zero for any venue, the validation fails.
 	 *
 	 * @since 5.0.1
+	 * @since 5.0.5 Update validation to check for venue name rather than all fields.
 	 *
 	 * @param mixed $value The value to filter.
 	 * @param array $submission The submission data containing venue information.
@@ -476,26 +467,36 @@ class Venue_Logic {
 	public function custom_venue_validation( $value, $submission ): bool {
 		$prevent_new_venues = tribe( 'community.main' )->getOption( 'prevent_new_venues', false );
 
-		$venues = $submission['venue'] ?? null;
+		$venue_data = $submission['venue'] ?? null;
 
-		// If the $venues is empty or not an array, it is not valid.
-		if ( empty( $venues ) || ! is_array( $venues ) ) {
+		// If the $venue_data is empty or not an array, it is not valid.
+		if ( empty( $venue_data ) || ! is_array( $venue_data ) ) {
 			return false;
 		}
 
-		// Validate each venue based on the prevent_new_venues flag.
-		foreach ( $venues['venueid'] as $index => $venue_id ) {
-			if ( $prevent_new_venues ) {
-				if ( empty( $venue_id ) || 0 >= $venue_id ) {
-					return false;
+		// We will build a list of venues based on the data that was submitted.
+		$venues = [];
+		foreach ( $venue_data as $key => $value ) {
+			if ( is_array( $value ) ) {
+				foreach ( $value as $index => $val ) {
+					$venues[ $index ][ strtolower( $key ) ] = $val;
 				}
-			} elseif ( 0 >= $venue_id ) {
-				foreach ( $this->submission_allowed_venue_fields as $field ) {
-					$field_key = strtolower( $field );
-					if ( 'venueid' !== $field_key && isset( $venues[ $field_key ] ) && empty( $venues[ $field_key ][ $index ] ) ) {
-						return false;
-					}
-				}
+			}
+		}
+
+		// Validate each venue. If one fails, all fail.
+		foreach ( $venues as $index => $venue ) {
+			// If preventing new venues and the ID is invalid, return false.
+			if (
+				$prevent_new_venues
+				&& ( empty( $venue['venueid'] ) || 0 >= (int) $venue['venueid'] )
+			) {
+				return false;
+			}
+
+			// If new and no venue name is set, return false.
+			if ( 0 >= (int) $venue['venueid'] && empty( $venue['venue'] ) ) {
+				return false;
 			}
 		}
 

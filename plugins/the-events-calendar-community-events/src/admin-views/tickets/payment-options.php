@@ -1,12 +1,12 @@
 <?php
-unset( $settings['fields']['tribe_community_events_wrapper_closer'] );
+
 /**
  * Generic CT settings
  */
 $ct_settings = [
-	'tickets-heading' => [
+	'tickets-heading'          => [
 		'type' => 'html',
-		'html' => '<h3>' . esc_html__( 'Community Tickets', 'tribe-events-community' ) . '</h3>',
+		'html' => '<h3 class="tec-settings-form__section-header">' . esc_html__( 'Community Tickets', 'tribe-events-community' ) . '</h3>',
 	],
 	'enable_community_tickets' => [
 		'type' => 'checkbox_bool',
@@ -16,7 +16,7 @@ $ct_settings = [
 		'validation_type' => 'boolean',
 		'parent_option' => self::OPTIONNAME,
 	],
-	'edit_event_tickets_cap' => [
+	'edit_event_tickets_cap'   => [
 		'type' => 'checkbox_bool',
 		'label' => esc_html__( 'Allow any user to create tickets', 'tribe-events-community' ),
 		'tooltip' => __( 'Check this box if you wish all Subscribers to receive the ability to create tickets. Uncheck it if you will be altering the <code>edit_event_tickets</code> capability either via a plugin or custom filter. Allowing Subscribers to create tickets will not let them manage attendees.', 'tribe-events-community' ),
@@ -24,7 +24,7 @@ $ct_settings = [
 		'validation_type' => 'boolean',
 		'parent_option' => self::OPTIONNAME,
 	],
-	'enable_image_uploads' => [
+	'enable_image_uploads'     => [
 		'type' => 'checkbox_bool',
 		'label' => esc_html__( 'Enable ticket images', 'tribe-events-community' ),
 		'tooltip' => esc_html__( 'Check this box if you wish to allow community organizers to upload images for their tickets.', 'tribe-events-community' ),
@@ -38,24 +38,26 @@ $ct_settings = [
  * Settings specific to the site fees
  */
 $site_fee_settings = [
-	'site_fee_settings_header' => [
+	'site_fee_title'      => [
 		'type' => 'html',
-		'html' => '<h3>' . esc_html__( 'Ticket Fees', 'tribe-events-community' ) . '</h3>',
+		'html' => '<div class="tec-settings-form__header-block tec-settings-form__element--rowspan-2">'
+			. '<h3 id="tec-events-community-fee-settings__title" class="tec-settings-form__section-header tec-settings-form__section-header--sub">'
+			. esc_html__( 'Ticket Fees', 'tribe-events-community' )
+			. '</h3>'
+			. sprintf(
+				'<p>%1$s %2$s <a href="https://evnt.is/site-fees">%3$s</a></p>',
+				esc_html__( 'Certain fee restrictions apply.', 'tribe-events-community' ),
+				sprintf(
+					/* translators: %1$s is the opening anchor tag, %2$s is the closing anchor tag */
+					esc_html__( 'Review our %1$sUnderstanding Site Fees KB%2$s for a further explanation so that you set your site fees according to what Community Tickets supports.', 'tribe-events-community' ),
+					'<a href="https://evnt.is/site-fees">',
+					'</a>'
+				),
+				esc_html__( 'Learn more.', 'tribe-events-community' )
+			)
+			. '</div>',
 	],
-	'site_fee_settings_info' => [
-		'type' => 'html',
-		'html' => sprintf( '<p><strong>%1$s:</strong> %2$s %3$s <a href="https://evnt.is/site-fees">%4$s</a></p>',
-			esc_html__( 'IMPORTANT', 'tribe-events-community' ),
-			esc_html__( 'Certain fee restrictions apply.', 'tribe-events-community' ),
-			sprintf(
-				esc_html__( 'Review our %1$sUnderstanding Site Fees KB%2$s for a further explanation so that you set your site fees according to what Community Tickets supports.', 'tribe-events-community' ),
-				'<a href="https://evnt.is/site-fees">',
-				'</a>'
-			),
-			esc_html__( 'Learn more.', 'tribe-events-community' )
-		)
-	],
-	'site_fee_type' => [
+	'site_fee_type'       => [
 		'type'            => 'dropdown',
 		'label'           => esc_html__( 'Ticket Fee Type', 'tribe-events-community' ),
 		'tooltip'         => esc_html__( 'What type of fee will be charged?', 'tribe-events-community' ),
@@ -71,10 +73,6 @@ $site_fee_settings = [
 		],
 		'attributes' => [ 'id' => 'site_fee_type-select' ],
 	],
-	'site_fee_settings_start' => [
-		'type' => 'html',
-		'html' => '<div id="tribe-events-community-tickets-site-fee-settings" class="tribe-dependent" data-depends="#site_fee_type-select" data-condition-not="none">',
-	],
 	'site_fee_percentage' => [
 		'type'            => 'text',
 		'label'           => esc_html__( 'Fee percentage', 'tribe-events-community' ),
@@ -88,7 +86,7 @@ $site_fee_settings = [
 			'data-condition-not' => '["none", "flat", "flat-per-ticket"]',
 		],
 	],
-	'site_fee_flat' => [
+	'site_fee_flat'       => [
 		'type'            => 'text',
 		'label'           => esc_html__( 'Flat fee', 'tribe-events-community' ),
 		'tooltip'         => esc_html__( 'The flat fee charged per the Ticket Fee Type setting.', 'tribe-events-community' ),
@@ -147,7 +145,7 @@ $site_fee_settings = [
 				'</p>',
 		],
 	],
-	'site_fee_on_free' => [
+	'site_fee_on_free'    => [
 		'type'                => 'checkbox_bool',
 		'label'               => esc_html__( 'Add flat fees to free tickets', 'tribe-events-community' ),
 		'tooltip'             => esc_html__( 'When checked, flat fees will be added to free tickets as well as paid tickets.', 'tribe-events-community' ),
@@ -157,10 +155,6 @@ $site_fee_settings = [
 			'data-depends'       => '#site_fee_type-select',
 			'data-condition-not' => '["none","percentage"]',
 		],
-	],
-	'site_fee_settings_end' => [
-		'type' => 'html',
-		'html' => '</div>',
 	],
 ];
 
@@ -184,18 +178,14 @@ foreach ( $site_fee_settings as $name => $setting ) {
  */
 $split_payment_settings  = [
 	//Split Payments
-	'split_payments_settings_start' => [
+	'split_payments_settings_title' => [
 		'type' => 'html',
-		'html' => '<div id="tribe-events-community-tickets-split-payments-settings" class="tribe-dependent" data-depends="#site_fee_type-select" data-condition-not="none">',
+		'html' => '<h3 class="tec-settings-form__section-header tec-settings-form__section-header--sub tribe-dependent" data-depends="#site_fee_type-select" data-condition-not="none">' . esc_html__( 'Split Payment Settings', 'tribe-events-community' ) . '</h3>',
 	],
-	'split_payments_settings_divider' => [
-		'type' => 'html',
-		'html' => '<h3>' . esc_html__( 'Split Payment Settings', 'tribe-events-community' ) . '</h3>',
-	],
-	'enable_split_payments' => [
-		'type' => 'checkbox_bool',
-		'label' => esc_html__( 'Enable split payments', 'tribe-events-community' ),
-		'tooltip' => sprintf(
+	'enable_split_payments'         => [
+		'type'                => 'checkbox_bool',
+		'label'               => esc_html__( 'Enable split payments', 'tribe-events-community' ),
+		'tooltip'             => sprintf(
 			esc_html__(
 				'Leaving this box unchecked means that all funds will be collected by the payment methods configured in WooCommerce.
 				Check this box if you prefer the money for tickets to be distributed to the site and the event
@@ -208,10 +198,15 @@ $split_payment_settings  = [
 			'</a>',
 			'<a href="https://evnt.is/split-payments">' . esc_html__( 'Read more', 'tribe-events-community' ) . '</a>'
 		),
-		'default' => 'none',
-		'validation_type' => 'boolean',
-		'parent_option' => self::OPTIONNAME,
-		'attributes' => [
+		'class'               => 'tribe-dependent',
+		'fieldset_attributes' => [
+			'data-depends'       => '#site_fee_type-select',
+			'data-condition-not' => '["none"]',
+		],
+		'default'             => 'none',
+		'validation_type'     => 'boolean',
+		'parent_option'       => self::OPTIONNAME,
+		'attributes'          => [
 			'id' => 'community-tickets-enable-split-payments',
 		],
 	],
@@ -221,17 +216,17 @@ $split_payment_settings  = [
  * PayPal settings required for split payments
  */
 $paypal_settings = [
-	'paypal_settings_start' => [
+	'paypal_settings_start'    => [
 		'type' => 'html',
 		'html' => '<div id="tribe-events-community-tickets-paypal-settings" class="tribe-dependent tribe-settings-last-block" data-depends="#community-tickets-enable-split-payments" data-condition-is-checked>',
 	],
-	'tickets_blurb' => [
+	'tickets_blurb'            => [
 		'type'            => 'wrapped_html',
 		'label'           => esc_html__( 'Configure PayPal:', 'tribe-events-community' ),
 		'html'            => '<span>' . esc_html__( 'The following PayPal settings are required for enabling split payments.', 'tribe-events-community' ) . '</span>',
 		'validation_type' => 'html',
 	],
-	'split_payment_method' => [
+	'split_payment_method'     => [
 		'type'            => 'radio',
 		'label'           => esc_html__( 'Split Payment method', 'tribe-events-community' ),
 		'default'         => 'paypal_payouts_api',
@@ -263,7 +258,7 @@ $paypal_settings = [
 				'</p>',
 		],
 	],
-	'paypal_sandbox' => [
+	'paypal_sandbox'           => [
 		'type'            => 'checkbox_bool',
 		'label'           => esc_html__( 'Use PayPal sandbox', 'tribe-events-community' ),
 		'tooltip'         => esc_html__( 'Check this box if you wish all payments to be test payments via PayPal sandbox.', 'tribe-events-community' ),
@@ -271,7 +266,7 @@ $paypal_settings = [
 		'validation_type' => 'boolean',
 		'class'           => 'light-bordered full-width',
 	],
-	'paypal_api_client_id' => [
+	'paypal_api_client_id'     => [
 		'type'            => 'text',
 		'label'           => esc_html__( 'PayPal API Client ID', 'tribe-events-community' ),
 		'default'         => '',
@@ -293,7 +288,7 @@ $paypal_settings = [
 			'data-condition-is-checked' => '1',
 		],
 	],
-	'paypal_api_username' => [
+	'paypal_api_username'      => [
 		'type'            => 'text',
 		'label'           => esc_html__( 'PayPal API Username', 'tribe-events-community' ),
 		'default'         => '',
@@ -304,7 +299,7 @@ $paypal_settings = [
 			'data-condition-is-checked' => '1',
 		],
 	],
-	'paypal_api_password' => [
+	'paypal_api_password'      => [
 		'type'            => 'text',
 		'label'           => esc_html__( 'PayPal API Password', 'tribe-events-community' ),
 		'default'         => '',
@@ -315,7 +310,7 @@ $paypal_settings = [
 			'data-condition-is-checked' => '1',
 		],
 	],
-	'paypal_api_signature' => [
+	'paypal_api_signature'     => [
 		'type'            => 'text',
 		'label'           => esc_html__( 'PayPal API Signature', 'tribe-events-community' ),
 		'default'         => '',
@@ -326,7 +321,7 @@ $paypal_settings = [
 			'data-condition-is-checked' => '1',
 		],
 	],
-	'paypal_application_id' => [
+	'paypal_application_id'    => [
 		'type'            => 'text',
 		'label'           => esc_html__( 'PayPal Application ID', 'tribe-events-community' ),
 		'default'         => '',
@@ -337,7 +332,7 @@ $paypal_settings = [
 			'data-condition-is-checked' => '1',
 		],
 	],
-	'paypal_receiver_email' => [
+	'paypal_receiver_email'    => [
 		'type'                => 'text',
 		'label'               => esc_html__( 'Receiver email', 'tribe-events-community' ),
 		'tooltip'             => esc_html__( 'This is the email address for the PayPal account that will receive payments.', 'tribe-events-community' ),
@@ -349,7 +344,7 @@ $paypal_settings = [
 			'data-condition-is-checked' => '1',
 		],
 	],
-	'paypal_invoice_prefix' => [
+	'paypal_invoice_prefix'    => [
 		'type'            => 'text',
 		'label'           => esc_html__( 'Invoice prefix', 'tribe-events-community' ),
 		'tooltip'         => esc_html__( 'Enter a prefix for your PayPal invoices. If you run multiple stores/event sites, entering a value here will ensure that your invoice numbers are unique - PayPal does not accept duplicate invoice numbers.', 'tribe-events-community' ),
@@ -357,15 +352,7 @@ $paypal_settings = [
 		'validation_type' => 'html',
 		'class'           => 'light-bordered full-width',
 	],
-	'paypal_settings_end' => [
-		'type' => 'html',
-		'html' => '</div>',
-	],
-	'split_payments_settings_end' => [
-		'type' => 'html',
-		'html' => '</div>',
-	],
-	'tribe_community_events_wrapper_closer' => [
+	'paypal_settings_end'      => [
 		'type' => 'html',
 		'html' => '</div>',
 	],
@@ -386,4 +373,4 @@ foreach ( $paypal_settings as $name => $setting ) {
 	$paypal_settings[ $name ] = $setting;
 }
 
-$settings['fields'] = array_merge( $settings['fields'], $ct_settings, $site_fee_settings, $split_payment_settings, $paypal_settings );
+$settings = array_merge( $settings, $ct_settings, $site_fee_settings, $split_payment_settings, $paypal_settings );

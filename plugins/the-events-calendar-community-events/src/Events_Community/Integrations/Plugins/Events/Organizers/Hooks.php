@@ -67,7 +67,7 @@ class Hooks extends Service_Provider {
 		);
 		add_filter( 'tribe_community_form_field_label', [ $this, 'filter_add_organizer_field_label' ], 10, 2 );
 		add_filter( 'tec_events_community_header_links_title', [ $this, 'filter_header_link_title_for_organizer' ], 10, 2 );
-		add_filter( 'tribe_community_settings_tab', [ $this, 'filter_add_organizer_settings' ] );
+		add_filter( 'tec_events_community_settings_content_creation_section', [ $this, 'filter_add_organizer_settings' ], 13 );
 		add_filter( 'tec_events_community_modify_default_rewrite_slugs', [ $this, 'filter_add_additional_rewrite_slugs' ] );
 		add_filter( 'tribe_community_settings_edit_urls', [ $this, 'filter_add_organizer_route_edit_url' ], 10, 2 );
 		add_filter( 'tec_events_community_get_urls_for_actions', [ $this, 'filter_add_custom_url_for_action' ], 10, 6 );

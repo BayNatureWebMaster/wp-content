@@ -13,11 +13,11 @@ defined( 'WPINC' ) or die;
  *
  * @since 2.1
  * @since 4.8.2 Updated template link.
- * @since TBD Updated template file path.
+ * @since 5.0.4 Updated template file path.
  *
  * @link https://evnt.is/1ao4 Help article for Community & Tickets template files.
  *
- * @version TBD
+ * @version 5.0.4
  */
 
 // If the user cannot create new organizers *and* if there are no organizers

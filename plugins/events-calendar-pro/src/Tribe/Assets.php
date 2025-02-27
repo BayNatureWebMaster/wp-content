@@ -302,16 +302,16 @@ class Tribe__Events__Pro__Assets {
 			'full'  => 'tribe-events-pro-full.css',
 		];
 
-		// By default we go with `tribe`
-		$file = $stylesheets['tribe'];
+		// By default we go with `full`.
+		$file = $stylesheets['full'];
 
-		// if we have one we use it
+		// If we have one we use it.
 		if ( isset( $stylesheets[ $name ] ) ) {
 			$file = $stylesheets[ $name ];
 		}
 
 		/**
-		 * Allows filtering of the Stylesheet file for Events Calendar Pro
+		 * Allows filtering of the Stylesheet file for Events Calendar Pro.
 		 *
 		 * @deprecated  4.4.30
 		 *

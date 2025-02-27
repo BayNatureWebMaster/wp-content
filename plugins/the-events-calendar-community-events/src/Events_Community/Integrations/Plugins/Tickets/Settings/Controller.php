@@ -65,7 +65,7 @@ class Controller extends Plugin_Integration_Abstract {
 	 */
 	protected function add_filters(): void {
 		add_filter( 'tec_events_community_settings_strategy', [ $this, 'handler' ], 15 );
-		add_filter( 'tribe_community_settings_tab', [ $this, 'add_event_tickets_settings' ] );
+		add_filter( 'tec_events_community_settings_content_creation_section', [ $this, 'add_event_tickets_settings' ] );
 		add_filter( 'tec_events_community_posttype', [ $this, 'get_post_type' ], 10, 3 );
 	}
 
@@ -121,8 +121,8 @@ class Controller extends Plugin_Integration_Abstract {
 		$default_post_types = array_intersect( $public_post_types, $et_post_types );
 
 		// Update `default_post_type` to become a dropdown instead of html. Merge our new changes into the original array.
-		$community_tab['fields']['default_post_type'] = array_merge(
-			$community_tab['fields']['default_post_type'],
+		$community_tab['default_post_type'] = array_merge(
+			$community_tab['default_post_type'],
 			[
 				'type'            => 'dropdown',
 				'validation_type' => 'options',

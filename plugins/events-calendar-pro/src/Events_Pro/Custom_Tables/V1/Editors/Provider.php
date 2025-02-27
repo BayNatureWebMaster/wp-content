@@ -600,32 +600,6 @@ class Provider extends Service_Provider {
 			]
 		);
 
-		tribe_asset(
-			$plugin,
-			'tec-events-pro-block-editor-blocks-css',
-			'custom-tables-v1/app/blocks.css',
-			[ 'tribe-pro-gutenberg-main-styles' ],
-			'enqueue_block_editor_assets',
-			[
-				'in_footer'    => false,
-				'conditionals' => $context->is_blocks_event_post_screen(),
-				'groups'       => [ static::$block_event_group_key ],
-			]
-		);
-
-		tribe_asset(
-			$plugin,
-			'tec-events-pro-block-editor-elements-css',
-			'custom-tables-v1/app/elements.css',
-			[ 'tribe-pro-gutenberg-main-styles' ],
-			'enqueue_block_editor_assets',
-			[
-				'in_footer'    => false,
-				'conditionals' => $context->is_blocks_event_post_screen(),
-				'groups'       => [ static::$block_event_group_key ],
-			]
-		);
-
 		// Build a UI Lock on the current Request context and conditionally lock the UI.
 		$this->container->singleton( UI_Lock::class, function () {
 			$template   = $this->container->make( Tribe__Events__Pro__Editor__Template__Admin::class );

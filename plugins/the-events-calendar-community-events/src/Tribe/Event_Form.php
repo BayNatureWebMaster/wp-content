@@ -13,30 +13,75 @@ class Tribe__Events__Community__Event_Form {
 	}
 
 	/**
-	 * sets the event for the form
+	 * Sets the event for the form.
+	 *
+	 * This method checks if the provided event object is valid. If the event is not provided, is empty, or has an
+	 * invalid ID, it will create a new auto-draft event if the user is logged in or anonymous submissions are enabled.
+	 * Otherwise, it will set the event and its ID for further processing.
+	 *
+	 * @since 5.0.2
+	 *
+	 * @param WP_Post|null $event The event object. Can be null or an incomplete object without a valid ID.
 	 */
 	public function set_event( $event ) {
-		if ( ! $event ) {
+		$anonymous_submissions_enabled = tribe( 'community.main' )->allowAnonymousSubmissions;
+
+		// Check if the user is logged in or if anonymous submissions are enabled.
+		if ( ( ! is_user_logged_in() && ! $anonymous_submissions_enabled ) ) {
+			// If neither condition is met, do not create an auto-draft.
 			return;
-		}//end if
+		}
 
-		$this->event          = $event;
-		$anonymousSubmissions = tribe( 'community.main' )->allowAnonymousSubmissions;
+		// If the event object is invalid or has an invalid ID, create an auto-draft event and assign it.
+		if ( empty( $event ) || ! is_object( $event ) || empty( $event->ID ) ) {
+			$event_id = $this->create_auto_draft_event();
+			$event    = get_post( $event_id );
+		}
 
-		if ( isset( $event->ID ) ) {
-			$this->event_id = $event->ID;
-		} elseif ( is_user_logged_in() || $anonymousSubmissions ) {
-			// if the event doesn't exist and the user is authenticated, or anonymous submissions is enabled, create an
-			// auto draft event.
-			$this->event_id = wp_insert_post(
-				[
-					'post_title' => _x( 'Auto Draft', 'Tribe Community fallback post title', 'tribe-events-community' ),
-					'post_type' => tribe('community.main')->get_community_events_post_type(),
-					'post_status' => 'auto-draft',
-				]
-			);
+		// Set the event and event ID (whether newly created or valid).
+		$this->event    = $event;
+		$this->event_id = $event->ID;
 
-			$this->event = get_post( $this->event_id );
+		// Synchronize the global $post object with the current event.
+		$this->sync_global_post();
+	}
+
+	/**
+	 * Creates an auto-draft event.
+	 *
+	 * @since 5.0.2
+	 *
+	 * Creates a new auto-draft event post.
+	 * Auto-drafts are used as placeholders for new events until they are fully populated with data.
+	 *
+	 * @return int The post ID of the created auto-draft event.
+	 */
+	private function create_auto_draft_event() {
+		return wp_insert_post(
+			[
+				'post_title'  => _x( 'Auto Draft', 'Tribe Community fallback post title', 'tribe-events-community' ),
+				'post_type'   => tribe( 'community.main' )->get_community_events_post_type(),
+				'post_status' => 'auto-draft',
+			]
+		);
+	}
+
+	/**
+	 * Synchronizes the global $post object with the current event.
+	 *
+	 * @since 5.0.2
+	 *
+	 * Ensures that the global $post object matches the $this->event object to avoid discrepancies when $post is used
+	 * elsewhere in the code.
+	 */
+	protected function sync_global_post() {
+		global $post;
+		// phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited
+		$post = $this->event;
+
+		// Check if the post title matches the auto-draft placeholder title and set it to an empty string if it does.
+		if ( _x( 'Auto Draft', 'Tribe Community fallback post title', 'tribe-events-community' ) === $post->post_title ) {
+			$post->post_title = '';
 		}
 	}
 
@@ -238,8 +283,7 @@ class Tribe__Events__Community__Event_Form {
 	 * @since 1.0
 	 */
 	public function loadRecurrenceData( $postId ) {
-		$tce = tribe( 'community.main' );
-		$context = $tce->getContext();
+		$context        = tribe( 'community.main' )->getContext();
 		$tribe_event_id = $context['id'];
 		include Tribe__Events__Templates::getTemplateHierarchy( 'community/modules/recurrence' );
 	}

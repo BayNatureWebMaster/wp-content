@@ -194,7 +194,7 @@ class Tribe__Events__Community__Tickets__Shortcodes extends Tribe__Events__Commu
 			esc_url( $url )
 		);
 
-		$email_link = Tribe__Settings::instance()->get_url(
+		$email_link = tribe( 'settings' )->get_url(
 			[
 				'page'      => 'tickets-attendees',
 				'action'    => 'email',

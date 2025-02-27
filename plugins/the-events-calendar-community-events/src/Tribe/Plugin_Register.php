@@ -36,7 +36,7 @@ class  Tribe__Events__Community__Plugin_Register extends Tribe__Abstract_Plugin_
 	 *
 	 * @var string
 	 */
-	public static string $minimum_tec_version = '6.6.0-dev';
+	public static string $minimum_tec_version = '6.7.0-dev';
 
 	/**
 	 * Minimum version of Event Tickets that Community requires.
@@ -45,7 +45,7 @@ class  Tribe__Events__Community__Plugin_Register extends Tribe__Abstract_Plugin_
 	 *
 	 * @var string
 	 */
-	public static string $minimum_et_version = '5.13.0-dev';
+	public static string $minimum_et_version = '5.13.4-dev';
 
 	/**
 	 * Constructor method.

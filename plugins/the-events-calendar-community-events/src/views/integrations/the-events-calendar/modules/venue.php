@@ -17,9 +17,9 @@ defined( 'WPINC' ) or die;
  *
  * @since 2.1
  * @since 4.8.2 Updated template link.
- * @since TBD   Updated template path
+ * @since 5.0.4   Updated template path
  *
- * @version TBD
+ * @version 5.0.4
  */
 
 // If the user cannot create new venues *and* if there are no venues

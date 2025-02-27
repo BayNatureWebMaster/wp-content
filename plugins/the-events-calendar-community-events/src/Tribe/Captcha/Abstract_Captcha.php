@@ -31,12 +31,11 @@ abstract class Tribe__Events__Community__Captcha__Abstract_Captcha {
 	public function add_settings_fields( $fields ) {
 		$captcha_fields = $this->get_settings_fields();
 
-		if ( ! empty( $captcha_fields ) ) {
-			$fields = array_merge( $fields, $captcha_fields );
-//			$fields = Tribe__Main::array_insert_after_key( 'single_geography_mode', $fields, $captcha_fields );
+		if ( empty( $captcha_fields ) ) {
+			return $fields;
 		}
 
-		return $fields;
+		return array_merge( $fields, $captcha_fields );
 	}
 
 	/**
