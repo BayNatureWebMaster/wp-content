@@ -1,0 +1,267 @@
+{
+    "key": "group_5b33fe84266ee",
+    "title": "Parks",
+    "location": [
+        [
+            {
+                "param": "post_type",
+                "operator": "==",
+                "value": "park"
+            }
+        ]
+    ],
+    "menu_order": 0,
+    "position": "normal",
+    "style": "default",
+    "label_placement": "top",
+    "instruction_placement": "label",
+    "hide_on_screen": [],
+    "active": 1,
+    "description": "",
+    "fields": [
+        {
+            "key": "field_4fe0ccd5ab4b8",
+            "label": "Acres",
+            "name": "acres",
+            "type": "text",
+            "instructions": "Enter park acreage rounded to the nearest whole number.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "formatting": "none",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_4fe0ccd5ac7df",
+            "label": "Access Status",
+            "name": "access_status",
+            "type": "radio",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "choices": {
+                "Open Access": "Open Access",
+                "Restricted Access": "Restricted Access"
+            },
+            "default_value": "Public Access",
+            "layout": "horizontal",
+            "other_choice": 0,
+            "save_other_choice": 0,
+            "allow_null": 0,
+            "return_format": "value"
+        },
+        {
+            "key": "field_4fe0ccd5aeb00",
+            "label": "Agency Name",
+            "name": "agency",
+            "type": "text",
+            "instructions": "Enter the name of the agency that owns or manages this park (whichever is publicly identified with the park).",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "formatting": "none",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_4fe0eaf28c482",
+            "label": "Agency URL",
+            "name": "agency_url",
+            "type": "text",
+            "instructions": "Enter the URL of the home page for the agency that owns or manages this park (include http:\/\/).",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "http:\/\/",
+            "formatting": "none",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_4feb82f370a38",
+            "label": "Park Page Link",
+            "name": "park_page_link",
+            "type": "text",
+            "instructions": "Enter the URL of the official page for this park, maintained by the agency that owns or manages the park. Include http:\/\/.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "formatting": "none",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_4feb82f37175d",
+            "label": "Park Map Link",
+            "name": "park_map_link",
+            "type": "text",
+            "instructions": "Enter the URL of a PDF or other printable map of this park. Include http:\/\/.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "formatting": "none",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_4fe0eaf28d65c",
+            "label": "iNaturalist.org's Place ID",
+            "name": "inat_open_space_id",
+            "type": "text",
+            "instructions": "This field powers our Wildlife Guides. Go to <a href='http:\/\/inaturalist.org\/places' target='_blank'>iNaturalist's Places page<\/a> and search for this place. If it exists, copy the integer ID out of the URL and insert that here. If not, leave this field blank.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "formatting": "none",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_4fe0eaf28e793",
+            "label": "Parkinfo.org ID",
+            "name": "park_info_id",
+            "type": "text",
+            "instructions": "We're also trying to maintain links to ParkInfo's comprehensive statewide database. Go to <a href='http:\/\/parkinfo.org' target='_blank'>Parkinfo.org<\/a> and search for this place. If it exists, copy the integer ID in the results list on the left side of the page.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "formatting": "none",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_500a46606b72c",
+            "label": "Flickr Tag",
+            "name": "flickr_tag",
+            "type": "text",
+            "instructions": "Enter a comma-delimited set of tags to narrow the selections here. Because this overrides group and location search, you should include some variation of the name of the park in the tags, or more than one variation.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "formatting": "none",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_500c817d90faf",
+            "label": "Flickr Group",
+            "name": "flickr_group",
+            "type": "text",
+            "instructions": "Enter the special key ID for a Flickr group to limit picks to that group. Handy for parks with lots of picnickers! Bay Nature's Group ID is: <strong>79094566@N00<\/strong>. You can test results at the <a href=\"http:\/\/www.flickr.com\/services\/api\/explore\/flickr.photos.search\">Flickr API page<\/a>.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "formatting": "none",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_5027fad3993ca",
+            "label": "Disable Flickr",
+            "name": "disable_flickr",
+            "type": "true_false",
+            "instructions": "Disable the flickr gallery for this page",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "message": "",
+            "default_value": 0,
+            "ui": 0,
+            "ui_on_text": "",
+            "ui_off_text": ""
+        },
+        {
+            "key": "field_5027fad3ac9da",
+            "label": "",
+            "name": "",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "formatting": "html",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        }
+    ],
+    "modified": 1537563280
+}

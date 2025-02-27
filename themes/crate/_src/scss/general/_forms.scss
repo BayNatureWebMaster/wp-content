@@ -1,0 +1,873 @@
+/**
+ * Use a placeholder selector to style all text-based inputs simultaneously.
+ */
+input[type="email"],
+input[type="number"],
+input[type="password"],
+input[type="search"],
+input[type="tel"],
+input[type="text"],
+input[type="url"],
+select,
+textarea {
+	font-family: $primary-font;
+	font-weight: 500;
+	@extend %text-input;
+	&:focus {
+		outline: none;
+	}
+}
+
+input[type="submit"] {
+	font-family: $primary-font;
+	font-weight: 500;
+	cursor: pointer;
+	text-transform: uppercase;
+	background-color: $button-background-color;
+	color: $white;
+	border: 0;
+	-webkit-appearance: none;
+	appearance: none;
+	-webkit-border-radius: 0; 
+	border-radius: 0;
+	padding: 1.3rem 1.6rem;
+	font-size:1.3rem;
+	&:hover {
+		background-color: $button-background-color-hover;
+	}
+}
+
+
+/**
+ * General form + form input styles.
+ */
+
+.gform_body {
+	ul,
+	li {
+		list-style: none;
+		padding: 0;
+
+		&.gform_hidden{
+			display:none;
+		}
+	}
+}
+
+.gform_button {
+	border: none;
+}
+
+.gfield {
+	padding-left: 0 !important;
+	margin-left: 0 !important;
+	&:before {
+		content: none !important;
+	}
+	margin: $gf-input-margin-y 0;
+}
+
+
+
+.gfield_label {
+	// Note: it may be useful to @extend %label-block using other selectors as
+	// well, such as `.comment-form label`.
+	@extend %label-block;
+
+	.gfield_hide_label & {
+		@include scut-hide-visually;
+	}
+}
+
+.gfield_description {
+	margin: 0rem 0 1rem;
+}
+
+.gfield_required {
+	color: $input-required-color;
+	padding: 0 0.4rem;
+}
+
+.gform_wrapper {
+
+	// Form-wide error messages.
+	.validation_error {
+		color: $input-error-color;
+	}
+
+	// Error messages for individual fields.
+	.validation_message {
+		color: $input-error-color;
+	}
+}
+
+.gform_footer {
+	// Set a bottom margin on form footers (which contain submit buttons), so
+	// that submit buttons aren't closer to other content on the page than they
+	// are to the form above them.
+	margin: 0 0 $gf-input-margin-y;
+	text-align: center;
+}
+
+%label-block {
+	display: block;
+	margin: $gf-primary-label-margin 0;
+	font-size: $label-font-size;
+	font-weight: 700;
+	color: $label-color;
+}
+
+%text-input {
+	appearance: none;
+	box-sizing: border-box;
+	padding: $input-padding-y $input-padding-x;
+	width: 100%;
+	border: 1px solid $input-border-color;
+	border-radius: 0;
+	line-height: 1.25;
+	background-color: $input-bg-color;
+	color: $input-color;
+	box-shadow: none;
+	transition: border-color 0.2s ease, background-color 0.2s ease;
+
+	&::placeholder {
+		color: $input-color;
+		// line-height: normal;
+	}
+
+	&:focus {
+		border-color: $input-focus-border-color;
+		background-color: $input-focus-bg-color;
+	}
+
+	.gfield_error & {
+		border-color: $input-error-color;
+	}
+}
+
+
+/**
+ * Input type-specific styles (selects, radios/checkboxes).
+ */
+
+// Single-item selects: add a triangle and extra padding on right side.
+select:not([multiple]) {
+	// Add SVG background image.
+	@extend .icon-dropdown-arrow;
+	// Override size set by .icon-... background image class.
+	width: 100%;
+	height: auto;
+	// Position image near right edge and add padding so text doesn't overlap it.
+	background-position: right $input-padding-x center;
+	background-repeat: no-repeat;
+	// Right-hand padding = normal padding + triangle image width.
+	padding-right: $input-padding-x + 1.1rem;
+}
+
+.gfield_radio,
+.gfield_checkbox {
+
+	> li {
+		&:before {
+			content: none !important;
+		}
+		margin: $gf-multi-input-margin-y 0 !important;
+		> input {
+			transform: translateY(-0.2rem);
+			margin-right: 1rem;
+		}
+	}
+
+	label {
+		color: $label-color;
+	}
+}
+
+
+/**
+ * AJAX spinners.
+ */
+
+.gform_ajax_spinner {
+	display: inline-block;
+	vertical-align: middle;
+	margin-left: 10px;
+}
+
+
+//-----------------------------------------------------------------------------
+// Multi-field inputs.
+//-----------------------------------------------------------------------------
+
+.ginput_complex,
+.clear-multi {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: top;
+	// Cancel out the bottom margin of the final row of fields, so that margins
+	// are only *between* rows of fields.
+	margin: 0 ( -$gf-input-margin-x / 2 ) ( -$gf-multi-input-margin-y );
+
+	> span,
+	> div {
+		padding: 0 ( $gf-input-margin-x / 2 );
+		margin: 0 0 $gf-multi-input-margin-y;
+		flex: 0 1 auto;
+
+		&:not(.ginput_container_time) {
+			// Fill available horizontal space, and wrap to a new line if there isn't
+			// enough room for this input (with the exception of time input fields,
+			// which can and should be super narrow).
+			flex-grow: 1;
+			width: $gf-input-min-width;
+		}
+	}
+
+	input + label {
+		font-size: 1.4rem;
+	}
+
+	.ginput_full {
+		width: 100%;
+	}
+
+	label {
+		display: inline;
+
+		&:before {
+			content: '';
+			display: block;
+			margin: 0.2rem 0 0;
+		}
+	}
+
+	.gf_clear {
+		// We're not using floats for layout, so don't bother with this 'clear'
+		// foolishness.
+		display: none;
+	}
+}
+
+
+//-----------------------------------------------------------------------------
+// List inputs (tables of fields with +/- buttons).
+//-----------------------------------------------------------------------------
+
+.gfield_list_container {
+	width: 100%;
+	padding: 0;
+	border-collapse: collapse;
+
+	th {
+		padding: 0 0 $gf-primary-label-margin;
+	}
+
+	td {
+		padding: 0;
+	}
+
+	th,
+	td {
+		&:not(:last-child) {
+			padding-right: $gf-input-margin-x;
+		}
+	}
+
+	.gfield_list_icons {
+		width: 3.7rem; // Room for 16x16px images with white space between them.
+		text-align: center;
+		vertical-align: middle;
+
+		img {
+			display: inline-block;
+		}
+	}
+
+	.gfield_list_group:not(:last-child) {
+
+		td {
+			padding-bottom: $gf-input-margin-y;
+		}
+	}
+}
+
+
+//-----------------------------------------------------------------------------
+// Time inputs.
+//-----------------------------------------------------------------------------
+
+.ginput_container_time {
+	%text-input {
+		// Arbitrary narrow width. This should be enough for 2 digits or letters.
+		width: 8rem;
+	}
+}
+
+.gfield_time_hour {
+	// The : in 'HH : MM' is wrapped in an <i> tag that comes BEFORE the main
+	// label for the hour field. Why? Who knows. But we'll try to put it in a
+	// sensible place.
+	position: relative;
+
+	i {
+		position: absolute;
+		bottom: 0;
+		// 3rem from left edge of the gfield's border-box (its left padding should
+		// be $gf-input-margin-x / 2.
+		left: ( $gf-input-margin-x / 2 ) + 3rem;
+		font-style: normal;
+	}
+}
+
+//-----------------------------------------------------------------------------
+// Date Picker
+//-----------------------------------------------------------------------------
+.ui-datepicker {
+	width: 30rem;
+	background-color: $dark-gray;
+	color: $white;
+	padding: 1rem;
+	select {
+		background-color: $dark-gray;
+		color: $white;
+		border: none;
+	}
+	.ui-datepicker-next {
+		text-align: right;
+	}
+	.ui-datepicker-prev,
+	.ui-datepicker-next {
+		cursor: pointer;
+	}
+	.ui-datepicker-header {
+		display: flex;
+		flex-flow: row wrap;
+		align-items: center;
+		justify-content: space-between;
+		> a {
+			flex: 0 0 50%;
+		}
+		.ui-datepicker-title {
+			flex: 100%;
+			display: flex;
+			flex-flow: row wrap;
+			align-items: center;
+			justify-content: space-between;
+			> select {
+				flex: 1;
+			}
+		}
+	}
+	.ui-datepicker-calendar {
+		table-layout: fixed;
+		width: 100%;
+		max-width: 30rem;
+		th,td {
+			width: 14.285%;
+			text-align: center;
+		}
+	}
+}
+
+//-----------------------------------------------------------------------------
+// Multi Select
+//-----------------------------------------------------------------------------
+select option:checked {
+	background-color: $dark-gray;
+	color: $white;
+}
+
+select:-internal-list-box option:checked {
+	background-color: $dark-gray !important;
+	color: $white;
+}
+
+//-----------------------------------------------------------------------------
+// Newsletter form
+//-----------------------------------------------------------------------------
+.subscribe-now {
+	form {
+		display: flex;
+		flex-flow: row wrap;
+		justify-content: flex-start;
+		align-items: stretch;
+		label {
+			flex: 1;
+		}
+		input {
+			font-style: italic;
+			flex: none;
+			border: none;
+			&[name="fields_email"] {
+				text-align: right;
+				flex: 1;
+			}
+			&[type="submit"] {
+				font-style: normal;
+				padding: 0 1rem;
+			}
+		}
+	}
+}
+
+.ui-datepicker {
+	display: none;
+}
+
+
+//-----------------------------------------------------------------------------
+// Add an Event Manual Form Styles
+//-----------------------------------------------------------------------------
+
+.tribe-community-events.form {
+	h1{
+		text-align: center;
+		font-family:$adobe-caslon;
+		padding:1rem 0;
+	}
+
+	h3, label{
+		display: block;
+	    margin: 0.6rem 0;
+	    color: #2f2f2f;
+	    font-weight: 700;
+	    font-size: 1.8rem;
+	}
+
+	br{
+		display: none;
+	}
+
+	.tribe-delete-this{
+		float:none;
+	}
+
+	form{
+		input[type="email"],
+		input[type="number"],
+		input[type="password"],
+		input[type="search"],
+		input[type="tel"],
+		input[type="text"],
+		input[type="url"],
+		select,
+		textarea,
+		.select2-choice {
+			font-family: $primary-font;
+			font-weight: 500;
+			font-size: 1.6rem;
+			padding: 10px 18px;
+
+			@extend %text-input;
+			&:focus {
+				outline: none;
+			}
+		}
+
+		.select2-choices {
+			border-radius: 0;
+			border-color:$dark-gray;
+			padding: 10px 18px;
+
+			li input{
+				border: none;
+				margin:0;
+				min-width: 23rem;
+				padding:0;
+			}
+		}
+
+		input[type="submit"], button {
+			font-family: $primary-font;
+			font-weight: 700;
+			cursor: pointer;
+			text-transform: uppercase;
+			background-color: $button-background-color;
+			color: $white;
+			border: 0;
+			-webkit-appearance: none;
+			appearance: none;
+			-webkit-border-radius: 0; 
+			border-radius: 0;
+			padding: 1.3rem 1.6rem;
+			font-size:1.3rem;
+			width:auto;
+			height:auto;
+			line-height:1;
+			margin:0; 
+			&:hover {
+				background-color: $button-background-color-hover;
+			}
+		}
+
+		table.tribe-section-content{
+			width:100%;
+		}
+
+		.eventForm{
+			margin:0;
+
+			td{
+				font-size:initial;
+			}
+		}
+
+		span.req {
+			text-indent:-9999px;
+			position:absolute;
+
+			&::after{
+				position:absolute;
+				content:'*';
+				left: 3px;
+				top:0;
+				text-indent: 0;
+			    color: $input-required-color;
+			}
+		}
+
+		.events-community-post-content{
+			margin: 2rem 0;
+
+			textarea{
+				max-width: 100%;
+    			min-height: 10rem;
+			}
+		}
+
+		.tribe-datetime-block{
+
+			.tribe-datetime-separator {
+			    margin-top: 1rem;
+			    display: block;
+			    text-align: center;
+			    width: 20rem;
+			}
+
+			.tribe-timepicker, .tribe-datepicker {
+			    height: auto;
+			    width: 20rem;
+			    text-align: center;
+			}
+
+			#allDayCheckbox {
+			    float: left;
+			    height: 3.5rem;
+			    margin-right: 1rem;
+			}
+		}
+
+		.recurrence-row{
+			.recurrence-rules-header{
+				width:1.2rem;
+			}
+
+			td,
+			tr{
+				padding: 0.3rem 0 0;
+			}
+
+			span{
+				line-height: 1;
+			}
+		}
+
+		.tribe-dropdown{
+			border-color:$dark-gray;
+			border-radius: 0px;
+		}
+
+		.form-controls{
+			margin-top:1rem;
+
+			label.selected-msg{
+				float: left;
+			    margin: 0 1rem 0 0;
+			    font-weight: 500;
+			}
+
+			.choose-file{
+				display:none;
+			}
+
+			.EventImage{
+				margin-top:1.5rem;
+			}
+		}
+
+		.select2-container .select2-choice{
+			border-color:$dark-gray;
+			border-radius: 0px;
+			height:auto;
+		}
+
+		.select2-arrow{
+			right: 0.8rem;
+    		top: 0.8rem;
+		}
+
+		.tribe-section-taxonomy{
+			margin:3rem 0;
+
+			h3{
+				margin:0 0 1rem;
+			}
+		}
+
+		.saved-linked-post td {
+			display: inline-table;
+    		vertical-align: top;
+		    padding: 1rem 0 0 !important;
+		    min-width: 11rem;
+		    line-height: 4rem;
+
+		    label{
+		    	margin:0;
+		    }
+		}
+
+    	.saved-linked-post tr {
+		    padding: 1rem 0 0 !important;
+		}
+
+		.tribe-section-organizer tfoot{
+			
+			tr td:first-child{
+				display:none;
+			}
+
+			.tribe-button{
+				margin:0;
+				padding:0;
+			}
+		}
+
+		.tribe-section-website {
+		    margin: 3rem 0;
+		}
+
+		.tribe-section-cost{
+			margin:3rem 0;
+
+			label{
+				margin:0;
+			}
+
+			.tribe-section-content-field p{
+				font-size:1.5rem;
+			}
+		}
+
+		.tribe-events-community-footer{
+			text-align: center;
+
+			input[type="submit"]{
+				margin: 3rem 0 5rem;
+			}
+		}
+	}
+}
+
+//-----------------------------------------------------------------------------
+// Cart Form Styles
+//-----------------------------------------------------------------------------
+
+.woocommerce-message {
+    display: block;
+    margin: 1rem 0 2rem;
+    font-weight: 700;
+
+    a.button.wc-forward {
+	    display: block !important;
+	    max-width: 20rem;
+	    margin-bottom: 1rem !important;
+	}
+}
+
+form.woocommerce-cart-form{
+
+	@include media( '<tablet' ) { 
+		font-size:1.5rem;
+	}
+	@include media( '<phone' ) { 
+		font-size:1.3rem;
+	}
+
+	.product-thumbnail {
+	    padding: 2rem !important;
+
+	    @include media( '<tablet' ) {
+	    	display:none;
+	    }
+	}
+	.product-name a {
+	    font-size: 2rem;
+	    padding: 1rem 0;
+	    display: block;
+
+	    @include media( '<tablet' ) { 
+			font-size:1.8rem;
+		}
+
+	    @include media( '<phone' ) { 
+			font-size:1.5rem;
+		}
+	}
+	.product-subtotal{
+		font-weight:700;
+	}
+	.variation {
+		margin-top:0;
+
+		p {
+			margin-top:6px;
+			float:none;
+			padding: 0px;
+		}
+
+		dt{
+			width:100%;
+			background-color: #445566;
+			padding-left:10px;
+			padding-right:10px;
+			color:#fff;
+			font-weight:700;
+		}
+	}
+
+	td.actions {
+	    padding-left: 0 !important;
+	    padding-right: 0 !important;
+
+	    button,
+	    label,
+	    .input-text{
+	    	margin-bottom: 1rem !important;
+	    	display:inline-block;
+	    }
+	}
+
+	th,td{
+		@include media( '<phone' ) {
+			padding:0.5rem !important;
+		}
+	}
+
+
+}//.woocommerce-cart-form
+
+//-----------------------------------------------------------------------------
+// Checkout Form Styles
+//-----------------------------------------------------------------------------
+
+form.checkout_coupon{
+	border:none !important;
+	margin:2rem 0 0;
+}
+
+form.checkout{
+
+	//undoing some default styling
+	.col-1{
+		float:none;
+		width:auto;
+	}
+
+	.col-2{
+		float:none;
+		width:auto;
+	}
+
+	.woocommerce-billing-fields h3,
+	#order_review_heading{
+		border-top:1px solid #f3f3f3;
+		padding-top:2rem;
+		margin-top:2.5rem;
+		font-family: $primary-font;
+	}
+
+	.required {
+	    text-decoration: none;
+	    color: $input-required-color;
+	}
+
+	label.checkbox {
+		font-size: 1.6rem;
+	    font-family: $primary-font;
+	    font-weight: 400;
+
+		input{
+			margin-right:0.5rem;
+		}
+		span {
+		}
+	}
+
+}
+
+#payment {
+	background:transparent !important;
+	border:1px solid #ccc;
+
+	.methods{
+		margin-bottom:0;
+
+		li {
+			padding:2rem 2rem 0 !important;
+
+			&:before{
+				content:'' !important;
+			}
+
+			img{
+				display: inline-block;
+			    margin: 0 0.3rem;
+			    vertical-align: middle;
+			}
+
+			div{
+				margin:2rem 0;
+				background-color:transparent !important;
+			}
+
+			input{
+				margin-right:0.5rem;
+			}
+
+			&.payment_method_paypal {
+				padding-bottom: 2rem !important;
+
+				img{
+					margin-right:1rem;
+				}
+			}
+		}
+	}
+
+	.place-order {
+	    padding: 2rem;
+
+	    a{
+	    	margin:0 1rem 1rem 0;
+	    	display: inline-block;
+	    }
+	}
+}
+
+
+//-----------------------------------------------------------------------------
+// Checkout Form Styles
+//-----------------------------------------------------------------------------
+
+#loginform{
+	p{
+		margin:2rem 0;
+	}
+}
+
+#tribe-events{
+	.register {
+	    margin-bottom: 2rem;
+	}
+}
+

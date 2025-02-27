@@ -1,0 +1,122 @@
+footer.site-footer {
+	background: $footer-background-color;
+	border-bottom: 1.6rem solid $light-green;
+	color: $footer-text-color;
+	padding: 5rem 0 2.5rem;
+	overflow: hidden; // clearfix
+	font-size: 1.5rem;
+	text-align: center;
+
+	@include media( ">=tablet" ) {
+		text-align: left;
+	}
+
+	a {
+		font-family: $primary-font;
+		font-weight: 700;
+		color: $footer-link-color;
+		&:hover {
+			color: $footer-link-color-hover;
+		}
+	}
+
+	.menu {
+		li {
+			margin-bottom: 1rem;
+			a {
+				display: block;
+			}
+			&:last-child {
+				margin-bottom: 0;
+			}
+		}
+	}
+
+	.row {
+		@include media( ">=tablet" ) {
+			display: flex;
+			flex-flow: row wrap;
+			justify-content: space-between;
+			align-items: flex-start;
+		}
+	}
+	.column {
+		margin-bottom: 4rem;
+		@include media( ">=tablet" ) {
+			flex: 1;
+			margin-bottom: 0;
+			padding: 0 1.5rem;
+		}
+	}
+
+	.social-links {
+		margin-bottom: 2.8rem;
+	}
+
+	p {
+		margin-bottom: 2rem;
+		max-width: 30rem;
+		margin-left: auto;
+		margin-right: auto;
+		@include media( ">=tablet" ) {
+			max-width: none;
+			margin-left: 0;
+			margin-right: 0;
+		}
+	}
+
+	.widget-title {
+		font-family: $primary-font;
+		font-size: 1.8rem;
+		text-transform: uppercase;
+		font-weight: 700;
+		margin-bottom: 0.8rem;
+		letter-spacing: 0.1rem;
+	}
+}
+
+/**
+ * This is for the Cornershop bug, displayed as a 16x16 sprite png with text that slides out to the left on hover.
+ */
+.credit {
+	clear: both;
+	float: right;
+	text-align: right;
+	margin: 5px;
+
+	a {
+		display: block;
+		font-size: 11px;
+
+		i {
+			transition: all 0.3s ease;
+			background-color: rgba(white, 0);
+			box-shadow: 0 2px 5px rgba(black, 0.3);
+			margin-left: 5px;
+			display: inline-block;
+			@extend .icon-cshop;
+			width: 16px;
+			height: 16px;
+			background-size: contain;
+		}
+
+		span {
+			transition: all 0.3s ease;
+			width: 0;
+			white-space: nowrap;
+			overflow: hidden;
+			display: inline-block;
+			padding-top: 5px;
+		}
+
+		&:hover {
+			span {
+				width: 180px; // adjust as necessary if font style/size prevents all text from fitting on hover
+			}
+
+			i {
+				box-shadow: 0 2px 12px rgba(black, 0.3);
+			}
+		}
+	}
+}

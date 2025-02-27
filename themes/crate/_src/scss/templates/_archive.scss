@@ -1,0 +1,144 @@
+.archive {
+
+	main.container{
+		max-width:76rem;
+		margin:5rem auto 0;
+	}
+
+	.subscribe-wrap {
+		margin: 4rem auto;
+	}
+}
+
+article.in-loop {
+	.entry-header {
+		padding:0;
+		text-align:left;
+
+		.entry-title {
+			font-size:2.5rem;
+			margin: 2rem 0 0.5rem;
+			@include media ('>phone') {
+				margin-top: 0;
+			}
+			@include media( '>=tablet' ) {
+				font-size: 3rem;
+			}
+		}
+	}
+
+	.entry-content {
+		padding:1.5rem 0 0;
+		margin: 0;
+	}
+
+	figure {
+		@include media( '>=tablet' ) {
+			min-width: 300px;
+		}
+	}
+}
+
+.archive {
+	.hero-wrap {
+		position:relative;
+
+		.hero-title {
+			position: absolute;
+			text-align: center;
+			padding:0 2rem;
+			bottom: 20px;
+			width:100%;
+			@include media ('>phone') {
+				bottom: 40px;
+			}
+			@include media( '>=tablet' ) {
+				bottom: 80px;
+			}
+
+			h1 {
+				display:inline-block;
+				font-size: 3rem;
+				font-family:$heading-font;
+				text-transform: uppercase;
+				color: $white;
+				border: 1.5px solid $white;
+				padding: 10px 15px;
+				background-color: rgba(0,0,0,0.2);
+				@include media ('>phone') {
+					font-size: 4rem;
+				}
+				@include media( '>=tablet' ) {
+					font-size: 6rem;
+				}
+			}
+		}
+	}
+
+	.cat-description {
+		padding:0 0 5rem;
+
+		h2 {
+			font-size: 2.5rem;
+    		line-height: 3.5rem;
+		}
+	}
+}
+
+.archive-nav{
+	text-align: center;
+}
+
+.pagination {
+	margin: 1rem auto;
+
+	ul.page-numbers {
+		margin: 0 0 0 0;
+		padding: 0 0 0 0;
+		list-style: none;
+		display: block;
+		text-align:center;
+		justify-content: center;
+	}
+
+	li {
+		padding: $pager-item-margin;
+		display:inline-block;
+	}
+
+	a,
+	span {
+		display: block;
+		padding: $pager-link-padding;
+		border-radius: $border-radius;
+		background-color: $pager-link-background-color;
+		color: $pager-link-text-color;
+		text-decoration: none;
+		transition: all $transition-speed ease;
+	}
+
+	span {
+		background-color: $pager-current-background-color;
+		color: $pager-current-text-color;
+	}
+
+	a:hover {
+		background-color: $pager-link-hover-background-color;
+		color:$white;
+	}
+
+	a {
+		@include button-active();
+	}
+}
+
+// Author Archive styles
+.author {
+	.entry-header {
+		margin-bottom: 4rem;
+	}
+	.entry-source {
+		max-width: 35rem;
+		margin: 0 auto;
+	}
+}

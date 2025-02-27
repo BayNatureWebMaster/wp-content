@@ -1,0 +1,15 @@
+/* Styles for external pages */
+
+// Sea Change Page
+.sea-change {
+
+	figure {
+		max-width: 100%;
+	}
+	.navigation ul {
+		@include media( '<=480px' ) {
+			clear: left;
+			margin-top: 35px;
+		}
+	}
+}

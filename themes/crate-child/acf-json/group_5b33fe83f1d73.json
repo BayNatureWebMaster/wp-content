@@ -1,0 +1,227 @@
+{
+    "key": "group_5b33fe83f1d73",
+    "title": "Organizations",
+    "location": [
+        [
+            {
+                "param": "post_type",
+                "operator": "==",
+                "value": "organization"
+            }
+        ]
+    ],
+    "menu_order": 0,
+    "position": "normal",
+    "style": "default",
+    "label_placement": "top",
+    "instruction_placement": "label",
+    "hide_on_screen": [
+        "custom_fields"
+    ],
+    "active": 1,
+    "description": "",
+    "fields": [
+        {
+            "key": "field_4fee5b645efb9",
+            "label": "Organization URL",
+            "name": "orgURL",
+            "type": "text",
+            "instructions": "Enter a valid URL, including http:\/\/.",
+            "required": 1,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "formatting": "none",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_4fe10b392414b",
+            "label": "Email",
+            "name": "email",
+            "type": "text",
+            "instructions": "Enter a valid email address. Don't enter personal emails here (which tend to change), only general emails linke info@example.com.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "formatting": "none",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_4fe10b392525b",
+            "label": "Address Line 1",
+            "name": "address",
+            "type": "text",
+            "instructions": "Note that the group must be based in California.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "formatting": "none",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_4fe10b39279ff",
+            "label": "Address Line 2",
+            "name": "address2",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "formatting": "none",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_4fe10b3928931",
+            "label": "City",
+            "name": "city",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "formatting": "none",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_5004362a215c7",
+            "label": "State",
+            "name": "state",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "CA",
+            "formatting": "html",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_4fe10b3929984",
+            "label": "ZIP",
+            "name": "zip",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "formatting": "none",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_4fe10b392a73e",
+            "label": "Phone Number",
+            "name": "phone",
+            "type": "text",
+            "instructions": "Enter the organization's main phone line, including area code. Avoid extensions for specific people.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "formatting": "none",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_4fe10b392bac0",
+            "label": "Organization Type",
+            "name": "orgType",
+            "type": "select",
+            "instructions": "Enter at least one type that describes this organization.",
+            "required": 1,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "choices": {
+                "Advertiser": "Advertiser",
+                "Bay Nature Partner": "Bay Nature Partner",
+                "Botanical Gardens and Native Plant Nurseries": "Botanical Gardens and Native Plant Nurseries",
+                "Classes and Events": "Classes and Events",
+                "Conservation and Advocacy": "Conservation and Advocacy",
+                "Environmental Education": "Environmental Education",
+                "Food and Wine": "Food and Wine",
+                "Home Garden": "Home Garden",
+                "Land Trusts": "Land Trusts",
+                "Media and Publishing": "Media and Publishing",
+                "Museums, Aquariums, Nature Centers": "Museums, Aquariums, Nature Centers",
+                "Park Agencies and Organizations": "Park Agencies and Organizations",
+                "Public Agencies": "Public Agencies",
+                "Research and Field Science": "Research and Field Science",
+                "Restoration and Trail Work": "Restoration and Trail Work",
+                "Transit and Transportation": "Transit and Transportation",
+                "Travel and Outings": "Travel and Outings",
+                "Other": "Other"
+            },
+            "default_value": [],
+            "allow_null": 0,
+            "multiple": 1,
+            "ui": 0,
+            "ajax": 0,
+            "placeholder": "",
+            "return_format": "value"
+        }
+    ],
+    "modified": 1537563279
+}

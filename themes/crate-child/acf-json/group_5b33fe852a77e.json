@@ -1,0 +1,70 @@
+{
+    "key": "group_5b33fe852a77e",
+    "title": "Videos",
+    "location": [
+        [
+            {
+                "param": "post_type",
+                "operator": "==",
+                "value": "video"
+            }
+        ]
+    ],
+    "menu_order": 0,
+    "position": "normal",
+    "style": "default",
+    "label_placement": "top",
+    "instruction_placement": "label",
+    "hide_on_screen": [],
+    "active": 1,
+    "description": "",
+    "fields": [
+        {
+            "key": "field_4fe10e67e2c95",
+            "label": "Video Type",
+            "name": "video_type",
+            "type": "radio",
+            "instructions": "",
+            "required": 1,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "choices": {
+                "ontheair": "Bay Nature On the Air",
+                "inthefield": "Bay Nature in the Field",
+                "fieldnotes": "Field Notes",
+                "youtubefind": "YouTube Find"
+            },
+            "default_value": "",
+            "layout": "horizontal",
+            "other_choice": 0,
+            "save_other_choice": 0,
+            "allow_null": 0,
+            "return_format": "value"
+        },
+        {
+            "key": "field_4fff1b31d6251",
+            "label": "YouTube ID",
+            "name": "youtube_id",
+            "type": "text",
+            "instructions": "Grab the ID out of the YouTube video. Looks like this:\r\nhttp:\/\/www.youtube.com\/embed\/emMDmRtdP7w -> emMDmRtdP7w\r\nhttp:\/\/www.youtube.com\/watch?v=emMDmRtdP7w -> emMDmRtdP7w",
+            "required": 1,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "formatting": "none",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        }
+    ],
+    "modified": 1537563287
+}

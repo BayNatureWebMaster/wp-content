@@ -1,0 +1,116 @@
+//
+// Utilities
+//
+// What you will find here:
+// 01. General-use classes & Accessibility
+// 02. Mixins
+//	-- Style mixins
+//	-- Responsive mixins
+
+// ---------------- 01. General-use classes & Accessibility
+
+.assistive-text,
+.visuallyhidden,
+.screen-reader-text {
+	position: absolute !important;
+	clip: rect(1px, 1px, 1px, 1px);
+	padding: 0 !important;
+	border: 0 !important;
+	height: 1px !important;
+	width: 1px !important;
+	overflow: hidden;
+}
+
+
+// ---------------- 02. Mixins
+
+// Style mixins
+
+@mixin button-primary(
+		$color: $button-background-color,
+		$text: $button-text-color,
+		$color-hover: $button-background-color-hover,
+		$text-hover: $button-text-color-hover,
+		$this-transition-speed: $transition-speed,
+		$padding: $default-button-padding ) {
+	background: transparentize( $color, 0.2 );
+	padding: $padding;
+	text-align: center;
+	text-decoration: none;
+	color: $text !important;
+	border-radius: $border-radius;
+	display: inline-block;
+	border: 1px solid darken( $color, 20 );
+	text-shadow: 1px 1px 0 rgba( 0, 0, 0, 0.43 );
+	box-shadow: 0px 0px 3px transparentize( $color, 0.5 );
+	transition: all $this-transition-speed ease;
+
+	&:hover,
+	&:focus,
+	&:visited:hover {
+		background: $color-hover;
+		color: $text-hover !important;;
+	}
+}
+
+// Effect for clicking on buttons and such
+@mixin button-active() {
+	transition: transform ($transition-speed  * .6) ease;
+	&:active {
+		transform: scale(0.96);
+	}
+};
+
+
+@mixin inverse-colors(
+		$text: $inverse-text-color,
+		$link: $inverse-link-color,
+		$link-hover: $inverse-link-color-hover ) {
+	color: $text;
+	a,
+	a:visited {
+		color: $link;
+
+		&:hover,
+		&:focus,
+		&:active {
+			color: $link-hover;
+		}
+	}
+}
+
+// Responsive mixins
+// These were originally written as wrappers around various breakpoint() calls,
+// but in August 2017 we left breakpoint for include-media so these are kinda silly.
+
+@mixin phone-only {
+	@include media( '<=phone' ) { @content; }
+}
+
+@mixin tablet-only {
+	@include media( '>phone', '<=tablet' ) { @content; }
+}
+
+@mixin desktop-only {
+	@include media( '>tablet', '<=wide' ) { @content; }
+}
+
+@mixin large-desktop {
+	@include media( '>wide' ) { @content; }
+}
+
+@mixin tablet-down {
+	@include media( '<=tablet' ) { @content; }
+}
+
+@mixin tablet-up {
+	@include media( '>tablet' ) { @content; }
+}
+
+@mixin clearfix() {
+	&::after {
+	display: block;
+	content: "";
+	clear: both;
+	}
+}

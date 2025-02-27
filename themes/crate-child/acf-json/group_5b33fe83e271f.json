@@ -1,0 +1,85 @@
+{
+    "key": "group_5b33fe83e271f",
+    "title": "Mount Diablo: After the Fire",
+    "location": [
+        [
+            {
+                "param": "page_template",
+                "operator": "==",
+                "value": "pages\/page-mount-diablo.php"
+            }
+        ]
+    ],
+    "menu_order": 0,
+    "position": "normal",
+    "style": "seamless",
+    "label_placement": "top",
+    "instruction_placement": "label",
+    "hide_on_screen": [
+        "custom_fields"
+    ],
+    "active": 1,
+    "description": "",
+    "fields": [
+        {
+            "key": "field_536bd4d33448e",
+            "label": "Mount Diablo description",
+            "name": "mount_diablo",
+            "type": "textarea",
+            "instructions": "This text will appear below the main photograph on the Mount Diablo: After the Fire page.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "placeholder": "",
+            "maxlength": "",
+            "rows": "",
+            "new_lines": "br"
+        },
+        {
+            "key": "field_536bd4fe3448f",
+            "label": "Featured Story Post Number",
+            "name": "featured_story_post_number",
+            "type": "text",
+            "instructions": "Type in the number of the Featured Story post you want to display on this page.  You find this number by mousing over the list of Articles in the admin screen and looking at the bottom of your screen.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": 90523,
+            "placeholder": "",
+            "prepend": "",
+            "append": "",
+            "formatting": "html",
+            "maxlength": ""
+        },
+        {
+            "key": "field_5390a907c04ae",
+            "label": "Latest News",
+            "name": "latest_news",
+            "type": "text",
+            "instructions": "Latest News Text",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": "",
+            "formatting": "html",
+            "maxlength": ""
+        }
+    ],
+    "modified": 1537563278
+}

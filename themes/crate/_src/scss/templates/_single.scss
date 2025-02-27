@@ -1,0 +1,53 @@
+/**
+ * Styling the "issue bar" that shows on articles appearing within a physical issue
+ */
+#issue-bar {
+	background-color: $light-gray;
+	width: 100vw;
+	transition: all 0.3s ease;
+	box-shadow: 0 0 0 rgba(0,0,0,0.2);
+	z-index: 9;
+
+	@include media( '<=900px' ) {
+		top: 60px !important;
+	}
+
+	&.js-is-sticky {
+		box-shadow: 0 1px 10px rgba(0,0,0,0.2);
+	}
+}
+
+//issue bar with admin-bar
+body.admin-bar{
+	#issue-bar {
+		top: 105px !important;
+
+		@include media( '>=900px' ) {
+			top: 0 !important;
+		}
+
+		&.js-is-sticky {
+			top: 105px !important;
+
+			@include media( '>=900px' ) {
+				top: 32px !important;
+			}
+		}
+	}
+}
+
+.content-issue-bar {
+	width: 96vw;
+	padding: 1.1rem 1rem 1rem 1rem;
+	font-size: 2rem;
+	text-align: center;
+	margin: 0 auto;
+	@include media('<=phone') {
+		font-size: 1.4rem;
+	}
+
+	span {
+		padding: 0 1rem;
+	}
+
+}

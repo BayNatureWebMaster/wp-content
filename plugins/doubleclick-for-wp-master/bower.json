@@ -1,0 +1,34 @@
+{
+  "name": "dfp",
+  "version": "0.3",
+  "homepage": "https://github.com/INN/DoubleClick-for-WordPress",
+  "authors": [
+    "nerds@inn.org"
+  ],
+  "description": "WordPress plugin for serving Google Ad Manager ads.",
+  "main": "dfw.php",
+  "moduleType": [
+    "es6"
+  ],
+  "keywords": [
+    "WordPress",
+    "DFP",
+    "DoubleClick",
+    "Google Ad Manager",
+    "Google",
+    "Advertising"
+  ],
+  "license": "GNU GPL v2",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "js/vendor",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery.dfp.js": "~2.4.2"
+  }
+}

@@ -1,0 +1,61 @@
+//
+// Media
+//
+// What you will find here:
+// 01. General media classes
+// 02. Gallery styles
+// 03. Sliders
+
+
+// ---------------- 01. General media classes
+
+img {
+	display: block;
+	max-width: 100%;
+	height: auto;
+}
+
+.alignleft {
+	float: left;
+	margin: 0.8rem 1.6rem 0.8rem 0;
+}
+
+.alignright {
+	float: right;
+	margin: 0.8rem 0 0.8rem 1.6rem;
+}
+
+.aligncenter {
+	display: block;
+	margin-right: auto;
+	margin-left: auto;
+}
+
+.wp-caption {
+	text-align: center;
+}
+
+
+// ---------------- 02. Gallery styles
+
+.gallery {
+	display: flex;
+	align-items: center;
+	flex-flow: row wrap;
+	width: 100%;
+	padding: 2rem;
+	margin: 2rem auto;
+
+	li {
+		display: inline-flex;
+		flex: 33.333%;
+		margin: 0;
+	}
+
+	a {
+		display: block;
+	}
+}
+
+
+// ---------------- 03. Sliders

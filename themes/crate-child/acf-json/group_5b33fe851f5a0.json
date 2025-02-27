@@ -1,0 +1,70 @@
+{
+    "key": "group_5b33fe851f5a0",
+    "title": "Trails",
+    "location": [
+        [
+            {
+                "param": "post_type",
+                "operator": "==",
+                "value": "trail"
+            }
+        ]
+    ],
+    "menu_order": 0,
+    "position": "normal",
+    "style": "default",
+    "label_placement": "top",
+    "instruction_placement": "label",
+    "hide_on_screen": [
+        "the_content",
+        "custom_fields",
+        "slug",
+        "format",
+        "featured_image"
+    ],
+    "active": 1,
+    "description": "",
+    "fields": [
+        {
+            "key": "field_5009e2cdf0095",
+            "label": "Transit and Trails Trip ID",
+            "name": "tnt_id",
+            "type": "text",
+            "instructions": "Enter the number at the end of a T&T trip URL, like www.transitandtrails.org\/trips\/<strong>50<\/strong>. this autopopulates, and should not be edited unless something went wrong.",
+            "required": 1,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "formatting": "none",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_501355a654861",
+            "label": "ParkInfo ID",
+            "name": "park_info_id",
+            "type": "text",
+            "instructions": "This will autopopulate based on starting point, but if you want to allocate to a neighboring park or grab a trail that didn't make the autocut (starts outside park), then enter the parent ParkInfo ID here. Find it by searching for the park, then Edit Park>copy ParkInfo ID, paste that here.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "formatting": "html",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        }
+    ],
+    "modified": 1537563287
+}

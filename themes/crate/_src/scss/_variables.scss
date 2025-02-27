@@ -1,0 +1,162 @@
+//
+// Variables
+//
+// 01. Colors
+// 02. Grid and layout
+// 03. Decorative details
+// 04. Form layout options
+
+// ---------------- 01. Colors
+
+// Brand Colors
+
+$white:      #ffffff;
+$black:      #000000;
+$light:      #eeeeee;
+$dark-gray:  #2c2c2c;
+$gray:       #363636;
+$light-gray: #ecebea;
+$pinnacles:  #f26322;
+$sunset:     #ae1327;
+$storm:      #6193b7;
+$cobalt:     #003660;
+$calm-ocean: #1a9aa2;
+$ocean-storm:#03505b;
+$ivy:        #447223;
+$light-green:#67b24b;
+$eucalyptus: #588075;
+$poppy:      #faa61a;
+$bark:       #3c1605;
+$brown:      #b79257;
+$yellow:     #ffdf00;
+
+
+// Define branding
+$primary-color:            $ivy;
+$secondary-color:          $black;
+$default-background-color: $white;
+$default-text-color:       $black;
+$default-link-color:       $calm-ocean;
+$default-link-color-hover: $eucalyptus;
+$inverse-background-color: $black;
+$inverse-text-color:       $white;
+$inverse-link-color:       $black;
+$inverse-link-color-hover: $black;
+$footer-link-color:       $white;
+$footer-link-color-hover: $eucalyptus;
+$footer-text-color:        $white;
+$footer-background-color:  $dark-gray;
+$header-background-color:  $white;
+$primary-nav-background-color: $dark-gray;
+$primary-nav-border-color: $light-green;
+
+$mobile-nav-background-color: $dark-gray;
+$mobile-nav-border-color: $dark-gray;
+$mobile-nav-link-color: $white;
+$mobile-nav-link-color-hover: $eucalyptus;
+
+
+// Define elements
+
+// Primary / Default button:
+$button-background-color:       $calm-ocean;
+$button-background-color-hover: $eucalyptus;
+$button-text-color:             $white;
+$button-text-color-hover:       $white;
+$default-button-padding:        1.3rem 1.6rem;
+
+$alt-button-background-color:       $pinnacles;
+$alt-button-background-color-hover: $sunset;
+
+// Pagination elements, defined in _archive.scss
+$pager-item-margin:           0.5rem;	// space between items
+$pager-link-background-color: $default-link-color;
+$pager-link-text-color:       $inverse-link-color;
+$pager-link-padding:          0.8rem 2rem;
+$pager-current-background-color: transparent;
+$pager-current-text-color:    $primary-color;
+$pager-link-hover-background-color: $secondary-color;
+
+
+// ---------------- 02. Grid, layout & breakpoints
+
+// Layout & grid
+$max-page-width:    1140px; // use class "container" around your content for this to work.
+$max-content-width: 76rem; // Sets max content width
+$page-padding:      2rem; // Sets calculated width around .container
+$gutter-width:      30px;   // used in sections
+$sticky-footer:     true;   // change to "false" to remove and footer will just follow the content size.
+
+$susy: (
+	columns: 12,
+	gutters: 0,
+	global-box-sizing: border-box
+);
+
+// Breakpoints
+// (concept borrowed from http://tapps.us/breakpoint-article )
+
+// Define breakpoints
+$breakpoint-small:    420px;  // iPhone 6s is 414px so this gets nearly all phones
+$breakpoint-medium:   900px;  // Above 900px seems like it's pretty big for a tablet, no?
+$breakpoint-large:   1024px;  // We're really pretty damn sure to be on a desktop here...
+$breakpoint-x-large: 1600px;  // This is basically hitting desktop screens, not laptops. I think.
+
+// Breakpoint groupings by devices (used by the mixins in _utilities)
+// Used by include-media, see http://include-media.com/
+$breakpoints: (phone: $breakpoint-small, tablet: $breakpoint-medium, desktop: $breakpoint-large, wide: $breakpoint-x-large );
+
+
+// Header layout
+$logo_below_utility: false; // if set to true, the stripe for the utility nav will be full-width
+$logo_above_primary: false; // if set to true, the primary nav will extend full-width below the logo instead of being adjacent
+
+
+// ---------------- 03. Decorative details
+
+$border-radius: 4px;
+$transition-speed: 300ms;
+
+
+// ---------------- 04. Form layout options
+
+$label-color: $black;
+$label-font-size: 1.8rem;
+
+$input-padding-y: 1rem;
+$input-padding-x: 1.8rem;
+
+$input-border-color: $gray;
+$input-bg-color: $white;
+$input-color: $eucalyptus;
+
+$input-focus-border-color: $dark-gray;
+$input-focus-bg-color: $white;
+$input-focus-color: $eucalyptus;
+
+$input-error-color: $sunset;
+$input-required-color: $sunset;
+$input-accent-color: $storm;
+
+$gf-input-margin-y: 2rem;
+$gf-input-margin-x: 2rem;
+$gf-multi-input-margin-y: 0.8rem;
+
+$gf-primary-label-margin: 0.6rem;
+$gf-secondary-label-margin: 0.8rem;
+
+$gf-input-min-width: 18rem;
+
+// ---------------- 05. Fonts
+
+$utopia:          "utopia-std", serif;
+$tisa-sans:       "ff-tisa-sans-web-pro", sans-serif;
+$adobe-caslon:    "adobe-caslon-pro", serif;
+
+$primary-font:    $tisa-sans;
+$secondary-font:  $utopia;
+$alternate-font:  $adobe-caslon;
+
+$body-font:       $secondary-font;
+$menu-font:       $primary-font;
+$heading-font:    $primary-font;

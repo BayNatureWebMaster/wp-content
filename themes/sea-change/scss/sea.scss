@@ -1,0 +1,408 @@
+@import "thimble";
+@import "media";
+body {
+    font-family: $default;
+    font-size: 18px;
+    font-weight: 400;
+}
+video {
+    display: block; // for IE8
+    @include respond-to(tablet-small) {
+        display: none;
+    }
+}
+#shell {
+    min-height: 100%;
+    position: relative;
+    width: 100%;
+}
+
+.sea-change{
+    background: $gray;
+    margin: -9px 0 0 0;
+    padding: 0;
+    height: 100%;
+    width:100%;
+    @include respond-to(tablet-small) {
+             background: $gray url("/assets/dark_ocean.jpg")  no-repeat center center fixed; //for mobile that cant autoplay
+    }
+    h1, h2, h3, h4, h5, h6 {
+        color: $white;
+        font-weight: 800;
+        margin-left: auto;
+        margin-right: auto;
+        text-align: center;
+        text-transform: uppercase;
+    }
+    h1 {
+        font-family: $baskerville, serif;
+        font-size: 8rem;
+        font-weight: 400;
+        line-height: 8rem;
+        margin: 0 ;
+        text-align: left;
+        text-transform: uppercase;
+        @include respond-to(medium) {
+            font-size:6rem;
+            line-height: 6rem;
+        }
+        @include respond-to(tablet-large) {
+            font-size:5rem;
+            line-height: 5rem;
+        }
+        @include respond-to(iphone6) {
+            font-size:4rem;
+            line-height: 4rem;
+        }
+        @include respond-to(mobile-large) {
+            font-size:3rem;
+            line-height: 3rem;
+        }
+    }
+    h2 {
+        font-size: 5rem;
+        font-weight: 400;
+        @include respond-to(tablet-large) {
+            font-size:3rem;
+        }
+        @include respond-to(tablet-small) {
+            font-size:3rem;
+        }
+        @include respond-to(mobile-large) {
+            font-size:2rem;
+        }
+    }
+    h3 {
+        font-size: 1.6em;
+        @include respond-to(tablet-large) {
+            font-size:1.5rem;
+        }
+    }
+    h6{
+        background: $gray;
+    }
+    video#bgvid {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    min-width: 100%;
+    min-height: 100%;
+    width: auto;
+    height: auto;
+    z-index: -100;
+    -ms-transform: translateX(-50%) translateY(-50%);
+    -moz-transform: translateX(-50%) translateY(-50%);
+    -webkit-transform: translateX(-50%) translateY(-50%);
+    transform: translateX(-50%) translateY(-50%);
+    background: url(/assets/dark_ocean.jpg) no-repeat;
+    background-size: cover;
+    @include respond-to(tablet-large) {
+        max-width:330%;
+    }
+    @include respond-to(tablet-small) {
+            display: none;
+        }
+}
+
+.header {
+    height: 80px;
+    margin: 0px;
+    padding: 0px;
+    width: 100%;
+}
+.navigation {
+    @include nav;
+    .logo{
+        float: left;
+        margin: 4px 0px 0px 1em;
+        @include vertical-center;
+        @include respond-to(mobile-large) {
+            margin:0;
+            top:20px;
+        }
+        img {
+            width: 200px;
+            height: auto;
+            margin: 0;
+            padding:0;
+            @include respond-to(mobile-large) {
+                width:175px;
+            }
+        }
+    }
+}
+
+#main {
+    margin:0;
+    width: 100%;
+}
+
+.contain {
+    background: none;
+    margin: 5em;
+    padding: 3em;
+    width:100%;
+    @include respond-to(tablet-large) {
+        margin:3em;
+        padding:2em;
+    }
+    @include respond-to(tablet-small) {
+        margin:1em;
+        padding:1.5em;
+    }
+    @include respond-to(mobile-large) {
+        margin:5px;
+        padding:8px;
+    }
+}
+
+.force-clear {
+    width:100%;
+    @include clear();
+}
+
+#landing {
+    color: $white;
+    font-weight: 300;
+    margin:0 0 3em;
+    height: auto;
+    min-height: 800px;
+    width:60%;
+    overflow: hidden;
+    @include respond-to(tablet-large) {
+        //min-height: 900px;
+    }
+    @include respond-to(tablet-small) {
+        min-height: 600px;
+    }
+    @include respond-to(mobile-large) {
+        margin:2em 0 3em;
+        width: 90%;
+        min-height: 500px;
+    }
+    @include respond-to(mobile-small) {
+        min-height: 400px;
+    }
+    .contain {
+        background: rgba(0,0,0,0.2);
+        margin: 5em 0 6em 5em;
+        @include respond-to(tablet-large) {
+            margin: 5em 0 11em 5em;
+        }
+        @include respond-to(tablet-small) {
+            margin: 0 0 1em 3em;
+        }
+        @include respond-to(mobile-large) {
+            background:none;
+            margin: 0 0 1em 1em;
+        }
+        @include respond-to(mobile-small) {
+            margin: 0 0 5px 5px;
+        }
+    }
+    .scroll{
+        font-weight: 600;
+        margin-left: auto;
+        margin-right: auto;
+        width: 50%;
+        .arrow-down {
+	        width: 0;
+	        height: 0;
+	        border-left: 25px solid transparent;
+	        border-right: 25px solid transparent;
+            border-top: 25px solid $white;
+        }
+    }
+
+
+}
+
+#read{
+    /* styles for What Lurks Beneath article */
+    background: $white url("../assets/bonita-cove.jpg") no-repeat center top;
+    background-size: 100%;
+    font-family: $baskerville;
+    font-size: 1.2em;
+    line-height: 1.7em;
+    padding-bottom: 15em;
+    margin-bottom: 3em;
+    @include respond-to(medium) {
+        padding-bottom: 5em;
+        }
+    @include respond-to(mobile-large) {
+        font-size: 1em;
+        line-height: 1.5em;
+        }
+
+    h1 {
+        color: $white;
+        font-family: $default;
+        font-weight: 700;
+        font-size: 3.2em;
+        line-height: 1em;
+        margin-top: 3em;
+        margin-bottom: 10px;
+        text-align: center;
+        width: 100%;
+        @include respond-to(medium) {
+            margin-top:2em;
+        }
+        @include respond-to(tablet-large) {
+            font-size: 2.5em;
+            margin-top:0;
+        }
+        @include respond-to(tablet-small) {
+            font-size: 2.2em;
+            margin-top:0;
+        }
+        @include respond-to(mobile-large) {
+            font-size: 1.4em;
+        }
+    }
+    h2, h3, h4, h5 {
+        color: $black;
+        text-transform: none;
+    }
+    h3 {
+        font-family: $default;
+        font-weight: 700;
+        font-size: 1.5em;
+        line-height: 1em;
+        margin-bottom: 10px;
+        color: $white;
+        @include respond-to(iphone6) {
+            font-size: 1.2em;
+        }
+        @include respond-to(mobile-large) {
+            font-size: 1em;
+        }
+    }
+    h5 {
+        font-family: $baskerville;
+        font-weight: 400;
+        font-size: 1.2em;
+        color: $white;
+        @include respond-to(tablet-small) {
+            margin-top:1px;
+        }
+        @include respond-to(mobile-large) {
+            font-size: 0.9em;
+        }
+        @include respond-to(mobile-small) {
+            color: $black;
+        }
+    }
+
+    .contain{
+        margin: 1em auto 0;
+        max-width:40em;
+        @include respond-to(tablet-small) {
+            padding-top: 0;
+        }
+        .lurks-banner {
+            height:40em;
+            @include clear();
+            @include respond-to(1440) {
+                height:28em;
+            }
+            @include respond-to(1280) {
+                height:20em;
+            }
+            @include respond-to(medium) {
+                //height: 300px;
+            }
+            @include respond-to(tablet-large) {
+                margin-top: 0;
+             }
+            @include respond-to(tablet-small) {
+                height: 15em;
+            }
+             @include respond-to(mobile-large) {
+                 height:220px;
+                 width:94%;
+             }
+        }
+        .wp-caption, p.wp-caption-text{
+            font-family: $default;
+            font-size: 0.75em;
+            line-height: 1.5em;
+            margin-top:5px;
+        }
+    }
+}
+
+
+#watch {
+    min-height:40em;
+    @include contain-iframe;
+    .contain iframe {
+        border:12px solid rgba(255, 255, 255, .6);;
+        left: 10%;
+        width:80%;
+        height:80%;
+    }
+}
+#act {
+    .contain{
+        margin:0 0 0 2%;
+        padding:0;
+    }
+    .three {
+        @include three-act;
+        padding: 0;
+        width: 20.5%;
+        p {
+            color:$black;
+            padding: 0 3%;
+            width:90%;
+        }
+    }
+}
+
+.about-desc {
+    color: $white;
+    margin: 0 auto 2em;
+    padding: 0px 2%;
+    width: 100%;
+    max-width: 800px;
+    h3 {
+        text-align: left;
+        padding-bottom:2em;
+        a {
+            color: $menu-link;
+        }
+    }
+}
+
+#about {
+    .contain{
+        margin:0 0 0 2%;
+        padding:0;
+    }
+    .three {
+        @include three-act;
+    }
+}
+.footer{
+    //display:none; /* until read section is entered */
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    left: 0px;
+    height: 80px;
+    @include nav;
+    span {
+        float: left;
+        @include vertical-center;
+        margin:0 0 0 1%;
+        a {
+            color: $white;
+        }
+        @include respond-to(mobile-large) {
+            font-size:14px;
+            margin:0 0 0 2%;
+        }
+    }
+
+}
+}

@@ -1,0 +1,93 @@
+{
+    "key": "group_5b33fe8336556",
+    "title": "Category Meta Fields",
+    "location": [
+        [
+            {
+                "param": "taxonomy",
+                "operator": "==",
+                "value": "category"
+            }
+        ],
+        [
+            {
+                "param": "taxonomy",
+                "operator": "==",
+                "value": "all"
+            }
+        ]
+    ],
+    "menu_order": 0,
+    "position": "normal",
+    "style": "default",
+    "label_placement": "top",
+    "instruction_placement": "label",
+    "hide_on_screen": "",
+    "active": 1,
+    "description": "",
+    "fields": [
+        {
+            "key": "field_50075566a5425",
+            "label": "Category Ad Code",
+            "name": "category_ad_code",
+            "type": "textarea",
+            "instructions": "Use this to inset OpenX ad invocation code from the relevant zone",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "new_lines": "",
+            "maxlength": "",
+            "placeholder": "",
+            "rows": ""
+        },
+        {
+            "key": "field_5007561a967cf",
+            "label": "Category Image",
+            "name": "category_image",
+            "type": "image",
+            "instructions": "This will appear on the top of the category page. Should look good small.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "return_format": "array",
+            "preview_size": "thumbnail",
+            "library": "all",
+            "min_width": "",
+            "min_height": "",
+            "min_size": "",
+            "max_width": "",
+            "max_height": "",
+            "max_size": "",
+            "mime_types": ""
+        },
+        {
+            "key": "field_500aa13ebaeb0",
+            "label": "Category Sponsors (HTML)",
+            "name": "category_sponsors",
+            "type": "textarea",
+            "instructions": "Include Sponsor HTML here. Must be hand-coded for any logos and images.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "new_lines": "",
+            "maxlength": "",
+            "placeholder": "",
+            "rows": ""
+        }
+    ],
+    "modified": 1537563276
+}

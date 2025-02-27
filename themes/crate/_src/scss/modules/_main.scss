@@ -1,0 +1,58 @@
+/**
+ * Generic loops, which featured medium-sized images to the left of post titles + excerpts
+ * Rather than explicitly setting column spans for the featured images, we use flexbox and let the images themselves dictate widths (to a point)
+ */
+
+.in-loop {
+
+	display: flex;
+
+	& > figure {
+		margin: 0 2rem 0 0;
+		flex: 0 0 auto;
+		img {
+			max-width: 30rem;
+		}
+	}
+
+	& > div {
+		flex: 1 2 auto;
+	}
+
+	margin-bottom: 3rem;
+
+	// For tablets, start shrinking images because they're probably too wide now
+	@include media ('>phone', '<=tablet') {
+
+		& > figure {
+			margin: 0 1.5rem 0 0;
+			flex: 1 1 40%;
+		}
+
+		& > div {
+			flex: 2 2 60%;
+		}
+
+	}
+
+	// For phones, stack everything
+	@include media ('<=phone') {
+
+		flex-direction: column;
+
+		& > figure {
+			margin: 0 0 0 0;
+			flex: 0 100%;
+			img {
+				width: 100%;
+				max-width: none;
+			}
+		}
+
+		& > div {
+			flex: 0 100%;
+		}
+
+	}
+
+}

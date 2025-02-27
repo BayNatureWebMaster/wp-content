@@ -1,0 +1,148 @@
+/* Sidebar styles */
+
+.home {
+	#primary {
+		padding-top: 6rem;
+		@include media( '>=tablet' ) {
+			display: flex;
+			flex-flow: row wrap;
+			justify-content: space-between;
+			align-items: stretch;
+			.site-main {
+				flex: 1;
+				padding: 0 1.5rem;
+			}
+			.widget-area {
+				flex: 0 0 28.5rem;
+				padding: 0 1.5rem;
+			}
+		}
+	}
+}
+
+.widget-area {
+	.widget {
+		margin-bottom: 3.6rem;
+		@include clearfix;
+	}
+}
+
+.recent-posts-extended {
+
+	.widget-title {
+		font-family: $primary-font;
+		font-size: 1.8rem;
+		font-weight: 700;
+		text-transform: uppercase;
+		color: $black;
+		margin-bottom: 0.6rem;
+	}
+
+	p {
+		font-size: 1.8rem;
+		color: #6a6a6a;
+		font-style: italic;
+		line-height: 1.2;
+		margin-bottom: 2.6rem;
+	}
+	.rpwe-ul {
+		li + li {
+			margin-top: 5rem;
+		}
+	}
+	.rpwe-title {
+		font-size: 2.5rem;
+		font-weight: 700;
+		font-family: $alternate-font;
+		line-height: 1.2;
+	}
+	.rpwe-time {
+		line-height: 1;
+		font-size: 1.5rem;
+		color: #6a6a6a;
+		font-family: $primary-font;
+	}
+	.more-posts {
+		margin-top: 2rem;
+		float: right;
+		text-align: right;
+		font-size: 1.5rem;
+		font-family: $primary-font;
+		font-weight: 700;
+		text-transform: uppercase;
+		&:hover {
+			span {
+				border-color: $default-link-color-hover;
+			}
+		}
+		span {
+			display: inline-block;
+			width: 0.9rem;
+			height: 0.9rem;
+			border-top: 3px solid $calm-ocean;
+			border-right: 3px solid $calm-ocean;
+			transform: rotate(45deg) translateY(-2px);
+			transform-origin: center;
+		}
+	}
+}
+
+
+/* Support Widget */
+.bn_support_widget {
+	min-width: 30rem;
+	padding: 1rem 2rem 2rem;
+	background-color: #ecebea;
+	border: 2px solid #959595;
+	color: $black;
+	line-height: 1.2;
+	.widget-title {
+		font-weight: 700;
+		font-family: $primary-font;
+		text-transform: uppercase;
+		font-size: 1.8rem;
+		line-height: 1.2;
+		margin-bottom: 1.8rem;
+		> span {
+			display: block;
+			color: #9d9d9d;
+			font-size: 2.4rem;
+			&::first-letter {
+				font-size: 3rem;
+			}
+		}
+	}
+	.ways-to-support {
+		counter-reset: support-counter;
+		.button,
+		.cta,
+		.textwidget {
+			margin-top: 1rem;
+		}
+		li p span:before {
+			padding: 0 1rem 0 0;
+			font-family: $primary-font;
+			font-weight: 700;
+			display: inline-block;
+			font-size: 3rem;
+			color: #9d9d9d;
+			content: counter(support-counter) '.';
+			counter-increment: support-counter;
+		}
+		li + li {
+			margin-top: 1rem;
+		}
+		p {
+			font-family: $alternate-font;
+			font-weight: 700;
+			font-size: 2.4rem;
+			line-height: 1.2;
+			&.cta {
+				font-family: $secondary-font;
+				font-size: 1.6rem;
+				font-weight: 400;
+				font-style: italic;
+			}
+		}
+	}
+}

@@ -1,0 +1,216 @@
+{
+    "key": "group_5b61fcb2f40c2",
+    "title": "Front Page Details",
+    "fields": [
+        {
+            "key": "field_5b621f208d455",
+            "label": "Choose section to display first:",
+            "name": "highlighted_section",
+            "aria-label": "",
+            "type": "radio",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "choices": {
+                "picks": "Picks for the Week",
+                "magazine": "Current Magazine"
+            },
+            "allow_null": 0,
+            "other_choice": 0,
+            "default_value": "",
+            "layout": "vertical",
+            "return_format": "value",
+            "save_other_choice": 0
+        },
+        {
+            "key": "field_5b61fd23706e7",
+            "label": "Picks for the Week",
+            "name": "week_picks",
+            "aria-label": "",
+            "type": "relationship",
+            "instructions": "Choose posts for the week:",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "post_type": [
+                "post",
+                "article"
+            ],
+            "taxonomy": "",
+            "filters": [
+                "search"
+            ],
+            "elements": [
+                "featured_image"
+            ],
+            "min": "",
+            "max": 3,
+            "return_format": "id",
+            "bidirectional_target": []
+        },
+        {
+            "key": "field_5b621dfe8d454",
+            "label": "Current Magazine",
+            "name": "current_magazine",
+            "aria-label": "",
+            "type": "post_object",
+            "instructions": "Select the current magazine and click update. The featured article list will be automatically filtered with articles related to the selected magazine.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "post_type": [
+                "product"
+            ],
+            "taxonomy": [],
+            "allow_null": 1,
+            "multiple": 0,
+            "return_format": "id",
+            "ui": 1,
+            "bidirectional_target": []
+        },
+        {
+            "key": "field_656f7592c4318",
+            "label": "Issue Key",
+            "name": "issue_key",
+            "aria-label": "",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "v23n2",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_5b621febf0d37",
+            "label": "Featured Article",
+            "name": "featured_article",
+            "aria-label": "",
+            "type": "post_object",
+            "instructions": "Choose featured article from current magazine.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "post_type": [
+                "article"
+            ],
+            "taxonomy": [],
+            "allow_null": 1,
+            "multiple": 0,
+            "return_format": "id",
+            "ui": 1,
+            "bidirectional_target": []
+        },
+        {
+            "key": "field_6189735b13c32",
+            "label": "Featured Article Left",
+            "name": "featured_article_left",
+            "aria-label": "",
+            "type": "post_object",
+            "instructions": "Choose featured article LEFT from current magazine.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "post_type": [
+                "article"
+            ],
+            "taxonomy": "",
+            "allow_null": 1,
+            "multiple": 0,
+            "return_format": "id",
+            "ui": 1,
+            "bidirectional_target": []
+        },
+        {
+            "key": "field_6189738013c33",
+            "label": "Featured Article Right",
+            "name": "featured_article_right",
+            "aria-label": "",
+            "type": "post_object",
+            "instructions": "Choose featured article RIGHT from current magazine.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "post_type": [
+                "article"
+            ],
+            "taxonomy": "",
+            "allow_null": 1,
+            "multiple": 0,
+            "return_format": "id",
+            "ui": 1,
+            "bidirectional_target": []
+        },
+        {
+            "key": "field_5bc86884f05dd",
+            "label": "Frontpage Ad",
+            "name": "frontpage_ad",
+            "aria-label": "",
+            "type": "wysiwyg",
+            "instructions": "Use ad shortcode here to display ad between weeks picks and current magazine.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "tabs": "all",
+            "toolbar": "full",
+            "media_upload": 1,
+            "delay": 0
+        }
+    ],
+    "location": [
+        [
+            {
+                "param": "page_type",
+                "operator": "==",
+                "value": "front_page"
+            }
+        ]
+    ],
+    "menu_order": 0,
+    "position": "normal",
+    "style": "default",
+    "label_placement": "top",
+    "instruction_placement": "label",
+    "hide_on_screen": "",
+    "active": true,
+    "description": "",
+    "show_in_rest": 0,
+    "modified": 1701803490
+}

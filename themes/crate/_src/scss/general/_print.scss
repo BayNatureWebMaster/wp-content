@@ -1,0 +1,59 @@
+//
+// Styles for Print Layout Only
+//
+
+@media print {
+
+	// GENERAL EDITS
+
+		//max-width images
+		main img,
+		.featured-image-wrap{
+			max-width: 6in !important;
+			margin:auto;
+		}
+
+		//hide nav, widget,
+		//subscriptions, and footer
+		nav.mobile-nav,
+		aside#secondary,
+		.subscribe-wrap,
+		footer.site-footer {
+		    display: none;
+		}
+
+	// END GENERAL EDITS
+
+
+	// EVENTS PAGE
+
+		//form
+		#tribe-events-bar, 
+		.tribe-events-user-recurrence-toggle,
+		.tribe-events-sub-nav{
+			display:none !important;
+		}
+
+		//reduce space under title
+		.tribe-events-page-title{
+			margin:0 !important;
+		}
+
+	// POSTS PAGE
+
+		//comments, share buttons,
+		//related and feature content
+		#disqus_thread, 
+		.container.share-wrap,
+		.container.feature-wrap,
+		.container.grid-content-wrap{
+			display:none;
+		}
+
+		//hide bottom border
+		.container.author-wrap{
+			border-bottom:none;
+		}
+
+	// END EVENTS PAGE
+}

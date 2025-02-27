@@ -1,0 +1,250 @@
+//
+// Base
+//
+// What you will find here:
+// 01. General HTML element styles
+// 02. Global styles
+// 03. Typography
+
+
+// ---------------- 01. General HTML element styles
+
+html {
+	font-size: 62.5%;	// Makes 1rem = 10px
+	box-sizing: border-box;
+	&.wf-active {
+		margin-top: 0 !important;
+		@include media( "<=600px" ) {
+			margin-top: 0 !important;
+		}
+		@include media( "<782px" ) {
+			margin-top: 0 !important;
+		}
+	}
+}
+
+// Apply box-sizing: border-box to everything.
+* {
+	&,
+	&::before,
+	&::after {
+		box-sizing: inherit;
+	}
+}
+
+body {
+	position: relative;
+	font-family: $body-font;
+	font-size: 1.8rem;
+	line-height: 1.4;
+	margin: 0;
+	background: $default-background-color;
+	&.admin-bar {
+		padding-top: 46px;
+		@include media( ">=tablet" ) {
+			padding-top: 0;
+		}
+	}
+}
+
+#body-wrapper {
+	color: $default-text-color;
+	@if $sticky-footer {
+		display: flex;
+		min-height: 100vh;
+		flex-direction: column;
+
+		// If the WP admin bar is visible, leave room for it -- otherwise the page
+		// will always be 46-32px taller than the viewport.
+		.admin-bar & {
+			min-height: calc( 100vh - 32px );
+			@include media( 'screen', '<=782px' ) {
+				min-height: calc( 100vh - 46px );
+			}
+		}
+	}
+}
+
+@if $sticky-footer {
+	div.site-content {
+		flex: 1 0 auto;
+	}
+}
+
+a {
+	text-decoration: none;
+	color: $default-link-color;
+	&:hover,
+	&:active {
+		color: $default-link-color-hover;
+	}
+}
+
+// ---------------- 02. Global styles
+
+a {
+	transition: color 200ms ease;
+}
+
+nav a {
+	font-family: $menu-font;
+	text-decoration: none;
+}
+
+// ---------------- 03. Typography
+
+b,
+strong {
+	font-weight: 700;
+}
+
+// Reset browser margins
+p {
+	margin: 0;
+}
+
+ul,
+ol {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+figure {
+	margin: 2rem 0 5rem;
+}
+
+figcaption {
+	font-family: $primary-font;
+	font-size: 1.5rem;
+	font-weight: 700;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+	font-weight: 400;
+	margin: 0;
+	line-height: 1;
+}
+
+blockquote {
+	color: $ivy;
+	border-left: 1px solid #787878 !important;
+	padding: 0 0 0 3rem !important;
+	margin: 0 0 3rem 2rem !important;
+	font-family: $primary-font;
+	font-weight: 400;
+	font-size: 2.3rem;
+}
+
+
+// Buttons
+#body-wrapper {
+	a.button,
+	a.wp-block-button__link, 
+	.button > a, 
+	.woocommerce a.button,
+	.woocommerce button.button,
+	button:not(.menu-toggle) {
+		appearance: none;
+		border-radius: 0;
+		margin: 0;
+		letter-spacing: 0.05rem;
+		text-align: center;
+		min-width: 11rem;
+		display: inline-block;
+		font-family: $primary-font;
+		font-size: 1.3rem;
+		line-height: 1;
+		text-transform: uppercase;
+		font-weight: 500;
+		padding: $default-button-padding;
+		color: $button-text-color !important;
+		background-color: $button-background-color !important;
+		text-decoration: none;
+		transition: all 200ms ease;
+		&:hover {
+			color: $button-text-color-hover;
+			background-color: $button-background-color-hover !important;
+			cursor: pointer;
+		}
+		&:focus {
+			outline: none;
+		}
+	}
+
+	a.button-alt,
+	button.button-alt,
+	.woocommerce a.button.button-alt,
+	.button-alt > a {
+		background-color: $alt-button-background-color !important;
+		&:hover {
+			background-color: $alt-button-background-color-hover !important;
+		}
+	}
+
+	a.button-large,
+	button.button-large,
+	.button-large > a {
+		padding: 1.6rem 2rem !important;
+		font-size: 1.5rem !important;
+	}
+}
+
+
+// Social Links
+.social-links {
+	display: inline-flex;
+	flex-flow: row wrap;
+	justify-content: flex-start;
+	align-items: center;
+	font-size: 3rem;
+	line-height: 1;
+	a {
+		display: block;
+	}
+	li + li {
+		margin-left: 2.2rem;
+	}
+}
+
+// Callouts
+.header-call-out,
+.sidebar-column {
+	font-family: $primary-font;
+	font-weight: 300;
+	font-size: 1.5rem;
+	padding: 1.8rem 2.6rem;
+	background-color: $light-gray;
+	max-width: 34rem;
+	line-height: 1.2;
+	> *:first-child {
+		margin: 0;
+	}
+}
+
+.sidebar-column {
+	border: 1px solid $gray;
+}
+
+
+// Admin Edits (Adminbar Fix)
+#wpadminbar{
+	position:fixed;
+}
+
+// Double Click
+.dfw-unit {
+	iframe {
+		display: block;
+		margin: 0 auto;
+	}
+}
+
+.dfw-unit.display-block:before {
+	margin-bottom: 1rem;
+}

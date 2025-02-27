@@ -1,0 +1,129 @@
+/* Search styles */
+
+.search {
+	main.container {
+		margin: 5rem auto 0;
+		//max-width: 96rem;
+	}
+	.subscribe-wrap {
+		margin: 4rem auto;
+	}
+}
+
+.site-search-form {
+	position: fixed;
+	width: 100%;
+	height: 100%;
+	top: 0;
+	left: 0;
+	z-index: -1;
+	opacity: 0;
+	transition: opacity 200ms ease-in-out;
+	background-color: transparentize($dark-gray, 0.05);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+
+	.close-search {
+		position: absolute;
+		z-index: 0;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+	}
+
+	&.active {
+		z-index: 99;
+		opacity: 1;
+	}
+
+	.search-form {
+		position: relative;
+		z-index: 1;
+		padding: 0 2rem;
+		display: flex;
+		justify-content: center;
+		align-items: stretch;
+		> * {
+			flex: 1;
+		}
+		.search-submit {
+			flex: none;
+			background: transparent;
+			&:hover {
+				color: $button-background-color-hover;
+			}
+		}
+		.search-field,
+		.search-submit {
+			background: transparent;
+			border: none;
+			color: $white;
+			border: 2px solid white;
+			&::placeholder {
+				color: $white;
+			}
+		}
+		.search-field {
+			font-size: 3rem;
+			border-right-width: 0;
+		}
+	}
+}
+
+/* Search Results and Facets */
+.search-wrap {
+
+	.search-term {
+		text-align: center;
+		font-size: 4rem;
+		margin-bottom: 6rem;
+		font-weight: 700;
+		> strong {
+			color: $button-background-color-hover;
+		}
+	}
+
+	.facet-label {
+		font-family: $primary-font;
+		font-size: 2rem;
+		margin-bottom: 1rem;
+		font-weight: 700;
+		color: $black;
+	}
+
+	.search-form {
+		margin-bottom: 4rem;
+		display: flex;
+		justify-content: center;
+		align-items: stretch;
+		label {
+			flex: 1;
+		}
+	}
+
+	input.facetwp-date-min {
+	    margin-bottom: 1rem;
+	}
+
+	@include media( ">=tablet" ) {
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: space-between;
+		align-items: stretch;
+		flex-direction: row;
+		.search-term {
+			font-size: 6rem;
+			flex: 100%;
+		}
+		.search-facets {
+			flex: 1;
+			padding-right: 4rem;
+		}
+		.search-results {
+			max-width: 76rem;
+			flex: auto;
+		}
+	}
+}
