@@ -386,7 +386,12 @@ function create_bn_taxonomies() {
 }
 add_action( 'init', 'create_bn_taxonomies', 0 );
 
-
+/*
+Limit the size of graphic file uploads to our event calendar
+*/
+add_filter( 'tribe_community_events_max_file_size_allowed', function() {
+    return 5242880;  //1048576 = 1MB, 5242880 = 5MB
+} );
 
 
 /*********************************************************************************
