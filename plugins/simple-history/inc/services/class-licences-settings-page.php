@@ -5,6 +5,11 @@ namespace Simple_History\Services;
 use Simple_History\Helpers;
 use Simple_History\Services\AddOns_Licences;
 use Simple_History\AddOn_Plugin;
+use Simple_History\Menu_Manager;
+use Simple_History\Menu_Page;
+use Simple_History\Services\Setup_Settings_Page as ServicesSetup_Settings_Page;
+use Simple_History\Simple_History;
+use Simple_History\Services\Setup_Settings_Page;
 
 /**
  * Settings page for licences.
@@ -32,21 +37,20 @@ class Licences_Settings_Page extends Service {
 
 		// Add settings tab.
 		// Run on prio 20 so it runs after add ons have done their loaded actions.
-		// For now only if any add-ons are installed.
-		// TODO: Always show this in the future, when add-ons system are tested.
 		add_action(
-			'plugins_loaded',
-			[ $this, 'on_plugins_loaded' ],
+			'init',
+			[ $this, 'on_init_add_settings' ],
 			20
 		);
+
+		// Add menu page.
+		add_action( 'admin_menu', [ $this, 'add_settings_menu_tab' ], 15 );
 	}
 
 	/**
 	 * Add settings tab after plugins has loaded.
 	 */
-	public function on_plugins_loaded() {
-		$this->add_settings_tab();
-
+	public function on_init_add_settings() {
 		add_action( 'admin_menu', array( $this, 'register_and_add_settings' ) );
 	}
 
@@ -73,16 +77,23 @@ class Licences_Settings_Page extends Service {
 	 * Add license settings tab,
 	 * as a subtab to main settings tab.
 	 */
-	public function add_settings_tab() {
-		$this->simple_history->register_settings_tab(
-			[
-				'parent_slug' => 'settings',
-				'slug' => 'general_settings_subtab_licenses',
-				'name' => __( 'Licences', 'simple-history' ),
-				'order' => 20,
-				'function' => [ $this, 'settings_output_licenses' ],
-			]
-		);
+	public function add_settings_menu_tab() {
+		// Add settings page using new Menu Manager and Menu Page classes.
+		$menu_manager = $this->simple_history->get_menu_manager();
+
+		// Bail if parent settings page does not exists (due to Stealth Mode or similar).
+		if ( ! $menu_manager->page_exists( Setup_Settings_Page::SETTINGS_GENERAL_SUBTAB_SLUG ) ) {
+			return;
+		}
+
+		( new Menu_Page() )
+			->set_page_title( __( 'Licences', 'simple-history' ) )
+			->set_menu_title( __( 'Licences', 'simple-history' ) )
+			->set_menu_slug( 'general_settings_subtab_licenses' )
+			->set_callback( [ $this, 'settings_output_licenses' ] )
+			->set_order( 50 ) // After general settings and premium settings.
+			->set_parent( Setup_Settings_Page::SETTINGS_GENERAL_SUBTAB_SLUG )
+			->add();
 	}
 
 	/**
@@ -135,7 +146,7 @@ class Licences_Settings_Page extends Service {
 
 			<p>
 				<?php
-				$link_url = 'https://simple-history.com/add-ons?utm_source=wpadmin';
+				$link_url = 'https://simple-history.com/add-ons?utm_source=wpadmin&utm_content=licences-settings';
 				$link_text = 'simple-history.com/add-ons';
 
 				echo wp_kses(
@@ -192,7 +203,7 @@ class Licences_Settings_Page extends Service {
 	 */
 	private function output_licence_key_fields_for_plugin( $plus_plugin ) {
 		$license_key = $plus_plugin->get_license_key();
-		$form_post_url = Helpers::get_settings_page_sub_tab_url( 'general_settings_subtab_licenses' );
+		$form_post_url = Menu_Manager::get_admin_url_by_slug( 'general_settings_subtab_licenses' );
 
 		// Check for posted form for this plugin.
 		$form_success_message = null;

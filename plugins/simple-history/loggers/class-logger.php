@@ -417,10 +417,10 @@ abstract class Logger {
 			);
 		}
 
-		$item_permalink = $this->simple_history->get_view_history_page_admin_url();
+		$item_permalink = Helpers::get_history_admin_url();
 
 		if ( ! empty( $row->id ) ) {
-			$item_permalink .= "#item/{$row->id}";
+			$item_permalink .= "#simple-history/event/{$row->id}";
 		}
 
 		// Datetime attribute on <time> element.
@@ -1067,6 +1067,8 @@ abstract class Logger {
 	/**
 	 * Logs with an arbitrary level.
 	 *
+	 * This is the function that all other log functions call in the end.
+	 *
 	 * @param mixed  $level The log level. Default "info".
 	 * @param string $message The log message. Default "".
 	 * @param array  $context The log context. Default empty array.
@@ -1175,6 +1177,7 @@ abstract class Logger {
 			$context,
 			$this
 		);
+
 		$context = apply_filters(
 			'simple_history/log_argument/context',
 			$context,
@@ -1182,6 +1185,7 @@ abstract class Logger {
 			$message,
 			$this
 		);
+
 		$level = apply_filters(
 			'simple_history/log_argument/level',
 			$level,
@@ -1189,6 +1193,7 @@ abstract class Logger {
 			$message,
 			$this
 		);
+
 		$message = apply_filters(
 			'simple_history/log_argument/message',
 			$message,
@@ -1201,9 +1206,9 @@ abstract class Logger {
 		 * Store date as GMT date, i.e. not local date/time
 		 *
 		 * @see http://www.skyverge.com/blog/down-the-rabbit-hole-wordpress-and-timezones/
-		 * @string $localtime
+		 * @var string $date_gmt Date in GMT format.
 		 */
-		$localtime = current_time( 'mysql', 1 );
+		$date_gmt = current_time( 'mysql', 1 );
 
 		/**
 		 * Main table data row array.
@@ -1213,7 +1218,7 @@ abstract class Logger {
 		$data = array(
 			'logger' => $this->get_slug(),
 			'level' => $level,
-			'date' => $localtime,
+			'date' => $date_gmt,
 			'message' => $message,
 		);
 
@@ -1321,6 +1326,8 @@ abstract class Logger {
 			$data,
 			$this
 		);
+
+		Helpers::increase_total_logged_events_count();
 
 		return $this;
 	}
@@ -1495,9 +1502,15 @@ abstract class Logger {
 		if ( ! isset( $context['_server_remote_addr'] ) ) {
 			$remote_addr = empty( $_SERVER['REMOTE_ADDR'] ) ? '' : sanitize_text_field( wp_unslash( $_SERVER['REMOTE_ADDR'] ) );
 
-			$remote_addr = Helpers::privacy_anonymize_ip( $remote_addr );
+			$context['_server_remote_addr'] = Helpers::privacy_anonymize_ip( $remote_addr );
 
-			$context['_server_remote_addr'] = $remote_addr;
+			// Fake some headers to test.
+			// phpcs:disable Squiz.Commenting.InlineComment.InvalidEndChar
+			// $_SERVER['HTTP_CLIENT_IP'] = '216.58.209.99';
+			// $_SERVER['HTTP_X_FORWARDED_FOR'] = '5.35.187.2';
+			// $_SERVER['HTTP_X_FORWARDED'] = '144.63.252.10';
+			// $_SERVER['HTTP_X_CLUSTER_CLIENT_IP'] = '5.35.187.4';
+			// phpcs:enable Squiz.Commenting.InlineComment.InvalidEndChar
 
 			// If web server is behind a load balancer then the ip address will always be the same
 			// See bug report: https://wordpress.org/support/topic/use-x-forwarded-for-http-header-when-logging-remote_addr?replies=1#post-6422981

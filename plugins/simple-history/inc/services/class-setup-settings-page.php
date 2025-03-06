@@ -2,75 +2,100 @@
 
 namespace Simple_History\Services;
 
+use Simple_History\Simple_History;
 use Simple_History\Helpers;
+use Simple_History\Menu_Manager;
+use Simple_History\Menu_Page;
 
 /**
  * Setup settings page.
  */
 class Setup_Settings_Page extends Service {
+	public const SETTINGS_GENERAL_SUBTAB_SLUG = 'general_settings_subtab_general';
+
 	/**
 	 * @inheritdoc
 	 */
 	public function loaded() {
-		add_action( 'after_setup_theme', [ $this, 'add_default_settings_tabs' ] );
+		add_action( 'admin_menu', [ $this, 'add_settings_admin_page' ] );
+		add_action( 'admin_menu', [ $this, 'add_settings_tabs' ] );
+
 		add_action( 'admin_menu', [ $this, 'add_settings' ], 10 );
-		add_action( 'admin_menu', [ $this, 'add_admin_pages' ] );
+		add_action( 'admin_page_access_denied', [ $this, 'on_admin_page_access_denied' ] );
+
+		add_action( 'admin_init', [ $this, 'trigger_actions_for_old_add_ons' ] );
 	}
 
 	/**
-	 * Adds default tabs to settings
+	 * Trigger actions for old version of Simple History Extended Settings
+	 * and Simple History Premium.
 	 */
-	public function add_default_settings_tabs() {
-		// Add default settings tabs.
-		$this->simple_history->register_settings_tab(
-			[
-				'slug' => 'settings',
-				'name' => __( 'Settings', 'simple-history' ),
-				'icon' => 'settings',
-				'order' => 100,
-			]
-		);
+	public function trigger_actions_for_old_add_ons() {
+		// Only trigger if selected-sub-tab=message-control.
+		$menu_manager = $this->simple_history->get_menu_manager();
+		$subtab_slug = $menu_manager->get_current_sub_tab_slug();
 
-		// Add sub tabs.
-		$this->simple_history->register_settings_tab(
-			[
-				'parent_slug' => 'settings',
-				'slug' => 'general_settings_subtab_general',
-				'name' => __( 'General', 'simple-history' ),
-				'order' => 100,
-				'function' => [ $this, 'settings_output_general' ],
-			]
-		);
-
-		// Append dev tabs if SIMPLE_HISTORY_DEV is defined and true.
-		if ( Helpers::dev_mode_is_enabled() ) {
-			$this->simple_history->register_settings_tab(
-				[
-					'slug' => 'log',
-					'name' => __( 'Log (dev)', 'simple-history' ),
-					'order' => 5,
-					'icon' => 'overview',
-					'function' => [ $this, 'settings_output_log' ],
-				]
-			);
-
-			$this->simple_history->register_settings_tab(
-				[
-					'slug' => 'styles-example',
-					'name' => __( 'Styles example (dev)', 'simple-history' ),
-					'order' => 5,
-					'icon' => 'overview',
-					'function' => [ $this, 'settings_output_styles_example' ],
-				],
-			);
+		if ( $subtab_slug !== 'message-control' ) {
+			return;
 		}
+
+		// This is the action name used in add-ons.
+		$action_to_trigger = 'load-settings_page_' . Simple_History::SETTINGS_MENU_SLUG;
+
+		// Bail if action already fired.
+		if ( did_action( $action_to_trigger ) ) {
+			return;
+		}
+
+		/**
+		 * Fires on admin_init to trigger actions for old add-ons.
+		 */
+		do_action( $action_to_trigger );
 	}
 
 	/**
-	 * Output for the log settings tab.
+	 * If users changes setting from showing main page on dashboard or tools to top level
+	 * menu item, user will get an error due to the fact that the setting screen they are
+	 * trying to access is not registered anymore. This function will redirect the user to
+	 * the new location of the settings page.
+	 *
+	 * We use hook 'admin_page_access_denied' because that's right above where the error
+	 * "Sorry, you are not allowed to access this page." is thrown.
 	 */
-	public function settings_output_log() {
-		include SIMPLE_HISTORY_PATH . 'templates/settings-log.php';
+	public function on_admin_page_access_denied() {
+		$wp_referer = wp_get_referer();
+		$page = sanitize_text_field( wp_unslash( $_GET['page'] ?? '' ) );
+		$settings_menu_page_slug = Simple_History::SETTINGS_MENU_PAGE_SLUG;
+
+		// Get the currently registered settings page URL.
+		$current_settings_url = Menu_Manager::get_admin_url_by_slug( Simple_History::SETTINGS_MENU_PAGE_SLUG );
+
+		// Get the currently requested URL.
+		$current_request_url = sanitize_url( wp_unslash( $_SERVER['REQUEST_URI'] ?? '' ) );
+
+		// Return early if required args are missing.
+		if ( ! $current_request_url || ! $wp_referer || ! $page ) {
+			return;
+		}
+
+		// Return early if current page is not trying to access our settings page.
+		if ( $page !== $settings_menu_page_slug ) {
+			return;
+		}
+
+		// Return early if referer is same as the current settings URL.
+		if ( $wp_referer === $current_settings_url ) {
+			return;
+		}
+
+		// Pass on ?settings-updated if exists in requested URL.
+		if ( isset( $_GET['settings-updated'] ) ) {
+			$current_settings_url = add_query_arg( 'settings-updated', 'true', $current_settings_url );
+		}
+
+		// All conditions met, redirect to correct settings page URL.
+		wp_safe_redirect( $current_settings_url );
+		exit;
 	}
 
 	/**
@@ -81,30 +106,89 @@ class Setup_Settings_Page extends Service {
 	}
 
 	/**
-	 * Output for the styles example settings tab.
+	 * Add menu page for settings.
+	 *
+	 * Added as one of:
+	 * - inside Simple History main menu item
+	 * - as it's own menu item under Settings.
 	 */
-	public function settings_output_styles_example() {
-		include SIMPLE_HISTORY_PATH . 'templates/settings-style-example.php';
+	public function add_settings_admin_page() {
+		// Add a settings page.
+		$show_settings_page = apply_filters( 'simple_history_show_settings_page', true );
+		$show_settings_page = apply_filters( 'simple_history/show_settings_page', $show_settings_page );
+
+		// Can't show settings page if user can't view main menu item.
+		if ( ! Helpers::setting_show_as_menu_page() ) {
+			return;
+		}
+
+		if ( ! $show_settings_page ) {
+			return;
+		}
+
+		// Add a settings page using new menu manager.
+		$admin_page_location = Helpers::get_menu_page_location();
+
+		$settings_menu_page = ( new Menu_Page() )
+				->set_page_title( _x( 'Simple History Settings', 'settings title name', 'simple-history' ) )
+				->set_menu_slug( Simple_History::SETTINGS_MENU_PAGE_SLUG )
+				->set_capability( Helpers::get_view_settings_capability() )
+				->set_callback( [ $this, 'settings_page_output' ] );
+
+		// Different setting depending on where main page is shown.
+		if ( in_array( $admin_page_location, [ 'top', 'bottom' ], true ) ) {
+			// Add as a subpage to the main page if location is top or bottom in the main menu.
+			$settings_menu_page
+				->set_menu_title( _x( 'Settings', 'settings menu name', 'simple-history' ) )
+				->set_parent( Simple_History::MENU_PAGE_SLUG )
+				->set_redirect_to_first_child_on_load()
+				->set_location( 'submenu' );
+		} else if ( in_array( $admin_page_location, [ 'inside_dashboard', 'inside_tools' ], true ) ) {
+			// If main page is shown as child to tools or dashboard then settings page is shown as child to settings main menu.
+			$settings_menu_page
+				->set_menu_title( _x( 'Simple History', 'settings menu name', 'simple-history' ) )
+				->set_location( 'settings' )
+				->set_redirect_to_first_child_on_load();
+		}
+
+		$settings_menu_page->add();
 	}
 
 	/**
-	 * Add options menu page for settings.
+	 * Adds tabs to settings.
 	 */
-	public function add_admin_pages() {
-		// Add a settings page.
-		$show_settings_page = true;
-		$show_settings_page = apply_filters( 'simple_history_show_settings_page', $show_settings_page );
-		$show_settings_page = apply_filters( 'simple_history/show_settings_page', $show_settings_page );
+	public function add_settings_tabs() {
+		$menu_manager = $this->simple_history->get_menu_manager();
 
-		if ( $show_settings_page ) {
-			add_options_page(
-				__( 'Simple History Settings', 'simple-history' ),
-				_x( 'Simple History', 'Options page menu title', 'simple-history' ),
-				Helpers::get_view_settings_capability(),
-				$this->simple_history::SETTINGS_MENU_SLUG,
-				array( $this, 'settings_page_output' )
-			);
+		// Bail if parent settings page does not exists (due to Stealth Mode or similar).
+		if ( ! $menu_manager->page_exists( Simple_History::SETTINGS_MENU_PAGE_SLUG ) ) {
+			return;
 		}
+
+		// Register tab using new method using Menu_Manager and Menu_Page.
+		// This is the tab at <simple history settings location> » General.
+
+		$settings_menu_page_main_tab = ( new Menu_Page() )
+			->set_menu_title( __( 'Settings', 'simple-history' ) )
+			->set_page_title( __( 'Settings', 'simple-history' ) )
+			->set_menu_slug( self::SETTINGS_GENERAL_SUBTAB_SLUG )
+			->set_icon( 'settings' )
+			->set_parent( Simple_History::SETTINGS_MENU_PAGE_SLUG )
+			->set_callback( [ $this, 'settings_output_general' ] )
+			->set_redirect_to_first_child_on_load();
+
+		$menu_manager->add_page( $settings_menu_page_main_tab );
+
+		// In settings page is in options page then add subtab for general settings.
+		// so user will come to Settings » Simple History » Settings (tab) » General (subtab).
+		$general_settings_menu_page = ( new Menu_Page() )
+			->set_menu_title( __( 'General', 'simple-history' ) )
+			->set_page_title( __( 'General settings', 'simple-history' ) )
+			->set_parent( $settings_menu_page_main_tab )
+			->set_callback( [ $this, 'settings_output_general' ] )
+			->set_menu_slug( 'general_settings_subtab_settings_general' );
+
+		$menu_manager->add_page( $general_settings_menu_page );
 	}
 
 	/**
@@ -138,6 +222,7 @@ class Setup_Settings_Page extends Service {
 			)
 		);
 
+		// Setting for showing as page under dashboard.
 		register_setting(
 			$settings_general_option_group,
 			'simple_history_show_as_page',
@@ -149,6 +234,28 @@ class Setup_Settings_Page extends Service {
 			)
 		);
 
+		// Setting for showing in admin bar.
+		register_setting(
+			$settings_general_option_group,
+			'simple_history_show_in_admin_bar',
+			array(
+				'sanitize_callback' => array(
+					Helpers::class,
+					'sanitize_checkbox_input',
+				),
+			)
+		);
+
+		// Setting for menu page location.
+		register_setting(
+			$settings_general_option_group,
+			'simple_history_menu_page_location',
+			array(
+				'sanitize_callback' => 'sanitize_text_field',
+			)
+		);
+
+		// Output for where to show history, in dashboard, admin bar.
 		add_settings_field(
 			'simple_history_show_where',
 			Helpers::get_settings_field_title_output( __( 'Show history', 'simple-history' ), 'visibility' ),
@@ -157,7 +264,15 @@ class Setup_Settings_Page extends Service {
 			$settings_section_general_id
 		);
 
-		// Number if items to show on the history page.
+		add_settings_field(
+			'simple_history_menu_page_location',
+			Helpers::get_settings_field_title_output( __( 'History menu position', 'simple-history' ), 'overview' ),
+			array( $this, 'settings_field_menu_page_location' ),
+			$settings_menu_slug,
+			$settings_section_general_id
+		);
+
+		// Output for number if items to show on the history page.
 		add_settings_field(
 			'simple_history_number_of_items',
 			Helpers::get_settings_field_title_output( __( 'Items per page', 'simple-history' ), 'filter_list' ),
@@ -196,25 +311,80 @@ class Setup_Settings_Page extends Service {
 	}
 
 	/**
+	 * Settings field output for menu page location
+	 */
+	public function settings_field_menu_page_location() {
+		$location = Helpers::get_menu_page_location();
+		$option_slug = 'simple_history_menu_page_location';
+
+		$location_options = [
+			[
+				'slug' => 'top',
+				'text' => __( 'Top of main menu', 'simple-history' ),
+			],
+			[
+				'slug' => 'bottom',
+				'text' => __( 'Bottom of main menu', 'simple-history' ),
+			],
+			[
+				'slug' => 'inside_dashboard',
+				'text' => __( 'Inside dashboard menu item', 'simple-history' ),
+			],
+			[
+				'slug' => 'inside_tools',
+				'text' => __( 'Inside tools menu item', 'simple-history' ),
+			],
+		];
+		?>
+		<fieldset>
+			<?php foreach ( $location_options as $option ) { ?>
+				<label>
+					<input 
+						type="radio"
+						name="<?php echo esc_attr( $option_slug ); ?>"
+						value="<?php echo esc_attr( $option['slug'] ); ?>"
+						<?php checked( $location === $option['slug'] ); ?>
+					/>
+					
+					<?php echo esc_html( $option['text'] ); ?>
+				</label>
+				<br />
+			<?php } ?>
+		</fieldset>
+		<?php
+	}
+
+	/**
 	 * Settings field for where to show the log, page or dashboard
 	 */
 	public function settings_field_where_to_show() {
 		$show_on_dashboard = Helpers::setting_show_on_dashboard();
-		$show_as_page = Helpers::setting_show_as_page();
+		$show_in_admin_bar = Helpers::setting_show_in_admin_bar();
+		// $show_as_page_below_dashboard = Helpers::setting_show_as_page();
 		?>
 
-		<input
-			<?php checked( $show_on_dashboard ); ?>
-			type="checkbox" value="1" name="simple_history_show_on_dashboard" id="simple_history_show_on_dashboard" class="simple_history_show_on_dashboard" />
-		<label for="simple_history_show_on_dashboard"><?php esc_html_e( 'on the dashboard', 'simple-history' ); ?></label>
+		<input <?php checked( $show_on_dashboard ); ?> type="checkbox" value="1" name="simple_history_show_on_dashboard" id="simple_history_show_on_dashboard" class="simple_history_show_on_dashboard" />
+		<label for="simple_history_show_on_dashboard">
+			<?php esc_html_e( 'on the dashboard', 'simple-history' ); ?>
+		</label>
 
-		<br />
-
-		<input
-			<?php checked( $show_as_page ); ?>
-			type="checkbox" value="1" name="simple_history_show_as_page" id="simple_history_show_as_page" class="simple_history_show_as_page" />
+		
+		<?php
+		/**
+		 <br />
+		<input <?php checked( $show_as_page_below_dashboard ); ?> type="checkbox" value="1" name="simple_history_show_as_page" id="simple_history_show_as_page" class="simple_history_show_as_page" />
 		<label for="simple_history_show_as_page">
 			<?php esc_html_e( 'as a page under the dashboard menu', 'simple-history' ); ?>
+		</label>
+		<?php
+		 */
+		?>
+		
+		<br />
+
+		<input <?php checked( $show_in_admin_bar ); ?> type="checkbox" value="1" name="simple_history_show_in_admin_bar" id="simple_history_show_in_admin_bar" class="simple_history_show_in_admin_bar" />
+		<label for="simple_history_show_in_admin_bar">
+			<?php esc_html_e( 'in the admin bar', 'simple-history' ); ?>
 		</label>
 
 		<?php
@@ -325,7 +495,7 @@ class Setup_Settings_Page extends Service {
 	 */
 	public function settings_field_clear_log() {
 		// Get base URL to current page.
-		// Will be like "/wordpress/wp-admin/options-general.php?page=simple_history_settings_menu_slug&".
+		// Will be like "/wordpress/wp-admin/admin.php?page=<main-menu-page-slug>".
 		$clear_link = add_query_arg( '', '' );
 
 		// Append nonce to URL.
@@ -342,29 +512,22 @@ class Setup_Settings_Page extends Service {
 				esc_html( $clear_days )
 			);
 			echo '<br>';
-
-			$message = sprintf(
-				/* translators: 1 is a link to webpage with info about how to modify number of days to keep the log */
-				__( 'The number of days can be changed using a filter or with an add-on. <a href="%1$s" target="_blank" class="sh-ExternalLink">More info.</a>', 'simple-history' ),
-				esc_url( 'https://simple-history.com/support/change-number-of-days-to-keep-log/?utm_source=wpadmin' )
-			);
-
-			echo '<p>' . wp_kses(
-				$message,
-				[
-					'a' => [
-						'href' => [],
-						'target' => [],
-						'class' => [],
-					],
-				]
-			) . '</p>';
-
 		} else {
 			esc_html_e( 'Items in the database are kept forever.', 'simple-history' );
 		}
 
 		echo '</p>';
+
+		// View Premium add-on information, if not already installed.
+		if ( Helpers::show_promo_boxes() ) {
+			?>
+			<p>
+				<a href="https://simple-history.com/premium/?utm_source=wpadmin&utm_content=purge-interval" target="_blank" class="sh-ExternalLink">
+					<?php esc_html_e( 'Upgrade to Simple History Premium to set this to any number of days.', 'simple-history' ); ?>
+				</a>
+			</p>
+			<?php
+		}
 
 		printf(
 			'<p><a class="button js-SimpleHistory-Settings-ClearLog" href="%2$s">%1$s</a></p>',
@@ -373,103 +536,86 @@ class Setup_Settings_Page extends Service {
 		);
 	}
 
+
 	/**
 	 * Output HTML for the settings page.
 	 * Called from add_options_page.
 	 */
 	public function settings_page_output() {
-		$arr_settings_tabs = $this->simple_history->get_settings_tabs();
-		$arr_settings_tabs_sub = $this->simple_history->get_settings_tabs( 'sub' );
+		// phpcs:disable WordPress.Security.EscapeOutput.OutputNotEscaped
+		echo Admin_Pages::header_output();
+	}
 
-		// Wrap link around title if we have somewhere to go.
-		$headline_link_target = null;
-		$headline_link_start_elm = '';
-		$headline_link_end_elm = '';
+	/**
+	 * Get HTML for the main navigation.
+	 *
+	 * @deprecated 5.7.0 No longer used.
+	 * @return string
+	 */
+	public static function get_main_nav_html() {
+		ob_start();
 
-		if ( Helpers::setting_show_as_page() ) {
-			$headline_link_target = admin_url( 'index.php?page=simple_history_page' );
-		} else if ( Helpers::setting_show_on_dashboard() ) {
-			$headline_link_target = admin_url( 'index.php' );
-		}
+		$simple_history = Simple_History::get_instance();
 
-		if ( ! is_null( $headline_link_target ) ) {
-			$headline_link_start_elm = sprintf(
-				'<a href="%1$s" class="sh-PageHeader-titleLink">',
-				esc_url( $headline_link_target )
-			);
-			$headline_link_end_elm = '</a>';
-		}
-
-		$allowed_link_html = [
-			'a' => [
-				'href' => 1,
-				'class' => 1,
-			],
-		];
+		$arr_settings_tabs = $simple_history->get_settings_tabs();
 
 		?>
-		<header class="sh-PageHeader">
-			<h1 class="sh-PageHeader-title SimpleHistoryPageHeadline">
-				<?php echo wp_kses( $headline_link_start_elm, $allowed_link_html ); ?>			
-				<img width="1102" height="196" class="sh-PageHeader-logo" src="<?php echo esc_attr( SIMPLE_HISTORY_DIR_URL ); ?>css/simple-history-logo.png" alt="Simple History logotype"/>
-				<?php echo wp_kses( $headline_link_end_elm, $allowed_link_html ); ?>
-			</h1>
-			
+		<nav class="sh-PageNav">
 			<?php
-			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-			echo Helpers::get_header_add_ons_link();
-			?>
-			
-			<?php
-			// Add link back to the log.
-			if ( Helpers::setting_show_as_page() ) {
-				?>
-				<a href="<?php echo esc_url( $this->simple_history->get_view_history_page_admin_url() ); ?>" class="sh-PageHeader-rightLink">
-					<span class="sh-PageHeader-settingsLinkIcon sh-Icon sh-Icon--history"></span>
-					<span class="sh-PageHeader-settingsLinkText"><?php esc_html_e( 'Back to event log', 'simple-history' ); ?></span>
-				</a>
-				<?php
-			}
+			$active_tab = self::get_active_tab_slug();
 
-			?>
-			<nav class="sh-PageNav">
-				<?php
-				$active_tab = sanitize_text_field( wp_unslash( $_GET['selected-tab'] ?? 'settings' ) );
+			foreach ( $arr_settings_tabs as $one_tab ) {
+				$tab_slug = $one_tab['slug'];
 
-				foreach ( $arr_settings_tabs as $one_tab ) {
-					$tab_slug = $one_tab['slug'];
-
-					$icon_html = '';
-					if ( ! is_null( $one_tab['icon'] ?? null ) ) {
-						$icon_html = sprintf(
-							'<span class="sh-PageNav-icon sh-Icon--%1$s"></span>',
-							esc_attr( $one_tab['icon'] )
-						);
-					}
-
-					$icon_html_allowed_html = [
-						'span' => [
-							'class' => [],
-						],
-					];
-
-					printf(
-						'<a href="%3$s" class="sh-PageNav-tab %4$s">%5$s%1$s</a>',
-						esc_html( $one_tab['name'] ), // 1
-						esc_html( $tab_slug ), // 2
-						esc_url( Helpers::get_settings_page_tab_url( $tab_slug ) ), // 3
-						$active_tab == $tab_slug ? 'is-active' : '', // 4
-						wp_kses( $icon_html, $icon_html_allowed_html ) // 5
+				$icon_html = '';
+				if ( ! is_null( $one_tab['icon'] ?? null ) ) {
+					$icon_html = sprintf(
+						'<span class="sh-PageNav-icon sh-Icon--%1$s"></span>',
+						esc_attr( $one_tab['icon'] )
 					);
 				}
-				?>
-			</nav>
-		</header>
 
+				$icon_html_allowed_html = [
+					'span' => [
+						'class' => [],
+					],
+				];
+
+				printf(
+					'<a href="%3$s" class="sh-PageNav-tab %4$s">%5$s%1$s</a>',
+					esc_html( $one_tab['name'] ), // 1
+					esc_html( $tab_slug ), // 2
+					esc_url( Helpers::get_settings_page_tab_url( $tab_slug ) ), // 3
+					$active_tab == $tab_slug ? 'is-active' : '', // 4
+					wp_kses( $icon_html, $icon_html_allowed_html ) // 5
+				);
+			}
+			?>
+		</nav>
 		<?php
+
+		return ob_get_clean();
+	}
+
+
+	/**
+	 * Get HTML for the sub navigation.
+	 *
+	 * @deprecated 5.7.0 No longer used.
+	 * @return string
+	 */
+	public static function get_subnav_html() {
+		ob_start();
+
+		$simple_history = Simple_History::get_instance();
+
+		$arr_settings_tabs = $simple_history->get_settings_tabs();
+		$arr_settings_tabs_sub = $simple_history->get_settings_tabs( 'sub' );
+
 		// Begin subnav.
 		$sub_tab_found = false;
 		$active_sub_tab = sanitize_text_field( wp_unslash( $_GET['selected-sub-tab'] ?? '' ) );
+		$active_tab = self::get_active_tab_slug();
 
 		// Get sub tabs for currently active tab.
 		$subtabs_for_active_tab = wp_filter_object_list(
@@ -501,7 +647,6 @@ class Setup_Settings_Page extends Service {
 							$is_active = $active_sub_tab === $one_sub_tab['slug'];
 							$is_active_class = $is_active ? 'is-active' : '';
 							$plug_settings_tab_url = Helpers::get_settings_page_sub_tab_url( $one_sub_tab['slug'] );
-
 							?>
 							<li class="sh-SettingsTabs-tab">
 								<a class="sh-SettingsTabs-link <?php echo esc_attr( $is_active_class ); ?>" href="<?php echo esc_url( $plug_settings_tab_url ); ?>">
@@ -552,19 +697,28 @@ class Setup_Settings_Page extends Service {
 					'slug' => $active_tab,
 				)
 			);
+
 			$arr_active_tab = current( $arr_active_tab );
 
 			// We must have found an active tab and it must have a callable function.
 			if ( ! $arr_active_tab || ! is_callable( $arr_active_tab['function'] ) ) {
-				wp_die( esc_html__( 'No valid callback found', 'simple-history' ) );
+				_doing_it_wrong( __METHOD__, 'Get subnav html: No valid callback found', '5.7.0' );
+				return '';
 			}
 
-			$args = array(
-				'arr_active_tab' => $arr_active_tab,
-			);
-
-			call_user_func_array( $arr_active_tab['function'], array_values( $args ) );
+			call_user_func_array( $arr_active_tab['function'], [] );
 		}
+
+		return ob_get_clean();
+	}
+
+	/**
+	 * Get the slug of the active tab.
+	 *
+	 * @return string
+	 */
+	public static function get_active_tab_slug() {
+		return sanitize_text_field( wp_unslash( $_GET['selected-tab'] ?? 'settings' ) );
 	}
 
 	/**

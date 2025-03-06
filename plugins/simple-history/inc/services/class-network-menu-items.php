@@ -3,6 +3,7 @@
 namespace Simple_History\Services;
 
 use Simple_History\Helpers;
+use Simple_History\Simple_History;
 
 /**
  * Add a "View history" item/shortcut to the admin bar.
@@ -50,9 +51,9 @@ class Network_Menu_Items extends Service {
 		}
 
 		// Setting to show as page must be true.
-		if ( ! Helpers::setting_show_as_page() ) {
-			return;
-		}
+		// if ( ! Helpers::setting_show_as_page() ) {
+		// return;
+		// }
 
 		// User must have capability to view the history page.
 		if ( ! current_user_can( Helpers::get_view_history_capability() ) ) {
@@ -73,7 +74,7 @@ class Network_Menu_Items extends Service {
 					'id' => $menu_id,
 					'parent' => $parent_menu_id,
 					'title' => _x( 'View History', 'Admin bar network name', 'simple-history' ),
-					'href' => $this->simple_history->get_view_history_page_admin_url(),
+					'href' => Helpers::get_history_admin_url(),
 					'meta' => array(
 						'class' => 'ab-item--simplehistory',
 					),
@@ -114,9 +115,9 @@ class Network_Menu_Items extends Service {
 		}
 
 		// Setting to show as page must be true.
-		if ( ! Helpers::setting_show_as_page() ) {
-			return;
-		}
+		// if ( ! Helpers::setting_show_as_page() ) {
+		// return;
+		// }.
 
 		// User must have capability to view the history page.
 		if ( ! current_user_can( Helpers::get_view_history_capability() ) ) {
@@ -127,7 +128,7 @@ class Network_Menu_Items extends Service {
 			'id' => 'simple-history-view-history',
 			'parent' => 'site-name',
 			'title' => _x( 'View History', 'Admin bar name', 'simple-history' ),
-			'href' => $this->simple_history->get_view_history_page_admin_url(),
+			'href' => Helpers::get_history_admin_url(),
 			'meta' => array(
 				'class' => 'ab-item--simplehistory',
 			),

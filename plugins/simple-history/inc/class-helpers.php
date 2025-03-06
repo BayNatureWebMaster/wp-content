@@ -3,6 +3,8 @@
 namespace Simple_History;
 
 use Simple_History\Simple_History;
+use Simple_History\Menu_Page;
+use Simple_History\Services\Setup_Settings_Page;
 
 /**
  * Helper functions.
@@ -191,6 +193,7 @@ class Helpers {
 	public static function get_current_screen() {
 		if ( function_exists( 'get_current_screen' ) ) {
 			$current_screen = get_current_screen();
+
 			if ( $current_screen instanceof \WP_Screen ) {
 				return $current_screen;
 			}
@@ -348,11 +351,80 @@ class Helpers {
 	}
 
 	/**
-	 * Get number of rows in the database tables.
+	 * Get number of rows and the size of each Simple History table in the database.
 	 *
-	 * @return array Array with table name, size in mb and number of rows, if tables found.
+	 * @return array<string, object{table_name: string, size_in_mb: float, num_rows: int}>
 	 */
 	public static function get_db_table_stats() {
+		switch ( Log_Query::get_db_engine() ) {
+			case 'mysql':
+				return self::get_db_table_stats_mysql();
+			case 'sqlite':
+				return self::get_db_table_stats_sqlite();
+			default:
+				return [];
+		}
+	}
+
+	/**
+	 * Get number of rows and the size of each Simple History table in the database.
+	 *
+	 * @return array<string, object{table_name: string, size_in_mb: float, num_rows: int}>
+	 */
+	public static function get_db_table_stats_sqlite() {
+		/** @var \wpdb $wpdb */
+		global $wpdb;
+		$simple_history = Simple_History::get_instance();
+
+		/** @var array $events_table_size_result */
+		$events_table_size_result = $wpdb->get_row(
+			$wpdb->prepare(
+				'
+					SELECT dbstat.name as table_name , SUM(dbstat.pgsize) / 1024 as size_in_mb FROM sqlite_master 
+					INNER JOIN dbstat ON dbstat.name = sqlite_master.name 
+					WHERE sqlite_master.tbl_name = "%1$s"
+				',
+				$simple_history->get_events_table_name()
+			),
+			ARRAY_A
+		);
+
+		/** @var array $contexts_table_size_result */
+		$contexts_table_size_result = $wpdb->get_row(
+			$wpdb->prepare(
+				'
+					SELECT dbstat.name as table_name , SUM(dbstat.pgsize) / 1024 as size_in_mb FROM sqlite_master 
+					INNER JOIN dbstat ON dbstat.name = sqlite_master.name 
+					WHERE sqlite_master.tbl_name = "%1$s"
+				',
+				$simple_history->get_contexts_table_name()
+			),
+			ARRAY_A
+		);
+
+		// Bail if any of the tables are missing.
+		if ( empty( $events_table_size_result['table_name'] ) || empty( $contexts_table_size_result['table_name'] ) ) {
+			return [];
+		}
+
+		$table_size_result = [
+			'simple_history' => $events_table_size_result,
+			'simple_history_contexts' => $contexts_table_size_result,
+		];
+
+		// Get num of rows for each table.
+		$table_size_result['simple_history']['num_rows'] = (int) $wpdb->get_var( "select count(*) FROM {$simple_history->get_events_table_name()}" ); // phpcs:ignore
+		$table_size_result['simple_history_contexts']['num_rows'] = (int) $wpdb->get_var( "select count(*) FROM {$simple_history->get_contexts_table_name()}" ); // phpcs:ignore
+
+		return $table_size_result;
+	}
+
+	/**
+	 * Get number of rows and the size of each Simple History table in the database.
+	 *
+	 * @return array<string, object{table_name: string, size_in_mb: float, num_rows: int}>
+	 */
+	public static function get_db_table_stats_mysql() {
 		global $wpdb;
 		$simple_history = Simple_History::get_instance();
 
@@ -363,26 +435,29 @@ class Helpers {
 					SELECT table_name AS "table_name",
 					round(((data_length + index_length) / 1024 / 1024), 2) "size_in_mb"
 					FROM information_schema.TABLES
-					WHERE table_schema = "%1$s"
-					AND table_name IN ("%2$s", "%3$s");
+					WHERE table_schema = %s
+					AND table_name IN (%s, %s);
 					',
 				DB_NAME, // 1
 				$simple_history->get_events_table_name(), // 2
 				$simple_history->get_contexts_table_name() // 3
-			)
+			),
+			ARRAY_A
 		);
 
-		// If empty array returned then tables does not exist.
-		if ( sizeof( $table_size_result ) === 0 ) {
-			return array();
+		// Bail if not exactly two tables found.
+		if ( sizeof( $table_size_result ) !== 2 ) {
+			return [];
 		}
 
-		// Get num of rows for each table.
-		$total_num_rows_table = (int) $wpdb->get_var( "select count(*) FROM {$simple_history->get_events_table_name()}" ); // phpcs:ignore
-		$total_num_rows_table_contexts = (int) $wpdb->get_var( "select count(*) FROM {$simple_history->get_contexts_table_name()}" ); // phpcs:ignore
+		$table_size_result = [
+			'simple_history' => $table_size_result[0],
+			'simple_history_contexts' => $table_size_result[1],
+		];
 
-		$table_size_result[0]->num_rows = $total_num_rows_table;
-		$table_size_result[1]->num_rows = $total_num_rows_table_contexts;
+		// Get num of rows for each table.
+		$table_size_result['simple_history']['num_rows'] = (int) $wpdb->get_var( "select count(*) FROM {$simple_history->get_events_table_name()}" ); // phpcs:ignore
+		$table_size_result['simple_history_contexts']['num_rows'] = (int) $wpdb->get_var( "select count(*) FROM {$simple_history->get_contexts_table_name()}" ); // phpcs:ignore
 
 		return $table_size_result;
 	}
@@ -554,7 +629,7 @@ class Helpers {
 	 * Wrapper around WordPress function is_plugin_active()
 	 * that loads the required files if function does not exist.
 	 *
-	 * @param string $plugin_file_path Path to plugin file, relative to plugins dir.
+	 * @param string $plugin_file_path Path to plugin file, relative to plugins dir. I.e. "simple-history/simple-history.php".
 	 * @return bool True if plugin is active.
 	 */
 	public static function is_plugin_active( $plugin_file_path ) {
@@ -747,30 +822,6 @@ class Helpers {
 	}
 
 	/**
-	 * Get URL for a main tab in the settings page.
-	 *
-	 * @param string $tab_slug Slug for the tab.
-	 * @return string URL for the tab, unescaped.
-	 */
-	public static function get_settings_page_tab_url( $tab_slug ) {
-		$settings_base_url = menu_page_url( Simple_History::SETTINGS_MENU_SLUG, 0 );
-		$settings_tab_url = add_query_arg( 'selected-tab', $tab_slug, $settings_base_url );
-		return $settings_tab_url;
-	}
-
-	/**
-	 * Get URL for a sub-tab in the settings page.
-	 *
-	 * @param string $sub_tab_slug Slug for the sub-tab.
-	 * @return string URL for the sub-tab, unescaped.
-	 */
-	public static function get_settings_page_sub_tab_url( $sub_tab_slug ) {
-		$settings_base_url = menu_page_url( Simple_History::SETTINGS_MENU_SLUG, 0 );
-		$settings_sub_tab_url = add_query_arg( 'selected-sub-tab', $sub_tab_slug, $settings_base_url );
-		return $settings_sub_tab_url;
-	}
-
-	/**
 	 *  Add link to add-ons.
 	 *
 	 * @return string HTML for link to add-ons.
@@ -779,11 +830,12 @@ class Helpers {
 		ob_start();
 
 		?>
-		<a href="https://simple-history.com/add-ons/?utm_source=wpadmin" class="sh-PageHeader-rightLink" target="_blank">
-			<span class="sh-PageHeader-settingsLinkIcon sh-Icon sh-Icon--extension"></span>
-			<span class="sh-PageHeader-settingsLinkText"><?php esc_html_e( 'Add-ons', 'simple-history' ); ?></span>
-			<em class="sh-PageHeader-settingsLinkIcon-new"><?php esc_html_e( 'New', 'simple-history' ); ?></em>
-		</a>
+		<div class="sh-PageHeader-rightLink">
+			<a href="https://simple-history.com/add-ons/?utm_source=wpadmin&utm_content=nav-header" target="_blank">
+				<span class="sh-PageHeader-settingsLinkIcon sh-Icon sh-Icon--extension"></span>
+				<span class="sh-PageHeader-settingsLinkText"><?php esc_html_e( 'Add-ons', 'simple-history' ); ?></span>
+			</a>
+		</div>
 		<?php
 
 		return ob_get_clean();
@@ -806,6 +858,15 @@ class Helpers {
 		 * @param int $pager_size
 		 */
 		$pager_size = apply_filters( 'simple_history/pager_size', $pager_size );
+
+		/**
+		 * Filter the pager size setting for the history page
+		 *
+		 * @since 2.0
+		 *
+		 * @param int $pager_size
+		 */
+		$pager_size = apply_filters( 'simple_history/page_pager_size', $pager_size );
 
 		return $pager_size;
 	}
@@ -904,7 +965,7 @@ class Helpers {
 	}
 
 	/**
-	 * How old log entried are allowed to be.
+	 * How old log entries are allowed to be.
 	 * 0 = don't delete old entries.
 	 *
 	 * @return int Number of days.
@@ -1028,26 +1089,26 @@ class Helpers {
 	 * Check if the current page is any of the pages that belong
 	 * to Simple History.
 	 *
-	 * @param string $hook The current page hook.
+	 * Since it uses current_screen() is must be called
+	 * after the 'admin_menu' action has been fired.
+	 *
 	 * @return bool
 	 */
-	public static function is_on_our_own_pages( $hook = '' ) {
+	public static function is_on_our_own_pages() {
+		// Check if we are on an admin page with Simple History content.
+		// All Simple History admin pages have a ?page=simple_history_... query arg.
+		// where page is the slug of the registered page.
+		$all_menu_pages_slugs = Simple_History::get_instance()->get_menu_manager()->get_all_slugs();
+		$page = isset( $_GET['page'] ) ? sanitize_text_field( wp_unslash( $_GET['page'] ) ) : null;
+
+		if ( $page && in_array( $page, $all_menu_pages_slugs, true ) ) {
+			return true;
+		}
+
 		$current_screen = self::get_current_screen();
 
-		$basePrefix = apply_filters( 'simple_history/admin_location', 'index' );
-		$basePrefix = $basePrefix === 'index' ? 'dashboard' : $basePrefix;
-
-		if ( $current_screen && $current_screen->base == 'settings_page_' . Simple_History::SETTINGS_MENU_SLUG ) {
-			return true;
-		} elseif ( $current_screen && $current_screen->base === $basePrefix . '_page_simple_history_page' ) {
-			return true;
-		} elseif (
-			$hook == 'settings_page_' . Simple_History::SETTINGS_MENU_SLUG ||
-			( self::setting_show_on_dashboard() && $hook == 'index.php' ) ||
-			( self::setting_show_as_page() && $hook == $basePrefix . '_page_simple_history_page' )
-		) {
-			return true;
-		} elseif ( $current_screen && $current_screen->base == 'dashboard' && self::setting_show_on_dashboard() ) {
+		// We are on a Simple History page if we are on dashboard and the setting is set to show on dashboard.
+		if ( $current_screen->base === 'dashboard' && self::setting_show_on_dashboard() ) {
 			return true;
 		}
 
@@ -1082,19 +1143,108 @@ class Helpers {
 	 */
 	public static function setting_show_on_dashboard() {
 		$show_on_dashboard = get_option( 'simple_history_show_on_dashboard', 1 );
+
 		$show_on_dashboard = apply_filters( 'simple_history_show_on_dashboard', $show_on_dashboard );
+
+		/**
+		 * Filter if Simple History should be shown on the dashboard.
+		 *
+		 * @param int $show_on_dashboard If 1 then show on dashboard, if 0 then do not show on dashboard.
+		 */
+		$show_on_dashboard = apply_filters( 'simple_history/show_on_dashboard', $show_on_dashboard );
+
 		return (bool) $show_on_dashboard;
 	}
 
 	/**
-	 * Should simple history be shown as a page
-	 * Defaults to true
+	 * Should Simple History be shown as a page inside the dashboard menu.
 	 *
+	 * Defaults to true.
+	 *
+	 * @deprecated 5.7.0
 	 * @return bool
 	 */
 	public static function setting_show_as_page() {
 		$setting = get_option( 'simple_history_show_as_page', 1 );
 		$setting = apply_filters( 'simple_history_show_as_page', $setting );
+
+		return (bool) $setting;
+	}
+
+	/**
+	 * Should Simple History be shown as a page in the main menu, at top level,
+	 * next to pages, tools, settings, etc.
+	 *
+	 * Defaults to true.
+	 *
+	 * @return bool
+	 */
+	public static function setting_show_as_menu_page() {
+		/**
+		 * Filter if Simple History should be shown as a page in the main admin menu.
+		 *
+		 * @since 5.5.2
+		 */
+		$setting = apply_filters( 'simple_history/show_admin_menu_page', true );
+
+		return (bool) $setting;
+	}
+
+	/**
+	 * Returns the location of the main simple history menu page.
+	 *
+	 * Valid locations are:
+	 * - 'top' = Below dashboard and Jetpack and similar top level menu items.
+	 * - 'bottom' = Below settings and similar bottom level menu items.
+	 * - 'inside_tools' = Inside the tools menu.
+	 * - 'inside_dashboard' = Inside the settings menu.
+	 *
+	 * Defaults to 'top'.
+	 *
+	 * @return string Location of the main menu page.
+	 */
+	public static function get_menu_page_location() {
+		$option_slug = 'simple_history_menu_page_location';
+		$setting = get_option( $option_slug );
+
+		// If it does not exist, then default so the option can auto-load.
+		if ( false === $setting ) {
+			$setting = 'top';
+			update_option( $option_slug, $setting, true );
+		}
+
+		/**
+		 * Filter to control the placement of Simple History in the Admin Menu.
+		 * Valid locations:
+		 * - 'top' for placement close to dashboard at top of main menu
+		 * - 'bottom' for placement near below settings
+		 * - 'inside_tools' for placement inside the tools menu
+		 * - 'inside_dashboard' for placement inside the dashboard menu
+		 *
+		 * @since 5.5.2
+		 *
+		 * @param string $setting Location slug.
+		 */
+		$setting = apply_filters( 'simple_history/admin_menu_location', $setting );
+
+		return $setting;
+	}
+
+	/**
+	 * Returns true if Simple History can be shown in the admin bar
+	 *
+	 * @return bool
+	 */
+	public static function setting_show_in_admin_bar() {
+		$setting = get_option( 'simple_history_show_in_admin_bar', 1 );
+		$setting = apply_filters( 'simple_history_show_in_admin_bar', $setting );
+
+		/**
+		 * Filter if Simple History should be shown in the admin bar.
+		 *
+		 * @since 5.5.1
+		 */
+		$setting = apply_filters( 'simple_history/show_in_admin_bar', $setting );
 
 		return (bool) $setting;
 	}
@@ -1110,6 +1260,20 @@ class Helpers {
 		return (bool) apply_filters(
 			'simple_history/detective_mode_enabled',
 			get_option( 'simple_history_detective_mode_enabled', 0 )
+		);
+	}
+
+	/**
+	 * Returns true if Experimental Features is active.
+	 *
+	 * Default is false.
+	 *
+	 * @return bool
+	 */
+	public static function experimental_features_is_enabled() {
+		return (bool) apply_filters(
+			'simple_history/experimental_features_enabled',
+			get_option( 'simple_history_experimental_features_enabled', 0 )
 		);
 	}
 
@@ -1260,5 +1424,318 @@ class Helpers {
 	 */
 	public static function is_wp_cli() {
 		return defined( 'WP_CLI' ) && WP_CLI;
+	}
+
+	/**
+	 * Calculates what to show in the date filter dropdown.
+	 * Returns an array with keys and values:
+	 * - "arr_days_and_pages": Array with debug info about how many days and pages to show.
+	 * - "daysToShow": Optimal number of days to show, regarding to number of items in the log, to prevent the initial query from being too slow.
+	 * - "result_months": Array with unique months, so the date dropdown can show only months with events.
+	 *
+	 * @return array
+	 */
+	public static function get_data_for_date_filter() {
+		global $wpdb;
+
+		$simple_history = Simple_History::get_instance();
+
+		// Start months filter.
+		$table_name = $simple_history->get_events_table_name();
+		$loggers_user_can_read_sql_in = $simple_history->get_loggers_that_user_can_read( null, 'sql' );
+
+		// Get unique months.
+		$cache_key = 'sh_filter_unique_months';
+		$result_months = get_transient( $cache_key );
+
+		if ( false === $result_months ) {
+			$sql_dates = sprintf(
+				'
+				SELECT DISTINCT ( date_format(DATE, "%%Y-%%m") ) AS yearMonth
+				FROM %s
+				WHERE logger IN %s
+				ORDER BY yearMonth DESC
+				',
+				$table_name, // 1
+				$loggers_user_can_read_sql_in // 2
+			);
+
+			$result_months = $wpdb->get_results( $sql_dates ); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
+
+			set_transient( $cache_key, $result_months, HOUR_IN_SECONDS );
+		}
+
+		$arr_days_and_pages = array();
+
+		// Default month = current month
+		// Mainly for performance reasons, since often
+		// it's not the users intention to view all events,
+		// but just the latest.
+
+		// Determine if we limit the date range by default.
+		$daysToShow = 1;
+
+		// Start with the latest day.
+		$numEvents = self::get_unique_events_for_days( $daysToShow );
+		$numPages = $numEvents / self::get_pager_size();
+
+		$arr_days_and_pages[] = array(
+			'daysToShow' => $daysToShow,
+			'numPages' => $numPages,
+		);
+
+		// Example on my server with lots of brute force attacks (causing log to not load)
+		// 166434 / 15 = 11 000 pages for last 7 days
+		// 1 day = 3051 / 15 = 203 pages = still much but better than 11000 pages!
+		if ( $numPages < 20 ) {
+			// Not that many things the last day. Let's try to expand to 7 days instead.
+			$daysToShow = 7;
+			$numEvents = self::get_unique_events_for_days( $daysToShow );
+			$numPages = $numEvents / self::get_pager_size();
+
+			$arr_days_and_pages[] = array(
+				'daysToShow' => $daysToShow,
+				'numPages' => $numPages,
+			);
+
+			if ( $numPages < 20 ) {
+				// Not that many things the last 7 days. Let's try to expand to 14 days instead.
+				$daysToShow = 14;
+				$numEvents = self::get_unique_events_for_days( $daysToShow );
+				$numPages = $numEvents / self::get_pager_size();
+
+				$arr_days_and_pages[] = array(
+					'daysToShow' => $daysToShow,
+					'numPages' => $numPages,
+				);
+
+				if ( $numPages < 20 ) {
+					// Not many things the last 14 days either. Let try with 30 days.
+					$daysToShow = 30;
+					$numEvents = self::get_unique_events_for_days( $daysToShow );
+					$numPages = $numEvents / self::get_pager_size();
+
+					$arr_days_and_pages[] = array(
+						'daysToShow' => $daysToShow,
+						'numPages' => $numPages,
+					);
+
+					// If 30 days gives a big amount of pages, go back to 14 days.
+					if ( $numPages > 1000 ) {
+						$daysToShow = 14;
+					}
+				}
+			}
+		}// End if().
+
+		return [
+			'arr_days_and_pages' => $arr_days_and_pages,
+			'daysToShow' => $daysToShow,
+			'result_months' => $result_months,
+		];
+	}
+
+	/**
+	 * How often the script checks for new rows.
+	 *
+	 * @return int Interval in milliseconds.
+	 */
+	public static function get_new_events_check_interval() {
+		/**
+		 * Filter the interval for how often the script checks for new rows.
+		 *
+		 * Set to 0 to disable the notifier.
+		 *
+		 * @example Change the interval from the default 10000 ms (10 seconds) to a minute (300000 ms).
+		 * // Change the interval from the default 10000 ms (10 seconds) to a minute (300000 ms).
+		 * ```php
+		 * add_filter(
+		 *   'SimpleHistoryNewRowsNotifier/interval',
+		 *   function( $interval ) {
+		 *     $interval = 300000;
+		 *     return $interval;
+		 *   }
+		 * );
+		 * ```
+		 *
+		 * @param int $interval Interval in milliseconds.
+		 */
+		return (int) apply_filters( 'SimpleHistoryNewRowsNotifier/interval', 10000 );
+	}
+
+	/**
+	 * Increase the total number of logged events.
+	 * Used to keep track of how many events have been logged since the plugin was installed.
+	 */
+	public static function increase_total_logged_events_count() {
+		// Don't log when updating widgets,
+		// because it causes error "widget_setting_too_many_options".
+		// Bug report: https://github.com/bonny/WordPress-Simple-History/issues/498.
+		if ( doing_action( 'wp_ajax_update-widget' ) ) {
+			return;
+		}
+
+		update_option(
+			'simple_history_total_logged_events_count',
+			self::get_total_logged_events_count() + 1,
+			false
+		);
+	}
+
+	/**
+	 * Get the total number of logged events.
+	 * Used to keep track of how many events have been logged since the plugin was installed.
+	 *
+	 * @return int
+	 */
+	public static function get_total_logged_events_count() {
+		return (int) get_option( 'simple_history_total_logged_events_count', 0 );
+	}
+
+	/**
+	 * Get plugin install date as GMT.
+	 *
+	 * @return string|false Date as GMT or false if not set.
+	 */
+	public static function get_plugin_install_date() {
+		return get_option( 'simple_history_install_date_gmt' );
+	}
+
+	/**
+	 * Escape a string to be used in a CSV context, by adding an apostrophe if field
+	 * begins with '=', '+', '-', or '@'.
+	 *
+	 * Function taken from the Jetpack Plugin, Copyright Automattic.
+	 *
+	 * @see https://www.drupal.org/project/webform/issues/3157877#:~:text=At%20present%2C%20the%20best%20defence%20strategy%20we%20are%20aware%20of%20is%20prefixing%20cells%20that%20start%20with%20%E2%80%98%3D%E2%80%99%20%2C%20%27%2B%27%20or%20%27%2D%27%20with%20an%20apostrophe.
+	 * @see https://github.com/Automattic/jetpack/blob/d4068d52c35a30edc01b9356a4764132aeb532fd/projects/packages/forms/src/contact-form/class-contact-form-plugin.php#L1854
+	 * @param string $field - the CSV field.
+	 * @return string CSV field with escaped characters.
+	 */
+	public static function esc_csv_field( $field ) {
+		// Bail if not string.
+		if ( ! is_string( $field ) ) {
+			return '';
+		}
+
+		$active_content_triggers = array( '=', '+', '-', '@' );
+
+		if ( in_array( substr( $field, 0, 1 ), $active_content_triggers, true ) ) {
+			$field = "'" . $field;
+		}
+
+		return $field;
+	}
+
+	/**
+	 * Determine if promo boxes should be shown.
+	 *
+	 * @return bool True if promo boxes should be shown, false otherwise.
+	 */
+	public static function show_promo_boxes() {
+		// Hide if Premium add-on is active.
+		if ( self::is_premium_add_on_active() ) {
+			return false;
+		}
+
+		// Hide if Extended Settings is active.
+		if ( self::is_extended_settings_add_on_active() ) {
+			return false;
+		}
+
+		return true;
+	}
+
+	/**
+	 * Check if premium add-on is active.
+	 *
+	 * @return bool True if premium add-on is active, false otherwise.
+	 */
+	public static function is_premium_add_on_active() {
+		return self::is_plugin_active( 'simple-history-premium/simple-history-premium.php' );
+	}
+
+	/**
+	 * Check if Extended Settings add-on is active.
+	 */
+	public static function is_extended_settings_add_on_active() {
+		return self::is_plugin_active( 'simple-history-extended-settings/index.php' );
+	}
+
+	/**
+	 * Get the URL to the admin page where user views the history feed.
+	 *
+	 * Can not use `menu_page_url()` because it only works within the admin area.
+	 * But we want to be able to link to history page also from front end.
+	 *
+	 * Calls to this from the Admin Bar Quick View also happens before menu is registered.
+	 *
+	 * @return string URL to admin page, for example http://wordpress-stable.test/wordpress/wp-admin/index.php?page=simple_history_page.
+	 */
+	public static function get_history_admin_url() {
+		$history_page_location = self::get_menu_page_location();
+
+		if ( in_array( $history_page_location, array( 'top', 'bottom' ), true ) ) {
+			return admin_url( 'admin.php?page=' . Simple_History::MENU_PAGE_SLUG );
+		} elseif ( 'inside_tools' === $history_page_location ) {
+			return admin_url( 'tools.php?page=' . Simple_History::MENU_PAGE_SLUG );
+		} elseif ( 'inside_dashboard' === $history_page_location ) {
+			return admin_url( 'index.php?page=' . Simple_History::MENU_PAGE_SLUG );
+		} else {
+			// Fallback if no match found.
+			return admin_url( 'admin.php?page=' . Simple_History::MENU_PAGE_SLUG );
+		}
+	}
+
+	/**
+	 * Get URL for settings page.
+	 *
+	 * Uses the same menu location logic as the main history page.
+	 *
+	 * @return string URL for settings page.
+	 */
+	public static function get_settings_page_url() {
+		$history_page_location = self::get_menu_page_location();
+
+		if ( in_array( $history_page_location, array( 'top', 'bottom' ), true ) ) {
+			return admin_url( 'admin.php?page=' . Simple_History::SETTINGS_MENU_PAGE_SLUG );
+		} elseif ( in_array( $history_page_location, array( 'inside_tools', 'inside_dashboard' ), true ) ) {
+			return admin_url( 'options-general.php?page=' . Simple_History::SETTINGS_MENU_PAGE_SLUG );
+		} else {
+			// Fallback if no match found.
+			return admin_url( 'admin.php?page=' . Simple_History::SETTINGS_MENU_PAGE_SLUG );
+		}
+	}
+
+
+	/**
+	 * Get URL for a main tab in the settings page.
+	 *
+	 * @param string $tab_slug Slug for the tab.
+	 * @return string URL for the tab, unescaped.
+	 */
+	public static function get_settings_page_tab_url( $tab_slug ) {
+		return add_query_arg(
+			[
+				'selected-tab' => $tab_slug,
+			],
+			self::get_settings_page_url()
+		);
+	}
+
+	/**
+	 * Get URL for a sub-tab in the settings page.
+	 *
+	 * @param string $sub_tab_slug Slug for the sub-tab.
+	 * @return string URL for the sub-tab, unescaped.
+	 */
+	public static function get_settings_page_sub_tab_url( $sub_tab_slug ) {
+		return add_query_arg(
+			[
+				'selected-tab'  => Setup_Settings_Page::SETTINGS_GENERAL_SUBTAB_SLUG,
+				'selected-sub-tab' => $sub_tab_slug,
+			],
+			self::get_settings_page_url()
+		);
 	}
 }

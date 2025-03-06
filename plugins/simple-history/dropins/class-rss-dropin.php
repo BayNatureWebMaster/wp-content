@@ -265,7 +265,7 @@ class RSS_Dropin extends Dropin {
 					/**
 					 * Filters the arguments passed to `SimpleHistoryLogQuery()` when fetching the RSS feed
 					 *
-					 * @example Change number of posts to retreieve in RSS feed.
+					 * @example Change number of posts to retrieve in RSS feed.
 					 *
 					 * // This example changes the number of posts in the RSS feed to 50 from the default 10.
 					 *
@@ -278,7 +278,7 @@ class RSS_Dropin extends Dropin {
 					 *     }
 					 * );
 					 *
-					 * @example Change number of posts to retreieve in RSS feed.
+					 * @example Change number of posts to retrieve in RSS feed.
 					 *
 					 * // This example changes the number of posts in the RSS feed to 20 from the default 10.
 					 *
@@ -472,7 +472,7 @@ class RSS_Dropin extends Dropin {
 			sprintf(
 				/* translators: %s is a link to the documentation */
 				__( 'Query parameters can be used to control what to include in the feed. <a href="%1$s" class="sh-ExternalLink" target="_blank">View documentation</a>.', 'simple-history' ),
-				'https://simple-history.com/docs/feeds/?utm_source=wpadmin'
+				'https://simple-history.com/docs/feeds/?utm_source=wpadmin&utm_content=rss-feed-params'
 			),
 			[
 				'a' => [
@@ -553,16 +553,18 @@ class RSS_Dropin extends Dropin {
 		$paged = isset( $args['paged'] ) ? (int) $args['paged'] : 1;
 		$date_from = isset( $args['date_from'] ) ? sanitize_text_field( $args['date_from'] ) : '';
 		$date_to = isset( $args['date_to'] ) ? sanitize_text_field( $args['date_to'] ) : '';
-		$loggers = isset( $args['loggers'] ) ? sanitize_text_field( $args['loggers'] ) : array();
-		$messages = isset( $args['messages'] ) ? sanitize_text_field( $args['messages'] ) : array();
+		$loggers = isset( $args['loggers'] ) ? sanitize_text_field( $args['loggers'] ) : [];
+		$messages = isset( $args['messages'] ) ? sanitize_text_field( $args['messages'] ) : [];
+		$loglevels = isset( $args['loglevels'] ) ? sanitize_text_field( $args['loglevels'] ) : '';
 
-		$args['posts_per_page'] = $posts_per_page;
-		$args['paged'] = $paged;
-		$args['date_from'] = $date_from;
-		$args['date_to'] = $date_to;
-		$args['loggers'] = $loggers;
-		$args['messages'] = $messages;
-
-		return $args;
+		return [
+			'posts_per_page' => $posts_per_page,
+			'paged' => $paged,
+			'date_from' => $date_from,
+			'date_to' => $date_to,
+			'loggers' => $loggers,
+			'messages' => $messages,
+			'loglevels' => $loglevels,
+		];
 	}
 }

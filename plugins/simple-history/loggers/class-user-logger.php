@@ -182,6 +182,7 @@ class User_Logger extends Logger {
 
 		add_action( 'wp_create_application_password', array( $this, 'on_action_wp_create_application_password' ), 10, 4 );
 		add_action( 'wp_delete_application_password', array( $this, 'on_action_wp_delete_application_password' ), 10, 2 );
+		// TODO: there is also an action "wp_update_application_password". Used by rest api and fired when a user updates app password there.
 
 		$this->add_wp_cli_hooks();
 	}
@@ -536,8 +537,8 @@ class User_Logger extends Logger {
 
 		// Add diff to context.
 		foreach ( $user_data_diff as $one_diff_key => $one_diff_vals ) {
-				$context[ "user_prev_{$one_diff_key}" ] = $one_diff_vals['old'];
-				$context[ "user_new_{$one_diff_key}" ] = $one_diff_vals['new'];
+			$context[ "user_prev_{$one_diff_key}" ] = $one_diff_vals['old'];
+			$context[ "user_new_{$one_diff_key}" ] = $one_diff_vals['new'];
 		}
 
 		$context['user_prev_roles'] = (array) $user_before_update->roles;
@@ -1133,7 +1134,7 @@ class User_Logger extends Logger {
 					'title' => _x( 'Website', 'User logger', 'simple-history' ),
 				),
 				'send_user_notification' => array(
-					'title' => _x( 'User notification email sent', 'User logger', 'simple-history' ),
+					'title' => _x( 'Send notification', 'User logger', 'simple-history' ),
 				),
 			);
 
@@ -1141,8 +1142,9 @@ class User_Logger extends Logger {
 				if ( isset( $context[ $key ] ) && trim( $context[ $key ] ) ) {
 					if ( 'send_user_notification' == $key ) {
 						if ( (int) $context[ $key ] == 1 ) {
+							// The checkbox for notification was checked.
 							$sent_status = _x(
-								'Yes, email with account details was sent',
+								'Checked',
 								'User logger',
 								'simple-history'
 							);
@@ -1156,7 +1158,7 @@ class User_Logger extends Logger {
                                     <td>%1$s</td>
                                     <td>%2$s</td>
                                 </tr>',
-								_x( 'Notification', 'User logger', 'simple-history' ),
+								$val['title'],
 								sprintf(
 									'<ins class="SimpleHistoryLogitem__keyValueTable__addedThing">%1$s</ins>',
 									esc_html( $sent_status ) // 1

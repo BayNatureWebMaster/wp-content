@@ -6,25 +6,6 @@ use Simple_History\Helpers;
 
 /**
  * Queries the Simple History Log.
- *
- * Todo
- * - Occasions should check user permissions, or otherwise it can add any id and the user will have access to it.
- * - Test if fix for full group is working.
- * - [x] Finish query_overview_full_group_by() to return same data as query_overview(), and then compare and verify that it returns same data.
- *  - Also print SQL query and do some EXPLAIN on it in a regular editor. If this works it would be nice to blog about the findings,
- *    and print benchmarks etc.
- * - [x] Get num rows using second query with count(*)
- * - [x] Add limit.
- * - [x] Test in MySQL 5.5, 5.7, MariaDB 10.4.
- * - [x] Add support for SQLite.
- * - [x] Use get_cache_group
- * - [x] Use clear_cache instead of (true)
- * - [x] Date filtering is broken (sql where clause missing/not added)
- * - [x] Add caching to SQLite
- * - [x] Add tests for single event occasions.
- * - [x] Add tests for log row notifier.
- * - [ ] Run PHPStan and Rector.
- * - [ ] Merge together all git commits to one commit with close-##-messages.
  */
 class Log_Query {
 	/**
@@ -53,7 +34,7 @@ class Log_Query {
 	 * @return array
 	 * @throws \InvalidArgumentException If invalid query type.
 	 */
-	public function query( $args ) {
+	public function query( $args = [] ) {
 		$args = wp_parse_args( $args );
 
 		// Determine kind of query.
@@ -100,6 +81,7 @@ class Log_Query {
 	 *
 	 * @param string|array|object $args Arguments.
 	 * @return array Log rows.
+	 * @throws \Exception If error when performing query.
 	 */
 	protected function query_overview_sqlite( $args ) {
 		$args = $this->prepare_args( $args );
@@ -162,7 +144,15 @@ class Log_Query {
 		$result_log_rows = $wpdb->get_results( $sql_query_log_rows, OBJECT_K ); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
 
 		if ( ! empty( $wpdb->last_error ) ) {
-			exit;
+			throw new \Exception(
+				esc_html(
+					sprintf(
+						/* translators: %s: error message */
+						__( 'Error when performing query: %s', 'simple-history' ),
+						$wpdb->last_error
+					)
+				)
+			);
 		}
 
 		// Append context to log rows.
@@ -227,6 +217,7 @@ class Log_Query {
 	/**
 	 * @param string|array|object $args Arguments.
 	 * @return array Log rows.
+	 * @throws \Exception If error when performing query.
 	 */
 	protected function query_overview_mysql( $args ) {
 		// Parse and prepare args.
@@ -276,7 +267,7 @@ class Log_Query {
 			FROM %1$s AS h2
 
 			# Join column with message key so its searchable/filterable.
-			LEFT OUTER JOIN %2$s AS contexts ON (contexts.history_id = h2.id AND contexts.key = "_message_key")
+			LEFT OUTER JOIN %2$s AS contexts ON (contexts.history_id = h2.id AND contexts.key = \'_message_key\')
 
 			# Where statement.
 			%3$s
@@ -409,7 +400,15 @@ class Log_Query {
 		$result_log_rows = $wpdb->get_results( $sql_query_log_rows, OBJECT_K ); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
 
 		if ( ! empty( $wpdb->last_error ) ) {
-			exit;
+			throw new \Exception(
+				esc_html(
+					sprintf(
+						/* translators: %s: error message */
+						__( 'Error when performing query: %s', 'simple-history' ),
+						$wpdb->last_error
+					)
+				)
+			);
 		}
 
 		// Append context to log rows.
@@ -1072,9 +1071,19 @@ class Log_Query {
 	}
 
 	/**
-	 * Get inner where clause.
+	 * Get inner where clause as array where each item in the array is a where clause statement, without the "WHERE" keyword or "AND" keyword.
 	 *
-	 * @param array $args Arguments.
+	 * This function is used by both MySQL and SQLite.
+	 *
+	 * Example of array contents:
+	 *
+	 * Array
+	 * (
+	 *  [0] => logger IN ('AvailableUpdatesLogger', 'FileEditsLogger', 'Plugin_ACF', 'Plugin_BeaverBuilder', 'Plugin_DuplicatePost', 'Plugin_LimitLoginAttempts', 'Plugin_Redirection', 'PluginEnableMediaReplaceLogger', 'PluginUserSwitchingLogger', 'PluginWPCrontrolLogger', 'SH_Jetpack_Logger', 'SH_Privacy_Logger', 'SH_Translations_Logger', 'SimpleCategoriesLogger', 'SimpleCommentsLogger', 'SimpleCoreUpdatesLogger', 'SimpleExportLogger', 'SimpleLogger', 'SimpleMediaLogger', 'SimpleMenuLogger', 'SimpleOptionsLogger', 'SimplePluginLogger', 'SimplePostLogger', 'SimpleThemeLogger', 'SimpleUserLogger', 'SimpleHistoryLogger', 'WPMailLogger', 'WPHTTPRequestsLogger', 'WPCronLogger', 'WooCommerceLogger')
+	 *  [1] => date >= DATE(NOW() - INTERVAL 30 DAY)
+	 * )
+	 *
+	 * @param array $args Query arguments, as passed to query().
 	 * @return array<string> Where clauses.
 	 */
 	protected function get_inner_where( $args ) {
@@ -1085,7 +1094,7 @@ class Log_Query {
 		$inner_where = [];
 
 		// Only include loggers that the current user can view
-		// @TODO: this causes error if user has no access to any logger at all.
+		// TODO: this causes error if user has no access to any logger at all.
 		$sql_loggers_user_can_view = $simple_history->get_loggers_that_user_can_read( get_current_user_id(), 'sql' );
 		$inner_where[] = "logger IN {$sql_loggers_user_can_view}";
 
@@ -1115,13 +1124,13 @@ class Log_Query {
 		// Append date where clause.
 		// If date_from is set it is a timestamp.
 		if ( ! empty( $args['date_from'] ) ) {
-			$inner_where[] = sprintf( 'date >= "%1$s"', gmdate( 'Y-m-d H:i:s', $args['date_from'] ) );
+			$inner_where[] = sprintf( 'date >= \'%1$s\'', gmdate( 'Y-m-d H:i:s', $args['date_from'] ) );
 		}
 
 		// Date to.
 		// If date_to is set it is a timestamp.
 		if ( ! empty( $args['date_to'] ) ) {
-			$inner_where[] = sprintf( 'date <= "%1$s"', gmdate( 'Y-m-d H:i:s', $args['date_to'] ) );
+			$inner_where[] = sprintf( 'date <= \'%1$s\'', gmdate( 'Y-m-d H:i:s', $args['date_to'] ) );
 		}
 
 		// If "months" they translate to $args["months"] because we already have support for that
@@ -1240,7 +1249,7 @@ class Log_Query {
 			$sql_loglevels = '';
 
 			foreach ( $args['loglevels'] as $one_loglevel ) {
-				$sql_loglevels .= sprintf( ' "%s", ', esc_sql( $one_loglevel ) );
+				$sql_loglevels .= sprintf( ' \'%s\', ', esc_sql( $one_loglevel ) );
 			}
 
 			// Remove last comma.
@@ -1269,7 +1278,7 @@ class Log_Query {
 		// Add where for a single user ID.
 		if ( isset( $args['user'] ) ) {
 			$inner_where[] = sprintf(
-				'id IN ( SELECT history_id FROM %1$s AS c WHERE c.key = "_user_id" AND c.value = %2$s )',
+				'id IN ( SELECT history_id FROM %1$s AS c WHERE c.key = \'_user_id\' AND c.value = %2$s )',
 				$contexts_table_name, // 1
 				$args['user'], // 2
 			);
@@ -1278,11 +1287,21 @@ class Log_Query {
 		// Users, array with user ids.
 		if ( isset( $args['users'] ) ) {
 			$inner_where[] = sprintf(
-				'id IN ( SELECT history_id FROM %1$s AS c WHERE c.key = "_user_id" AND c.value IN (%2$s) )',
+				'id IN ( SELECT history_id FROM %1$s AS c WHERE c.key = \'_user_id\' AND c.value IN (%2$s) )',
 				$contexts_table_name, // 1
 				implode( ',', $args['users'] ), // 2
 			);
 		}
+
+		/**
+		 * Filter the default boxes to output in the sidebar
+		 *
+		 * @since 4.17.0
+		 *
+		 * @param array $inner_where The inner where array.
+		 * @param array $args The arguments passed to the query.
+		 */
+		$inner_where = apply_filters( 'simple_history/log_query_inner_where_array', $inner_where, $args );
 
 		return $inner_where;
 	}
@@ -1305,7 +1324,7 @@ class Log_Query {
 				$sql_logger_messages_in = '';
 
 				foreach ( $logger_messages as $one_logger_message ) {
-					$sql_logger_messages_in .= sprintf( '"%s",', esc_sql( $one_logger_message ) );
+					$sql_logger_messages_in .= sprintf( '\'%s\',', esc_sql( $one_logger_message ) );
 				}
 
 				$sql_logger_messages_in = rtrim( $sql_logger_messages_in, ' ,' );
@@ -1314,7 +1333,7 @@ class Log_Query {
 				$sql_messages_where .= sprintf(
 					'
 					(
-						h.logger = "%1$s"
+						h.logger = \'%1$s\'
 						%2$s
 					)
 					OR ',
@@ -1343,8 +1362,7 @@ class Log_Query {
 	 * @return string "mysql" or "sqlite"
 	 */
 	public static function get_db_engine() {
-		$db_engine = defined( 'DB_ENGINE' ) && constant( 'DB_ENGINE' ) === 'sqlite' ? 'sqlite' : 'mysql';
-		return $db_engine;
+		return defined( 'DB_ENGINE' ) && constant( 'DB_ENGINE' ) === 'sqlite' ? 'sqlite' : 'mysql';
 	}
 
 	/**
@@ -1390,7 +1408,7 @@ class Log_Query {
 				$str_like = esc_sql( $wpdb->esc_like( $one_search_word ) );
 
 				$str_sql_search_words .= sprintf(
-					' AND %1$s LIKE "%2$s" ',
+					' AND %1$s LIKE \'%2$s\' ',
 					$one_col,
 					"%{$str_like}%"
 				);
@@ -1413,7 +1431,7 @@ class Log_Query {
 			$str_like = esc_sql( $wpdb->esc_like( $one_search_word ) );
 
 			$str_search_conditions .= "\n" . sprintf(
-				' id IN ( SELECT history_id FROM %1$s AS c WHERE c.value LIKE "%2$s" ) AND ',
+				' id IN ( SELECT history_id FROM %1$s AS c WHERE c.value LIKE \'%2$s\' ) AND ',
 				$contexts_table_name, // 1
 				'%' . $str_like . '%' // 2
 			);
