@@ -8,7 +8,7 @@
 
 namespace Apple_Exporter\Builders;
 
-require_once plugin_dir_path( __FILE__ ) . '../../../admin/class-admin-apple-news.php';
+require_once dirname( __DIR__, 3 ) . '/admin/class-admin-apple-news.php';
 
 use Admin_Apple_News;
 use Apple_Exporter\Exporter_Content;
@@ -40,9 +40,17 @@ class Metadata extends Builder {
 		// If the content has a cover, use it as thumb.
 		$content_cover = $this->content_cover();
 		if ( ! empty( $content_cover ) ) {
-			$meta['thumbnailURL'] = $this->maybe_bundle_source(
-				isset( $content_cover['url'] ) ? $content_cover['url'] : $content_cover
-			);
+			$thumbnail_url = isset( $content_cover['url'] ) ? $content_cover['url'] : $content_cover;
+
+			// If the cover is not an image, try to get the post thumbnail.
+			if ( isset( $content_cover['provider'] ) && 'image' !== $content_cover['provider'] ) {
+				$thumbnail_id  = get_post_thumbnail_id( $this->content_id() );
+				$thumbnail_url = (string) wp_get_attachment_url( $thumbnail_id );
+			}
+
+			if ( $thumbnail_url ) {
+				$meta['thumbnailURL'] = $this->maybe_bundle_source( $thumbnail_url );
+			}
 		}
 
 		// Add authors.

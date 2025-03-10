@@ -122,8 +122,11 @@ class Admin_Apple_Settings_Section extends Apple_News {
 			'name'        => [],
 			'value'       => [],
 			'placeholder' => [],
+			'min'         => [],
+			'max'         => [],
 			'step'        => [],
 			'type'        => [],
+			'multiple'    => [],
 			'required'    => [],
 			'size'        => [],
 			'id'          => [],
@@ -132,6 +135,7 @@ class Admin_Apple_Settings_Section extends Apple_News {
 		'b'        => [],
 		'strong'   => [],
 		'i'        => [],
+		'code'     => [],
 		'em'       => [],
 		'a'        => [
 			'href'   => [],
@@ -260,7 +264,7 @@ class Admin_Apple_Settings_Section extends Apple_News {
 
 		$type = $this->get_type_for( $name );
 
-		// If the field has it's own render callback, use that here.
+		// If the field has its own render callback, use that here.
 		// This is because the options page doesn't actually use do_settings_section.
 		if ( ! empty( $callback ) ) {
 			return call_user_func( $callback, $type );
@@ -320,6 +324,16 @@ class Admin_Apple_Settings_Section extends Apple_News {
 			$field = '<input type="file" id="%s" name="%s">';
 		} elseif ( 'textarea' === $type ) {
 			$field = '<textarea id="%s" name="%s">%s</textarea>';
+		} elseif ( 'number' === $type ) {
+			$field = '<input type="number" id="%s" name="%s" value="%s" size="%s" min="%s" max="%s" step="%s" %s>';
+		} elseif ( 'email' === $type ) {
+			$field = '<input type="email" id="%s" name="%s" value="%s" size="%s"';
+
+			if ( $this->is_multiple( $name ) ) {
+				$field .= ' multiple %s>';
+			} else {
+				$field .= ' %s>';
+			}
 		} else {
 			// If nothing else matches, it's a string.
 			$field = '<input type="text" id="%s" name="%s" value="%s" size="%s" %s>';
@@ -365,6 +379,18 @@ class Admin_Apple_Settings_Section extends Apple_News {
 				esc_attr( $name ),
 				esc_attr( $value )
 			);
+		} elseif ( 'number' === $type ) {
+			return sprintf(
+				$field,
+				esc_attr( $name ),
+				esc_attr( $name ),
+				esc_attr( $value ),
+				5,
+				esc_attr( $this->get_min_for( $name ) ),
+				esc_attr( $this->get_max_for( $name ) ),
+				esc_attr( $this->get_step_for( $name ) ),
+				esc_attr( $this->is_required( $name ) )
+			);
 		} else {
 			return sprintf(
 				$field,
@@ -374,7 +400,6 @@ class Admin_Apple_Settings_Section extends Apple_News {
 				intval( $size ),
 				esc_attr( $this->is_required( $name ) )
 			);
-
 		}
 	}
 
@@ -388,9 +413,9 @@ class Admin_Apple_Settings_Section extends Apple_News {
 	protected function get_type_for( $name ) {
 		if ( $this->hidden ) {
 			return 'hidden';
-		} else {
-			return empty( $this->settings[ $name ]['type'] ) ? 'string' : $this->settings[ $name ]['type'];
 		}
+
+		return empty( $this->settings[ $name ]['type'] ) ? 'string' : $this->settings[ $name ]['type'];
 	}
 
 	/**
@@ -402,6 +427,45 @@ class Admin_Apple_Settings_Section extends Apple_News {
 	 */
 	protected function get_description_for( $name ) {
 		return empty( $this->settings[ $name ]['description'] ) ? '' : $this->settings[ $name ]['description'];
+	}
+
+	/**
+	 * Get the maximum value for a field.
+	 *
+	 * @param string $name The name of the field for which to fetch a maximum value.
+	 *
+	 * @return int|float|string The maximum value, or an empty string if not set.
+	 */
+	protected function get_max_for( $name ) {
+		return isset( $this->settings[ $name ]['max'] ) && ( is_int( $this->settings[ $name ]['max'] ) || is_float( $this->settings[ $name ]['max'] ) )
+			? $this->settings[ $name ]['max']
+			: '';
+	}
+
+	/**
+	 * Get the minimum value for a field.
+	 *
+	 * @param string $name The name of the field for which to fetch a minimum value.
+	 *
+	 * @return int|float|string The minimum value, or an empty string if not set.
+	 */
+	protected function get_min_for( $name ) {
+		return isset( $this->settings[ $name ]['min'] ) && ( is_int( $this->settings[ $name ]['min'] ) || is_float( $this->settings[ $name ]['min'] ) )
+			? $this->settings[ $name ]['min']
+			: '';
+	}
+
+	/**
+	 * Get the stepping value for a field.
+	 *
+	 * @param string $name The name of the field for which to fetch a stepping value.
+	 *
+	 * @return int|float The stepping value, or a default value of 1 if not set.
+	 */
+	protected function get_step_for( $name ) {
+		return isset( $this->settings[ $name ]['step'] ) && ( is_int( $this->settings[ $name ]['step'] ) || is_float( $this->settings[ $name ]['step'] ) )
+			? $this->settings[ $name ]['step']
+			: 1;
 	}
 
 	/**
@@ -584,9 +648,18 @@ class Admin_Apple_Settings_Section extends Apple_News {
 		}
 
 		// Clear certain caches.
+		delete_transient( 'apple_news_channel' );
 		delete_transient( 'apple_news_sections' );
 
 		// Save to options.
 		update_option( self::$section_option_name, $settings, 'no' );
+
+		/**
+		 * Update the cached settings with new one after an update.
+		 *
+		 * The `self::get_value` method uses this cached data. By resetting it, we ensure
+		 * that the new value is used after an update instead of the old value.
+		 */
+		self::$loaded_settings = $settings;
 	}
 }

@@ -50,7 +50,7 @@ class Apple_News {
 	 * @var string
 	 * @access public
 	 */
-	public static string $version = '2.4.8';
+	public static string $version = '2.7.0';
 
 	/**
 	 * Link to support for the plugin on WordPress.org.
@@ -340,6 +340,7 @@ class Apple_News {
 			self::$is_initialized = $has_api_settings || $has_api_config;
 		}
 
+
 		return self::$is_initialized;
 	}
 
@@ -364,34 +365,37 @@ class Apple_News {
 
 	/**
 	 * Constructor. Registers action hooks.
-	 *
-	 * @access public
 	 */
 	public function __construct() {
 		add_action(
 			'admin_enqueue_scripts',
 			[ $this, 'action_admin_enqueue_scripts' ]
 		);
+
 		add_action(
 			'enqueue_block_editor_assets',
 			[ $this, 'action_enqueue_block_editor_assets' ]
 		);
+
 		add_action(
-			'plugins_loaded',
-			[ $this, 'action_plugins_loaded' ]
+			'admin_init',
+			[ $this, 'action_admin_init' ]
 		);
+
 		add_filter(
 			'update_post_metadata',
 			[ $this, 'filter_update_post_metadata' ],
 			10,
 			5
 		);
+
 		add_filter(
 			'author_link',
 			[ $this, 'filter_author_link' ],
 			10,
 			3
 		);
+
 		add_filter(
 			'the_author',
 			[ $this, 'filter_the_author' ],
@@ -419,7 +423,7 @@ class Apple_News {
 		// Enqueue the script for cover images in the classic editor.
 		wp_enqueue_script(
 			$this->plugin_slug . '_cover_image_js',
-			plugin_dir_url( __FILE__ ) . '../assets/js/cover-image.js',
+			plugin_dir_url( __FILE__ ) . '../assets/js/cover-media.js',
 			[ 'jquery' ],
 			self::$version,
 			true
@@ -470,21 +474,23 @@ class Apple_News {
 	}
 
 	/**
-	 * Action hook callback for plugins_loaded.
+	 * Action hook callback for init.
 	 *
-	 * @since 1.3.0
+	 * @since 2.7.0
+	 * @since 2.6.2 as action_init()
+	 * @since 1.3.0 as action_plugins_loaded()
 	 */
-	public function action_plugins_loaded(): void {
+	public function action_admin_init(): void {
 
 		// Determine if the database version and code version are the same.
-		$current_version = get_option( 'apple_news_version' );
-		if ( version_compare( $current_version, self::$version, '>=' ) ) {
+		$current_version = get_option( 'apple_news_version', '' );
+		if ( is_string( $current_version ) && version_compare( $current_version, self::$version, '>=' ) ) {
 			return;
 		}
 
 		// Determine if this is a clean install (no settings set yet).
 		$settings = get_option( self::$option_name );
-		if ( ! empty( $settings ) ) {
+		if ( ! empty( $settings ) && is_string( $current_version ) ) {
 
 			// Handle upgrade to version 1.3.0.
 			if ( version_compare( $current_version, '1.3.0', '<' ) ) {
@@ -500,6 +506,16 @@ class Apple_News {
 			if ( version_compare( $current_version, '2.4.0', '<' ) ) {
 				$this->upgrade_to_2_4_0();
 			}
+
+			// Handle upgrade to version 2.5.0.
+			if ( version_compare( $current_version, '2.5.0', '<' ) ) {
+				$this->upgrade_to_2_5_0();
+			}
+
+			// Handle upgrade to version 2.7.0.
+			if ( version_compare( $current_version, '2.7.0', '<' ) ) {
+				$this->upgrade_to_2_7_0();
+			}
 		}
 
 		// Ensure the default themes are created.
@@ -511,8 +527,6 @@ class Apple_News {
 
 	/**
 	 * Create the default themes, if they do not exist.
-	 *
-	 * @access public
 	 */
 	public function create_default_theme(): void {
 
@@ -523,9 +537,14 @@ class Apple_News {
 		}
 
 		// Build the theme formatting settings from the base settings array.
-		$theme          = new Theme();
-		$options        = Theme::get_options();
-		$wp_settings    = get_option( self::$option_name, [] );
+		$theme       = new Theme();
+		$options     = Theme::get_options();
+		$wp_settings = get_option( self::$option_name, [] );
+
+		if ( ! is_array( $wp_settings ) ) {
+			$wp_settings = [];
+		}
+
 		$theme_settings = [];
 		foreach ( array_keys( $options ) as $option_key ) {
 			if ( isset( $wp_settings[ $option_key ] ) ) {
@@ -1097,6 +1116,127 @@ class Apple_News {
 		delete_option( 'apple_news_section_priority_mappings' );
 		delete_option( 'apple_news_section_taxonomy_mappings' );
 		delete_option( 'apple_news_section_theme_mappings' );
+	}
+
+	/**
+	 * Upgrades settings and data formats to be compatible with version 2.5.0.
+	 */
+	public function upgrade_to_2_5_0(): void {
+		$registry = Theme::get_registry();
+		foreach ( $registry as $theme_name ) {
+			$theme_object   = Admin_Apple_Themes::get_theme_by_name( $theme_name );
+			$json_templates = $theme_object->get_value( 'json_templates' );
+
+			// Migrate heading layouts from being centrally defined to being defined per heading level.
+			if ( ! empty( $json_templates['heading']['heading-layout'] ) ) {
+				$heading_layout = $json_templates['heading']['heading-layout'];
+				unset( $json_templates['heading']['heading-layout'] );
+				for ( $heading_level = 1; $heading_level <= 6; $heading_level++ ) {
+					$json_templates['heading'][ 'heading-layout-' . $heading_level ] = $heading_layout;
+				}
+				$theme_object->set_value( 'json_templates', $json_templates );
+			}
+
+			// Set defaults for new <cite> styles based on caption settings.
+			$theme_object->set_value( 'cite_color', $theme_object->get_value( 'caption_color' ) );
+			$theme_object->set_value( 'cite_color_dark', $theme_object->get_value( 'caption_color_dark' ) );
+			$theme_object->set_value( 'cite_font', $theme_object->get_value( 'caption_font' ) );
+			$theme_object->set_value( 'cite_line_height', $theme_object->get_value( 'caption_line_height' ) );
+			$theme_object->set_value( 'cite_size', $theme_object->get_value( 'caption_size' ) );
+			$theme_object->set_value( 'cite_tracking', $theme_object->get_value( 'caption_tracking' ) );
+
+			// Set defaults for new aside component styles based on blockquote settings.
+			$theme_object->set_value( 'aside_background_color', $theme_object->get_value( 'blockquote_background_color' ) );
+			$theme_object->set_value( 'aside_background_color_dark', $theme_object->get_value( 'blockquote_background_color_dark' ) );
+			$theme_object->set_value( 'aside_border_color', $theme_object->get_value( 'blockquote_border_color' ) );
+			$theme_object->set_value( 'aside_border_color_dark', $theme_object->get_value( 'blockquote_border_color_dark' ) );
+			$theme_object->set_value( 'aside_border_style', $theme_object->get_value( 'blockquote_border_style' ) );
+			$theme_object->set_value( 'aside_border_width', $theme_object->get_value( 'blockquote_border_width' ) );
+
+			// Save our changes.
+			$theme_object->save();
+		}
+	}
+
+	/**
+	 * Upgrades settings and data formats to be compatible with version 2.7.0.
+	 */
+	public function upgrade_to_2_7_0(): void {
+		$registry = Theme::get_registry();
+		foreach ( $registry as $theme_name ) {
+			$theme_object = Admin_Apple_Themes::get_theme_by_name( $theme_name );
+
+			// Set defaults from blockquote settings.
+			$theme_object->set_value( 'recipe_background_color', $theme_object->get_value( 'blockquote_background_color' ) );
+			$theme_object->set_value( 'recipe_body_background_color', $theme_object->get_value( 'blockquote_background_color' ) );
+			$theme_object->set_value( 'recipe_caption_background_color', $theme_object->get_value( 'blockquote_background_color' ) );
+			$theme_object->set_value( 'recipe_details_background_color', $theme_object->get_value( 'blockquote_background_color' ) );
+			$theme_object->set_value( 'recipe_background_color_dark', $theme_object->get_value( 'blockquote_background_color_dark' ) );
+			$theme_object->set_value( 'recipe_body_background_color_dark', $theme_object->get_value( 'blockquote_background_color_dark' ) );
+			$theme_object->set_value( 'recipe_caption_background_color_dark', $theme_object->get_value( 'blockquote_background_color_dark' ) );
+			$theme_object->set_value( 'recipe_details_background_color_dark', $theme_object->get_value( 'blockquote_background_color_dark' ) );
+			$theme_object->set_value( 'recipe_body_color', $theme_object->get_value( 'blockquote_color' ) );
+			$theme_object->set_value( 'recipe_caption_color', $theme_object->get_value( 'blockquote_color' ) );
+			$theme_object->set_value( 'recipe_details_color', $theme_object->get_value( 'blockquote_color' ) );
+			$theme_object->set_value( 'recipe_body_color_dark', $theme_object->get_value( 'blockquote_color_dark' ) );
+			$theme_object->set_value( 'recipe_caption_color_dark', $theme_object->get_value( 'blockquote_color_dark' ) );
+			$theme_object->set_value( 'recipe_details_color_dark', $theme_object->get_value( 'blockquote_color_dark' ) );
+
+			// Set defaults from body settings.
+			$theme_object->set_value( 'recipe_body_font', $theme_object->get_value( 'body_font' ) );
+			$theme_object->set_value( 'recipe_caption_font', $theme_object->get_value( 'body_font' ) );
+			$theme_object->set_value( 'recipe_details_font', $theme_object->get_value( 'body_font' ) );
+			$theme_object->set_value( 'recipe_body_line_height', $theme_object->get_value( 'body_line_height' ) );
+			$theme_object->set_value( 'recipe_caption_line_height', $theme_object->get_value( 'body_line_height' ) );
+			$theme_object->set_value( 'recipe_details_line_height', $theme_object->get_value( 'body_line_height' ) );
+			$theme_object->set_value( 'recipe_body_link_color', $theme_object->get_value( 'body_link_color' ) );
+			$theme_object->set_value( 'recipe_caption_link_color', $theme_object->get_value( 'body_link_color' ) );
+			$theme_object->set_value( 'recipe_details_link_color', $theme_object->get_value( 'body_link_color' ) );
+			$theme_object->set_value( 'recipe_body_link_color_dark', $theme_object->get_value( 'body_link_color_dark' ) );
+			$theme_object->set_value( 'recipe_caption_link_color_dark', $theme_object->get_value( 'body_link_color_dark' ) );
+			$theme_object->set_value( 'recipe_details_link_color_dark', $theme_object->get_value( 'body_link_color_dark' ) );
+			$theme_object->set_value( 'recipe_body_size', $theme_object->get_value( 'body_size' ) );
+			$theme_object->set_value( 'recipe_caption_size', $theme_object->get_value( 'body_size' ) );
+			$theme_object->set_value( 'recipe_details_size', $theme_object->get_value( 'body_size' ) );
+			$theme_object->set_value( 'recipe_body_tracking', $theme_object->get_value( 'body_tracking' ) );
+			$theme_object->set_value( 'recipe_caption_tracking', $theme_object->get_value( 'body_tracking' ) );
+			$theme_object->set_value( 'recipe_details_tracking', $theme_object->get_value( 'body_tracking' ) );
+
+			// Set defaults from heading2 settings.
+			$theme_object->set_value( 'recipe_title_color', $theme_object->get_value( 'header2_color' ) );
+			$theme_object->set_value( 'recipe_title_color_dark', $theme_object->get_value( 'header2_color_dark' ) );
+			$theme_object->set_value( 'recipe_title_font', $theme_object->get_value( 'header2_font' ) );
+			$theme_object->set_value( 'recipe_title_line_height', $theme_object->get_value( 'header2_line_height' ) );
+			$theme_object->set_value( 'recipe_title_size', $theme_object->get_value( 'header2_size' ) );
+			$theme_object->set_value( 'recipe_title_tracking', $theme_object->get_value( 'header2_tracking' ) );
+
+			// Set defaults from heading3 settings.
+			$theme_object->set_value( 'recipe_header2_color', $theme_object->get_value( 'header3_color' ) );
+			$theme_object->set_value( 'recipe_header2_color_dark', $theme_object->get_value( 'header3_color_dark' ) );
+			$theme_object->set_value( 'recipe_header2_font', $theme_object->get_value( 'header3_font' ) );
+			$theme_object->set_value( 'recipe_header2_line_height', $theme_object->get_value( 'header3_line_height' ) );
+			$theme_object->set_value( 'recipe_header2_size', $theme_object->get_value( 'header3_size' ) );
+			$theme_object->set_value( 'recipe_header2_tracking', $theme_object->get_value( 'header3_tracking' ) );
+
+			// Set defaults from heading4 settings.
+			$theme_object->set_value( 'recipe_header3_color', $theme_object->get_value( 'header4_color' ) );
+			$theme_object->set_value( 'recipe_header3_color_dark', $theme_object->get_value( 'header4_color_dark' ) );
+			$theme_object->set_value( 'recipe_header3_font', $theme_object->get_value( 'header4_font' ) );
+			$theme_object->set_value( 'recipe_header3_line_height', $theme_object->get_value( 'header4_line_height' ) );
+			$theme_object->set_value( 'recipe_header3_size', $theme_object->get_value( 'header4_size' ) );
+			$theme_object->set_value( 'recipe_header3_tracking', $theme_object->get_value( 'header4_tracking' ) );
+
+			// Set defaults from heading5 settings.
+			$theme_object->set_value( 'recipe_header4_color', $theme_object->get_value( 'header5_color' ) );
+			$theme_object->set_value( 'recipe_header4_color_dark', $theme_object->get_value( 'header5_color_dark' ) );
+			$theme_object->set_value( 'recipe_header4_font', $theme_object->get_value( 'header5_font' ) );
+			$theme_object->set_value( 'recipe_header4_line_height', $theme_object->get_value( 'header5_line_height' ) );
+			$theme_object->set_value( 'recipe_header4_size', $theme_object->get_value( 'header5_size' ) );
+			$theme_object->set_value( 'recipe_header4_tracking', $theme_object->get_value( 'header5_tracking' ) );
+
+			// Save our changes.
+			$theme_object->save();
+		}
 	}
 
 	/**

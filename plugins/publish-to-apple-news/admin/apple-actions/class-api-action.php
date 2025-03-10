@@ -8,9 +8,9 @@
 
 namespace Apple_Actions;
 
-require_once plugin_dir_path( __FILE__ ) . 'class-action.php';
-require_once plugin_dir_path( __FILE__ ) . 'class-action-exception.php';
-require_once plugin_dir_path( __FILE__ ) . '../../includes/apple-push-api/autoload.php';
+require_once __DIR__ . '/class-action.php';
+require_once __DIR__ . '/class-action-exception.php';
+require_once dirname( __DIR__, 2 ) . '/includes/apple-push-api/autoload.php';
 
 use Apple_Actions\Action;
 use Apple_Push_API\API;
@@ -87,5 +87,19 @@ abstract class API_Action extends Action {
 		}
 
 		return true;
+	}
+
+	/**
+	 * Resets the API postmeta for a given post ID.
+	 *
+	 * @param int $post_id The post ID to reset.
+	 */
+	protected function delete_post_meta( $post_id ): void {
+		delete_post_meta( $post_id, 'apple_news_api_id' );
+		delete_post_meta( $post_id, 'apple_news_api_revision' );
+		delete_post_meta( $post_id, 'apple_news_api_created_at' );
+		delete_post_meta( $post_id, 'apple_news_api_modified_at' );
+		delete_post_meta( $post_id, 'apple_news_api_share_url' );
+		delete_post_meta( $post_id, 'apple_news_article_checksum' );
 	}
 }

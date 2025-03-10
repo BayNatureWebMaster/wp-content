@@ -8,12 +8,12 @@
  */
 
 // Include dependencies.
-require_once plugin_dir_path( __FILE__ ) . 'apple-actions/index/class-get.php';
-require_once plugin_dir_path( __FILE__ ) . 'apple-actions/index/class-push.php';
-require_once plugin_dir_path( __FILE__ ) . 'apple-actions/index/class-delete.php';
-require_once plugin_dir_path( __FILE__ ) . 'apple-actions/index/class-export.php';
-require_once plugin_dir_path( __FILE__ ) . 'apple-actions/index/class-section.php';
-require_once plugin_dir_path( __FILE__ ) . 'class-admin-apple-news-list-table.php';
+require_once __DIR__ . '/apple-actions/index/class-get.php';
+require_once __DIR__ . '/apple-actions/index/class-push.php';
+require_once __DIR__ . '/apple-actions/index/class-delete.php';
+require_once __DIR__ . '/apple-actions/index/class-export.php';
+require_once __DIR__ . '/apple-actions/index/class-section.php';
+require_once __DIR__ . '/class-admin-apple-news-list-table.php';
 
 use Apple_Exporter\Workspace;
 
@@ -93,36 +93,12 @@ class Admin_Apple_Index_Page extends Apple_News {
 	}
 
 	/**
-	 * Decide which template to load for the Apple News admin page
-	 *
-	 * @access public
+	 * Shows the list of articles available for publishing to Apple News.
 	 */
 	public function admin_page() {
-		$id     = isset( $_GET['post_id'] ) ? absint( $_GET['post_id'] ) : null; // phpcs:ignore WordPress.VIP.SuperGlobalInputUsage.AccessDetected, WordPress.Security.NonceVerification.Recommended
-		$action = isset( $_GET['action'] ) ? sanitize_text_field( wp_unslash( $_GET['action'] ) ) : null; // phpcs:ignore WordPress.VIP.SuperGlobalInputUsage.AccessDetected, WordPress.Security.NonceVerification.Recommended
-
-		switch ( $action ) {
-			case self::namespace_action( 'push' ):
-				/* phpcs:disable VariableAnalysis.CodeAnalysis.VariableAnalysis.UnusedVariable */
-
-				$section = new Apple_Actions\Index\Section( $this->settings );
-				try {
-					$sections = $section->get_sections();
-				} catch ( Apple_Actions\Action_Exception $e ) {
-					Admin_Apple_Notice::error( $e->getMessage() );
-				}
-
-				$post      = get_post( $id );
-				$post_meta = get_post_meta( $id );
-
-				/* phpcs:enable */
-
-				include plugin_dir_path( __FILE__ ) . 'partials/page-single-push.php';
-				break;
-			default:
-				$this->show_post_list_action();
-				break;
-		}
+		$table = new Admin_Apple_News_List_Table( $this->settings );
+		$table->prepare_items();
+		include __DIR__ . '/partials/page-index.php';
 	}
 
 	/**
@@ -134,7 +110,7 @@ class Admin_Apple_Index_Page extends Apple_News {
 	 *
 	 * @since 0.4.0
 	 * @access public
-	 * @return mixed The result of the requested action.
+	 * @return mixed|void The result of the requested action.
 	 */
 	public function page_router() {
 		$id      = isset( $_GET['post_id'] ) ? absint( $_GET['post_id'] ) : null; // phpcs:ignore WordPress.VIP.SuperGlobalInputUsage.AccessDetected, WordPress.Security.NonceVerification.Recommended
@@ -148,26 +124,62 @@ class Admin_Apple_Index_Page extends Apple_News {
 
 		// Given an action and ID, map the attributes to corresponding actions.
 		switch ( $action ) {
+			case self::namespace_action( 'debug' ):
+				return $this->debug_action( $id );
 			case self::namespace_action( 'export' ):
 				return $this->export_action( $id );
 			case self::namespace_action( 'reset' ):
 				return $this->reset_action( $id );
-			case self::namespace_action( 'push' ): // phpcs:ignore PSR2.ControlStructures.SwitchDeclaration.TerminatingComment
-				if ( ! $id ) {
+			case self::namespace_action( 'push' ):
+				if ( $id ) {
+					$this->push_action( $id );
+				} else {
 					$url = menu_page_url( $this->plugin_slug . '_bulk_export', false );
-					if ( isset( $_GET['article'] ) ) { // phpcs:ignore WordPress.VIP.SuperGlobalInputUsage.AccessDetected, WordPress.Security.NonceVerification.Recommended
-						$ids  = is_array( $_GET['article'] ) ? array_map( 'absint', $_GET['article'] ) : absint( $_GET['article'] ); //  phpcs:ignore WordPress.VIP.SuperGlobalInputUsage.AccessDetected, WordPress.Security.NonceVerification.Recommended
-						$url .= '&ids=' . implode( '.', $ids );
+
+					if ( isset( $_GET['article'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+						$post_ids = is_array( $_GET['article'] ) ? array_map( 'intval', $_GET['article'] ) : (int) $_GET['article']; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+						$url      = add_query_arg(
+							[
+								'action'   => 'apple_news_push_post',
+								'post_ids' => implode( ',', $post_ids ),
+							],
+							$url,
+						);
 					}
+
 					wp_safe_redirect( esc_url_raw( $url ) ); // phpcs:ignore WordPressVIPMinimum.Security.ExitAfterRedirect.NoExit
+
 					if ( ! defined( 'APPLE_NEWS_UNIT_TESTS' ) || ! APPLE_NEWS_UNIT_TESTS ) {
 						exit;
 					}
-				} else {
-					return $this->push_action( $id );
 				}
+
+				break;
 			case self::namespace_action( 'delete' ):
-				return $this->delete_action( $id );
+				if ( $id ) {
+					$this->delete_action( $id );
+				} else {
+					$url = menu_page_url( $this->plugin_slug . '_bulk_export', false );
+
+					if ( isset( $_GET['article'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+						$post_ids = is_array( $_GET['article'] ) ? array_map( 'intval', $_GET['article'] ) : (int) $_GET['article']; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+						$url      = add_query_arg(
+							[
+								'action'   => 'apple_news_delete_post',
+								'post_ids' => implode( ',', $post_ids ),
+							],
+							$url,
+						);
+					}
+
+					wp_safe_redirect( esc_url_raw( $url ) ); // phpcs:ignore WordPressVIPMinimum.Security.ExitAfterRedirect.NoExit
+
+					if ( ! defined( 'APPLE_NEWS_UNIT_TESTS' ) || ! APPLE_NEWS_UNIT_TESTS ) {
+						exit;
+					}
+				}
+
+				break;
 		}
 	}
 
@@ -336,17 +348,6 @@ class Admin_Apple_Index_Page extends Apple_News {
 	}
 
 	/**
-	 * Shows the list of articles available for publishing to Apple News.
-	 *
-	 * @access public
-	 */
-	public function show_post_list_action() {
-		$table = new Admin_Apple_News_List_Table( $this->settings );
-		$table->prepare_items();
-		include plugin_dir_path( __FILE__ ) . 'partials/page-index.php';
-	}
-
-	/**
 	 * Handles an export action.
 	 *
 	 * @param int $id The ID of the post being exported.
@@ -406,6 +407,25 @@ class Admin_Apple_Index_Page extends Apple_News {
 	}
 
 	/**
+	 * Handles a debug action.
+	 *
+	 * @param int|null $id The ID of the post being debugged.
+	 *
+	 * @access private
+	 */
+	private function debug_action( ?int $id ): void {
+		$post = get_post( $id );
+		if ( ! $post ) {
+			return;
+		}
+
+		$action = new Apple_Actions\Index\Push( $this->settings, $id );
+		$action->debug();
+
+		exit( 'Debug output complete.' );
+	}
+
+	/**
 	 * Handles a delete from Apple News action.
 	 *
 	 * @param int $id The ID of the post being deleted.
@@ -415,7 +435,7 @@ class Admin_Apple_Index_Page extends Apple_News {
 		$action = new Apple_Actions\Index\Delete( $this->settings, $id );
 		try {
 			$action->perform();
-			$this->notice_success( __( 'Your article has been removed from apple news.', 'apple-news' ) );
+			$this->notice_success( __( 'Your article has been removed from Apple News.', 'apple-news' ) );
 		} catch ( Apple_Actions\Action_Exception $e ) {
 			$this->notice_error( $e->getMessage() );
 		}

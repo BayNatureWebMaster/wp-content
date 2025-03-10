@@ -1,24 +1,16 @@
 <?php
 /**
- * Entry point for the plugin.
- *
- * This file is read by WordPress to generate the plugin information in the
- * admin panel.
- *
- * @link    http://github.com/alleyinteractive/apple-news
- * @since   0.2.0
- * @package WP_Plugin
- */
-
-/*
- * Plugin Name: Publish to Apple News
+ * Plugin Name: Publish To Apple News
  * Plugin URI:  http://github.com/alleyinteractive/apple-news
  * Description: Export and sync posts to Apple format.
- * Version:     2.4.8
+ * Version:     2.7.0
  * Author:      Alley
  * Author URI:  https://alley.com
  * Text Domain: apple-news
- * Domain Path: lang/
+ * License:     GPLv3 or later
+ * License URI: https://www.gnu.org/licenses/gpl.html
+ *
+ * @package Apple_News
  */
 
 /**
@@ -40,7 +32,7 @@ function apple_news_date( $format, $timestamp = null, $timezone = null ) {
 	return date( $format, $timestamp ); // phpcs:ignore WordPress.DateTime.RestrictedFunctions.date_date
 }
 
-require_once plugin_dir_path( __FILE__ ) . './includes/meta.php';
+require_once __DIR__ . '/includes/meta.php';
 
 if ( ! defined( 'WPINC' ) ) {
 	die;
@@ -51,13 +43,13 @@ if ( ! defined( 'WPINC' ) ) {
  */
 function apple_news_activate_wp_plugin() {
 	// Check for PHP version.
-	if ( version_compare( PHP_VERSION, '5.3.6' ) < 0 ) {
+	if ( version_compare( PHP_VERSION, '8.0.0' ) < 0 ) {
 		deactivate_plugins( basename( __FILE__ ) );
-		wp_die( esc_html__( 'This plugin requires at least PHP 5.3.6', 'apple-news' ) );
+		wp_die( esc_html__( 'This plugin requires at least PHP 8.0.0', 'apple-news' ) );
 	}
 }
 
-require plugin_dir_path( __FILE__ ) . 'includes/apple-exporter/class-settings.php';
+require __DIR__ . '/includes/apple-exporter/class-settings.php';
 
 /**
  * Deactivate the plugin.
@@ -76,32 +68,23 @@ if ( ! defined( 'WPCOM_IS_VIP_ENV' ) || ! WPCOM_IS_VIP_ENV ) {
 }
 
 // Initialize plugin class.
-require plugin_dir_path( __FILE__ ) . 'includes/class-apple-news.php';
-require plugin_dir_path( __FILE__ ) . 'admin/class-admin-apple-news.php';
-
-/**
- * Load plugin textdomain.
- *
- * @since 0.9.0
- */
-function apple_news_load_textdomain() {
-	load_plugin_textdomain( 'apple-news', false, plugin_dir_path( __FILE__ ) . '/lang' );
-}
-add_action( 'plugins_loaded', 'apple_news_load_textdomain' );
+require __DIR__ . '/includes/class-apple-news.php';
+require __DIR__ . '/admin/class-admin-apple-news.php';
 
 /**
  * Gets plugin data.
  * Used to provide generator info in the metadata class.
  *
- * @return array
- *
  * @since 1.0.4
+ *
+ * @param bool $translate Whether to translate the plugin data.
+ * @return array
  */
-function apple_news_get_plugin_data() {
+function apple_news_get_plugin_data( $translate = true ) {
 	if ( ! function_exists( 'get_plugin_data' ) ) {
 		require_once ABSPATH . 'wp-admin/includes/plugin.php';
 	}
-	return get_plugin_data( plugin_dir_path( __FILE__ ) . '/apple-news.php' );
+	return get_plugin_data( __DIR__ . '/apple-news.php', true, $translate );
 }
 
 new Admin_Apple_News();
@@ -194,20 +177,5 @@ function apple_news_is_classic_editor_plugin_active() {
 		include_once ABSPATH . 'wp-admin/includes/plugin.php';
 	}
 
-	if ( is_plugin_active( 'classic-editor/classic-editor.php' ) ) {
-		return true;
-	}
-
-	return false;
+	return is_plugin_active( 'classic-editor/classic-editor.php' );
 }
-
-/**
- * Given a user ID, a post ID, and an action, determines whether a user can
- * perform the action or not.
- *
- * @param int    $post_id The ID of the post to check.
- * @param string $action  The action to check. One of 'publish', 'update', 'delete'.
- * @param int    $user_id The user ID to check.
- *
- * @return bool True if the user can perform the action, false otherwise.
- */

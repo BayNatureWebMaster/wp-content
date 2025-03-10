@@ -14,6 +14,7 @@ namespace Apple_Exporter\Builders;
 use Apple_Exporter\Component_Factory;
 use Apple_Exporter\Components\Component;
 use Apple_Exporter\Components\Image;
+use Apple_Exporter\Settings;
 use Apple_Exporter\Theme;
 use Apple_Exporter\Workspace;
 use Apple_News;
@@ -70,6 +71,9 @@ class Components extends Builder {
 
 		// Remove any identifiers that are duplicated.
 		$components = $this->remove_duplicate_identifiers( $components );
+
+		// Remove any components that duplicate the cover media.
+		$components = $this->remove_cover_from_components( $components );
 
 		return $components;
 	}
@@ -219,8 +223,14 @@ class Components extends Builder {
 				}
 			}
 
+			$cover_config = $this->content_cover();
+
+			// If configured cover is not an image, don't try to replace it with an image from the post.
+			if ( isset( $cover_config['provider'] ) && 'image' !== $cover_config['provider'] ) {
+				return;
+			}
+
 			// If the normalized URL for the first image is different than the URL for the featured image, use the featured image.
-			$cover_config   = $this->content_cover();
 			$cover_url      = $this->get_image_full_size_url( isset( $cover_config['url'] ) ? $cover_config['url'] : $cover_config );
 			$normalized_url = $this->get_image_full_size_url( $original_url );
 			if ( ! empty( $cover_url ) && $normalized_url !== $cover_url ) {
@@ -485,13 +495,6 @@ class Components extends Builder {
 		$component['text'] = preg_replace_callback(
 			'/\bid=["\'](.*?)["\']/',
 			function ( $matches ) use ( &$component, &$identifiers ) {
-				// If 'id' starts with a digit, it's skipped,
-				// as it's not a valid identifier and Apple News
-				// will reject it.
-				if ( preg_match( '/^\d/', $matches[1] ) ) {
-					return '';
-				}
-
 				// Saving the 'id' as the 'identifier'.
 				$identifier = $matches[1];
 
@@ -908,10 +911,65 @@ class Components extends Builder {
 		$theme          = Theme::get_used();
 		$json_templates = $theme->get_value( 'json_templates' );
 
+		// Insert in-article module at the proper position, if set.
+		if ( ! empty( $json_templates['in_article']['json'] ) ) {
+			$position = $this->get_setting( 'in_article_position' );
+			if ( is_numeric( $position ) ) {
+				$position = (int) $position;
+				if ( $position < 0 ) {
+					$position = 0;
+				}
+			} else {
+				$default_settings = ( new Settings() )->all();
+				$position         = $default_settings['in_article_position'];
+			}
+			$components = array_merge(
+				array_slice( $components, 0, $position ),
+				[ Component_Factory::get_component( 'in-article', '' ) ],
+				array_slice( $components, $position )
+			);
+		}
+
+		// Insert end of article module, if set.
 		if ( ! empty( $json_templates['end_of_article']['json'] ) ) {
 			$components[] = Component_Factory::get_component( 'end-of-article', '' );
 		}
 
 		return $components;
+	}
+
+	/**
+	 * Remove any components that duplicate the cover media.
+	 *
+	 * @param array $components The array of components to remove the cover from.
+	 * @return array The updated array of components.
+	 */
+	private function remove_cover_from_components( $components ) {
+		if ( 'yes' !== $this->get_setting( 'deduplicate_cover_media' ) ) {
+			return $components;
+		}
+
+		$cover = $this->content_cover();
+
+		if ( empty( $cover['url'] ) ) {
+			return $components;
+		}
+
+		foreach ( $components as $i => $component ) {
+			// Special case: Don't remove the cover from the header itself.
+			if ( isset( $component['role'] ) && 'header' === $component['role'] ) {
+				continue;
+			}
+
+			if ( isset( $component['URL'] ) && $component['URL'] === $cover['url'] ) {
+				unset( $components[ $i ] );
+			}
+
+			if ( isset( $component['components'] ) && is_array( $component['components'] ) ) {
+				$components[ $i ]['components'] = $this->remove_cover_from_components( $component['components'] );
+			}
+		}
+
+		return array_values( $components );
 	}
 }

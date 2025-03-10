@@ -172,6 +172,8 @@ class Admin_Apple_News_List_Table extends WP_List_Table {
 			return;
 		}
 
+		$apple_news_api_id = get_post_meta( $item->ID, 'apple_news_api_id', true );
+
 		// Build the base URL.
 		$base_url = add_query_arg(
 			[
@@ -188,6 +190,12 @@ class Admin_Apple_News_List_Table extends WP_List_Table {
 				esc_url( Admin_Apple_Index_Page::action_query_params( 'export', $base_url ) ),
 				esc_html__( 'Download', 'apple-news' )
 			),
+			'debug'  => sprintf(
+				"<a title='%s' href='%s' target='_blank'>%s</a>",
+				esc_html__( 'Show API request for debugging', 'apple-news' ),
+				esc_url( Admin_Apple_Index_Page::action_query_params( 'debug', $base_url ) ),
+				esc_html__( 'Debug', 'apple-news' )
+			),
 		];
 
 		// Only add push if the article is not pending publish.
@@ -196,7 +204,7 @@ class Admin_Apple_News_List_Table extends WP_List_Table {
 			$actions['push'] = sprintf(
 				"<a href='%s'>%s</a>",
 				esc_url( Admin_Apple_Index_Page::action_query_params( 'push', $base_url ) ),
-				esc_html__( 'Publish', 'apple-news' )
+				$apple_news_api_id ? esc_html__( 'Update', 'apple-news' ) : esc_html__( 'Publish', 'apple-news' )
 			);
 		}
 
@@ -210,7 +218,7 @@ class Admin_Apple_News_List_Table extends WP_List_Table {
 		}
 
 		// Add the delete action, if required.
-		if ( get_post_meta( $item->ID, 'apple_news_api_id', true ) ) {
+		if ( $apple_news_api_id ) {
 			$actions['delete'] = sprintf(
 				"<a title='%s' href='%s' class='delete-button'>%s</a>",
 				esc_html__( 'Delete from Apple News', 'apple-news' ),
@@ -322,8 +330,9 @@ class Admin_Apple_News_List_Table extends WP_List_Table {
 		return apply_filters(
 			'apple_news_bulk_actions',
 			[
-				Admin_Apple_Index_Page::namespace_action( 'push' ) => __( 'Publish', 'apple-news' ),
-			]
+				Admin_Apple_Index_Page::namespace_action( 'push' )   => __( 'Publish/Update', 'apple-news' ),
+				Admin_Apple_Index_Page::namespace_action( 'delete' ) => __( 'Delete', 'apple-news' ),
+			],
 		);
 	}
 
