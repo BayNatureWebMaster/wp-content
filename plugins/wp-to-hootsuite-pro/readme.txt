@@ -3,15 +3,15 @@ Contributors: wpzinc
 Donate link: https://www.wpzinc.com/plugins/wordpress-to-hootsuite-pro
 Tags: hootsuite,twitter,facebook,linkedin,google,social,media,sharing,post
 Requires at least: 5.0
-Tested up to: 6.5.3
+Tested up to: 6.7.2
 Requires PHP: 7.2
-Stable tag: trunk
+Stable tag: 2.6.4
 
 Send WordPress Pages, Posts or Custom Post Types to your Hootsuite (hootsuite.com) account for scheduled publishing to social networks.
 
 == Description ==
 
-WP to Hootsuite is a plugin for WordPress that sends updates to your Hootsuite (hootsuite.com) account  for scheduled publishing to social networks when you publish and/or update WordPress Pages, Posts and/or Custom Post Types.
+WP to Hootsuite is a plugin for WordPress that sends updates to your Hootsuite (hootsuite.com) account for scheduled publishing to social networks when you publish and/or update WordPress Pages, Posts and/or Custom Post Types.
 
 Plugin settings allow granular control over choosing:
 - Sending updates to Hootsuite for Posts, Pages and/or any Custom Post Types
@@ -54,6 +54,54 @@ Find out more about us:
 4. Post level settings meta box.
 
 == Changelog ==
+
+= 2.6.4 (2025-03-13) =
+* Added: Whitelabelling: Support for editing description.  See Docs: https://www.wpzinc.com/documentation/page-generator-pro/whitelabelling-access/#configure-whitelabelling
+
+= 2.6.3 (2025-03-06) =
+* Fix: Logs: Add nonce check on Bulk Actions and Clear Log functionality
+
+= 2.6.2 (2025-02-27) =
+* Added: Whitelabelling: Support for whitelabelling logo, header background color, primary text color and secondary text color. See Docs: https://www.wpzinc.com/documentation/page-generator-pro/whitelabelling-access/#configure-whitelabelling
+
+= 2.6.1 (2025-02-19) =
+* Added: Updated UI
+* Added: Use WP Cron: Option to specify number of seconds after Post publish or update to run the scheduled event.  See Docs: https://www.wpzinc.com/documentation/wordpress-to-hootsuite-pro/general-settings/#use-wp-cron
+* Fix: Bulk Publish: Add / Delete Meta / Custom Field conditions buttons
+
+= 2.6.0 (2025-01-21) =
+* Added: Text to Image: Option to use Featured Image as Background Image.  See Docs: https://www.wpzinc.com/documentation/wordpress-to-hootsuite-pro/text-to-image-settings/#background-image
+* Added: Status: Images: Option to automatically populate additional images from Post content.  See Docs: https://www.wpzinc.com/documentation/wordpress-to-hootsuite-pro/status-settings/#status--image
+* Added: Text to Image: Support for emojis in text.  Requires the PHP Imagick extension.  See Docs: https://www.wpzinc.com/documentation/wordpress-to-hootsuite-pro/text-to-image-settings/#text-font
+* Added: Featured and Additional Images: Support for up to 10 images for supported social networks.  See Docs: https://www.wpzinc.com/documentation/wordpress-to-hootsuite-pro/featured-image-settings/
+* Fix: Featured and Additional Images: Only send maximum number of supported images based on the social network.
+* Fix: Status: Tags: Character Limit, Sentence Limit, Word Limit: Ensure status is not blank when emojis are included in text
+* Fix: Text to Image: Added support for Threads
+* Fix: Text to Image: Display error if background image cannot be loaded, instead of a fatal error
+
+= 2.5.9 (2024-11-25) =
+* Fix: Notice: Function _load_textdomain_just_in_time was called incorrectly in WordPress 6.7 and higher
+
+= 2.5.8 (2024-10-08) =
+* Fix: Hootsuite API Error: #400: 5000: Unknown error occurred when attempting to publish a status with an image
+
+= 2.5.7 (2024-09-12) =
+* Fix: Status: Insert Tags: All in One SEO Pack Title and Description not returning values
+* Fix: Log: Improve formatting of verbose error messages
+
+= 2.5.6 (2024-07-12) =
+* Fix: `Call to undefined function json_validate()` error
+
+= 2.5.5 (2024-07-11) =
+* Added: Status: Text: Custom Fields: Access serialized / JSON array values.  See Docs: https://www.wpzinc.com/documentation/wordpress-to-hootsuite-pro/using-custom-fields-in-statuses/#custom--fields
+* Added: Status: Text: Convert HTML links to plain text without link in brackets when using {excerpt}.
+* Fix: Status: Strip inline styles when using {content}
+
+= 2.5.4 (2024-07-08) =
+* Added: Status: Conditions: WPML: Support for conditionally sending a status based on the Post language. See Docs: https://www.wpzinc.com/documentation/wordpress-to-hootsuite-pro/status-settings/#status--conditions--wpml
+
+= 2.5.3 (2024-05-23) =
+* Fix: Uncaught TypeError in Bulk Actions dropdown
 
 = 2.5.2 (2024-05-13) =
 * Fix: Text to Image: Define compliant filename to prevent `Invalid image url parameter supplied` error

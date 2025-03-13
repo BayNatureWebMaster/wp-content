@@ -70,7 +70,7 @@
 						<tfoot>
 							<tr>
 								<th colspan="4">
-									<a href="#" class="wp-to-social-pro-add-table-row button" data-table-row-selector="custom-field">
+									<a href="#" class="wpzinc-add-table-row button" data-table-row-selector="custom-field">
 										<?php esc_html_e( 'Add Meta / Custom Field Condition', 'wp-to-social-pro' ); ?>
 									</a>
 								</th>
@@ -97,7 +97,7 @@
 									<input type="text" name="<?php echo esc_attr( $this->base->plugin->name ); ?>[meta][value][]" placeholder="<?php esc_attr_e( 'Meta Value', 'wp-to-social-pro' ); ?>" class="widefat" />
 								</td>
 								<td>
-									<a href="#" class="wp-to-social-pro-delete-table-row button small">
+									<a href="#" class="wpzinc-delete-table-row button small">
 										<?php esc_html_e( 'Remove', 'wp-to-social-pro' ); ?>
 									</a>
 								</td>

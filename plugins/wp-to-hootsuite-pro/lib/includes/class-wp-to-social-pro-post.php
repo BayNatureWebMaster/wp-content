@@ -304,9 +304,9 @@ class WP_To_Social_Pro_Post {
 	 */
 	private function get_post_images( $post_id ) {
 
-		// If additional images are supported by the calling Plugin, allow 4 images
+		// If additional images are supported by the calling Plugin, allow 10 images
 		// in total to be defined.  Otherwise, only allow a single Featured Image.
-		$supported_images_total = ( $this->base->supports( 'additional_images' ) ? 4 : 1 );
+		$supported_images_total = ( $this->base->supports( 'additional_images' ) ? 10 : 1 );
 
 		// Fetch existing images that might have been assigned to this Post.
 		$images = array();

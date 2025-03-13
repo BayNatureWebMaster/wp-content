@@ -43,7 +43,7 @@
 	</ul>
 
 	<!-- Content -->
-	<div id="profiles-container" class="wpzinc-nav-tabs-content no-padding">
+	<div id="profiles-container" class="wpzinc-nav-tabs-content">
 		<!-- Defaults -->
 		<?php
 		$profile_id = 'default';

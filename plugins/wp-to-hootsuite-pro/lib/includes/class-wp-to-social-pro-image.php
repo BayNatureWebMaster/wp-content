@@ -624,6 +624,8 @@ class WP_To_Social_Pro_Image {
 			'thumbnail' => ( is_array( $thumbnail ) ? strtok( $thumbnail[0], '?' ) : false ), // Strip query parameters that might break some APIs.
 			'alt_text'  => get_post_meta( $image_id, '_wp_attachment_image_alt', true ),
 			'source'    => $source,
+			'width'     => ( is_array( $image ) ? $image[1] : '' ),
+			'height'    => ( is_array( $image ) ? $image[2] : '' ),
 		);
 
 	}
@@ -647,6 +649,9 @@ class WP_To_Social_Pro_Image {
 			'facebook'        => array( 1200, 630 ),
 			'linkedin'        => array( 1104, 736 ),
 			'googlebusiness'  => array( 720, 540 ),
+			'threads'         => array( 1200, 1200 ),
+			'bluesky'         => array( 1280, 1280 ),
+			'mastodon'        => array( 1280, 1280 ),
 		);
 
 		/**

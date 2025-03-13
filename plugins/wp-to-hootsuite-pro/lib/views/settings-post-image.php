@@ -16,7 +16,7 @@
 			data-file-type="image"
 			data-output-size="thumbnail"
 			data-multiple="<?php echo esc_attr( $this->base->supports( 'additional_images' ) ? 'true' : 'false' ); ?>"
-			data-limit="4">
+			data-limit="10">
 		<ul class="images">
 			<?php
 			// Output any existing selected images.
@@ -100,7 +100,7 @@
 			<?php
 			echo esc_html(
 				sprintf(
-				/* translators: Post Type Singular */
+					/* translators: Post Type Singular */
 					__( 'This image only replaces the Featured Image in a status where a status\' option is not set to "No Image".', 'wp-to-social-pro' ),
 					$post_type_object->labels->singular_name
 				)

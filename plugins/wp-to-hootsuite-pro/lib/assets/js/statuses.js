@@ -430,20 +430,38 @@ function wpToSocialProUpdateImageOptions() {
 
 		switch ( $( 'select.image', $( wp_to_social_pro.status_form ) ).val() ) {
 			/**
-			 * Use Text to Image
+			 * Use Feat. Image, not linked to Post
 			 */
-			case '3':
-			case '4':
-				$( 'div.text-to-image', $( wp_to_social_pro.status_form ) ).show();
+			case '2':
+				$( '.additional-images', $( wp_to_social_pro.status_form ) ).show();
+				$( '.text-to-image', $( wp_to_social_pro.status_form ) ).hide();
 				break;
 
 			/**
-			 * Don't use Text to Image (OpenGraph, Featured Image)
+			 * Use Text to Image, linked to Post
 			 */
-			default:
-				$( 'div.text-to-image', $( wp_to_social_pro.status_form ) ).hide();
+			case '3':
+				$( '.additional-images', $( wp_to_social_pro.status_form ) ).hide();
+				$( '.text-to-image', $( wp_to_social_pro.status_form ) ).show();
 				break;
 
+			/**
+			 * Use Text to Image, not linked to Post
+			 */
+			case '4':
+				$( '.additional-images', $( wp_to_social_pro.status_form ) ).hide();
+				$( '.text-to-image', $( wp_to_social_pro.status_form ) ).show();
+				break;
+
+			/**
+			 * No Image
+			 * Use OpenGraph Settings
+			 * Use Feat. Image, linked to Post
+			 */
+			default:
+				$( '.additional-images', $( wp_to_social_pro.status_form ) ).hide();
+				$( '.text-to-image', $( wp_to_social_pro.status_form ) ).hide();
+				break;
 		}
 
 	} )( jQuery );
@@ -894,14 +912,16 @@ function wpToSocialProPopulateStatusForm( profile_id, profile, action, status_in
 					 */
 					case 'sub_profile':
 						// Hide field if the Profile isn't for Pinterest.
-						if ( profile.service != 'pinterest' ) {
+						if ( profile.service !== 'pinterest' ) {
 							$( this ).addClass( 'hidden' );
+							$( this ).closest( 'div.pinterest' ).addClass( 'hidden' );
 							break;
 						}
 
 						// Hide field if the Profile can be a seperate subprofile.
 						if ( profile.can_be_subprofile ) {
 							$( this ).addClass( 'hidden' );
+							$( this ).closest( 'div.pinterest' ).addClass( 'hidden' );
 							break;
 						}
 
@@ -1792,7 +1812,7 @@ jQuery( document ).ready(
 
 				// Get Additional Images.
 				var additional_images = [];
-				for ( i = 0; i <= 2; i++ ) {
+				for ( i = 0; i <= 10; i++ ) {
 					if ( ! $( 'input[name="' + wp_to_social_pro.plugin_name + '[additional_images][' + i + ']"]' ).length ) {
 						continue;
 					}

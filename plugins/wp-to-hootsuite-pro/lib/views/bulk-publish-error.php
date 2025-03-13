@@ -9,15 +9,19 @@
  */
 
 ?>
-<div class="wrap">
-	<h1 class="wp-heading-inline">
+<header>
+	<h1>
 		<?php echo esc_html( $this->base->plugin->displayName ); ?>
 
 		<span>
 			<?php esc_html_e( 'Bulk Publish', 'wp-to-social-pro' ); ?>
 		</span>
 	</h1>
+</header>
 
+<hr class="wp-header-end" />
+
+<div class="wrap">
 	<?php
 	// Output notices.
 	$this->base->get_class( 'notices' )->output_notices();

@@ -75,6 +75,13 @@ class WP_To_Social_Pro_Bulk_Actions {
 	 */
 	public function register_bulk_actions( $actions ) {
 
+		// If no bulk actions exist, cast as an array now.
+		// This may be due to e.g. User capability Plugins removing all actions for a given
+		// WordPress User Role.
+		if ( ! is_array( $actions ) ) {
+			$actions = array();
+		}
+
 		// Define Actions.
 		$bulk_actions = array(
 			$this->base->plugin->name => sprintf(

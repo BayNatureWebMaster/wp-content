@@ -11,57 +11,40 @@
 <div id="<?php echo esc_attr( $this->base->plugin->name ); ?>-status-form-container" class="hidden">
 	<div id="<?php echo esc_attr( $this->base->plugin->name ); ?>-status-form" class="wp-to-social-pro-status-form">
 		<div class="wpzinc-option">
-			<div class="full">
-				<div class="notice-inline notice-warning pinterest hidden">
-					<p>
-						<?php
-						esc_html_e( 'You need to create at least one Pinterest Board, and then refresh the screen to choose the board to post this status to.', 'wp-to-social-pro' );
-						?>
-						<a href="<?php echo esc_attr( $this->base->plugin->documentation_url ); ?>/status-settings/#status--choose-a-pinterest-board" target="_blank">
-							<?php echo esc_html_e( 'Click here for instructions on creating a Pinterest board.', 'wp-to-social-pro' ); ?>
-						</a>
-					</p>
-				</div>
-
-				<!-- Tags and Feat. Image -->
-				<div class="tags-featured-image">
-					<!-- Pinterest: Sub Profile -->
-					<select name="<?php echo esc_attr( $this->base->plugin->name ); ?>_sub_profile" size="1" class="right"></select> 
-					<input type="url" name="<?php echo esc_attr( $this->base->plugin->name ); ?>_sub_profile" placeholder="<?php esc_attr_e( 'Pinterest Board URL', 'wp-to-social-pro' ); ?>" class="right" />
-				   
-					<!-- Instagram: Update Type -->
+			<div class="notice-inline notice-warning pinterest hidden">
+				<p>
 					<?php
-					if ( $this->base->supports( 'instagram_update_type' ) ) {
-						?>
-						<select name="<?php echo esc_attr( $this->base->plugin->name ); ?>_update_type" size="1" class="right">
-							<option value=""><?php esc_html_e( 'Post', 'wp-to-social-pro' ); ?></option>
-							<option value="story"><?php esc_html_e( 'Story', 'wp-to-social-pro' ); ?></option>
-						</select>
-						<?php
-					}
+					esc_html_e( 'You need to create at least one Pinterest Board, and then refresh the screen to choose the board to post this status to.', 'wp-to-social-pro' );
 					?>
-
-					<!-- Image -->
-					<select name="<?php echo esc_attr( $this->base->plugin->name ); ?>_image" size="1" class="right image">
-						<?php
-						foreach ( $this->base->get_class( 'image' )->get_featured_image_options( $post_type ) as $value => $label ) {
-							?>
-							<option value="<?php echo esc_attr( $value ); ?>"><?php echo esc_attr( $label ); ?></option>
-							<?php
-						}
-						?>
-					</select>
-
-					<?php
-					// Tags.
-					$textarea = 'textarea.message';
-					require 'settings-post-action-status-tags.php';
-					?>
-				</div>
+					<a href="<?php echo esc_attr( $this->base->plugin->documentation_url ); ?>/status-settings/#status--choose-a-pinterest-board" target="_blank">
+						<?php echo esc_html_e( 'Click here for instructions on creating a Pinterest board.', 'wp-to-social-pro' ); ?>
+					</a>
+				</p>
 			</div>
 
 			<!-- Status Message -->
-			<div class="full">
+			<div class="full status">
+				<h3><?php esc_html_e( 'Status', 'wp-to-social-pro' ); ?></h3>
+				<p class="description">
+					<?php esc_html_e( 'The text to display on social media, and when to share it.', 'wp-to-social-pro' ); ?>
+				</p>
+
+				<?php
+				// Tags.
+				$textarea = 'textarea.message';
+				require 'settings-post-action-status-tags.php';
+
+				// Instagram update type.
+				if ( $this->base->supports( 'instagram_update_type' ) ) {
+					?>
+					<select name="<?php echo esc_attr( $this->base->plugin->name ); ?>_update_type" size="1" class="right">
+						<option value=""><?php esc_html_e( 'Post', 'wp-to-social-pro' ); ?></option>
+						<option value="story"><?php esc_html_e( 'Story', 'wp-to-social-pro' ); ?></option>
+					</select>
+					<?php
+				}
+				?>
+
 				<textarea name="<?php echo esc_attr( $this->base->plugin->name ); ?>_message" rows="3" class="widefat wpzinc-autosize-js message"></textarea>
 
 				<?php
@@ -75,10 +58,7 @@
 					<?php
 				}
 				?>
-			</div>
-
-			<!-- Scheduling -->
-			<div class="full">
+			
 				<select name="<?php echo esc_attr( $this->base->plugin->name ); ?>_schedule" size="1" class="schedule widefat">
 					<?php
 					foreach ( $this->base->get_class( 'common' )->get_schedule_options( $post_type, $is_post_screen ) as $schedule_option => $label ) {
@@ -150,11 +130,80 @@
 				</div>
 			</div>
 
+			<!-- Pinterest -->
+			<div class="full section conditional pinterest hidden">
+				<h3><?php esc_html_e( 'Pinterest', 'wp-to-social-pro' ); ?></h3>
+				<p class="description">
+					<?php
+					esc_html_e( 'Define the Pinterest Board for this status to be sent to.', 'wp-to-social-pro' );
+					?>
+				</p>
+
+				<div class="wpzinc-option no-styling">
+					<div class="full">
+						<table class="widefat fixed striped">
+							<tbody>
+								<tr>
+									<td width="20%">
+										<label for="<?php echo esc_attr( $this->base->plugin->name ); ?>_sub_profile">
+											<?php esc_html_e( 'Board', 'wp-to-social-pro' ); ?>
+										</label>
+									</td>
+									<td>
+										<!-- Pinterest: Sub Profile -->
+										<select name="<?php echo esc_attr( $this->base->plugin->name ); ?>_sub_profile" id="<?php echo esc_attr( $this->base->plugin->name ); ?>_sub_profile" size="1" class="widefat"></select> 
+										<input type="url" name="<?php echo esc_attr( $this->base->plugin->name ); ?>_sub_profile" id="<?php echo esc_attr( $this->base->plugin->name ); ?>_sub_profile" placeholder="<?php esc_attr_e( 'Pinterest Board URL', 'wp-to-social-pro' ); ?>" class="widefat" />
+									</td>
+								</tr>
+
+								<?php
+								if ( $this->base->supports( 'pinterest_title' ) ) {
+									?>
+									<tr>
+										<td>
+											<label for="pinterest_title">
+												<?php esc_html_e( 'Pin Title', 'wp-to-social-pro' ); ?>
+											</label>
+										</td>
+										<td>
+											<input type="text" name="<?php echo esc_attr( $this->base->plugin->name ); ?>_title" id="pinterest_title" placeholder="<?php esc_attr_e( 'Pin Title', 'wp-to-social-pro' ); ?>" class="widefat" />
+											<p class="description">
+												<?php esc_html_e( 'An optional title. Text Tags are supported.', 'wp-to-social-pro' ); ?>
+											</p>
+										</td>
+									</tr>
+									<?php
+								}
+
+								if ( $this->base->supports( 'pinterest_source_url' ) ) {
+									?>
+									<tr>
+										<td>
+											<label for="pinterest_source_url">
+												<?php esc_html_e( 'Destination Link', 'wp-to-social-pro' ); ?>
+											</label>
+										</td>
+										<td>
+											<input type="text" name="<?php echo esc_attr( $this->base->plugin->name ); ?>_source_url" id="pinterest_source_url" placeholder="<?php esc_attr_e( 'e.g. https://example.com or use {url}', 'wp-to-social-pro' ); ?>" class="widefat" />
+											<p class="description">
+												<?php esc_html_e( 'The URL to link the Pin to. If no URL is entered, the Post\'s URL will be used. Text Tags are supported.', 'wp-to-social-pro' ); ?>
+											</p>
+										</td>
+									</tr>
+									<?php
+								}
+								?>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+
 			<?php
 			if ( $this->base->supports( 'googlebusiness' ) ) {
 				?>
 				<!-- Google Business Profile -->
-				<div class="full conditions conditional googlebusiness hidden">
+				<div class="full section conditional googlebusiness hidden">
 					<h3><?php esc_html_e( 'Google Business Profile', 'wp-to-social-pro' ); ?></h3>
 					<p class="description">
 						<?php
@@ -167,7 +216,7 @@
 							<table class="widefat fixed striped">
 								<tbody>
 									<tr>
-										<td>
+										<td width="20%">
 											<label for="googlebusiness_post_type">
 												<?php esc_html_e( 'Post Type', 'wp-to-social-pro' ); ?>
 											</label>
@@ -275,36 +324,102 @@
 			}
 			?>
 
-			<!-- Text to Image -->
-			<div class="full conditions text-to-image">
-				<h3><?php esc_html_e( 'Text to Image', 'wp-to-social-pro' ); ?></h3>
+			<!-- Images -->
+			<div class="full section images">
+				<h3><?php esc_html_e( 'Image', 'wp-to-social-pro' ); ?></h3>
 				<p class="description">
-					<?php
-					esc_html_e( 'Define the text to convert to an image, which will be sent with this status.', 'wp-to-social-pro' );
-					?>
+					<?php esc_html_e( 'The type of link preview / image(s) to use.', 'wp-to-social-pro' ); ?>
 				</p>
 
-				<div class="wpzinc-option no-styling status">
+				<div class="wpzinc-option no-styling">
 					<div class="full">
-						<?php
-						$textarea = 'textarea.text-to-image';
-						require 'settings-post-action-status-tags.php';
-						?>
-					</div>
-					<div class="full">
-						<textarea name="<?php echo esc_attr( $this->base->plugin->name ); ?>_text_to_image" rows="3" class="widefat wpzinc-autosize-js text-to-image"></textarea>
+						<table class="widefat fixed striped">
+							<tbody>
+								<tr>
+									<td width="20%">
+										<label for="<?php echo esc_attr( $this->base->plugin->name ); ?>_sub_profile">
+											<?php esc_html_e( 'Image', 'wp-to-social-pro' ); ?>
+										</label>
+									</td>
+									<td>
+										<select name="<?php echo esc_attr( $this->base->plugin->name ); ?>_image" size="1" class="image">
+											<?php
+											foreach ( $this->base->get_class( 'image' )->get_featured_image_options( $post_type ) as $value => $label ) {
+												?>
+												<option value="<?php echo esc_attr( $value ); ?>"><?php echo esc_attr( $label ); ?></option>
+												<?php
+											}
+											?>
+										</select>
+									</td>
+								</tr>
+								<tr class="additional-images">
+									<td width="20%">
+										<label for="<?php echo esc_attr( $this->base->plugin->name ); ?>_sub_profile">
+											<?php esc_html_e( 'Additional Images', 'wp-to-social-pro' ); ?>
+										</label>
+									</td>
+									<td>
+										<select name="<?php echo esc_attr( $this->base->plugin->name ); ?>_image_additional" size="1">
+											<option value=""><?php esc_html_e( 'Specified in Post settings', 'wp-to-social-pro' ); ?></option>
+											<option value="1"><?php esc_html_e( 'Auto populate from Post content', 'wp-to-social-pro' ); ?></option>
+											<?php
+											// @TODO Support ACF galleries / image fields?
+											?>
+										</select>
+										<p class="description">
+											<?php
+											printf(
+												'<code>%s</code>: %s',
+												esc_html__( 'Specified in Post settings', 'wp-to-social-pro' ),
+												esc_html__( 'Include additional images in the status if specified in the "Featured and Additional Images" settings on the individual Post.', 'wp-to-social-pro' )
+											);
+											?>
+											<br />
+											<?php
+											printf(
+												'<code>%s</code>: %s',
+												esc_html__( 'Auto populate from Post content', 'wp-to-social-pro' ),
+												esc_html__( 'Include additional images in the status from the Post\'s content.', 'wp-to-social-pro' )
+											);
+											?>
+										</p>
+									</td>
+								</tr>
+								<tr class="text-to-image">
+									<td width="20%">
+										<label for="<?php echo esc_attr( $this->base->plugin->name ); ?>_text_to_image">
+											<?php esc_html_e( 'Text to Image', 'wp-to-social-pro' ); ?>
+										</label>
+									</td>
+									<td>
+										<?php
+										$textarea = 'textarea.text-to-image';
+										require 'settings-post-action-status-tags.php';
+										?>
+									
+										<textarea name="<?php echo esc_attr( $this->base->plugin->name ); ?>_text_to_image" rows="3" class="widefat wpzinc-autosize-js text-to-image"></textarea>
+										<p class="description">
+											<?php
+											esc_html_e( 'Define the text to convert to an image, which will be sent with this status.', 'wp-to-social-pro' );
+											?>
+										</p>
+									</td>
+								</tr>
+							</tbody>
+						</table>
 					</div>
 				</div>
 			</div>
 
 			<!-- Post Conditions -->
-			<div class="full conditions">
+			<div class="full section post-conditions">
 				<h3><?php esc_html_e( 'Post Conditions', 'wp-to-social-pro' ); ?></h3>
 				<p class="description">
 					<?php
 					echo esc_html(
 						sprintf(
-						/* translators: Social Media Service Name (Buffer, Hootsuite, SocialPilot) */
+							/* translators: Social Media Service Name (Buffer, Hootsuite, SocialPilot) */
 							__( 'Optional: Define Post conditions that are required for this status to be sent to %s. All conditions must be met.', 'wp-to-social-pro' ),
 							$this->base->plugin->account
 						)
@@ -318,7 +433,7 @@
 						<table class="widefat fixed striped">
 							<thead>
 								<tr>
-									<th><?php esc_html_e( 'Attribute', 'wp-to-social-pro' ); ?></th>
+									<th width="20%"><?php esc_html_e( 'Attribute', 'wp-to-social-pro' ); ?></th>
 									<th><?php esc_html_e( 'Compare', 'wp-to-social-pro' ); ?></th>
 									<th><?php esc_html_e( 'Value', 'wp-to-social-pro' ); ?></th>
 									<th class="actions"><?php esc_html_e( 'Actions', 'wp-to-social-pro' ); ?></th>
@@ -337,7 +452,7 @@
 
 							<tbody>
 								<tr>
-									<td>
+									<td width="20%">
 										<label for="post_title_compare" data-for="post_title_compare_index">
 											<?php esc_html_e( 'Title', 'wp-to-social-pro' ); ?>
 										</label>
@@ -458,6 +573,15 @@
 
 								<?php
 								/**
+								 * Output condition settings for Integrations / Third Party Plugins
+								 *
+								 * @since   5.1.2
+								 *
+								 * @param   string  $post_type  Post Type
+								 */
+								do_action( $this->base->plugin->filter_name . '_output_condition_form_fields', $post_type );
+
+								/**
 								 * Conditions: Taxonomies
 								 */
 								$taxonomies = $this->base->get_class( 'common' )->get_taxonomies( $post_type );
@@ -522,112 +646,112 @@
 						</table>
 					</div>
 				</div>
+			</div>
 
-				<!-- Author Conditions -->
-				<div class="full conditions">
-					<h3><?php esc_html_e( 'Author Conditions', 'wp-to-social-pro' ); ?></h3>
-					<p class="description">
-						<?php
-						echo esc_html(
-							sprintf(
+			<!-- Author Conditions -->
+			<div class="full section author-conditions">
+				<h3><?php esc_html_e( 'Author Conditions', 'wp-to-social-pro' ); ?></h3>
+				<p class="description">
+					<?php
+					echo esc_html(
+						sprintf(
 							/* translators: Social Media Service Name (Buffer, Hootsuite, SocialPilot) */
-								__( 'Optional: Define the Post\'s Author conditions that are required for this status to be sent to %s. All conditions must be met.', 'wp-to-social-pro' ),
-								$this->base->plugin->account
-							)
-						);
-						?>
-					</p>
+							__( 'Optional: Define the Post\'s Author conditions that are required for this status to be sent to %s. All conditions must be met.', 'wp-to-social-pro' ),
+							$this->base->plugin->account
+						)
+					);
+					?>
+				</p>
 
-					<div class="wpzinc-option no-styling">
-						<div class="full">
-							<table class="widefat fixed striped">
-								<thead>
-									<tr>
-										<th><?php esc_html_e( 'Attribute', 'wp-to-social-pro' ); ?></th>
-										<th><?php esc_html_e( 'Compare', 'wp-to-social-pro' ); ?></th>
-										<th><?php esc_html_e( 'Value', 'wp-to-social-pro' ); ?></th>
-										<th class="actions"><?php esc_html_e( 'Actions', 'wp-to-social-pro' ); ?></th>
-									</tr>
-								</thead>
+				<div class="wpzinc-option no-styling">
+					<div class="full">
+						<table class="widefat fixed striped">
+							<thead>
+								<tr>
+									<th width="20%"><?php esc_html_e( 'Attribute', 'wp-to-social-pro' ); ?></th>
+									<th><?php esc_html_e( 'Compare', 'wp-to-social-pro' ); ?></th>
+									<th><?php esc_html_e( 'Value', 'wp-to-social-pro' ); ?></th>
+									<th class="actions"><?php esc_html_e( 'Actions', 'wp-to-social-pro' ); ?></th>
+								</tr>
+							</thead>
 
-								<tfoot>
-									<tr>
-										<th colspan="4">
-											<a href="#" class="button wpzinc-add-table-row" data-table-row-selector="authors-custom-field">
-												<?php esc_html_e( 'Add Custom Field Condition', 'wp-to-social-pro' ); ?>
-											</a>
-										</th>
-									</tr>
-								</tfoot>
+							<tfoot>
+								<tr>
+									<th colspan="4">
+										<a href="#" class="button wpzinc-add-table-row" data-table-row-selector="authors-custom-field">
+											<?php esc_html_e( 'Add Custom Field Condition', 'wp-to-social-pro' ); ?>
+										</a>
+									</th>
+								</tr>
+							</tfoot>
 
-								<tbody>
-									<tr>
-										<td>
-											<label for="authors" data-for="authors_index">
-												<?php esc_html_e( 'Author', 'wp-to-social-pro' ); ?>
-											</label>
-										</td>
-										<td>
-											<select name="<?php echo esc_attr( $this->base->plugin->name ); ?>_authors_compare" id="authors_compare" size="1" class="widefat">
-												<option value="="><?php esc_html_e( 'Equals', 'wp-to-social-pro' ); ?></option>
-												<option value="!="><?php esc_html_e( 'Does not Equal', 'wp-to-social-pro' ); ?></option>
-											</select>
-										</td>
-										<td>
-											<input type="text" name="<?php echo esc_attr( $this->base->plugin->name ); ?>_authors" id="authors" class="widefat wpzinc-selectize" style="width:100%;" data-action="<?php echo esc_attr( $this->base->plugin->filter_name ); ?>_search_authors" data-nonce-key="search_authors_nonce" />
-										</td>
-										<td>&nbsp;</td>
-									</tr>
-									<tr>
-										<td>
-											<label for="authors_roles" data-for="authors_role_index">
-												<?php esc_html_e( 'Role', 'wp-to-social-pro' ); ?>
-											</label>
-										</td>
-										<td>
-											<select name="<?php echo esc_attr( $this->base->plugin->name ); ?>_authors_roles_compare" id="authors_roles_compare" size="1" class="widefat">
-												<option value="="><?php esc_html_e( 'Equals', 'wp-to-social-pro' ); ?></option>
-												<option value="!="><?php esc_html_e( 'Does not Equal', 'wp-to-social-pro' ); ?></option>
-											</select>
-										</td>
-										<td>
-											<input type="text" name="<?php echo esc_attr( $this->base->plugin->name ); ?>_authors_roles" id="authors_roles" class="widefat wpzinc-selectize" style="width:100%;" data-action="<?php echo esc_attr( $this->base->plugin->filter_name ); ?>_search_roles" data-nonce-key="search_roles_nonce" />
-										</td>
-										<td class="actions">&nbsp;</td>
-									</tr>
+							<tbody>
+								<tr>
+									<td width="20%">
+										<label for="authors" data-for="authors_index">
+											<?php esc_html_e( 'Author', 'wp-to-social-pro' ); ?>
+										</label>
+									</td>
+									<td>
+										<select name="<?php echo esc_attr( $this->base->plugin->name ); ?>_authors_compare" id="authors_compare" size="1" class="widefat">
+											<option value="="><?php esc_html_e( 'Equals', 'wp-to-social-pro' ); ?></option>
+											<option value="!="><?php esc_html_e( 'Does not Equal', 'wp-to-social-pro' ); ?></option>
+										</select>
+									</td>
+									<td>
+										<input type="text" name="<?php echo esc_attr( $this->base->plugin->name ); ?>_authors" id="authors" class="widefat wpzinc-selectize" style="width:100%;" data-action="<?php echo esc_attr( $this->base->plugin->filter_name ); ?>_search_authors" data-nonce-key="search_authors_nonce" />
+									</td>
+									<td>&nbsp;</td>
+								</tr>
+								<tr>
+									<td>
+										<label for="authors_roles" data-for="authors_role_index">
+											<?php esc_html_e( 'Role', 'wp-to-social-pro' ); ?>
+										</label>
+									</td>
+									<td>
+										<select name="<?php echo esc_attr( $this->base->plugin->name ); ?>_authors_roles_compare" id="authors_roles_compare" size="1" class="widefat">
+											<option value="="><?php esc_html_e( 'Equals', 'wp-to-social-pro' ); ?></option>
+											<option value="!="><?php esc_html_e( 'Does not Equal', 'wp-to-social-pro' ); ?></option>
+										</select>
+									</td>
+									<td>
+										<input type="text" name="<?php echo esc_attr( $this->base->plugin->name ); ?>_authors_roles" id="authors_roles" class="widefat wpzinc-selectize" style="width:100%;" data-action="<?php echo esc_attr( $this->base->plugin->filter_name ); ?>_search_roles" data-nonce-key="search_roles_nonce" />
+									</td>
+									<td class="actions">&nbsp;</td>
+								</tr>
 
-									<?php
-									/**
-									 * Custom Fields
-									 */
-									?>
-									<tr class="authors-custom-field hide-delete-button">
-										<td>
-											<input type="text" name="<?php echo esc_attr( $this->base->plugin->name ); ?>_authors_custom_fields[key][]" data-name="<?php echo esc_attr( $this->base->plugin->name ); ?>_authors_custom_fields[key][]" placeholder="<?php esc_attr_e( 'Author Meta Key', 'wp-to-social-pro' ); ?>" class="widefat" />
-										</td>
-										<td>
-											<select name="<?php echo esc_attr( $this->base->plugin->name ); ?>_authors_custom_fields[compare][]" data-name="<?php echo esc_attr( $this->base->plugin->name ); ?>_authors_custom_fields[compare][]" size="1" class="widefat">
-												<?php
-												foreach ( $this->base->get_class( 'common' )->get_custom_field_comparison_operators() as $comparison_key => $label ) {
-													?>
-													<option value="<?php echo esc_attr( $comparison_key ); ?>"><?php echo esc_attr( $label ); ?></option>
-													<?php
-												}
+								<?php
+								/**
+								 * Custom Fields
+								 */
+								?>
+								<tr class="authors-custom-field hide-delete-button">
+									<td>
+										<input type="text" name="<?php echo esc_attr( $this->base->plugin->name ); ?>_authors_custom_fields[key][]" data-name="<?php echo esc_attr( $this->base->plugin->name ); ?>_authors_custom_fields[key][]" placeholder="<?php esc_attr_e( 'Author Meta Key', 'wp-to-social-pro' ); ?>" class="widefat" />
+									</td>
+									<td>
+										<select name="<?php echo esc_attr( $this->base->plugin->name ); ?>_authors_custom_fields[compare][]" data-name="<?php echo esc_attr( $this->base->plugin->name ); ?>_authors_custom_fields[compare][]" size="1" class="widefat">
+											<?php
+											foreach ( $this->base->get_class( 'common' )->get_custom_field_comparison_operators() as $comparison_key => $label ) {
 												?>
-											</select>
-										</td>
-										<td>
-											<input type="text" name="<?php echo esc_attr( $this->base->plugin->name ); ?>_authors_custom_fields[value][]" data-name="<?php echo esc_attr( $this->base->plugin->name ); ?>_authors_custom_fields[value][]" placeholder="<?php esc_attr_e( 'Author Meta Value', 'wp-to-social-pro' ); ?>" class="widefat" />
-										</td>
-										<td>
-											<a href="#" class="wpzinc-delete-table-row button small">
-												<?php esc_html_e( 'Remove', 'wp-to-social-pro' ); ?>
-											</a>
-										</td>
-									</tr>
-								</tbody>
-							</table>
-						</div>
+												<option value="<?php echo esc_attr( $comparison_key ); ?>"><?php echo esc_attr( $label ); ?></option>
+												<?php
+											}
+											?>
+										</select>
+									</td>
+									<td>
+										<input type="text" name="<?php echo esc_attr( $this->base->plugin->name ); ?>_authors_custom_fields[value][]" data-name="<?php echo esc_attr( $this->base->plugin->name ); ?>_authors_custom_fields[value][]" placeholder="<?php esc_attr_e( 'Author Meta Value', 'wp-to-social-pro' ); ?>" class="widefat" />
+									</td>
+									<td>
+										<a href="#" class="wpzinc-delete-table-row button small">
+											<?php esc_html_e( 'Remove', 'wp-to-social-pro' ); ?>
+										</a>
+									</td>
+								</tr>
+							</tbody>
+						</table>
 					</div>
 				</div>
 			</div>

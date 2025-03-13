@@ -73,19 +73,26 @@ class WP_To_Hootsuite_Pro {
 		$this->plugin->filter_name       = 'wp_to_hootsuite_pro';
 		$this->plugin->displayName       = 'WP to Hootsuite Pro';
 		$this->plugin->author_name       = 'WP Zinc';
+		$this->plugin->description       = 'Send WordPress Pages, Posts or Custom Post Types to your Hootsuite account for scheduled publishing to social networks.';
 		$this->plugin->settingsName      = 'wp-to-hootsuite-pro'; // Settings key - used in both Free + Pro, and for oAuth.
 		$this->plugin->account           = 'Hootsuite';
 		$this->plugin->version           = WP_TO_HOOTSUITE_PRO_PLUGIN_VERSION;
 		$this->plugin->buildDate         = WP_TO_HOOTSUITE_PRO_PLUGIN_BUILD_DATE;
-		$this->plugin->requires          = '5.0';
-		$this->plugin->tested            = '6.0.1';
 		$this->plugin->folder            = WP_TO_HOOTSUITE_PRO_PLUGIN_PATH;
 		$this->plugin->url               = WP_TO_HOOTSUITE_PRO_PLUGIN_URL;
 		$this->plugin->documentation_url = 'https://www.wpzinc.com/documentation/wordpress-to-hootsuite-pro';
 		$this->plugin->support_url       = 'https://www.wpzinc.com/support';
 		$this->plugin->upgrade_url       = 'https://www.wpzinc.com/plugins/wordpress-to-hootsuite-pro';
-		$this->plugin->review_name       = 'wp-to-hootsuite';
-		$this->plugin->review_notice     = sprintf(
+
+		// Logo.
+		$this->plugin->logo                        = WP_TO_HOOTSUITE_PRO_PLUGIN_URL . 'lib/assets/images/icons/hootsuite-dark.svg';
+		$this->plugin->header_background_color     = '#ffffff';
+		$this->plugin->header_primary_text_color   = '#3d3d3d';
+		$this->plugin->header_secondary_text_color = '#6e6e6e';
+
+		// Review.
+		$this->plugin->review_name   = 'wp-to-hootsuite';
+		$this->plugin->review_notice = sprintf(
 			/* translators: Plugin Name */
 			__( 'Thanks for using %s to schedule your social media statuses on Hootsuite!', 'wp-to-social-pro' ),
 			$this->plugin->displayName
@@ -104,6 +111,18 @@ class WP_To_Hootsuite_Pro {
 		$this->plugin->displayName       = $this->licensing->get_feature_parameter( 'whitelabelling', 'display_name', $this->plugin->displayName );
 		$this->plugin->support_url       = $this->licensing->get_feature_parameter( 'whitelabelling', 'support_url', $this->plugin->support_url );
 		$this->plugin->documentation_url = $this->licensing->get_feature_parameter( 'whitelabelling', 'documentation_url', $this->plugin->documentation_url );
+		if ( ! empty( $this->licensing->get_feature_parameter( 'whitelabelling', 'logo', $this->plugin->logo ) ) ) {
+			$this->plugin->logo = $this->licensing->get_feature_parameter( 'whitelabelling', 'logo', $this->plugin->logo );
+		}
+		if ( ! empty( $this->licensing->get_feature_parameter( 'whitelabelling', 'header_background_color', $this->plugin->header_background_color ) ) ) {
+			$this->plugin->header_background_color = $this->licensing->get_feature_parameter( 'whitelabelling', 'header_background_color', $this->plugin->header_background_color );
+		}
+		if ( ! empty( $this->licensing->get_feature_parameter( 'whitelabelling', 'header_primary_text_color', $this->plugin->header_primary_text_color ) ) ) {
+			$this->plugin->header_primary_text_color = $this->licensing->get_feature_parameter( 'whitelabelling', 'header_primary_text_color', $this->plugin->header_primary_text_color );
+		}
+		if ( ! empty( $this->licensing->get_feature_parameter( 'whitelabelling', 'header_secondary_text_color', $this->plugin->header_secondary_text_color ) ) ) {
+			$this->plugin->header_secondary_text_color = $this->licensing->get_feature_parameter( 'whitelabelling', 'header_secondary_text_color', $this->plugin->header_secondary_text_color );
+		}
 
 		// Dashboard Submodule.
 		if ( ! class_exists( 'WPZincDashboardWidget' ) ) {
@@ -124,8 +143,67 @@ class WP_To_Hootsuite_Pro {
 		add_action( 'init', array( $this, 'initialize' ), 1 );
 		add_action( 'init', array( $this, 'upgrade' ), 2 );
 
+		// Admin Menus.
+		add_action( $this->plugin->filter_name . '_admin_admin_menu', array( $this, 'admin_menus' ) );
+
 		// Localization.
-		add_action( 'plugins_loaded', array( $this, 'load_language_files' ) );
+		add_action( 'init', array( $this, 'load_language_files' ) );
+
+	}
+
+	/**
+	 * Register menus and submenus.
+	 *
+	 * @since   2.6.1
+	 *
+	 * @param   string $minimum_capability     Minimum required capability.
+	 */
+	public function admin_menus( $minimum_capability ) {
+
+		// Bail if we cannot access any menus.
+		if ( ! $this->licensing->can_access( 'show_menu' ) ) {
+			return;
+		}
+
+		// Licensing.
+		add_menu_page( $this->plugin->displayName, $this->plugin->displayName, $minimum_capability, $this->plugin->name, array( $this->licensing, 'licensing_screen' ), $this->plugin->logo );
+		add_submenu_page( $this->plugin->name, __( 'Licensing', 'wp-to-social-pro' ), __( 'Licensing', 'wp-to-social-pro' ), $minimum_capability, $this->plugin->name, array( $this->licensing, 'licensing_screen' ) );
+
+		// Bail if the product is not licensed.
+		if ( ! $this->licensing->check_license_key_valid() ) {
+			return;
+		}
+
+		// Licensed - add additional menu entries, if access permitted.
+		if ( $this->licensing->can_access( 'show_menu_settings' ) ) {
+			$settings_page = add_submenu_page( $this->plugin->name, __( 'Settings', 'wp-to-social-pro' ), __( 'Settings', 'wp-to-social-pro' ), $minimum_capability, $this->plugin->name . '-settings', array( $this->get_class( 'admin' ), 'settings_screen' ) );
+		}
+
+		// Only show Bulk Publish and Logs if connected to the API.
+		if ( $this->get_class( 'validation' )->api_connected() ) {
+			// Bulk Publish.
+			if ( $this->licensing->can_access( 'show_menu_bulk_publish' ) ) {
+				$bulk_publish_page = add_submenu_page( $this->plugin->name, __( 'Bulk Publish', 'wp-to-social-pro' ), __( 'Bulk Publish', 'wp-to-social-pro' ), $minimum_capability, $this->plugin->name . '-bulk-publish', array( $this->get_class( 'admin' ), 'bulk_publish_screen' ) );
+			}
+
+			// Logs.
+			if ( $this->licensing->can_access( 'show_menu_logs' ) ) {
+				if ( $this->get_class( 'log' )->is_enabled() ) {
+					$log_page = add_submenu_page( $this->plugin->name, __( 'Logs', 'wp-to-social-pro' ), __( 'Logs', 'wp-to-social-pro' ), $minimum_capability, $this->plugin->name . '-log', array( $this->get_class( 'admin' ), 'log_screen' ) );
+					add_action( "load-$log_page", array( $this->get_class( 'log' ), 'add_screen_options' ) );
+				}
+			}
+		}
+
+		// Import & Export.
+		if ( $this->licensing->can_access( 'show_menu_import_export' ) ) {
+			do_action( $this->plugin->filter_name . '_admin_menu_import_export' );
+		}
+
+		// Support.
+		if ( $this->licensing->can_access( 'show_menu_support' ) ) {
+			do_action( $this->plugin->filter_name . '_admin_menu_support' );
+		}
 
 	}
 
@@ -179,6 +257,7 @@ class WP_To_Hootsuite_Pro {
 			$this->classes->seopress               = new WP_To_Social_Pro_SEOPress( self::$instance );
 			$this->classes->the_events_calendar    = new WP_To_Social_Pro_The_Events_Calendar( self::$instance );
 			$this->classes->woocommerce            = new WP_To_Social_Pro_WooCommerce( self::$instance );
+			$this->classes->wpml                   = new WP_To_Social_Pro_WPML( self::$instance );
 			$this->classes->yoast_seo              = new WP_To_Social_Pro_Yoast_SEO( self::$instance );
 
 			// Run the migration routine from Free + Pro v2.x --> Pro v3.x.

@@ -269,30 +269,23 @@ class WP_To_Social_Pro_Admin {
 		$screen = $this->base->get_class( 'screen' )->get_current_screen();
 
 		// CSS - always load.
-		// Menu Icon is inline, because when Gravity Forms no conflict mode is ON, it kills all enqueued styles,
-		// which results in a large menu SVG icon displaying.
-		// However, don't load this on customize.php, as it wrongly outputs above the opening <html> tag.
-		if ( $screen['screen'] !== 'customize' ) {
-			?>
-			<style type="text/css">
-				li.toplevel_page_<?php echo esc_attr( $this->base->plugin->settingsName ); ?>-settings a div.wp-menu-image, 
-				li.toplevel_page_<?php echo esc_attr( $this->base->plugin->settingsName ); ?> a div.wp-menu-image, 
-				li.toplevel_page_<?php echo esc_attr( $this->base->plugin->name ); ?>-settings a div.wp-menu-image,
-				li.toplevel_page_<?php echo esc_attr( $this->base->plugin->name ); ?> a div.wp-menu-image {
-					background: url(<?php echo esc_attr( $this->base->plugin->url ); ?>/lib/assets/images/icons/<?php echo esc_attr( strtolower( $this->base->plugin->account ) ); ?>-light.svg) center no-repeat;
-					background-size: 16px 16px;
-				}
-				li.toplevel_page_<?php echo esc_attr( $this->base->plugin->settingsName ); ?>-settings a div.wp-menu-image img, 
-				li.toplevel_page_<?php echo esc_attr( $this->base->plugin->settingsName ); ?> a div.wp-menu-image img, 
-				li.toplevel_page_<?php echo esc_attr( $this->base->plugin->name ); ?>-settings a div.wp-menu-image img,
-				li.toplevel_page_<?php echo esc_attr( $this->base->plugin->name ); ?> a div.wp-menu-image img {
-					display: none;
-				}
-			</style>
-			<?php
-		}
-
 		wp_enqueue_style( $this->base->plugin->name, $this->base->plugin->url . 'lib/assets/css/admin.css', array(), $this->base->plugin->version );
+
+		// Define CSS variables for design.
+		wp_register_style( $this->base->plugin->name . '-vars', false, array(), $this->base->plugin->version );
+		wp_enqueue_style( $this->base->plugin->name . '-vars' );
+		wp_add_inline_style(
+			$this->base->plugin->name . '-vars',
+			trim(
+				':root {
+			--wpzinc-logo: url(\'' . esc_attr( $this->base->plugin->logo ) . '\');
+			--wpzinc-header-background-color: ' . esc_attr( $this->base->plugin->header_background_color ) . ';
+			--wpzinc-header-primary-text-color: ' . esc_attr( $this->base->plugin->header_primary_text_color ) . ';
+			--wpzinc-header-secondary-text-color: ' . esc_attr( $this->base->plugin->header_secondary_text_color ) . ';
+			--wpzinc-plugin-display-name: "' . esc_attr( $this->base->plugin->displayName ) . ' ";
+		}'
+			)
+		);
 
 		// Don't load anything else if we're not on a Plugin or Post screen.
 		if ( ! $screen['screen'] ) {
@@ -499,6 +492,7 @@ class WP_To_Social_Pro_Admin {
 
 				// Plugin JS.
 				wp_enqueue_script( 'wpzinc-admin-synchronous-ajax' );
+				wp_enqueue_script( 'wpzinc-admin-tables' );
 				wp_enqueue_script( $this->base->plugin->name . '-bulk-publish' );
 				wp_enqueue_script( $this->base->plugin->name . '-statuses' );
 
@@ -539,6 +533,10 @@ class WP_To_Social_Pro_Admin {
 				'fields'   => array(
 					'textarea.message',
 					'textarea.text-to-image',
+
+					// Pinterest.
+					'input#pinterest_title',
+					'input#pinterest_source_url',
 
 					// Google Business.
 					'input#googlebusiness_title',
@@ -597,16 +595,11 @@ class WP_To_Social_Pro_Admin {
 	 */
 	public function admin_menu() {
 
-		// Bail if we cannot access any menus.
-		if ( ! $this->base->get_class( 'access' )->can_access( 'show_menu' ) ) {
-			return;
-		}
-
-		// Define the minimum capability required to access the Menu and Sub Menus.
+		// Define the minimum capability required to access settings.
 		$minimum_capability = 'manage_options';
 
 		/**
-		 * Defines the minimum capability required to access the Media Library Organizer
+		 * Defines the minimum capability required to access the Plugin's
 		 * Menu and Sub Menus
 		 *
 		 * @since   4.3.6
@@ -616,45 +609,14 @@ class WP_To_Social_Pro_Admin {
 		 */
 		$minimum_capability = apply_filters( $this->base->plugin->filter_name . '_admin_admin_menu_minimum_capability', $minimum_capability );
 
-		// Licensing.
-		add_menu_page( $this->base->plugin->displayName, $this->base->plugin->displayName, $minimum_capability, $this->base->plugin->name, array( $this, 'licensing_screen' ), $this->base->plugin->url . 'lib/assets/images/icons/' . strtolower( $this->base->plugin->account ) . '-light.svg' );
-		add_submenu_page( $this->base->plugin->name, __( 'Licensing', 'wp-to-social-pro' ), __( 'Licensing', 'wp-to-social-pro' ), $minimum_capability, $this->base->plugin->name, array( $this, 'licensing_screen' ) );
-
-		// Bail if the product is not licensed.
-		if ( ! $this->base->licensing->check_license_key_valid() ) {
-			return;
-		}
-
-		// Licensed - add additional menu entries, if access permitted.
-		if ( $this->base->get_class( 'access' )->can_access( 'show_menu_settings' ) ) {
-			$settings_page = add_submenu_page( $this->base->plugin->name, __( 'Settings', 'wp-to-social-pro' ), __( 'Settings', 'wp-to-social-pro' ), $minimum_capability, $this->base->plugin->name . '-settings', array( $this, 'settings_screen' ) );
-		}
-
-		// Only show Bulk Publish and Logs if connected to the API.
-		if ( $this->base->get_class( 'validation' )->api_connected() ) {
-			// Bulk Publish.
-			if ( $this->base->get_class( 'access' )->can_access( 'show_menu_bulk_publish' ) ) {
-				$bulk_publish_page = add_submenu_page( $this->base->plugin->name, __( 'Bulk Publish', 'wp-to-social-pro' ), __( 'Bulk Publish', 'wp-to-social-pro' ), $minimum_capability, $this->base->plugin->name . '-bulk-publish', array( $this, 'bulk_publish_screen' ) );
-			}
-
-			// Logs.
-			if ( $this->base->get_class( 'access' )->can_access( 'show_menu_logs' ) ) {
-				if ( $this->base->get_class( 'log' )->is_enabled() ) {
-					$log_page = add_submenu_page( $this->base->plugin->name, __( 'Logs', 'wp-to-social-pro' ), __( 'Logs', 'wp-to-social-pro' ), $minimum_capability, $this->base->plugin->name . '-log', array( $this, 'log_screen' ) );
-					add_action( "load-$log_page", array( $this->base->get_class( 'log' ), 'add_screen_options' ) );
-				}
-			}
-		}
-
-		// Import & Export.
-		if ( $this->base->get_class( 'access' )->can_access( 'show_menu_import_export' ) ) {
-			do_action( $this->base->plugin->filter_name . '_admin_menu_import_export' );
-		}
-
-		// Support.
-		if ( $this->base->get_class( 'access' )->can_access( 'show_menu_support' ) ) {
-			do_action( $this->base->plugin->filter_name . '_admin_menu_support' );
-		}
+		/**
+		 * Add settings menus and sub menus for the Plugin's settings.
+		 *
+		 * @since   5.2.4
+		 *
+		 * @param   string  $minimum_capability     Minimum capability required.
+		 */
+		do_action( $this->base->plugin->filter_name . '_admin_admin_menu', $minimum_capability );
 
 	}
 
@@ -687,18 +649,6 @@ class WP_To_Social_Pro_Admin {
 
 		// Return.
 		return $links;
-
-	}
-
-	/**
-	 * Outputs the Licensing Screen
-	 *
-	 * @since   3.0.0
-	 */
-	public function licensing_screen() {
-
-		// Load View.
-		include_once $this->base->plugin->folder . '_modules/licensing/views/licensing.php';
 
 	}
 

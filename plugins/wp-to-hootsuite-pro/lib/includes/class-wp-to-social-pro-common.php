@@ -1118,7 +1118,11 @@ class WP_To_Social_Pro_Common {
 			'Merriweather-Regular' => __( 'Merriweather (Regular)', 'wp-to-social-pro' ),
 			'Montserrat-Regular'   => __( 'Montserrat (Regular)', 'wp-to-social-pro' ),
 			'NotoSans-Regular'     => __( 'Noto Sans (Regular)', 'wp-to-social-pro' ),
-			'OpenSans-Regular'     => __( 'Open Sans (Regular)', 'wp-to-social-pro' ),
+			'OpenSans-Regular'     => sprintf(
+				'%s%s',
+				__( 'Open Sans (Regular', 'wp-to-social-pro' ),
+				extension_loaded( 'imagick' ) ? __( ', with Emoji Support)', 'wp-to-social-pro' ) : ')'
+			),
 			'Oswald-Regular'       => __( 'Oswald (Regular)', 'wp-to-social-pro' ),
 			'Raleway-Regular'      => __( 'Raleway (Regular)', 'wp-to-social-pro' ),
 		);

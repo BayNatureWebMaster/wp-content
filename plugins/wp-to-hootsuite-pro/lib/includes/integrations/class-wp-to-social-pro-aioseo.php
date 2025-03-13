@@ -127,8 +127,6 @@ class WP_To_Social_Pro_AIOSEO {
 	 */
 	private function get_searches_replacements( $post, $author ) {
 
-		global $aiosp;
-
 		// Store Title and Description.
 		$searches_replacements = array(
 			'aioseo_meta_title'       => $this->get_title( $post ),
@@ -162,33 +160,12 @@ class WP_To_Social_Pro_AIOSEO {
 	 */
 	private function get_title( $post ) {
 
-		global $aiosp;
-
-		// Get Title.
-		// Can't use get_aioseop_title() as it checks e.g. is_single() which is false here.
-		$title = false;
-
-		// Attempt to fetch the title from Post Meta, falling back to Plugin Settings.
-		$title = $aiosp->internationalize( get_post_meta( $post->ID, '_aioseop_title', true ) );
-		if ( ! $title ) {
-			$title = $aiosp->internationalize( get_post_meta( $post->ID, 'title_tag', true ) );
-		}
-		if ( ! $title ) {
-			$title = $aiosp->internationalize( $post->post_title );
-		}
-		if ( ! $title ) {
-			$title = $aiosp->internationalize( $aiosp->get_original_title( '', false ) );
+		// Bail if helper function doesn't exist.
+		if ( ! function_exists( 'aioseo' ) ) {
+			return '';
 		}
 
-		// Apply Custom Field Filters.
-		$title = $aiosp->apply_cf_fields( $title );
-
-		// Apply some other Filters.
-		$title = apply_filters( 'aioseop_title', $title );
-		$title = apply_filters( 'aioseop_title_single', $title );
-
-		// Return.
-		return $title;
+		return aioseo()->meta->title->getTitle( $post );
 
 	}
 
@@ -202,14 +179,12 @@ class WP_To_Social_Pro_AIOSEO {
 	 */
 	private function get_description( $post ) {
 
-		global $aiosp;
+		// Bail if helper function doesn't exist.
+		if ( ! function_exists( 'aioseo' ) ) {
+			return '';
+		}
 
-		// Get Description.
-		$description = $aiosp->get_aioseop_description( $post );
-		$description = $aiosp->trim_description( $description );
-		$description = apply_filters( 'aioseop_description_full', $aiosp->apply_description_format( $description, $post ) );
-
-		return $description;
+		return aioseo()->meta->description->getDescription( $post );
 
 	}
 
@@ -222,7 +197,7 @@ class WP_To_Social_Pro_AIOSEO {
 	 */
 	private function is_active() {
 
-		return defined( 'AIOSEOP_VERSION' );
+		return defined( 'AIOSEO_DIR' );
 
 	}
 

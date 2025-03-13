@@ -8,7 +8,7 @@
  * @wordpress-plugin
  * Plugin Name: WP to Hootsuite Pro
  * Plugin URI: http://www.wpzinc.com/plugins/wp-to-hootsuite-pro
- * Version: 2.5.2
+ * Version: 2.6.4
  * Author: WP Zinc
  * Author URI: http://www.wpzinc.com
  * Text Domain: wp-to-social-pro
@@ -21,8 +21,8 @@ if ( class_exists( 'WP_To_Hootsuite_Pro' ) ) {
 }
 
 // Define Plugin version and build date.
-define( 'WP_TO_HOOTSUITE_PRO_PLUGIN_VERSION', '2.5.2' );
-define( 'WP_TO_HOOTSUITE_PRO_PLUGIN_BUILD_DATE', '2024-05-13 18:00:00' );
+define( 'WP_TO_HOOTSUITE_PRO_PLUGIN_VERSION', '2.6.4' );
+define( 'WP_TO_HOOTSUITE_PRO_PLUGIN_BUILD_DATE', '2025-03-13 18:00:00' );
 
 // Define Plugin paths.
 define( 'WP_TO_HOOTSUITE_PRO_PLUGIN_URL', plugin_dir_url( __FILE__ ) );

@@ -184,6 +184,11 @@ class WP_To_Social_Pro_Log {
 			return;
 		}
 
+		// Bail if nonce is not valid.
+		if ( ! isset( $_REQUEST['_wpnonce'] ) || ! wp_verify_nonce( sanitize_key( wp_unslash( $_REQUEST['_wpnonce'] ) ), 'bulk-wp-to-social-log' ) ) {
+			return;
+		}
+
 		// Get bulk action from the fields that might contain it.
 		$bulk_action = array_values(
 			array_filter(
@@ -270,16 +275,21 @@ class WP_To_Social_Pro_Log {
 			return;
 		}
 
+		// Bail if nonce is not valid.
+		if ( ! isset( $_REQUEST['_wpnonce'] ) || ! wp_verify_nonce( sanitize_key( wp_unslash( $_REQUEST['_wpnonce'] ) ), 'bulk-wp-to-social-log' ) ) {
+			return;
+		}
+
 		$params = array();
 		foreach ( $this->base->get_class( 'common' )->get_log_filters() as $filter ) {
-			if ( ! isset( $_POST[ $filter ] ) ) { // phpcs:ignore WordPress.Security.NonceVerification
+			if ( ! isset( $_POST[ $filter ] ) ) {
 				continue;
 			}
-			if ( empty( $_POST[ $filter ] ) ) { // phpcs:ignore WordPress.Security.NonceVerification
+			if ( empty( $_POST[ $filter ] ) ) {
 				continue;
 			}
 
-			$params[ $filter ] = esc_html( $_POST[ $filter ] ); // phpcs:ignore WordPress.Security.NonceVerification
+			$params[ $filter ] = esc_html( $_POST[ $filter ] );
 		}
 
 		// If params don't exist, exit.
@@ -788,6 +798,30 @@ class WP_To_Social_Pro_Log {
 	}
 
 	/**
+	 * Deletes Log entries for the given Post ID and Action that have
+	 * a pending Status
+	 *
+	 * @since   3.7.9
+	 *
+	 * @param   int    $post_id    Post ID.
+	 * @param   string $action     Action.
+	 * @return  bool                Success
+	 */
+	public function delete_pending_by_post_id_and_action( $post_id, $action = 'publish' ) {
+
+		global $wpdb;
+
+		return $wpdb->delete(
+			$wpdb->prefix . $this->table,
+			array(
+				'post_id' => absint( $post_id ),
+				'result'  => 'pending',
+				'action'  => $action,
+			)
+		);
+	}
+
+	/**
 	 * Deletes all Log entries older than the given date
 	 *
 	 * @since   3.9.8
@@ -995,7 +1029,7 @@ class WP_To_Social_Pro_Log {
 					break;
 
 				default:
-					$html .= '  <td class="result_message column-result_message' . ( in_array( 'result_message', $hidden, true ) ? ' hidden' : '' ) . '">' . $result['result_message'] . '</td>
+					$html .= '  <td class="result_message column-result_message' . ( in_array( 'result_message', $hidden, true ) ? ' hidden' : '' ) . '">' . nl2br( $result['result_message'] ) . '</td>
                                 <td class="status_created_at column-status_created_at' . ( in_array( 'status_created_at', $hidden, true ) ? ' hidden' : '' ) . '">&nbsp;</td>
                                 <td class="status_due_at column-status_due_at' . ( in_array( 'status_due_at', $hidden, true ) ? ' hidden' : '' ) . '">&nbsp;</td>';
 					break;

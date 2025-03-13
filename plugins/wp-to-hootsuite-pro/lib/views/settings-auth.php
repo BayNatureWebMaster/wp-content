@@ -56,7 +56,7 @@
 	</ul>
 
 	<!-- Content -->
-	<div id="settings-container" class="wpzinc-nav-tabs-content no-padding">
+	<div id="settings-container" class="wpzinc-nav-tabs-content">
 		<!-- Authentication -->
 		<div id="authentication" class="panel">
 			<div class="postbox">
@@ -164,7 +164,7 @@
 						<label for="cron"><?php esc_html_e( 'Use WP Cron?', 'wp-to-social-pro' ); ?></label>
 					</div>
 					<div class="right">
-						<input type="checkbox" name="cron" id="cron" value="1" <?php checked( $this->get_setting( '', 'cron' ), 1 ); ?> />
+						<input type="checkbox" name="cron" id="cron" value="1" <?php checked( $this->get_setting( '', 'cron' ), 1 ); ?> data-conditional="cron_delay" />
 
 						<p class="description">
 							<?php
@@ -223,6 +223,20 @@
 								esc_html( $this->base->plugin->filter_name . '_publish_cron' )
 							);
 							?>
+						</p>
+					</div>
+				</div>
+
+				<div id="cron_delay" class="wpzinc-option">
+					<div class="left">
+						<label for="cron_delay"><?php esc_html_e( 'Schedule Event', 'wp-to-social-pro' ); ?></label>
+					</div>
+					<div class="right">
+						<input type="number" name="cron_delay" id="cron_delay" value="<?php echo esc_attr( $this->get_setting( '', 'cron_delay', '30' ) ); ?>" />
+						<?php echo esc_html_e( 'seconds after Publish or Update.', 'wp-to-social-pro' ); ?>
+
+						<p class="description">
+							<?php echo esc_html_e( 'The approximate number of seconds to schedule the WordPress Cron event after the Post, Page or Custom Post Type has been published or updated.', 'wp-to-social-pro' ); ?>
 						</p>
 					</div>
 				</div>
@@ -386,6 +400,20 @@
 							</option>
 						</select>
 
+						<p class="description">
+							<?php
+							if ( extension_loaded( 'imagick' ) ) {
+								esc_html_e( 'If the text will include emojis, the Open Sans (Regular, with Emoji Support) font must be selected.', 'wp-to-social-pro' );
+							} else {
+								esc_html_e( 'The Imagick PHP extension is not installed. Emojis in text to image will automatically be removed, as they are not supported by PHP\'s GD extension.', 'wp-to-social-pro' );
+								?>
+								<br />
+								<?php
+								esc_html_e( 'If you require emoji support, have your web host enable the PHP Imagick extension.', 'wp-to-social-pro' );
+							}
+							?>
+						</p>
+
 						<div id="custom_font" class="wpzinc-media-library-selector"
 							data-input-name="text_to_image[font_custom]"
 							data-file-type="application/octet-stream">
@@ -449,7 +477,7 @@
 						<p class="description">
 							<?php
 							esc_html_e(
-								'If specified, the text will have a background applied to it.  This is different to the entire image\'s Background
+								'If specified, the text will have the chosen background color applied to it.  This is different to the entire image\'s Background
                             Color and Background Image options below, which apply to the whole image.',
 								'wp-to-social-pro'
 							);
@@ -466,7 +494,7 @@
 						<input type="text" name="text_to_image[background_color]" id="background_color" value="<?php echo esc_attr( $this->get_setting( 'text_to_image', '[background_color]', '#e7e7e7' ) ); ?>" class="color-picker" />
 
 						<p class="description">
-							<?php esc_html_e( 'Used if a Background Image below isn\'t defined.', 'wp-to-social-pro' ); ?>
+							<?php esc_html_e( 'Used if a Featured Image doesn\'t exist or a Background Image isn\'t defined.', 'wp-to-social-pro' ); ?>
 						</p>
 					</div>
 				</div>
@@ -491,7 +519,8 @@
 								// Iterate through profiles.
 								if ( isset( $profiles ) && is_array( $profiles ) ) {
 									foreach ( $profiles as $key => $profile ) {
-										$background_image_id = $this->get_setting( 'text_to_image', '[background_image][' . $profile['id'] . ']' );
+										$background_image_type = $this->get_setting( 'text_to_image', '[type][' . $profile['id'] . ']', 'background' );
+										$background_image_id   = $this->get_setting( 'text_to_image', '[background_image][' . $profile['id'] . ']' );
 										if ( $background_image_id ) {
 											$background_image = wp_get_attachment_image_src( $background_image_id );
 										} else {
@@ -513,7 +542,13 @@
 												?>
 											</td>
 											<td>
-												<div class="full wpzinc-media-library-selector"
+												<select name="text_to_image[type][<?php echo esc_attr( $profile['id'] ); ?>]" size="1" data-conditional="text_to_image_background_image_<?php echo esc_attr( $profile['id'] ); ?>" data-conditional-value="background">
+													<option value="featured"<?php selected( $background_image_type, 'featured' ); ?>><?php esc_attr_e( 'Use Post\'s Featured Image', 'wp-to-social-pro' ); ?></option>
+													<option value="background"<?php selected( $background_image_type, 'background' ); ?>><?php esc_attr_e( 'Use Background Image', 'wp-to-social-pro' ); ?></option>
+												</select>
+
+												<div id="text_to_image_background_image_<?php echo esc_attr( $profile['id'] ); ?>" 
+													class="full wpzinc-media-library-selector"
 													data-input-name="text_to_image[background_image][<?php echo esc_attr( $profile['id'] ); ?>]"
 													data-file-type="image"
 													data-output-size="thumbnail">
@@ -526,7 +561,7 @@
 																	<input type="hidden" name="text_to_image[background_image][<?php echo esc_attr( $profile['id'] ); ?>]" value="<?php echo esc_attr( $background_image_id ); ?>" />
 																	<img src="<?php echo esc_attr( ( $background_image ? $background_image[0] : '' ) ); ?>" />
 																</div>
-																<a href="#" class="wpzinc-media-library-remove" title="<?php esc_attr_e( 'Remove', 'wp-to-social-pro' ); ?>"><?php esc_html_e( 'Remove', 'wp-to-social-pro' ); ?></a>
+																<a href="#" class="wpzinc-media-library-remove" title="<?php esc_attr_e( 'Remove Background Image', 'wp-to-social-pro' ); ?>"><?php esc_html_e( 'Remove', 'wp-to-social-pro' ); ?></a>
 															</li>
 															<?php
 														}
@@ -534,7 +569,7 @@
 													</ul>
 
 													<button class="wpzinc-media-library-insert button button-secondary">
-														<?php esc_html_e( 'Select Image', 'wp-to-social-pro' ); ?>
+														<?php esc_html_e( 'Select Background Image', 'wp-to-social-pro' ); ?>
 													</button>
 												</div>
 											</td>

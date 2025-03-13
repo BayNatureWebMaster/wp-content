@@ -1,51 +1,81 @@
-# Copyright (C) 2024 WP Zinc
+# Copyright (C) 2025 WP Zinc
 # This file is distributed under the same license as the WP to Hootsuite Pro plugin.
 msgid ""
 msgstr ""
-"Project-Id-Version: WP to Hootsuite Pro 2.5.2\n"
+"Project-Id-Version: WP to Hootsuite Pro 2.6.4\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/wp-to-hootsuite-pro\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2024-05-13T16:22:32+00:00\n"
+"POT-Creation-Date: 2025-03-13T09:11:45+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"X-Generator: WP-CLI 2.9.0\n"
+"X-Generator: WP-CLI 2.11.0\n"
 "X-Domain: wp-to-social-pro\n"
 
 #. Plugin Name of the plugin
+#: wp-to-hootsuite-pro.php
 msgid "WP to Hootsuite Pro"
 msgstr ""
 
 #. Plugin URI of the plugin
+#: wp-to-hootsuite-pro.php
 msgid "http://www.wpzinc.com/plugins/wp-to-hootsuite-pro"
 msgstr ""
 
 #. Description of the plugin
+#: wp-to-hootsuite-pro.php
 msgid "Send WordPress Pages, Posts or Custom Post Types to your Hootsuite account for scheduled publishing to social networks."
 msgstr ""
 
 #. Author of the plugin
+#: wp-to-hootsuite-pro.php
 msgid "WP Zinc"
 msgstr ""
 
 #. Author URI of the plugin
+#: wp-to-hootsuite-pro.php
 msgid "http://www.wpzinc.com"
 msgstr ""
 
 #. translators: Plugin Name
-#: includes/class-wp-to-hootsuite-pro.php:90
+#: includes/class-wp-to-hootsuite-pro.php:97
 msgid "Thanks for using %s to schedule your social media statuses on Hootsuite!"
 msgstr ""
 
+#: includes/class-wp-to-hootsuite-pro.php:170
+msgid "Licensing"
+msgstr ""
+
+#: includes/class-wp-to-hootsuite-pro.php:179
+#: lib/includes/class-wp-to-social-pro-admin.php:647
+#: lib/views/settings-auth-required.php:16
+#: lib/views/settings.php:15
+#: lib/views/settings.php:40
+#: lib/views/settings.php:54
+msgid "Settings"
+msgstr ""
+
+#: includes/class-wp-to-hootsuite-pro.php:186
+#: lib/includes/class-wp-to-social-pro-common.php:768
+#: lib/views/bulk-publish-error.php:17
+#: lib/views/bulk-publish.php:17
+msgid "Bulk Publish"
+msgstr ""
+
+#: includes/class-wp-to-hootsuite-pro.php:192
+#: lib/views/log.php:15
+msgid "Logs"
+msgstr ""
+
 #. translators: %1$s: Plugin Name, %2$s: PHP class name
-#: includes/class-wp-to-hootsuite-pro.php:239
+#: includes/class-wp-to-hootsuite-pro.php:318
 msgid "%1$s: Error: Could not load Plugin class %2$s"
 msgstr ""
 
 #. translators: Plugin Name
-#: includes/class-wp-to-hootsuite-pro.php:252
+#: includes/class-wp-to-hootsuite-pro.php:331
 msgid "%s: Error"
 msgstr ""
 
@@ -91,31 +121,32 @@ msgid "Google+ Page"
 msgstr ""
 
 #: includes/class-wp-to-social-pro-hootsuite-api.php:489
+#: lib/views/settings-post-action-status.php:135
 msgid "Pinterest"
 msgstr ""
 
 #. translators: %1$s: Attachment ID, %2$s: Attachment URL
-#: includes/class-wp-to-social-pro-hootsuite-api.php:703
+#: includes/class-wp-to-social-pro-hootsuite-api.php:744
 msgid "Attachment ID %1$s (%2$s) could not be found in the Media Library."
 msgstr ""
 
-#: includes/class-wp-to-social-pro-hootsuite-api.php:801
+#: includes/class-wp-to-social-pro-hootsuite-api.php:842
 msgid "No access token was specified"
 msgstr ""
 
 #. translators: Plugin Name
-#: includes/class-wp-to-social-pro-hootsuite-api.php:949
+#: includes/class-wp-to-social-pro-hootsuite-api.php:990
 #: lib/includes/class-wp-to-social-pro-admin.php:208
 msgid "%s requires the PHP cURL extension to be installed and enabled by your web host."
 msgstr ""
 
 #. translators: HTTP Error Code
-#: includes/class-wp-to-social-pro-hootsuite-api.php:1073
+#: includes/class-wp-to-social-pro-hootsuite-api.php:1114
 msgid "Hootsuite API Error: %1$s returned a %2$s %3$s error. Please try again."
 msgstr ""
 
 #. translators: %1$s: HTTP Error Code, %2$s: Error Message
-#: includes/class-wp-to-social-pro-hootsuite-api.php:1098
+#: includes/class-wp-to-social-pro-hootsuite-api.php:1139
 #: includes/class-wp-to-social-pro-owly-api.php:259
 msgid "Hootsuite API Error: #%1$s: %2$s"
 msgstr ""
@@ -173,111 +204,87 @@ msgid "Click here to Authorize."
 msgstr ""
 
 #. translators: Social Media Service Name (Buffer, Hootsuite, SocialPilot)
-#: lib/includes/class-wp-to-social-pro-admin.php:323
-#: lib/includes/class-wp-to-social-pro-log.php:947
+#: lib/includes/class-wp-to-social-pro-admin.php:316
+#: lib/includes/class-wp-to-social-pro-log.php:981
 msgid "No log entries exist, or no status updates have been sent to %s."
 msgstr ""
 
-#: lib/includes/class-wp-to-social-pro-admin.php:329
+#: lib/includes/class-wp-to-social-pro-admin.php:322
 msgid "Are you sure you want to delete this condition?"
 msgstr ""
 
-#: lib/includes/class-wp-to-social-pro-admin.php:330
+#: lib/includes/class-wp-to-social-pro-admin.php:323
 msgid "Are you sure you want to delete this status?"
 msgstr ""
 
-#: lib/includes/class-wp-to-social-pro-admin.php:392
-#: lib/includes/class-wp-to-social-pro-admin.php:474
+#: lib/includes/class-wp-to-social-pro-admin.php:385
+#: lib/includes/class-wp-to-social-pro-admin.php:467
 msgid "Saving"
 msgstr ""
 
-#: lib/includes/class-wp-to-social-pro-admin.php:393
-#: lib/includes/class-wp-to-social-pro-admin.php:475
+#: lib/includes/class-wp-to-social-pro-admin.php:386
+#: lib/includes/class-wp-to-social-pro-admin.php:468
 msgid "Saved!"
 msgstr ""
 
-#: lib/includes/class-wp-to-social-pro-admin.php:439
+#: lib/includes/class-wp-to-social-pro-admin.php:432
 msgid "Testing"
 msgstr ""
 
-#: lib/includes/class-wp-to-social-pro-admin.php:440
+#: lib/includes/class-wp-to-social-pro-admin.php:433
 msgid "Finished"
 msgstr ""
 
-#: lib/includes/class-wp-to-social-pro-admin.php:621
-msgid "Licensing"
-msgstr ""
-
-#: lib/includes/class-wp-to-social-pro-admin.php:630
-#: lib/includes/class-wp-to-social-pro-admin.php:685
-#: lib/views/settings.php:15
-#: lib/views/settings.php:35
-#: lib/views/settings.php:49
-msgid "Settings"
-msgstr ""
-
-#: lib/includes/class-wp-to-social-pro-admin.php:637
-#: lib/includes/class-wp-to-social-pro-common.php:768
-#: lib/views/bulk-publish-error.php:17
-#: lib/views/bulk-publish.php:17
-msgid "Bulk Publish"
-msgstr ""
-
-#: lib/includes/class-wp-to-social-pro-admin.php:643
-#: lib/views/log.php:15
-msgid "Logs"
-msgstr ""
-
 #. translators: Social Media Service Name (Buffer, Hootsuite, SocialPilot)
-#: lib/includes/class-wp-to-social-pro-admin.php:721
+#: lib/includes/class-wp-to-social-pro-admin.php:671
 msgid "%s account disconnected successfully."
 msgstr ""
 
-#: lib/includes/class-wp-to-social-pro-admin.php:734
+#: lib/includes/class-wp-to-social-pro-admin.php:684
 msgid "Settings saved successfully."
 msgstr ""
 
 #. translators: %1$s: Plugin Name, %2$s: Social Media Service Name (Buffer, Hootsuite, SocialPilot)
-#: lib/includes/class-wp-to-social-pro-admin.php:764
+#: lib/includes/class-wp-to-social-pro-admin.php:714
 msgid "Hmm, it looks like you revoked access to %1$s through your %2$s account, or your account no longer exists. This means we can no longer post updates to your social networks.  To re-authorize, click the Authorize Plugin button."
 msgstr ""
 
 #. translators: %1$s: Post Type, %2$s: Social Media Service Name (Buffer, Hootsuite, SocialPilot), %3$s: Documentation URL
-#: lib/includes/class-wp-to-social-pro-admin.php:861
+#: lib/includes/class-wp-to-social-pro-admin.php:811
 msgid "To send %1$s to %2$s, at least one action on the Defaults tab must be enabled with a status defined, and at least one social media profile must be enabled below by clicking the applicable profile name and ticking the \"Account Enabled\" box."
 msgstr ""
 
-#: lib/includes/class-wp-to-social-pro-admin.php:866
+#: lib/includes/class-wp-to-social-pro-admin.php:816
 #: lib/views/settings-auth.php:205
 msgid "See Documentation"
 msgstr ""
 
-#: lib/includes/class-wp-to-social-pro-admin.php:960
+#: lib/includes/class-wp-to-social-pro-admin.php:910
 msgid "Invalid nonce specified."
 msgstr ""
 
 #. translators: Post Type Plural Name
-#: lib/includes/class-wp-to-social-pro-admin.php:1037
+#: lib/includes/class-wp-to-social-pro-admin.php:987
 #: lib/includes/class-wp-to-social-pro-bulk-publish.php:88
 #: lib/includes/class-wp-to-social-pro-bulk-publish.php:97
 msgid "No %s found matching the given Bulk Publish conditions. Please adjust / remove conditions as necessary."
 msgstr ""
 
-#: lib/includes/class-wp-to-social-pro-admin.php:1052
-#: lib/includes/class-wp-to-social-pro-admin.php:1231
+#: lib/includes/class-wp-to-social-pro-admin.php:1002
+#: lib/includes/class-wp-to-social-pro-admin.php:1181
 msgid "Invalid nonce specified. Settings NOT saved."
 msgstr ""
 
 #. translators: %1$s: Post Type Singular Name, %2$s: Plugin Name
-#: lib/includes/class-wp-to-social-pro-admin.php:1065
+#: lib/includes/class-wp-to-social-pro-admin.php:1015
 msgid "Please select at least one %1$s to publish to %2$s."
 msgstr ""
 
-#: lib/includes/class-wp-to-social-pro-admin.php:1096
+#: lib/includes/class-wp-to-social-pro-admin.php:1046
 msgid "Finished."
 msgstr ""
 
-#: lib/includes/class-wp-to-social-pro-admin.php:1223
+#: lib/includes/class-wp-to-social-pro-admin.php:1173
 msgid "Nonce field is missing. Settings NOT saved."
 msgstr ""
 
@@ -289,7 +296,7 @@ msgstr ""
 #: lib/includes/class-wp-to-social-pro-ajax.php:413
 #: lib/includes/class-wp-to-social-pro-ajax.php:420
 #: lib/includes/class-wp-to-social-pro-ajax.php:427
-#: lib/includes/class-wp-to-social-pro-log.php:522
+#: lib/includes/class-wp-to-social-pro-log.php:532
 msgid "Error"
 msgstr ""
 
@@ -310,13 +317,13 @@ msgid "Error: No response was received."
 msgstr ""
 
 #. translators: Social Media Service Name (Buffer, Hootsuite, SocialPilot)
-#: lib/includes/class-wp-to-social-pro-bulk-actions.php:82
+#: lib/includes/class-wp-to-social-pro-bulk-actions.php:89
 msgid "Send to %s"
 msgstr ""
 
 #. translators: %1$s: Social Media Service Name (Buffer, Hootsuite, SocialPilot), %2$s: Plugin Name
 #: lib/includes/class-wp-to-social-pro-bulk-publish.php:66
-#: lib/includes/class-wp-to-social-pro-publish.php:629
+#: lib/includes/class-wp-to-social-pro-publish.php:663
 #: lib/includes/class-wp-to-social-pro-repost.php:115
 msgid "The Plugin has not been authorized with %1$s! Go to %2$s > Settings to setup the plugin."
 msgstr ""
@@ -335,37 +342,37 @@ msgid "Bulk Publish the given Post IDs to Buffer based on the status settings at
 msgstr ""
 
 #: lib/includes/class-wp-to-social-pro-common.php:52
-#: lib/views/settings-auth.php:784
+#: lib/views/settings-auth.php:819
 msgid "Monday"
 msgstr ""
 
 #: lib/includes/class-wp-to-social-pro-common.php:53
-#: lib/views/settings-auth.php:785
+#: lib/views/settings-auth.php:820
 msgid "Tuesday"
 msgstr ""
 
 #: lib/includes/class-wp-to-social-pro-common.php:54
-#: lib/views/settings-auth.php:786
+#: lib/views/settings-auth.php:821
 msgid "Wednesday"
 msgstr ""
 
 #: lib/includes/class-wp-to-social-pro-common.php:55
-#: lib/views/settings-auth.php:787
+#: lib/views/settings-auth.php:822
 msgid "Thursday"
 msgstr ""
 
 #: lib/includes/class-wp-to-social-pro-common.php:56
-#: lib/views/settings-auth.php:788
+#: lib/views/settings-auth.php:823
 msgid "Friday"
 msgstr ""
 
 #: lib/includes/class-wp-to-social-pro-common.php:57
-#: lib/views/settings-auth.php:789
+#: lib/views/settings-auth.php:824
 msgid "Saturday"
 msgstr ""
 
 #: lib/includes/class-wp-to-social-pro-common.php:58
-#: lib/views/settings-auth.php:790
+#: lib/views/settings-auth.php:825
 msgid "Sunday"
 msgstr ""
 
@@ -557,7 +564,7 @@ msgstr ""
 
 #: lib/includes/class-wp-to-social-pro-common.php:645
 #: lib/includes/class-wp-to-social-pro-common.php:1023
-#: lib/includes/class-wp-to-social-pro-log-table.php:186
+#: lib/includes/class-wp-to-social-pro-log-table.php:195
 msgid "Post ID"
 msgstr ""
 
@@ -638,9 +645,10 @@ msgid "manually bulk published using this Plugin's Bulk Publish functionality"
 msgstr ""
 
 #: lib/includes/class-wp-to-social-pro-common.php:828
-#: lib/views/settings-post-action-status.php:347
-#: lib/views/settings-post-action-status.php:371
-#: lib/views/settings-post-action-status.php:395
+#: lib/includes/integrations/class-wp-to-social-pro-wpml.php:103
+#: lib/views/settings-post-action-status.php:462
+#: lib/views/settings-post-action-status.php:486
+#: lib/views/settings-post-action-status.php:510
 msgid "No Conditions"
 msgstr ""
 
@@ -672,15 +680,17 @@ msgstr ""
 
 #: lib/includes/class-wp-to-social-pro-common.php:934
 #: lib/includes/class-wp-to-social-pro-common.php:982
-#: lib/views/settings-post-action-status.php:572
-#: lib/views/settings-post-action-status.php:589
+#: lib/includes/integrations/class-wp-to-social-pro-wpml.php:104
+#: lib/views/settings-post-action-status.php:697
+#: lib/views/settings-post-action-status.php:714
 msgid "Equals"
 msgstr ""
 
 #: lib/includes/class-wp-to-social-pro-common.php:935
 #: lib/includes/class-wp-to-social-pro-common.php:983
-#: lib/views/settings-post-action-status.php:573
-#: lib/views/settings-post-action-status.php:590
+#: lib/includes/integrations/class-wp-to-social-pro-wpml.php:105
+#: lib/views/settings-post-action-status.php:698
+#: lib/views/settings-post-action-status.php:715
 msgid "Does not Equal"
 msgstr ""
 
@@ -748,7 +758,7 @@ msgid "Post Author"
 msgstr ""
 
 #: lib/includes/class-wp-to-social-pro-common.php:1025
-#: lib/views/settings-post-action-status.php:342
+#: lib/views/settings-post-action-status.php:457
 msgid "Title"
 msgstr ""
 
@@ -792,15 +802,19 @@ msgstr ""
 msgid "Noto Sans (Regular)"
 msgstr ""
 
-#: lib/includes/class-wp-to-social-pro-common.php:1121
-msgid "Open Sans (Regular)"
+#: lib/includes/class-wp-to-social-pro-common.php:1123
+msgid "Open Sans (Regular"
 msgstr ""
 
-#: lib/includes/class-wp-to-social-pro-common.php:1122
+#: lib/includes/class-wp-to-social-pro-common.php:1124
+msgid ", with Emoji Support)"
+msgstr ""
+
+#: lib/includes/class-wp-to-social-pro-common.php:1126
 msgid "Oswald (Regular)"
 msgstr ""
 
-#: lib/includes/class-wp-to-social-pro-common.php:1123
+#: lib/includes/class-wp-to-social-pro-common.php:1127
 msgid "Raleway (Regular)"
 msgstr ""
 
@@ -875,78 +889,78 @@ msgstr ""
 msgid "Apply"
 msgstr ""
 
-#: lib/includes/class-wp-to-social-pro-log-table.php:128
+#: lib/includes/class-wp-to-social-pro-log-table.php:137
 msgid "Are you sure you want to clear ALL logs?"
 msgstr ""
 
-#: lib/includes/class-wp-to-social-pro-log-table.php:129
+#: lib/includes/class-wp-to-social-pro-log-table.php:138
 #: lib/views/post-log.php:62
 msgid "Clear Log"
 msgstr ""
 
-#: lib/includes/class-wp-to-social-pro-log-table.php:142
+#: lib/includes/class-wp-to-social-pro-log-table.php:151
 msgid "No log entries found based on the given search and filter criteria."
 msgstr ""
 
-#: lib/includes/class-wp-to-social-pro-log-table.php:169
+#: lib/includes/class-wp-to-social-pro-log-table.php:178
 msgid "Post ID or Title"
 msgstr ""
 
-#: lib/includes/class-wp-to-social-pro-log-table.php:187
+#: lib/includes/class-wp-to-social-pro-log-table.php:196
 #: lib/views/bulk-publish-2.php:45
 #: lib/views/post-log.php:15
 msgid "Request Sent"
 msgstr ""
 
-#: lib/includes/class-wp-to-social-pro-log-table.php:188
+#: lib/includes/class-wp-to-social-pro-log-table.php:197
 #: lib/views/bulk-publish-2.php:46
 #: lib/views/post-log.php:16
 msgid "Action"
 msgstr ""
 
-#: lib/includes/class-wp-to-social-pro-log-table.php:189
+#: lib/includes/class-wp-to-social-pro-log-table.php:198
 #: lib/views/bulk-publish-2.php:47
 #: lib/views/post-log.php:17
-#: lib/views/settings-auth.php:484
+#: lib/views/settings-auth.php:512
 msgid "Profile"
 msgstr ""
 
-#: lib/includes/class-wp-to-social-pro-log-table.php:190
+#: lib/includes/class-wp-to-social-pro-log-table.php:199
 #: lib/views/bulk-publish-2.php:48
 #: lib/views/post-log.php:18
 msgid "Status Text"
 msgstr ""
 
-#: lib/includes/class-wp-to-social-pro-log-table.php:191
+#: lib/includes/class-wp-to-social-pro-log-table.php:200
 #: lib/views/bulk-publish-2.php:49
 #: lib/views/post-log.php:19
 msgid "Result"
 msgstr ""
 
-#: lib/includes/class-wp-to-social-pro-log-table.php:192
+#: lib/includes/class-wp-to-social-pro-log-table.php:201
 #: lib/views/bulk-publish-2.php:50
 #: lib/views/post-log.php:20
 msgid "Response"
 msgstr ""
 
 #. translators: Social Media Service Name (Buffer, Hootsuite, SocialPilot)
-#: lib/includes/class-wp-to-social-pro-log-table.php:195
+#: lib/includes/class-wp-to-social-pro-log-table.php:204
 #: lib/views/bulk-publish-2.php:56
 #: lib/views/post-log.php:26
 msgid "%s: Status Created At"
 msgstr ""
 
 #. translators: Social Media Service Name (Buffer, Hootsuite, SocialPilot)
-#: lib/includes/class-wp-to-social-pro-log-table.php:200
+#: lib/includes/class-wp-to-social-pro-log-table.php:209
 #: lib/views/bulk-publish-2.php:67
 #: lib/views/post-log.php:37
 msgid "%s: Status Scheduled For"
 msgstr ""
 
-#: lib/includes/class-wp-to-social-pro-log-table.php:240
-#: lib/views/settings-auth.php:832
-#: lib/views/settings-auth.php:1376
-#: lib/views/settings-auth.php:1394
+#: lib/includes/class-wp-to-social-pro-log-table.php:249
+#: lib/views/settings-auth.php:867
+#: lib/views/settings-auth.php:1411
+#: lib/views/settings-auth.php:1429
 msgid "Delete"
 msgstr ""
 
@@ -954,60 +968,60 @@ msgstr ""
 msgid "Log Entries per Page"
 msgstr ""
 
-#: lib/includes/class-wp-to-social-pro-log.php:219
+#: lib/includes/class-wp-to-social-pro-log.php:224
 msgid "No logs were selected for deletion."
 msgstr ""
 
 #. translators: Number of log entries deleted
-#: lib/includes/class-wp-to-social-pro-log.php:231
+#: lib/includes/class-wp-to-social-pro-log.php:236
 msgid "%s Logs deleted."
 msgstr ""
 
-#: lib/includes/class-wp-to-social-pro-log.php:246
+#: lib/includes/class-wp-to-social-pro-log.php:251
 msgid "All Logs deleted."
 msgstr ""
 
 #. translators: Social Media Service Name (Buffer, Hootsuite, SocialPilot)
-#: lib/includes/class-wp-to-social-pro-log.php:331
+#: lib/includes/class-wp-to-social-pro-log.php:341
 msgid "%s Log"
 msgstr ""
 
-#: lib/includes/class-wp-to-social-pro-log.php:501
+#: lib/includes/class-wp-to-social-pro-log.php:511
 msgid "Unknown"
 msgstr ""
 
-#: lib/includes/class-wp-to-social-pro-log.php:519
-#: lib/includes/class-wp-to-social-pro-log.php:550
+#: lib/includes/class-wp-to-social-pro-log.php:529
+#: lib/includes/class-wp-to-social-pro-log.php:560
 msgid "Success"
 msgstr ""
 
-#: lib/includes/class-wp-to-social-pro-log.php:520
-#: lib/views/settings-auth.php:888
+#: lib/includes/class-wp-to-social-pro-log.php:530
+#: lib/views/settings-auth.php:923
 msgid "Test"
 msgstr ""
 
-#: lib/includes/class-wp-to-social-pro-log.php:521
+#: lib/includes/class-wp-to-social-pro-log.php:531
 msgid "Warning"
 msgstr ""
 
-#: lib/includes/class-wp-to-social-pro-log.php:551
+#: lib/includes/class-wp-to-social-pro-log.php:561
 msgid "Tests"
 msgstr ""
 
-#: lib/includes/class-wp-to-social-pro-log.php:552
+#: lib/includes/class-wp-to-social-pro-log.php:562
 msgid "Pending"
 msgstr ""
 
-#: lib/includes/class-wp-to-social-pro-log.php:553
+#: lib/includes/class-wp-to-social-pro-log.php:563
 msgid "Warnings"
 msgstr ""
 
-#: lib/includes/class-wp-to-social-pro-log.php:554
+#: lib/includes/class-wp-to-social-pro-log.php:564
 msgid "Errors"
 msgstr ""
 
-#: lib/includes/class-wp-to-social-pro-log.php:980
-#: lib/includes/class-wp-to-social-pro-log.php:981
+#: lib/includes/class-wp-to-social-pro-log.php:1014
+#: lib/includes/class-wp-to-social-pro-log.php:1015
 msgid "N/A"
 msgstr ""
 
@@ -1037,41 +1051,41 @@ msgid "%s: Featured Image"
 msgstr ""
 
 #: lib/includes/class-wp-to-social-pro-post.php:262
-#: lib/views/settings.php:116
+#: lib/views/settings.php:121
 msgid "Save"
 msgstr ""
 
 #. translators: %1$s: Social Media Service Name (Buffer, Hootsuite, SocialPilot), %2$s: Social Media Service Name (Buffer, Hootsuite, SocialPilot)
-#: lib/includes/class-wp-to-social-pro-publish.php:562
-msgid "Status added to WordPress Cron for sending to %1$s.  Check the Post's Log in a few minutes for confirmation that the status has been added to %2$s"
+#: lib/includes/class-wp-to-social-pro-publish.php:596
+msgid "Status added to WordPress Cron for sending to %1$s.  Check the Post's Log after the \"Request Sent\" date and time to confirm that the status has been added to %2$s"
 msgstr ""
 
 #. translators: %1$s: Post Type Name, Singular, %2$s: Social Media Service Name (Buffer, Hootsuite, SocialPilot), %3$s: Action (Publish, Update, Repost, Bulk Publish), %4$s, %5$s, %6$s: Post Type Name, Singular, %7$s: Social Media Service Name (Buffer, Hootsuite, SocialPilot), %8$s: Plugin URL, %9$s: Plugin Name, %10$s: Post Type Name, Singular, %11$s: Action (Publish, Update, Repost, Bulk Publish)
-#: lib/includes/class-wp-to-social-pro-publish.php:807
+#: lib/includes/class-wp-to-social-pro-publish.php:860
 msgid "Status(es) exist for sending this %1$s to %2$s when you %3$s a %4$s, but no status was sent because the %5$s did not meet the status conditions. If you want this %6$s to be sent to %7$s, navigate to <a href=\"%8$s\" target=\"_blank\">%9$s > Settings > %10$s Tab > %11$s Action Tab</a>, ensuring that no Conditions are set on the defined statuses."
 msgstr ""
 
 #. translators: %1$s: Post Type Name, Singular, %2$s: Social Media Service Name (Buffer, Hootsuite, SocialPilot), %3$s: Action (Publish, Update, Repost, Bulk Publish), %4$s, %5$s, %6$s: Post Type Name, Singular, %7$s: Social Media Service Name (Buffer, Hootsuite, SocialPilot), %8$s: Plugin URL, %9$s: Plugin Name, %10$s: Post Type Name, Singular, %11$s: Action (Publish, Update, Repost, Bulk Publish)
-#: lib/includes/class-wp-to-social-pro-publish.php:832
+#: lib/includes/class-wp-to-social-pro-publish.php:885
 msgid "No %1$s Settings are defined for sending this %2$s to %3$s when you %4$s. To send statuses to %5$s on %6$s, <a href=\"%7$s\" target=\"_blank\">Edit the Post</a>, navigate to %8$s > Defaults > %9$s Action Tab, tick \"Enabled\" and also enable at least one social media profile."
 msgstr ""
 
 #. translators: %1$s: Post Type Name, Singular, %2$s: Social Media Service Name (Buffer, Hootsuite, SocialPilot), %3$s: Action (Publish, Update, Repost, Bulk Publish), %4$s, %5$s, %6$s: Post Type Name, Singular, %7$s: Social Media Service Name (Buffer, Hootsuite, SocialPilot), %8$s: Plugin URL, %9$s: Plugin Name, %10$s: Post Type Name, Singular, %11$s: Action (Publish, Update, Repost, Bulk Publish)
-#: lib/includes/class-wp-to-social-pro-publish.php:849
+#: lib/includes/class-wp-to-social-pro-publish.php:902
 msgid "No Plugin Settings are defined for sending %1$s to %2$s when you %3$s a %4$s. To send statuses to %5$s on %6$s, navigate to <a href=\"%7$s\" target=\"_blank\">%8$s > Settings > %9$s Tab > %10$s Action Tab</a>, tick \"Enabled\", and also enable at least one social media profile."
 msgstr ""
 
 #. translators: Action
-#: lib/includes/class-wp-to-social-pro-publish.php:919
+#: lib/includes/class-wp-to-social-pro-publish.php:972
 msgid "The %s action is not supported."
 msgstr ""
 
 #. translators: Post ID
-#: lib/includes/class-wp-to-social-pro-publish.php:932
+#: lib/includes/class-wp-to-social-pro-publish.php:985
 msgid "No WordPress Post could be found for Post ID %s"
 msgstr ""
 
-#: lib/includes/class-wp-to-social-pro-publish.php:3715
+#: lib/includes/class-wp-to-social-pro-publish.php:4104
 msgid "Plugin Error"
 msgstr ""
 
@@ -1127,24 +1141,32 @@ msgstr ""
 msgid "Spintax Error: JIT Stack Limit Hit"
 msgstr ""
 
-#: lib/includes/class-wp-to-social-pro-text-to-image.php:199
+#: lib/includes/class-wp-to-social-pro-text-to-image-gd.php:170
+#: lib/includes/class-wp-to-social-pro-text-to-image-imagick.php:171
 msgid "Could not find the background image."
 msgstr ""
 
-#: lib/includes/class-wp-to-social-pro-text-to-image.php:205
+#: lib/includes/class-wp-to-social-pro-text-to-image-gd.php:176
+#: lib/includes/class-wp-to-social-pro-text-to-image-imagick.php:177
 msgid "Could not determine MIME type of the background image."
 msgstr ""
 
-#: lib/includes/class-wp-to-social-pro-text-to-image.php:217
+#: lib/includes/class-wp-to-social-pro-text-to-image-gd.php:188
 msgid "Unsupported MIME type for the background image."
 msgstr ""
 
-#: lib/includes/class-wp-to-social-pro-text-to-image.php:522
+#: lib/includes/class-wp-to-social-pro-text-to-image-gd.php:195
+msgid "An error occured when attempting to to load the background image."
+msgstr ""
+
+#: lib/includes/class-wp-to-social-pro-text-to-image-gd.php:438
+#: lib/includes/class-wp-to-social-pro-text-to-image-imagick.php:391
 msgid "You must specify a font file."
 msgstr ""
 
 #. translators: HEX Color
-#: lib/includes/class-wp-to-social-pro-text-to-image.php:637
+#: lib/includes/class-wp-to-social-pro-text-to-image-gd.php:547
+#: lib/includes/class-wp-to-social-pro-text-to-image-imagick.php:508
 msgid "Could not convert hex color %s to RGBA"
 msgstr ""
 
@@ -1461,6 +1483,14 @@ msgstr ""
 msgid "Review Count"
 msgstr ""
 
+#: lib/includes/integrations/class-wp-to-social-pro-wpml.php:98
+msgid "WPML"
+msgstr ""
+
+#: lib/includes/integrations/class-wp-to-social-pro-wpml.php:110
+msgid "(Any Language)"
+msgstr ""
+
 #: lib/includes/integrations/class-wp-to-social-pro-yoast-seo.php:91
 msgid "Twitter Title"
 msgstr ""
@@ -1503,46 +1533,46 @@ msgid "Key"
 msgstr ""
 
 #: lib/views/bulk-publish-0.php:64
-#: lib/views/settings-post-action-status.php:322
-#: lib/views/settings-post-action-status.php:547
+#: lib/views/settings-post-action-status.php:437
+#: lib/views/settings-post-action-status.php:672
 msgid "Compare"
 msgstr ""
 
 #: lib/views/bulk-publish-0.php:65
-#: lib/views/settings-post-action-status.php:323
-#: lib/views/settings-post-action-status.php:548
+#: lib/views/settings-post-action-status.php:438
+#: lib/views/settings-post-action-status.php:673
 msgid "Value"
 msgstr ""
 
 #: lib/views/bulk-publish-0.php:66
-#: lib/views/settings-auth.php:791
-#: lib/views/settings-auth.php:1344
-#: lib/views/settings-post-action-status.php:324
-#: lib/views/settings-post-action-status.php:549
+#: lib/views/settings-auth.php:826
+#: lib/views/settings-auth.php:1379
+#: lib/views/settings-post-action-status.php:439
+#: lib/views/settings-post-action-status.php:674
 #: lib/views/settings-post-action.php:61
 msgid "Actions"
 msgstr ""
 
 #: lib/views/bulk-publish-0.php:74
-#: lib/views/settings-post-action-status.php:332
+#: lib/views/settings-post-action-status.php:447
 msgid "Add Meta / Custom Field Condition"
 msgstr ""
 
 #: lib/views/bulk-publish-0.php:83
-#: lib/views/settings-post-action-status.php:499
+#: lib/views/settings-post-action-status.php:623
 msgid "Meta Key"
 msgstr ""
 
 #: lib/views/bulk-publish-0.php:97
-#: lib/views/settings-post-action-status.php:513
+#: lib/views/settings-post-action-status.php:637
 msgid "Meta Value"
 msgstr ""
 
 #: lib/views/bulk-publish-0.php:101
-#: lib/views/settings-auth.php:405
-#: lib/views/settings-auth.php:529
-#: lib/views/settings-post-action-status.php:517
-#: lib/views/settings-post-action-status.php:624
+#: lib/views/settings-auth.php:433
+#: lib/views/settings-auth.php:564
+#: lib/views/settings-post-action-status.php:641
+#: lib/views/settings-post-action-status.php:749
 #: lib/views/settings-post-image.php:34
 msgid "Remove"
 msgstr ""
@@ -1566,7 +1596,7 @@ msgid "Defines how to order the Posts that will be added to your %s queue."
 msgstr ""
 
 #: lib/views/bulk-publish-0.php:182
-#: lib/views/settings-post-action-status.php:192
+#: lib/views/settings-post-action-status.php:241
 msgid "Order"
 msgstr ""
 
@@ -1621,11 +1651,11 @@ msgstr ""
 msgid "Please be patient while Post(s) are published to %1$s. This can take a while if your server is slow (inexpensive hosting), or if you have chosen a lot of Posts and Statuses. Do not navigate away from this page until this script is done or all statuses will not be sent to %2$s. You will be notified via this page when the process is completed."
 msgstr ""
 
-#: lib/views/log.php:23
+#: lib/views/log.php:27
 msgid "Search results for"
 msgstr ""
 
-#: lib/views/log.php:31
+#: lib/views/log.php:35
 msgid "Search"
 msgstr ""
 
@@ -1642,16 +1672,16 @@ msgid "Are you sure you want to clear the logs associated with this Post?"
 msgstr ""
 
 #. translators: %1$s: Social Media Service Name (Buffer, Hootsuite, SocialPilot), %2$s: Social Media Service Name (Buffer, Hootsuite, SocialPilot)
-#: lib/views/settings-auth-required.php:28
+#: lib/views/settings-auth-required.php:37
 msgid "To allow this Plugin to post updates to your social media profiles using %1$s, please authorize %2$s below."
 msgstr ""
 
 #. translators: %1$s: Social Media Service Name (Buffer, Hootsuite, SocialPilot)
-#: lib/views/settings-auth-required.php:40
+#: lib/views/settings-auth-required.php:49
 msgid "Don't have a %1$s account?"
 msgstr ""
 
-#: lib/views/settings-auth-required.php:46
+#: lib/views/settings-auth-required.php:55
 msgid "Sign up for free"
 msgstr ""
 
@@ -1666,12 +1696,12 @@ msgid "General Settings"
 msgstr ""
 
 #: lib/views/settings-auth.php:26
-#: lib/views/settings-post-action-status.php:280
+#: lib/views/settings-post-action-status.php:392
 msgid "Text to Image"
 msgstr ""
 
 #: lib/views/settings-auth.php:31
-#: lib/views/settings-auth.php:572
+#: lib/views/settings-auth.php:607
 msgid "Log Settings"
 msgstr ""
 
@@ -1680,12 +1710,12 @@ msgid "Repost Settings"
 msgstr ""
 
 #: lib/views/settings-auth.php:45
-#: lib/views/settings-auth.php:1141
+#: lib/views/settings-auth.php:1176
 msgid "User Access"
 msgstr ""
 
 #: lib/views/settings-auth.php:53
-#: lib/views/settings-auth.php:1323
+#: lib/views/settings-auth.php:1358
 msgid "Custom Tags"
 msgstr ""
 
@@ -1772,482 +1802,518 @@ msgstr ""
 msgid "to monitor Cron Jobs. %1$s will display its jobs with the Hook Name"
 msgstr ""
 
-#: lib/views/settings-auth.php:235
+#: lib/views/settings-auth.php:232
+msgid "Schedule Event"
+msgstr ""
+
+#: lib/views/settings-auth.php:236
+msgid "seconds after Publish or Update."
+msgstr ""
+
+#: lib/views/settings-auth.php:239
+msgid "The approximate number of seconds to schedule the WordPress Cron event after the Post, Page or Custom Post Type has been published or updated."
+msgstr ""
+
+#: lib/views/settings-auth.php:249
 msgid "Disable URL Shortening?"
 msgstr ""
 
 #. translators: Social Media Service Name (Buffer, Hootsuite, SocialPilot)
-#: lib/views/settings-auth.php:245
+#: lib/views/settings-auth.php:259
 msgid "If enabled, any URLs in statuses will not be shortened by %s"
 msgstr ""
 
-#: lib/views/settings-auth.php:259
+#: lib/views/settings-auth.php:273
 msgid "Force Trailing Forwardslash?"
 msgstr ""
 
-#: lib/views/settings-auth.php:266
+#: lib/views/settings-auth.php:280
 msgid "If enabled, any URLs in statuses will always end with a forwardslash. This might be required if the wrong image is shared with a status."
 msgstr ""
 
-#: lib/views/settings-auth.php:272
+#: lib/views/settings-auth.php:286
 msgid "It's better to ensure your"
 msgstr ""
 
-#: lib/views/settings-auth.php:273
+#: lib/views/settings-auth.php:287
 msgid "Permalink"
 msgstr ""
 
-#: lib/views/settings-auth.php:274
+#: lib/views/settings-auth.php:288
 msgid "settings end with a forwardslash, but this option is a useful fallback if changing Permalink structure isn't possible."
 msgstr ""
 
-#: lib/views/settings-auth.php:283
+#: lib/views/settings-auth.php:297
 msgid "Disable Fallback to Content if Excerpt Empty?"
 msgstr ""
 
-#: lib/views/settings-auth.php:290
+#: lib/views/settings-auth.php:304
 msgid "If enabled, any excerpt tag used in statuses will be blank if no Excerpt exists"
 msgstr ""
 
-#: lib/views/settings-auth.php:298
+#: lib/views/settings-auth.php:312
 msgid "Use Proxy?"
 msgstr ""
 
 #. translators: %1$s: Social Media Service Name (Buffer, Hootsuite, SocialPilot), %2$s: Social Media Service Name (Buffer, Hootsuite, SocialPilot)
-#: lib/views/settings-auth.php:308
+#: lib/views/settings-auth.php:322
 msgid "If enabled, statuses sent to %1$s are performed through our proxy. This is useful if your ISP or host's country prevents access to %1$s."
 msgstr ""
 
-#: lib/views/settings-auth.php:315
+#: lib/views/settings-auth.php:329
 msgid "You may still need to use a VPN for initial Authentication when setting up the Plugin for the first time."
 msgstr ""
 
-#: lib/views/settings-auth.php:322
+#: lib/views/settings-auth.php:336
 msgid "Post Level Default"
 msgstr ""
 
 #. translators: Plugin Name
-#: lib/views/settings-auth.php:342
+#: lib/views/settings-auth.php:356
 msgid "Determines the default option to be selected in the %s metabox when adding/editing Pages, Posts and Custom Post Types.  A user can always change this on a per-Post basis."
 msgstr ""
 
-#: lib/views/settings-auth.php:357
+#: lib/views/settings-auth.php:371
 msgid "Text to Image Settings"
 msgstr ""
 
-#: lib/views/settings-auth.php:360
+#: lib/views/settings-auth.php:374
 msgid ""
 "Provides options for automatically generating images from text, when a Status' image option is set to Use Text to Image\n"
 "                        and a status has Text to Image defined."
 msgstr ""
 
-#: lib/views/settings-auth.php:371
+#: lib/views/settings-auth.php:385
 msgid "Text Font"
 msgstr ""
 
-#: lib/views/settings-auth.php:385
+#: lib/views/settings-auth.php:399
 msgid "Custom Font"
 msgstr ""
 
-#: lib/views/settings-auth.php:413
+#: lib/views/settings-auth.php:406
+msgid "If the text will include emojis, the Open Sans (Regular, with Emoji Support) font must be selected."
+msgstr ""
+
+#: lib/views/settings-auth.php:408
+msgid "The Imagick PHP extension is not installed. Emojis in text to image will automatically be removed, as they are not supported by PHP's GD extension."
+msgstr ""
+
+#: lib/views/settings-auth.php:412
+msgid "If you require emoji support, have your web host enable the PHP Imagick extension."
+msgstr ""
+
+#: lib/views/settings-auth.php:441
 msgid "Add/Replace Custom Font"
 msgstr ""
 
-#: lib/views/settings-auth.php:417
+#: lib/views/settings-auth.php:445
 msgid "Upload a TTF to use. If no font is specified, Open Sans will be used."
 msgstr ""
 
-#: lib/views/settings-auth.php:425
+#: lib/views/settings-auth.php:453
 msgid "Text Size"
 msgstr ""
 
-#: lib/views/settings-auth.php:429
+#: lib/views/settings-auth.php:457
 msgid "px"
 msgstr ""
 
-#: lib/views/settings-auth.php:435
+#: lib/views/settings-auth.php:463
 msgid "Text Color"
 msgstr ""
 
-#: lib/views/settings-auth.php:444
+#: lib/views/settings-auth.php:472
 msgid "Text Background Color"
 msgstr ""
 
-#: lib/views/settings-auth.php:451
+#: lib/views/settings-auth.php:479
 msgid ""
-"If specified, the text will have a background applied to it.  This is different to the entire image's Background\n"
+"If specified, the text will have the chosen background color applied to it.  This is different to the entire image's Background\n"
 "                            Color and Background Image options below, which apply to the whole image."
 msgstr ""
 
-#: lib/views/settings-auth.php:463
+#: lib/views/settings-auth.php:491
 msgid "Background Color"
 msgstr ""
 
-#: lib/views/settings-auth.php:469
-msgid "Used if a Background Image below isn't defined."
+#: lib/views/settings-auth.php:497
+msgid "Used if a Featured Image doesn't exist or a Background Image isn't defined."
 msgstr ""
 
-#: lib/views/settings-auth.php:477
-#: lib/views/settings-auth.php:485
+#: lib/views/settings-auth.php:505
+#: lib/views/settings-auth.php:513
 msgid "Background Image"
 msgstr ""
 
-#: lib/views/settings-auth.php:486
+#: lib/views/settings-auth.php:514
 msgid "Recommended Dimensions"
 msgstr ""
 
-#: lib/views/settings-auth.php:537
-#: lib/views/settings-post-image.php:46
-msgid "Select Image"
+#: lib/views/settings-auth.php:546
+msgid "Use Post's Featured Image"
+msgstr ""
+
+#: lib/views/settings-auth.php:547
+msgid "Use Background Image"
+msgstr ""
+
+#: lib/views/settings-auth.php:564
+msgid "Remove Background Image"
+msgstr ""
+
+#: lib/views/settings-auth.php:572
+msgid "Select Background Image"
 msgstr ""
 
 #. translators: %1$s: Width, %2$s: Height
-#: lib/views/settings-auth.php:547
+#: lib/views/settings-auth.php:582
 msgid "%1$spx width x %2$spx height"
 msgstr ""
 
-#: lib/views/settings-auth.php:574
+#: lib/views/settings-auth.php:609
 msgid "Provides options to enable logging, display logs on Posts and how long to keep logs for."
 msgstr ""
 
-#: lib/views/settings-auth.php:580
+#: lib/views/settings-auth.php:615
 msgid "Enable Logging?"
 msgstr ""
 
-#: lib/views/settings-auth.php:589
+#: lib/views/settings-auth.php:624
 msgid "If enabled, the"
 msgstr ""
 
-#: lib/views/settings-auth.php:591
-#: lib/views/settings-auth.php:630
+#: lib/views/settings-auth.php:626
+#: lib/views/settings-auth.php:665
 msgid "Plugin Logs"
 msgstr ""
 
 #. translators: Social Media Service Name (Buffer, Hootsuite, SocialPilot)
-#: lib/views/settings-auth.php:595
+#: lib/views/settings-auth.php:630
 msgid "will detail status(es) sent to %s, including any errors or reasons why no status(es) were sent."
 msgstr ""
 
 #. translators: %1$s: Social Media Service Name (Buffer, Hootsuite, SocialPilot)
-#: lib/views/settings-auth.php:605
+#: lib/views/settings-auth.php:640
 msgid "If enabled, the Plugin Logs will detail status(es) sent to %1$s, including any errors or reasons why no status(es) were sent."
 msgstr ""
 
-#: lib/views/settings-auth.php:618
+#: lib/views/settings-auth.php:653
 msgid "Display on Posts?"
 msgstr ""
 
-#: lib/views/settings-auth.php:628
+#: lib/views/settings-auth.php:663
 msgid "If enabled, a Log will be displayed when editing a Post.  Logs are always available through the"
 msgstr ""
 
-#: lib/views/settings-auth.php:631
+#: lib/views/settings-auth.php:666
 msgid "screen"
 msgstr ""
 
-#: lib/views/settings-auth.php:635
+#: lib/views/settings-auth.php:670
 msgid "If enabled, a Log will be displayed when editing a Post.  Logs are always available through the Plugin Logs screen."
 msgstr ""
 
-#: lib/views/settings-auth.php:644
+#: lib/views/settings-auth.php:679
 msgid "Log Level"
 msgstr ""
 
-#: lib/views/settings-auth.php:669
+#: lib/views/settings-auth.php:704
 msgid "Defines which log results to save to the Log database. Errors will always be logged."
 msgstr ""
 
-#: lib/views/settings-auth.php:676
+#: lib/views/settings-auth.php:711
 msgid "Preserve Logs"
 msgstr ""
 
-#: lib/views/settings-auth.php:680
-#: lib/views/settings-auth.php:1005
-#: lib/views/settings-auth.php:1038
-#: lib/views/settings-auth.php:1069
+#: lib/views/settings-auth.php:715
+#: lib/views/settings-auth.php:1040
+#: lib/views/settings-auth.php:1073
+#: lib/views/settings-auth.php:1104
 msgid "days"
 msgstr ""
 
-#: lib/views/settings-auth.php:684
+#: lib/views/settings-auth.php:719
 msgid "The number of days to preserve logs for.  Zero means logs are kept indefinitely."
 msgstr ""
 
-#: lib/views/settings-auth.php:699
+#: lib/views/settings-auth.php:734
 msgid "General"
 msgstr ""
 
-#: lib/views/settings-auth.php:740
+#: lib/views/settings-auth.php:775
 msgid "Repost Settings: General"
 msgstr ""
 
-#: lib/views/settings-auth.php:742
+#: lib/views/settings-auth.php:777
 msgid "Provides general options for when to run the WordPress Repost Cron Event on this WordPress installation, and to disable the Repost cron entirely."
 msgstr ""
 
 #. translators: Social Media Service Name (Buffer, Hootsuite, SocialPilot)
-#: lib/views/settings-auth.php:748
+#: lib/views/settings-auth.php:783
 msgid "When Post(s) are scheduled on %1$s will depend on the"
 msgstr ""
 
-#: lib/views/settings-auth.php:752
+#: lib/views/settings-auth.php:787
 msgid "Repost Status Settings"
 msgstr ""
 
-#: lib/views/settings-auth.php:760
+#: lib/views/settings-auth.php:795
+#: lib/views/settings-post-action-status.php:27
 msgid "Status"
 msgstr ""
 
-#: lib/views/settings-auth.php:766
+#: lib/views/settings-auth.php:801
 msgid "Disabled"
 msgstr ""
 
-#: lib/views/settings-auth.php:770
+#: lib/views/settings-auth.php:805
 #: lib/views/settings-post-action.php:30
 msgid "Enabled"
 msgstr ""
 
-#: lib/views/settings-auth.php:778
+#: lib/views/settings-auth.php:813
 msgid "Repost Times"
 msgstr ""
 
-#: lib/views/settings-auth.php:797
+#: lib/views/settings-auth.php:832
 msgid "Add Repost Time"
 msgstr ""
 
-#: lib/views/settings-auth.php:812
+#: lib/views/settings-auth.php:847
 msgid "Don't Repost"
 msgstr ""
 
 #. translators: Social Media Service Name (Buffer, Hootsuite, SocialPilot)
-#: lib/views/settings-auth.php:847
+#: lib/views/settings-auth.php:882
 msgid "For each day(s) and time(s) specified, repost statuses will be sent to %s via this Plugin's WordPress Cron event."
 msgstr ""
 
-#: lib/views/settings-auth.php:853
+#: lib/views/settings-auth.php:888
 msgid "Use \"Don't Repost\" for a given day if you do not want to repost statuses."
 msgstr ""
 
-#: lib/views/settings-auth.php:855
+#: lib/views/settings-auth.php:890
 msgid "If your site has low traffic volumes, the Repost WordPress Cron event may take several minutes, even hours, to trigger."
 msgstr ""
 
-#: lib/views/settings-auth.php:862
+#: lib/views/settings-auth.php:897
 msgid "Disable Repost Cron?"
 msgstr ""
 
-#: lib/views/settings-auth.php:871
+#: lib/views/settings-auth.php:906
 msgid "Check this option if you do NOT want Automatic Reposting or prefer to manually run Reposting via the"
 msgstr ""
 
-#: lib/views/settings-auth.php:873
+#: lib/views/settings-auth.php:908
 msgid "Cron event /"
 msgstr ""
 
-#: lib/views/settings-auth.php:876
+#: lib/views/settings-auth.php:911
 msgid "CLI"
 msgstr ""
 
-#: lib/views/settings-auth.php:877
+#: lib/views/settings-auth.php:912
 msgid "command"
 msgstr ""
 
-#: lib/views/settings-auth.php:881
+#: lib/views/settings-auth.php:916
 msgid "If you're disabling the Repost Cron and running it manually, you'll need to trigger either the Cron event or CLI command to run hourly."
 msgstr ""
 
-#: lib/views/settings-auth.php:891
+#: lib/views/settings-auth.php:926
 msgid "Test Repost Cron Now"
 msgstr ""
 
-#: lib/views/settings-auth.php:897
+#: lib/views/settings-auth.php:932
 msgid "Once you have defined a Repost schedule and settings for each Post Type, click Save, and then optionally click the Test button above to simulate what the Repost Cron event would do if run by WordPress now. This does"
 msgstr ""
 
-#: lib/views/settings-auth.php:898
+#: lib/views/settings-auth.php:933
 msgid "not"
 msgstr ""
 
 #. translators: Social Media Service Name (Buffer, Hootsuite, SocialPilot)
-#: lib/views/settings-auth.php:902
+#: lib/views/settings-auth.php:937
 msgid "post to %s"
 msgstr ""
 
 #. translators: Post Type Name
-#: lib/views/settings-auth.php:924
+#: lib/views/settings-auth.php:959
 msgid "Repost Settings: %s"
 msgstr ""
 
 #. translators: %1$s: Post Type Name, %2$s: Social Media Service Name (Buffer, Hootsuite, SocialPilot)
-#: lib/views/settings-auth.php:935
+#: lib/views/settings-auth.php:970
 msgid "Defines conditions for when %1$s are eligible to be automatically reposted to %2$s."
 msgstr ""
 
 #. translators: %1$s: Post Type Name, %2$s: Social Media Service Name (Buffer, Hootsuite, SocialPilot), %3$s: Link to Status Settings, %4$s: Post Type Name
-#: lib/views/settings-auth.php:947
+#: lib/views/settings-auth.php:982
 msgid "To enable Automatic Reposting of %1$s, and define the status(es) to send to %2$s, visit"
 msgstr ""
 
 #. translators: Post Type Name, Plural
-#: lib/views/settings-auth.php:954
+#: lib/views/settings-auth.php:989
 msgid "%s &gt; Repost"
 msgstr ""
 
 #. translators: Post Type Name
-#: lib/views/settings-auth.php:969
+#: lib/views/settings-auth.php:1004
 msgid "Max %s"
 msgstr ""
 
-#: lib/views/settings-auth.php:979
+#: lib/views/settings-auth.php:1014
 msgid "per run"
 msgstr ""
 
 #. translators: %1$s: Post Type Name, %2$s: Social Media Service Name (Buffer, Hootsuite, SocialPilot)
-#: lib/views/settings-auth.php:986
+#: lib/views/settings-auth.php:1021
 msgid "The maximum number of %1$s to automatically repost to %2$s each time the Repost Cron event is run.  This limit applies across the entire Post Type."
 msgstr ""
 
-#: lib/views/settings-auth.php:999
+#: lib/views/settings-auth.php:1034
 msgid "Minimum Interval between Reposting"
 msgstr ""
 
 #. translators: Post Type Nme
-#: lib/views/settings-auth.php:1012
+#: lib/views/settings-auth.php:1047
 msgid "Define the minimum number of days before an already reposted %s is eligible for automatic reposting."
 msgstr ""
 
 #. translators: Post Type Name
-#: lib/views/settings-auth.php:1029
+#: lib/views/settings-auth.php:1064
 msgid "Minimum %s Age"
 msgstr ""
 
 #. translators: Post Type Name
-#: lib/views/settings-auth.php:1045
+#: lib/views/settings-auth.php:1080
 msgid "The minimum age of %s available for sharing, in days."
 msgstr ""
 
 #. translators: Post Type Name
-#: lib/views/settings-auth.php:1060
+#: lib/views/settings-auth.php:1095
 msgid "Maximum %s Age"
 msgstr ""
 
 #. translators: Post Type Name
-#: lib/views/settings-auth.php:1076
+#: lib/views/settings-auth.php:1111
 msgid "The maximum age of %s available for sharing, in days.  Zero means no maximum."
 msgstr ""
 
-#: lib/views/settings-auth.php:1088
+#: lib/views/settings-auth.php:1123
 msgid "Repost Order"
 msgstr ""
 
 #. translators: Post Type Name
-#: lib/views/settings-auth.php:1117
+#: lib/views/settings-auth.php:1152
 msgid "The order to go through %s when reposting."
 msgstr ""
 
-#: lib/views/settings-auth.php:1143
+#: lib/views/settings-auth.php:1178
 msgid "Optionally define which of your connected social media account(s) should be available for configuration and publication based on each WordPress User Role."
 msgstr ""
 
-#: lib/views/settings-auth.php:1150
+#: lib/views/settings-auth.php:1185
 msgid "Enable Specific Post Types?"
 msgstr ""
 
-#: lib/views/settings-auth.php:1156
+#: lib/views/settings-auth.php:1191
 msgid ""
 "If enabled, options are displayed below by WordPress Role to define which Post Types to enable. \n"
 "                            If you have several Post Types, some of which you don't want to use for social media, we recommend using \n"
 "                            this option for performance."
 msgstr ""
 
-#: lib/views/settings-auth.php:1207
+#: lib/views/settings-auth.php:1242
 msgid "Enable Specific Profiles?"
 msgstr ""
 
-#: lib/views/settings-auth.php:1212
+#: lib/views/settings-auth.php:1247
 msgid "If enabled, options are displayed below by WordPress Role to define which social media profiles:"
 msgstr ""
 
-#: lib/views/settings-auth.php:1214
+#: lib/views/settings-auth.php:1249
 msgid "- The Administrator can configure in the Plugin's Status Settings,"
 msgstr ""
 
-#: lib/views/settings-auth.php:1216
+#: lib/views/settings-auth.php:1251
 msgid "- The Post's Author's Role can configure on Per-Post Settings, if Per-Post Settings are not hidden,"
 msgstr ""
 
-#: lib/views/settings-auth.php:1218
+#: lib/views/settings-auth.php:1253
 msgid "- The Post's Author's Role can send statuses to, when a Post is Published, Updated, Reposted or Bulk Published."
 msgstr ""
 
-#: lib/views/settings-auth.php:1223
+#: lib/views/settings-auth.php:1258
 msgid "To hide"
 msgstr ""
 
-#: lib/views/settings-auth.php:1225
-#: lib/views/settings-auth.php:1295
+#: lib/views/settings-auth.php:1260
+#: lib/views/settings-auth.php:1330
 msgid "Per-Post Settings"
 msgstr ""
 
-#: lib/views/settings-auth.php:1226
+#: lib/views/settings-auth.php:1261
 msgid "by the"
 msgstr ""
 
-#: lib/views/settings-auth.php:1227
-#: lib/views/settings-auth.php:1306
+#: lib/views/settings-auth.php:1262
+#: lib/views/settings-auth.php:1341
 msgid "Post's Author's Role"
 msgstr ""
 
-#: lib/views/settings-auth.php:1228
+#: lib/views/settings-auth.php:1263
 msgid ", use the \"Hide Per-Post Settings\" option below."
 msgstr ""
 
-#: lib/views/settings-auth.php:1275
+#: lib/views/settings-auth.php:1310
 msgid "Hide Per-Post Settings"
 msgstr ""
 
-#: lib/views/settings-auth.php:1296
+#: lib/views/settings-auth.php:1331
 msgid ", Additional Images and the Log are hidden when editing Posts and the"
 msgstr ""
 
-#: lib/views/settings-auth.php:1297
+#: lib/views/settings-auth.php:1332
 msgid "logged in WordPress User's Role"
 msgstr ""
 
-#: lib/views/settings-auth.php:1298
+#: lib/views/settings-auth.php:1333
 msgid "matches a Role selected above."
 msgstr ""
 
-#: lib/views/settings-auth.php:1305
+#: lib/views/settings-auth.php:1340
 msgid "To control which social media profiles to send statuses to by the"
 msgstr ""
 
-#: lib/views/settings-auth.php:1307
+#: lib/views/settings-auth.php:1342
 msgid "use the \"Enable Specific Profiles\" option above."
 msgstr ""
 
-#: lib/views/settings-auth.php:1325
+#: lib/views/settings-auth.php:1360
 msgid "If your site uses Custom Fields, ACF or similar, you can specify additional tags to be added to the \"Insert Tag\" dropdown for each of your Post Types.  These can then be used by Users, instead of having to remember the template tag text to use."
 msgstr ""
 
-#: lib/views/settings-auth.php:1342
+#: lib/views/settings-auth.php:1377
 msgid "Custom Field Key"
 msgstr ""
 
-#: lib/views/settings-auth.php:1343
+#: lib/views/settings-auth.php:1378
 msgid "Custom Field Label"
 msgstr ""
 
-#: lib/views/settings-auth.php:1351
+#: lib/views/settings-auth.php:1386
 msgid "Add Custom Tag"
 msgstr ""
 
-#: lib/views/settings-auth.php:1368
-#: lib/views/settings-auth.php:1386
+#: lib/views/settings-auth.php:1403
+#: lib/views/settings-auth.php:1421
 msgid "my_custom_field"
 msgstr ""
 
-#: lib/views/settings-auth.php:1371
-#: lib/views/settings-auth.php:1389
+#: lib/views/settings-auth.php:1406
+#: lib/views/settings-auth.php:1424
 msgid "My Custom Field"
 msgstr ""
 
@@ -2283,187 +2349,252 @@ msgstr ""
 msgid "Upgrade"
 msgstr ""
 
-#: lib/views/settings-post-action-status.php:18
+#: lib/views/settings-post-action-status.php:17
 msgid "You need to create at least one Pinterest Board, and then refresh the screen to choose the board to post this status to."
 msgstr ""
 
-#: lib/views/settings-post-action-status.php:21
+#: lib/views/settings-post-action-status.php:20
 msgid "Click here for instructions on creating a Pinterest board."
 msgstr ""
 
-#: lib/views/settings-post-action-status.php:30
-msgid "Pinterest Board URL"
+#: lib/views/settings-post-action-status.php:29
+msgid "The text to display on social media, and when to share it."
 msgstr ""
 
-#: lib/views/settings-post-action-status.php:37
+#: lib/views/settings-post-action-status.php:41
 msgid "Post"
 msgstr ""
 
-#: lib/views/settings-post-action-status.php:38
+#: lib/views/settings-post-action-status.php:42
 msgid "Story"
 msgstr ""
 
-#: lib/views/settings-post-action-status.php:73
+#: lib/views/settings-post-action-status.php:56
 msgid "characters"
 msgstr ""
 
-#: lib/views/settings-post-action-status.php:96
+#: lib/views/settings-post-action-status.php:76
 msgid "Days, "
 msgstr ""
 
-#: lib/views/settings-post-action-status.php:99
+#: lib/views/settings-post-action-status.php:79
 msgid "Hours, "
 msgstr ""
 
-#: lib/views/settings-post-action-status.php:102
+#: lib/views/settings-post-action-status.php:82
 msgid "Minutes"
 msgstr ""
 
-#: lib/views/settings-post-action-status.php:116
+#: lib/views/settings-post-action-status.php:96
 msgid "at"
 msgstr ""
 
-#: lib/views/settings-post-action-status.php:133
-#: lib/views/settings-post-action-status.php:216
-#: lib/views/settings-post-action-status.php:236
+#: lib/views/settings-post-action-status.php:113
+#: lib/views/settings-post-action-status.php:265
+#: lib/views/settings-post-action-status.php:285
 msgid "Custom Meta Field Name"
 msgstr ""
 
-#: lib/views/settings-post-action-status.php:148
+#: lib/views/settings-post-action-status.php:128
 msgid "Date and Time"
 msgstr ""
 
-#: lib/views/settings-post-action-status.php:158
+#: lib/views/settings-post-action-status.php:138
+msgid "Define the Pinterest Board for this status to be sent to."
+msgstr ""
+
+#: lib/views/settings-post-action-status.php:149
+msgid "Board"
+msgstr ""
+
+#: lib/views/settings-post-action-status.php:155
+msgid "Pinterest Board URL"
+msgstr ""
+
+#: lib/views/settings-post-action-status.php:165
+#: lib/views/settings-post-action-status.php:169
+msgid "Pin Title"
+msgstr ""
+
+#: lib/views/settings-post-action-status.php:171
+msgid "An optional title. Text Tags are supported."
+msgstr ""
+
+#: lib/views/settings-post-action-status.php:183
+msgid "Destination Link"
+msgstr ""
+
+#: lib/views/settings-post-action-status.php:187
+msgid "e.g. https://example.com or use {url}"
+msgstr ""
+
+#: lib/views/settings-post-action-status.php:189
+msgid "The URL to link the Pin to. If no URL is entered, the Post's URL will be used. Text Tags are supported."
+msgstr ""
+
+#: lib/views/settings-post-action-status.php:207
 msgid "Google Business Profile"
 msgstr ""
 
-#: lib/views/settings-post-action-status.php:161
+#: lib/views/settings-post-action-status.php:210
 msgid "Optional: Define the status type (What's New, Offer or Event) and additional structured fields / data."
 msgstr ""
 
-#: lib/views/settings-post-action-status.php:172
+#: lib/views/settings-post-action-status.php:221
 msgid "Post Type"
 msgstr ""
 
-#: lib/views/settings-post-action-status.php:177
+#: lib/views/settings-post-action-status.php:226
 msgid "What's New"
 msgstr ""
 
-#: lib/views/settings-post-action-status.php:178
+#: lib/views/settings-post-action-status.php:227
 msgid "Offer"
 msgstr ""
 
-#: lib/views/settings-post-action-status.php:179
+#: lib/views/settings-post-action-status.php:228
 msgid "Event"
 msgstr ""
 
-#: lib/views/settings-post-action-status.php:186
+#: lib/views/settings-post-action-status.php:235
 msgid "Call to Action"
 msgstr ""
 
-#: lib/views/settings-post-action-status.php:191
+#: lib/views/settings-post-action-status.php:240
 msgid "Book"
 msgstr ""
 
-#: lib/views/settings-post-action-status.php:193
+#: lib/views/settings-post-action-status.php:242
 msgid "Shop"
 msgstr ""
 
-#: lib/views/settings-post-action-status.php:194
+#: lib/views/settings-post-action-status.php:243
 msgid "Learn More"
 msgstr ""
 
-#: lib/views/settings-post-action-status.php:195
+#: lib/views/settings-post-action-status.php:244
 msgid "Sign Up"
 msgstr ""
 
-#: lib/views/settings-post-action-status.php:202
-#: lib/views/settings-post-action-status.php:414
+#: lib/views/settings-post-action-status.php:251
+#: lib/views/settings-post-action-status.php:529
 msgid "Start Date"
 msgstr ""
 
-#: lib/views/settings-post-action-status.php:222
-#: lib/views/settings-post-action-status.php:438
+#: lib/views/settings-post-action-status.php:271
+#: lib/views/settings-post-action-status.php:553
 msgid "End Date"
 msgstr ""
 
-#: lib/views/settings-post-action-status.php:242
+#: lib/views/settings-post-action-status.php:291
 msgid "Event / Offer Title"
 msgstr ""
 
-#: lib/views/settings-post-action-status.php:252
+#: lib/views/settings-post-action-status.php:301
 msgid "Coupon Code"
 msgstr ""
 
-#: lib/views/settings-post-action-status.php:262
+#: lib/views/settings-post-action-status.php:311
 msgid "Terms and Conditions Text"
 msgstr ""
 
-#: lib/views/settings-post-action-status.php:283
+#: lib/views/settings-post-action-status.php:329
+#: lib/views/settings-post-action-status.php:341
+#: lib/views/settings-post-action.php:63
+msgid "Image"
+msgstr ""
+
+#: lib/views/settings-post-action-status.php:331
+msgid "The type of link preview / image(s) to use."
+msgstr ""
+
+#: lib/views/settings-post-action-status.php:359
+msgid "Additional Images"
+msgstr ""
+
+#: lib/views/settings-post-action-status.php:364
+#: lib/views/settings-post-action-status.php:374
+msgid "Specified in Post settings"
+msgstr ""
+
+#: lib/views/settings-post-action-status.php:365
+#: lib/views/settings-post-action-status.php:382
+msgid "Auto populate from Post content"
+msgstr ""
+
+#: lib/views/settings-post-action-status.php:375
+msgid "Include additional images in the status if specified in the \"Featured and Additional Images\" settings on the individual Post."
+msgstr ""
+
+#: lib/views/settings-post-action-status.php:383
+msgid "Include additional images in the status from the Post's content."
+msgstr ""
+
+#: lib/views/settings-post-action-status.php:404
 msgid "Define the text to convert to an image, which will be sent with this status."
 msgstr ""
 
-#: lib/views/settings-post-action-status.php:302
+#: lib/views/settings-post-action-status.php:417
 msgid "Post Conditions"
 msgstr ""
 
 #. translators: Social Media Service Name (Buffer, Hootsuite, SocialPilot)
-#: lib/views/settings-post-action-status.php:308
+#: lib/views/settings-post-action-status.php:423
 msgid "Optional: Define Post conditions that are required for this status to be sent to %s. All conditions must be met."
 msgstr ""
 
-#: lib/views/settings-post-action-status.php:321
-#: lib/views/settings-post-action-status.php:546
+#: lib/views/settings-post-action-status.php:436
+#: lib/views/settings-post-action-status.php:671
 msgid "Attribute"
 msgstr ""
 
-#: lib/views/settings-post-action-status.php:366
+#: lib/views/settings-post-action-status.php:481
 msgid "Excerpt"
 msgstr ""
 
-#: lib/views/settings-post-action-status.php:390
+#: lib/views/settings-post-action-status.php:505
 msgid "Content"
 msgstr ""
 
-#: lib/views/settings-post-action-status.php:419
-#: lib/views/settings-post-action-status.php:443
+#: lib/views/settings-post-action-status.php:534
+#: lib/views/settings-post-action-status.php:558
 msgid "Any Month"
 msgstr ""
 
-#: lib/views/settings-post-action-status.php:430
+#: lib/views/settings-post-action-status.php:545
 msgid "e.g. 1"
 msgstr ""
 
-#: lib/views/settings-post-action-status.php:454
+#: lib/views/settings-post-action-status.php:569
 msgid "e.g. 30"
 msgstr ""
 
-#: lib/views/settings-post-action-status.php:528
+#: lib/views/settings-post-action-status.php:653
 msgid "Author Conditions"
 msgstr ""
 
 #. translators: Social Media Service Name (Buffer, Hootsuite, SocialPilot)
-#: lib/views/settings-post-action-status.php:534
+#: lib/views/settings-post-action-status.php:659
 msgid "Optional: Define the Post's Author conditions that are required for this status to be sent to %s. All conditions must be met."
 msgstr ""
 
-#: lib/views/settings-post-action-status.php:557
+#: lib/views/settings-post-action-status.php:682
 msgid "Add Custom Field Condition"
 msgstr ""
 
-#: lib/views/settings-post-action-status.php:567
+#: lib/views/settings-post-action-status.php:692
 msgid "Author"
 msgstr ""
 
-#: lib/views/settings-post-action-status.php:584
+#: lib/views/settings-post-action-status.php:709
 msgid "Role"
 msgstr ""
 
-#: lib/views/settings-post-action-status.php:606
+#: lib/views/settings-post-action-status.php:731
 msgid "Author Meta Key"
 msgstr ""
 
-#: lib/views/settings-post-action-status.php:620
+#: lib/views/settings-post-action-status.php:745
 msgid "Author Meta Value"
 msgstr ""
 
@@ -2484,10 +2615,6 @@ msgstr ""
 
 #: lib/views/settings-post-action.php:62
 msgid "Text"
-msgstr ""
-
-#: lib/views/settings-post-action.php:63
-msgid "Image"
 msgstr ""
 
 #: lib/views/settings-post-action.php:64
@@ -2541,6 +2668,10 @@ msgstr ""
 msgid "Select Images"
 msgstr ""
 
+#: lib/views/settings-post-image.php:46
+msgid "Select Image"
+msgstr ""
+
 #. translators: Post Type Singular
 #: lib/views/settings-post-image.php:62
 msgid "The first image only replaces the Featured Image in a status where a status' option is not set to \"Use OpenGraph Settings\". Additional images only work where a status' option is set to \"Use Featured Image, not Linked to %s\"."
@@ -2556,8 +2687,8 @@ msgid "Drag and drop images to reorder. The number of additional images included
 msgstr ""
 
 #: lib/views/settings-post-image.php:81
-#: lib/views/settings.php:82
-#: lib/views/settings.php:84
+#: lib/views/settings.php:87
+#: lib/views/settings.php:89
 msgid "Documentation"
 msgstr ""
 
@@ -2597,6 +2728,6 @@ msgstr ""
 msgid "Connect Profiles"
 msgstr ""
 
-#: lib/views/settings.php:87
+#: lib/views/settings.php:92
 msgid "Docs"
 msgstr ""

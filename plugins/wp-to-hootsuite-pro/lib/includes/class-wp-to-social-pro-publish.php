@@ -287,7 +287,7 @@ class WP_To_Social_Pro_Publish {
 	/**
 	 * Helper function to determine if the request is a Gutenberg REST API request.
 	 *
-	 * @since   @TODO
+	 * @since   3.9.1
 	 *
 	 * @return  bool    Is Gutenberg REST API Request
 	 */
@@ -533,14 +533,48 @@ class WP_To_Social_Pro_Publish {
 			return false;
 		}
 
-		// Schedule registered action in 30 seconds time.
+		// Define the number of seconds before the scheduled event should run,
+		// relative to the current time.
+		$delay = $this->base->get_class( 'settings' )->get_option( 'cron_delay', 30 );
+
+		/**
+		 * Define the number of seconds before the scheduled event should run,
+		 * relative to the current time.
+		 *
+		 * @since   5.2.3
+		 *
+		 * @param   int     $delay      Delay (in seconds).
+		 * @param   int     $post_id    Post ID.
+		 * @param   string. $action     Action (publish|update).
+		 */
+		$delay = apply_filters( $this->base->plugin->filter_name . '_publish_schedule_publish_delay', $delay, $post_id, $action );
+
+		// Define schedule time and arguments for the event.
+		$schedule_time = ( time() + $delay );
+		$schedule_args = array(
+			$post_id,
+			$action,
+		);
+
+		// If an event is already scheduled for this Post ID and action, delete it.
+		$existing_scheduled_time = wp_next_scheduled( $this->base->plugin->filter_name . '_publish_cron', $schedule_args );
+		if ( $existing_scheduled_time ) {
+			// Unschedule event.
+			wp_unschedule_event(
+				$existing_scheduled_time,
+				$this->base->plugin->filter_name . '_publish_cron',
+				$schedule_args
+			);
+
+			// Delete pending entries from the log.
+			$this->base->get_class( 'log' )->delete_pending_by_post_id_and_action( $post_id, $action );
+		}
+
+		// Schedule registered action.
 		$event = wp_schedule_single_event(
-			time() + 30,
+			$schedule_time,
 			$this->base->plugin->filter_name . '_publish_cron',
-			array(
-				$post_id,
-				$action,
-			)
+			$schedule_args
 		);
 
 		// Bail if an error occured scheduling.
@@ -553,13 +587,13 @@ class WP_To_Social_Pro_Publish {
 		$logs = array(
 			array(
 				'action'         => $action,
-				'request_sent'   => date( 'Y-m-d H:i:s' ), // phpcs:ignore WordPress.DateTime.RestrictedFunctions.date_date
+				'request_sent'   => date( 'Y-m-d H:i:s', $schedule_time ), // phpcs:ignore WordPress.DateTime.RestrictedFunctions.date_date
 				'profile_id'     => false,
 				'profile_name'   => false,
 				'result'         => 'pending',
 				'result_message' => sprintf(
 					/* translators: %1$s: Social Media Service Name (Buffer, Hootsuite, SocialPilot), %2$s: Social Media Service Name (Buffer, Hootsuite, SocialPilot) */
-					__( 'Status added to WordPress Cron for sending to %1$s.  Check the Post\'s Log in a few minutes for confirmation that the status has been added to %2$s', 'wp-to-social-pro' ),
+					__( 'Status added to WordPress Cron for sending to %1$s.  Check the Post\'s Log after the "Request Sent" date and time to confirm that the status has been added to %2$s', 'wp-to-social-pro' ),
 					$this->base->plugin->account,
 					$this->base->plugin->account
 				),
@@ -766,6 +800,25 @@ class WP_To_Social_Pro_Publish {
 
 				// If this Status has Author Custom Field conditions enabled, check these Author Custom Field Conditions are met.
 				$conditions_met = $this->check_author_custom_field_conditions( $status, $post );
+				if ( ! $conditions_met ) {
+					continue;
+				}
+
+				// Built in conditions are met.
+				$conditions_met = true;
+
+				/**
+				 * Process condition settings for Integrations / Third Party Plugins
+				 *
+				 * @since   5.1.2
+				 *
+				 * @param   array       $status         Status
+				 * @param   WP_Post     $post           WordPress Post
+				 * @param   string      $profile_id     Social Media Profile ID.
+				 * @param   string      $service        Social Media Service.
+				 * @param   string      $action         Action (publish|update|repost|bulk_publish).
+				 */
+				$conditions_met = apply_filters( $this->base->plugin->filter_name . '_publish_status_conditions_met', $conditions_met, $status, $post, $profile_id, $service, $action );
 				if ( ! $conditions_met ) {
 					continue;
 				}
@@ -1550,11 +1603,11 @@ class WP_To_Social_Pro_Publish {
 	 *
 	 * @since   3.0.0
 	 *
-	 * @param   obj    $post                       Post.
-	 * @param   string $profile_id                 Profile ID.
-	 * @param   string $service                    Service.
-	 * @param   array  $status                     Status Settings.
-	 * @param   string $action                     Action (publish|update|repost|bulk_publish).
+	 * @param   WP_Post $post                       Post.
+	 * @param   string  $profile_id                 Profile ID.
+	 * @param   string  $service                    Service.
+	 * @param   array   $status                     Status Settings.
+	 * @param   string  $action                     Action (publish|update|repost|bulk_publish).
 	 * @return  bool                                Success
 	 */
 	private function build_args( $post, $profile_id, $service, $status, $action ) {
@@ -1893,6 +1946,8 @@ class WP_To_Social_Pro_Publish {
 							'title'       => $this->get_title( $post ),
 							'picture'     => $image['image'],
 							'alt_text'    => $image['alt_text'],
+							'width'       => $image['width'],
+							'height'      => $image['height'],
 
 							// Dashboard Thumbnail.
 							// Not supplied, as may results in cURL timeouts.
@@ -1911,14 +1966,16 @@ class WP_To_Social_Pro_Publish {
 							'title'       => $this->get_title( $post ),
 							'picture'     => $image['image'],
 							'alt_text'    => $image['alt_text'],
+							'width'       => $image['width'],
+							'height'      => $image['height'],
 
 							// Dashboard Thumbnail.
 							// Supplied, as required when specifying media with no link.
 							// Using the smallest possible image to avoid cURL timeouts.
 							'thumbnail'   => $image['thumbnail'],
 
-							// Hootsuite for Amazon S3 upload for quality tests.
-							'id'          => $image['id'],
+							// Hootsuite for Amazon S3 upload.
+							'id'          => (int) $image['id'],
 						);
 						break;
 
@@ -1930,45 +1987,38 @@ class WP_To_Social_Pro_Publish {
 			 * - If supported, assigned to the Post and the Featured Image setting isn't OpenGraph,
 			 * add additional images to the arguments
 			 */
-			if ( $status['image'] == 2 ) {  // phpcs:ignore Universal.Operators.StrictComparisons.LooseEqual
-				$additional_images_supported = $this->base->supports( 'additional_images' );
-				$additional_images           = $this->base->get_class( 'post' )->get_setting_by_post_id( $post->ID, '[additional_images]', false );
-
-				if ( $additional_images_supported && $additional_images !== false && ! empty( $additional_images ) ) {
-					$args['extra_media'] = array();
-					foreach ( $additional_images as $additional_image_id ) {
-						// Get additional image.
-						$additional_image = $this->base->get_class( 'image' )->get_image_sources( $additional_image_id, 'additional_image', $service, ( isset( $status['update_type'] ) ? $status['update_type'] : false ) );
-
-						// Skip if not found.
-						if ( is_wp_error( $additional_image ) ) {
-							// Log error.
-							$this->base->get_class( 'log' )->add_to_debug_log( 'Additional Image #' . $additional_image_id . ' Error: ' . $additional_image->get_error_message() );
-							continue;
-						}
-
-						// Add additional image to extra_media parameter.
-						$args['extra_media'][] = array(
-							'thumbnail' => $additional_image['thumbnail'],
-							'photo'     => $additional_image['image'],
-							'alt_text'  => $additional_image['alt_text'],
-						);
-					}
-
-					// If the extra_media parameter is empty, remove it.
-					if ( empty( $args['extra_media'] ) ) {
-						unset( $args['extra_media'] );
-					}
-				}
+			$additional_images = $this->get_additional_images( $post, $service, $status, $format );
+			if ( $additional_images !== false ) {
+				$args['extra_media'] = $additional_images;
 			}
 		}
 
 		// Pinterest.
 		if ( $service === 'pinterest' && isset( $status['sub_profile'] ) ) {
+			// Set Board ID.
 			$args['subprofile_ids'] = array(
 				$status['sub_profile'],
 			);
-			$args['source_url']     = $this->get_permalink( $post );
+
+			// Title.
+			if ( $this->base->supports( 'pinterest_title' ) ) {
+				if ( array_key_exists( 'title', $status ) ) {
+					$args['title'] = $this->parse_text( $post, $status['title'] );
+				}
+			}
+
+			// URL.
+			if ( $this->base->supports( 'pinterest_source_url' ) ) {
+				// Set Source URL.
+				if ( array_key_exists( 'source_url', $status ) ) {
+					$args['source_url'] = $this->parse_text( $post, $status['source_url'] );
+				}
+
+				// If no Source URL defined, fall back to the Post's URL.
+				if ( ! array_key_exists( 'source_url', $args ) || empty( $args['source_url'] ) ) {
+					$args['source_url'] = $this->get_permalink( $post );
+				}
+			}
 		}
 
 		// Instagram.
@@ -2002,17 +2052,17 @@ class WP_To_Social_Pro_Publish {
 	}
 
 	/**
-	 * Attempts to fetch the given Post's Image, in the following order:
+	 * Attempts to fetch the primary Post's Image, in the following order:
 	 * - Plugin's First (Featured) Image
 	 * - Post's Featured Image
-	 * - Post's first image in content, if service = pinterest or instagram
+	 * - Post's Content's First Image
 	 *
 	 * @since   3.9.8
 	 *
 	 * @param   WP_Post     $post       Post ID.
 	 * @param   string      $service    Social Media Service.
 	 * @param   bool|string $format     Status format (for example, 'story' or 'post' for Instagram).
-	 * @return  mixed                       false | array
+	 * @return  bool|array
 	 */
 	private function get_post_image( $post, $service, $format = false ) {
 
@@ -2029,20 +2079,226 @@ class WP_To_Social_Pro_Publish {
 		}
 
 		// Content's First Image.
-		$images = preg_match_all( '/<img.+?src=[\'"]([^\'"]+)[\'"].*?>/i', apply_filters( 'the_content', $post->post_content ), $matches );
-		if ( $images ) {
-			// @TODO We can't handle image resizing, as get_image_sources() requires an image_id.
-			// Is there a way to get the image ID by URL from the Media Library, so we can then process it through resizing?
-			return array(
-				'image'     => strtok( $matches[1][0], '?' ),
-				'thumbnail' => strtok( $matches[1][0], '?' ),
-				'alt_text'  => '',
-				'source'    => 'post_content',
-			);
+		$images = $this->get_images_from_post_content( $post, $service, $format );
+		if ( count( $images ) ) {
+			// Return first image found.
+			return $images[0];
 		}
 
 		// If here, no image was found in the Post.
 		return false;
+
+	}
+
+	/**
+	 * Attempts to fetch the non-primary (additional) Pos Images, in the following order:
+	 * - Plugin's Additional Images
+	 * - Post's Content's Images
+	 *
+	 * Duplicates are automatically removed, and the number of images returned is based
+	 * on the number supported by the given Social Media Service.
+	 *
+	 * @since   5.2.2
+	 *
+	 * @param   WP_Post     $post       Post.
+	 * @param   string      $service    Service.
+	 * @param   array       $status     Status Settings.
+	 * @param   bool|string $format     Status format (for example, 'story' or 'post' for Instagram).
+	 * @return  bool|array
+	 */
+	private function get_additional_images( $post, $service, $status, $format ) {
+
+		// If the social media API doesn't support additional images, don't fetch any.
+		if ( ! $this->base->supports( 'additional_images' ) ) {
+			return false;
+		}
+
+		// Additional images are only supported if the status' image setting = Use Feat. Image, not linked to Post.
+		if ( $status['image'] != 2 ) { // phpcs:ignore Universal.Operators.StrictComparisons.LooseNotEqual
+			return false;
+		}
+
+		// Determine the number of additional images that are supported, based on the service.
+		switch ( $service ) {
+			case 'facebook':
+			case 'instagram':
+			case 'threads':
+				// 9 additional images (10 total).
+				$additional_images_limit = 9;
+				break;
+
+			case 'linkedin':
+				// 8 additional images (9 total).
+				$additional_images_limit = 8;
+				break;
+
+			case 'twitter':
+			case 'mastodon':
+			case 'bluesky':
+				// 3 additional images (4 total).
+				$additional_images_limit = 3;
+				break;
+
+			default:
+				// A network e.g. Google Business, Pinterest that does not support additional images.
+				return false;
+		}
+
+		// Fetch additional images from Post settings or Post content.
+		$image_additional_setting = ( array_key_exists( 'image_additional', $status ) ? $status['image_additional'] : '' );
+		switch ( $image_additional_setting ) {
+			case '1':
+				// Fetch additional images specified in the Post's settings
+				// and from the Post's content.
+				$images = array_merge(
+					$this->get_images_from_post_settings( $post, $service, $format ),
+					$this->get_images_from_post_content( $post, $service, $format )
+				);
+				break;
+
+			default:
+				// Fetch additional images specified in Post's settings only.
+				$images = $this->get_images_from_post_settings( $post, $service, $format );
+				break;
+		}
+
+		// If no images were found, bail.
+		if ( ! $images ) {
+			return false;
+		}
+
+		// Remove duplicate images.
+		$extra_media = array_unique( array_column( $images, 'id' ) );
+		$images      = array_intersect_key( $images, $extra_media );
+
+		// Re-key the array to a zero based index.
+		$images = array_values( $images );
+
+		// Limit the number of additional images based on the social network.
+		$images = array_slice( $images, 0, $additional_images_limit );
+
+		// Change 'image' key in each image to 'photo'.
+		foreach ( $images as $index => $image ) {
+			$images[ $index ]['photo'] = $image['image'];
+			unset( $images[ $index ]['image'] );
+		}
+
+		/**
+		 * Defines the additional Post Images to attach to the status.
+		 *
+		 * @since   5.2.2
+		 *
+		 * @param   bool|array  $images         Images.
+		 * @param   WP_Post     $post       Post.
+		 * @param   string      $service    Service.
+		 * @param   array       $status     Status Settings.
+		 * @param   bool|string $format     Status format (for example, 'story' or 'post' for Instagram).
+		 * @return  bool|array
+		 */
+		$images = apply_filters( $this->base->plugin->filter_name . '_publish_get_additional_images', $images, $post, $service, $status, $format );
+
+		// Return.
+		return $images;
+
+	}
+
+	/**
+	 * Get all images defined in the Plugin's "Featured and Additional Images" section
+	 * on a Post.
+	 *
+	 * @since   5.2.2
+	 *
+	 * @param   WP_Post     $post       WordPress Post.
+	 * @param   string      $service    Service.
+	 * @param   bool|string $format     Status format (for example, 'story' or 'post' for Instagram).
+	 * @return  array
+	 */
+	private function get_images_from_post_settings( $post, $service, $format ) {
+
+		$images = array();
+
+		// Fetch additional images specified in Post's settings.
+		$additional_images = $this->base->get_class( 'post' )->get_setting_by_post_id( $post->ID, '[additional_images]', false );
+		if ( ! $additional_images ) {
+			return $images;
+		}
+
+		foreach ( $additional_images as $additional_image_id ) {
+			// Get additional image.
+			$additional_image = $this->base->get_class( 'image' )->get_image_sources( $additional_image_id, 'additional_image', $service, $format );
+
+			// Skip if not found.
+			if ( is_wp_error( $additional_image ) ) {
+				// Log error.
+				$this->base->get_class( 'log' )->add_to_debug_log( 'Additional Image #' . $additional_image_id . ' Error: ' . $additional_image->get_error_message() );
+				continue;
+			}
+
+			// Add additional image to array.
+			$images[] = $additional_image;
+		}
+
+		return $images;
+
+	}
+
+	/**
+	 * Get images from the Post's content.
+	 *
+	 * @since   5.2.2
+	 *
+	 * @param   WP_Post     $post       WordPress Post.
+	 * @param   string      $service    Service.
+	 * @param   bool|string $format     Status format (for example, 'story' or 'post' for Instagram).
+	 * @return  array
+	 */
+	private function get_images_from_post_content( $post, $service, $format = false ) {
+
+		// Extract all <img> tags from the Post's content.
+		$images = preg_match_all( '/<img.+?src=[\'"]([^\'"]+)[\'"].*?>/i', apply_filters( 'the_content', $post->post_content ), $matches );
+
+		// If no images were found, return a blank array.
+		if ( ! $images ) {
+			return array();
+		}
+
+		// Iterate through images, building array of image IDs.
+		$image_ids = array();
+		foreach ( $matches[1] as $image_url ) {
+			// Attempt to get the image ID by the image URL.
+			$image_id = attachment_url_to_postid( esc_url( $image_url ) );
+			if ( $image_id ) {
+				$image_ids[] = $image_id;
+				continue;
+			}
+
+			// If here, no image ID by URL could be found. This is likely because
+			// the image URL is a specific size.
+		}
+
+		// If no image IDs could be established, we can't reliably return an image from the Post's content.
+		if ( ! count( $image_ids ) ) {
+			return array();
+		}
+
+		// Iterate through the image IDs, building an array of data for each image.
+		$content_images = array();
+		foreach ( $image_ids as $image_id ) {
+			// Get image.
+			$image = $this->base->get_class( 'image' )->get_image_sources( $image_id, 'content', $service, $format );
+
+			// Skip if not found.
+			if ( is_wp_error( $image ) ) {
+				// Log error.
+				$this->base->get_class( 'log' )->add_to_debug_log( 'Content Image #' . $image_id . ' Error: ' . $image->get_error_message() );
+				continue;
+			}
+
+			// Add content image to array.
+			$content_images[] = $image;
+		}
+
+		return $content_images;
 
 	}
 
@@ -2064,13 +2320,48 @@ class WP_To_Social_Pro_Publish {
 		$settings = $this->base->get_class( 'settings' )->get_option( 'text_to_image' );
 
 		// Setup Text to Image.
-		$text_to_image = new WP_To_Social_Pro_Text_To_Image();
-
-		// If a Background Image is specified for the given Profile ID in the settings, use it.
-		if ( isset( $settings['background_image'] ) && isset( $settings['background_image'][ $profile_id ] ) && ! empty( $settings['background_image'][ $profile_id ] ) ) {
-			// Load Image.
-			$dimensions = $text_to_image->load( $settings['background_image'][ $profile_id ] );
+		if ( extension_loaded( 'imagick' ) ) {
+			$text_to_image = new WP_To_Social_Pro_Text_To_Image_Imagick();
 		} else {
+			$text_to_image = new WP_To_Social_Pro_Text_To_Image_GD();
+		}
+
+		// Determine whehther to use a featured image, background image or color as the background.
+		$background_image_type = ( array_key_exists( 'type', $settings ) && array_key_exists( $profile_id, $settings['type'] ) ? $settings['type'][ $profile_id ] : 'background_image' );
+		switch ( $background_image_type ) {
+			case 'featured':
+				// If the Post has a Featured Image, use it.
+				$image_id = get_post_thumbnail_id( $post_id );
+
+				// Skip if no featured image.
+				if ( ! $image_id ) {
+					break;
+				}
+
+				// Load Image.
+				$dimensions = $text_to_image->load( $image_id );
+				break;
+
+			case 'background_image':
+			default:
+				// Skip if no background image.
+				if ( ! isset( $settings['background_image'] ) ) {
+					break;
+				}
+				if ( ! isset( $settings['background_image'][ $profile_id ] ) ) {
+					break;
+				}
+				if ( empty( $settings['background_image'][ $profile_id ] ) ) {
+					break;
+				}
+
+				// Load Image.
+				$dimensions = $text_to_image->load( $settings['background_image'][ $profile_id ] );
+				break;
+		}
+
+		// If no image loaded, use the background color instead.
+		if ( ! isset( $dimensions ) ) {
 			// Get required dimensions for this Social Media Service.
 			$dimensions = $this->base->get_class( 'image' )->get_social_media_image_size( $service, $format );
 
@@ -3193,7 +3484,71 @@ class WP_To_Social_Pro_Publish {
 			return;
 		}
 
-		$this->all_possible_searches_replacements[ $tag ] = get_post_meta( $post->ID, $meta_key, true );
+		// Extract just the meta key, in case the tag included square brackets to fetch
+		// the post meta array value.
+		$meta_key_only = ( strpos( $meta_key, '[' ) !== false ? substr( $meta_key, 0, strpos( $meta_key, '[' ) ) : $meta_key );
+
+		// Fetch post meta.
+		$value = get_post_meta( $post->ID, $meta_key_only, true );
+
+		// If the meta value is a string, add it to the search/replace array and return.
+		if ( is_string( $value ) ) {
+			// If JSON doesn't validate, it's just a string.
+			if ( is_null( json_decode( $value ) ) ) {
+				$this->all_possible_searches_replacements[ $tag ] = $value;
+				return;
+			}
+
+			// Convert value from JSON string to array.
+			$value = json_decode( $value, true );
+		}
+
+		// $value is an array.
+		// Extract the string from the array and register it as the replacement for the tag.
+		$this->all_possible_searches_replacements[ $tag ] = $this->get_array_value_by_query_string( $meta_key, $value );
+
+	}
+
+	/**
+	 * Returns the given array value as a string, by the query string.
+	 *
+	 * If the value of the full array hierarchy of keys isn't a string,
+	 * nothing will be retu
+	 *
+	 * @since   5.1.3
+	 *
+	 * @param   string $query_string   Query string (e.g. my-meta-key[key][sub-key]).
+	 * @param   array  $value          Array.
+	 * @return  string
+	 */
+	private function get_array_value_by_query_string( $query_string, $value ) {
+
+		// Extract the array keys e.g. my-meta-key[key][another-key].
+		preg_match_all( '/\[([^\]]*)\]/', $query_string, $matches );
+
+		// Iterate through the requested array key hierarchy.
+		foreach ( $matches[1] as $key ) {
+			// If the meta value is an object, convert it to an array.
+			if ( is_object( $value ) ) {
+				$value = json_decode( json_encode( $value ), true ); // phpcs:ignore WordPress.WP.AlternativeFunctions
+			}
+
+			// If this key does not exist in the post meta array, bail.
+			if ( ! array_key_exists( $key, $value ) ) {
+				return '';
+			}
+
+			// Update the value.
+			$value = $value[ $key ];
+		}
+
+		// If the 'final' value is still an array, bail.
+		if ( is_array( $value ) ) {
+			return '';
+		}
+
+		// Return string.
+		return $value;
 
 	}
 
@@ -3230,7 +3585,7 @@ class WP_To_Social_Pro_Publish {
 	private function get_title( $post ) {
 
 		// Define title.
-		$title = $this->convert_to_plain_text( get_the_title( $post ) );
+		$title = $this->convert_to_plain_text( get_the_title( $post ), false );
 
 		/**
 		 * Filters the dynamic {title} replacement, when a Post's status is being built.
@@ -3275,7 +3630,7 @@ class WP_To_Social_Pro_Publish {
 		}
 
 		// Convert to plain text.
-		$excerpt = $this->convert_to_plain_text( $excerpt );
+		$excerpt = $this->convert_to_plain_text( $excerpt, false );
 
 		/**
 		 * Filters the dynamic {excerpt} replacement, when a Post's status is being built.
@@ -3471,7 +3826,8 @@ class WP_To_Social_Pro_Publish {
 	 * Converts the given string (which is typically HTML from a WordPress Post or Post Meta Field)
 	 * to plain text, by performing several functions:
 	 * - stripping shortcodes (if shortcodes need processing, do so before calling this function)
-	 * - stripping HTML tags, excluding <br> and <br />
+	 * - removing all inline <style> elements and their contents,
+	 * - stripping HTML tags, excluding <br>, <br />, <a>, <li>
 	 * - decoding HTML entities to avoid encoding issues on status output
 	 * - converting <br> and <br /> to newlines
 	 * - removing double spaces
@@ -3479,14 +3835,39 @@ class WP_To_Social_Pro_Publish {
 	 *
 	 * @since   4.6.9
 	 *
-	 * @param   string $text   Text.
-	 * @return  string          Text
+	 * @param   string $text                           Text.
+	 * @param   bool   $convert_links_to_inline        true: Convert e.g. `<a href="http://foo.com">text</a>` to `text (http://foo.com)`.
+	 *                                                 false: Convert e.g. `<a href="http://foo.com">text</a>` to `text`.
+	 * @return  string                                      Text
 	 */
-	private function convert_to_plain_text( $text ) {
+	private function convert_to_plain_text( $text, $convert_links_to_inline = true ) {
 
 		// Strip any shortcodes still remaining.
 		// If shortcodes need to be processed, they should be processed before calling this function.
 		$text = strip_shortcodes( $text );
+
+		// Wrap content in <html>, <head> and <body> tags with an UTF-8 Content-Type meta tag.
+		// Forcibly tell DOMDocument that this HTML uses the UTF-8 charset.
+		// <meta charset="utf-8"> isn't enough, as DOMDocument still interprets the HTML as ISO-8859, which breaks character encoding
+		// Use of mb_convert_encoding() with HTML-ENTITIES is deprecated in PHP 8.2, so we have to use this method.
+		// If we don't, special characters render incorrectly.
+		$text = '<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"></head><body>' . $text . '</body></html>';
+
+		// Load the HTML into a DOMDocument.
+		libxml_use_internal_errors( true );
+		$html = new DOMDocument();
+		$html->loadHTML( $text );
+
+		// Load DOMDocument into XPath.
+		$xpath = new DOMXPath( $html );
+
+		// Remove inline <style> tags and their contents.
+		foreach ( $xpath->query( '//style' ) as $node ) {
+			$node->parentNode->removeChild( $node ); // phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
+		}
+
+		// Fetch revised HTML.
+		$text = $html->saveHTML();
 
 		// Remove HTML, except breaklines, links and unordered list items.
 		$text = strip_tags( $text, '<br><a><li>' );
@@ -3498,7 +3879,13 @@ class WP_To_Social_Pro_Publish {
 		$text = preg_replace( '/<br(\s+)?\/?>/i', "\n", $text );
 
 		// Convert <a> to text and inline link.
-		$text = preg_replace( '/<a[^>]+href=\"(.*?)\"[^>]*>(.*?)<\/a>/i', '$2 ($1)', $text );
+		if ( $convert_links_to_inline ) {
+			// Extract the text from the link, and add the link in brackets after the text.
+			$text = preg_replace( '/<a[^>]+href=\"(.*?)\"[^>]*>(.*?)<\/a>/i', '$2 ($1)', $text );
+		} else {
+			// Just extract the text from the link and output it.
+			$text = preg_replace( '/<a[^>]+href=\"(.*?)\"[^>]*>(.*?)<\/a>/i', '$2', $text );
+		}
 
 		// Convert <li> to hyphenated.
 		$text = preg_replace( '/<li[^>]*>(.*?)<\/li>/i', '- $1', $text );
@@ -3631,7 +4018,7 @@ class WP_To_Social_Pro_Publish {
 	/**
 	 * Applies the given character limit to the given text
 	 *
-	 * @sine    3.7.3
+	 * @since   3.7.3
 	 *
 	 * @param   string $text               Text.
 	 * @param   int    $character_limit    Character Limit.
@@ -3650,7 +4037,9 @@ class WP_To_Social_Pro_Publish {
 		}
 
 		// Limit text.
-		$text = substr( $text, 0, $character_limit );
+		// Use mb_substr so that emojis don't break, which would result in text not being saved
+		// by the social network when the status is sent.
+		$text = mb_substr( $text, 0, $character_limit );
 
 		/**
 		 * Filters the character limited text.
