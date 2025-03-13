@@ -22,9 +22,9 @@ return $headers;
 
 function findPageUrl () {
 	global $wp;
-	echo "Jake";
+	//echo "Jake";
 	$current_url = home_url(add_query_arg(array(), $wp->request));
-	echo $current_url;
+	return $current_url;
 }
 add_shortcode('page_url','findPageUrl');
 
