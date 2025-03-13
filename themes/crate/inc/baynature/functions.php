@@ -24,9 +24,10 @@ function findPageUrl () {
 	global $wp;
 	echo "Jake";
 	$current_url = home_url(add_query_arg(array(), $wp->request));
-	echp $current_url;
+	echo $current_url;
 }
 add_shortcode('page_url','findPageUrl');
+
 /****************************************************************************************************************************************************************
 * EDIT-29 : Mutsun Article
 *
