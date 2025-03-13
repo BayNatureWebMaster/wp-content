@@ -22,7 +22,7 @@ return $headers;
 
 function findPageUrl () {
 	global $wp;
-	//echo "Jake";
+	// need to fetch the parameters as well - needs work
 	$current_url = home_url(add_query_arg(array(), $wp->request));
 	return $current_url;
 }
