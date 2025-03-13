@@ -185,7 +185,7 @@ class FacetWP_Facet_Proximity_Core extends FacetWP_Facet
             // hook
             $api_key = apply_filters( 'facetwp_gmaps_api_key', $api_key );
 
-            FWP()->display->assets['gmaps'] = '//maps.googleapis.com/maps/api/js?libraries=places&key=' . trim( $api_key ) . '&callback=Function.prototype';
+            FWP()->display->assets['gmaps'] = '//maps.googleapis.com/maps/api/js?libraries=places&key=' . trim( esc_attr( $api_key ) ) . '&callback=Function.prototype';
         }
 
         // Pass extra options into Places Autocomplete

@@ -21,10 +21,16 @@ return $headers;
 }
 
 function findPageUrl () {
-	global $wp;
+	//global $wp;
 	// need to fetch the parameters as well - needs work
-	$current_url = home_url(add_query_arg(array(), $wp->request));
-	return $current_url;
+	//$current_url = home_url(add_query_arg(array(), $wp->request));
+	if (isset($_GET['ppc'])) {
+  		$ppc = $_GET['ppc'];
+		} else {
+  	//Handle the case where there is no parameter
+		$ppc = "firth";
+	}
+	return $ppc;
 }
 add_shortcode('page_url','findPageUrl');
 

@@ -1388,6 +1388,27 @@
                     this.initCodeMirror('marker-content-editor', 'marker_content', false);
                 }
             },
+            watch: {
+                'facet.ui_type': function(val) {
+                    switch (val) {
+                        case 'radio':
+                            Vue.delete(this.facet, 'multiple');
+                            Vue.delete(this.facet, 'show_expanded');
+                            Vue.delete(this.facet, 'hierarchical');
+                            break;
+                        case 'dropdown':
+                            Vue.delete(this.facet, 'multiple');
+                            Vue.delete(this.facet, 'show_expanded');
+                            break;
+                        case 'checkboxes':
+                            Vue.delete(this.facet, 'multiple');
+                            break;
+                        case 'fselect':
+                            Vue.delete(this.facet, 'show_expanded');
+                            break;
+                    }
+                }
+            },
             methods: {
                 setName(e) {
                     this.facet.name = this.$root.sanitizeName(e.target.innerHTML);
@@ -1722,15 +1743,6 @@
                     let fields = self.getFields(aliases);
                     let html = '';
 
-                    // Add UI-dependant fields
-                    if ('undefined' !== typeof facet_obj.ui_fields) {
-                        if ('undefined' !== typeof self.facet.ui_type && '' != self.facet.ui_type) {
-                            let ui_fields = facet_obj.ui_fields[self.facet.ui_type];
-                            aliases = aliases.concat(ui_fields);
-                            fields = fields.concat(this.getFields(ui_fields));
-                        }
-                    }
-
                     let combined = ['label', 'name', 'type', 'source', '_code'].concat(fields);
 
                     // Remove irrelevant settings
@@ -1779,9 +1791,13 @@
                 }
             },
             watch: {
-                'facet.type': function(val) {
+                'facet.type': function(val,oldVal) {
                     if ('search' == val || 'pager' == val || 'reset' == val || 'sort' == val) {
                         Vue.delete(this.facet, 'source');
+                    }
+                    if ( val !== oldVal && 'undefined' != typeof this.facet.ui_type ) {
+                        // reset ui_type when changing facet type
+                        Vue.delete(this.facet, 'ui_type');
                     }
                     if ('map' == val) {
                         this.$nextTick(() => {
@@ -1850,24 +1866,6 @@
             mounted() {
                 fSelect(this.$el, { 'placeholder': 'Choose facets' });
             }
-        });
-
-        Vue.component('ui-type', {
-            props: {
-                facet: Object
-            },
-            created() {
-                this.ui_fields = FWP.facet_types[this.facet.type].ui_fields || [];
-                this.sorted = Object.keys(this.ui_fields).reverse();
-                if ('undefined' === typeof this.facet['ui_type'] || this.facet['ui_type'].length < 1) {
-                    this.facet['ui_type'] = this.sorted[0];
-                }
-            },
-            template: `
-            <select class="facet-ui-type" v-model="facet.ui_type">
-                <option v-for="name in sorted" :value="name" :selected="facet.ui_type == name">{{ FWP.facet_types[name].label }}</option>
-            </select>
-            `
         });
 
         Vue.component('sort-options', {
@@ -2331,6 +2329,35 @@
 
         $().on('click', '.facetwp-response-wrap', () => {
             $('.facetwp-response').toggleClass('visible');
+        });
+
+        $().on('click', '.export-all', (e) => {            
+            let $opts = $('.export-items').next('.fs-wrap');
+            let selectedType = "undefined" != typeof e.target.dataset.value ? e.target.dataset.value+"-" : "";
+            $opts.find('.fs-option:not(.selected)').each(function() {
+                let $opt = $(this);
+                if ( $opt.attr('data-value').includes(selectedType) ) {
+                    $opt.trigger('click');
+                }
+            });
+            $opts.find('.fs-option.selected').each(function() {
+                let $opt = $(this);
+                if ( !$opt.attr('data-value').includes(selectedType) ) {
+                    $opt.trigger('click');
+                }
+            });
+            $opts.nodes[0]._rel.fselect.open(); 
+            e.stopImmediatePropagation();
+        });
+
+        $().on('click', '.export-none', (e) => {
+            let $opts = $('.export-items').next('.fs-wrap');
+            $opts.find('.fs-option.selected').each(function() {
+                let $opt = $(this);
+                $opt.trigger('click');
+            });
+            $opts.nodes[0]._rel.fselect.open(); 
+            e.stopImmediatePropagation();
         });
 
         // Export

@@ -164,7 +164,17 @@ class FacetWP_Integration_WooCommerce
 
                 if ( false !== $term ) {
                     $params['term_id'] = $term->term_id;
+                    $params['parent_id'] = $term->parent;
                     $params['facet_display_value'] = $term->name;
+
+                    $params['depth'] = count( get_ancestors( $term->term_id, $taxonomy, 'taxonomy' ) );
+
+                    $facet = FWP()->helper->get_facet_by_name( $params['facet_name'] );
+
+                    // handle parent_term setting
+                    if ( 0 < $facet['parent_term'] && !term_is_ancestor_of( $facet['parent_term'], $params['term_id'], $taxonomy ) ) {
+                        $params['facet_value'] = ''; // don't index
+                    }
                 }
             }
         }

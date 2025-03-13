@@ -85,6 +85,15 @@ class FacetWP_Renderer
                 // Default to "OR" mode
                 $facet['operator'] = $facet['operator'] ?? 'or';
 
+                // Fix operator for non-multiselect
+                $ui_type = empty( $facet['ui_type'] ) ? $facet['type'] : $facet['ui_type'];
+                if ( 'fselect' == $ui_type ) {
+                    $multi = $facet['multiple'] ?? 'no';
+                    $facet['operator'] = ( 'no' == $multi ) ? 'or' : $facet['operator'];
+                } else if ( in_array( $ui_type, [ 'radio', 'dropdown' ] ) ) {
+                    $facet['operator'] = 'or';
+                }
+
                 // Support the "facetwp_preload_url_vars" hook
                 if ( $first_load && empty( $f['selected_values'] ) && ! empty( $this->http_params['url_vars'][ $name ] ) ) {
                     $f['selected_values'] = $this->http_params['url_vars'][ $name ];
@@ -185,6 +194,7 @@ class FacetWP_Renderer
             'page'          => (int) $this->query_args['paged'],
             'per_page'      => (int) $this->query_args['posts_per_page'],
             'total_rows'    => (int) $this->query->found_posts,
+            'total_rows_unfiltered' => (int) count( FWP()->unfiltered_post_ids ),
             'total_pages'   => 1,
         ];
 

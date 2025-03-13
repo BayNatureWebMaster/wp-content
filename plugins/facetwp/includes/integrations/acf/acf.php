@@ -14,6 +14,7 @@ class FacetWP_Integration_ACF
         add_filter( 'facetwp_indexer_query_args', [ $this, 'lookup_acf_fields' ] );
         add_filter( 'facetwp_indexer_post_facet', [ $this, 'index_acf_values' ], 1, 2 );
         add_filter( 'facetwp_acf_display_value', [ $this, 'index_source_other' ], 1, 2 );
+        add_filter( 'facetwp_index_source_other_value', [ $this, 'index_source_other' ], 10, 2 );
         add_filter( 'facetwp_builder_item_value', [ $this, 'layout_builder_values' ], 999, 2 );
     }
 
@@ -355,23 +356,38 @@ class FacetWP_Integration_ACF
             $facet = FWP()->helper->get_facet_by_name( $params['facet_name'] );
 
             if ( ! empty( $facet['source_other'] ) ) {
-                $hierarchy = explode( '/', substr( $facet['source_other'], 4 ) );
 
-                // support "User Post Type" plugin
-                $object_id = apply_filters( 'facetwp_acf_object_id', $params['post_id'] );
+                if ( 0 === strpos( $facet['source_other'], 'acf/' ) ) {
+                    $hierarchy = explode( '/', substr( $facet['source_other'], 4 ) );
 
-                // get the value
-                $value = get_field( $hierarchy[0], $object_id, false );
+                    // support "User Post Type" plugin
+                    $object_id = apply_filters( 'facetwp_acf_object_id', $params['post_id'] );
 
-                // handle repeater values
-                if ( 1 < count( $hierarchy ) ) {
-                    $parent_field_key = array_shift( $hierarchy );
-                    $value = $this->process_field_value( $value, $hierarchy, $parent_field_key );
-                    $value = $value[ $this->repeater_row ];
+                    // get the value
+                    $value = get_field( $hierarchy[0], $object_id, false );
+                    // handle repeater values
+                    if ( 1 < count( $hierarchy ) ) {
+                        $parent_field_key = array_shift( $hierarchy );
+                        $value = $this->process_field_value( $value, $hierarchy, $parent_field_key );
+                        $value = $value[ $this->repeater_row ];
+                    }
+                    
+                } else {
+
+                    $other_params = $params;
+                    $other_params['facet_source'] = $facet['source_other'];
+                    $rows = FWP()->indexer->get_row_data( $other_params );
+                    $value = $rows[0]['facet_display_value'] ?? $params['facet_display_value'];
                 }
             }
 
             if ( 'date_range' == $facet['type'] ) {
+
+                // prevent null values from being run through format_date()
+                if ( $value === null ) {
+                    return ''; // skip
+                }    
+
                 $value = $this->format_date( $value );
             }
         }
@@ -379,11 +395,15 @@ class FacetWP_Integration_ACF
         return $value;
     }
 
-
     /**
      * Format dates in YYYY-MM-DD
      */
     function format_date( $str ) {
+
+        if ( $str === null ) {
+            return '';
+        } 
+
         if ( 8 == strlen( $str ) && ctype_digit( $str ) ) {
             $str = substr( $str, 0, 4 ) . '-' . substr( $str, 4, 2 ) . '-' . substr( $str, 6, 2 );
         }

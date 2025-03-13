@@ -112,6 +112,13 @@ class FacetWP_Upgrade
                 }
             }
         }
+        
+        if ( version_compare( $this->last_version, '4.3.4', '<' ) ) {
+            if ( ! isset( $settings['settings']['enable_indexer'] ) ) {
+                $settings['settings']['enable_indexer'] = 'yes';
+                $changed = true;
+            }
+        }
 
         if ( $changed ) {
             update_option( 'facetwp_settings', json_encode( $settings ) );

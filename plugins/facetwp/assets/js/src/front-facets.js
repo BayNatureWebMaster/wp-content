@@ -308,6 +308,7 @@
             if (opts.minDate.length && opts.maxDate.length) {
                 new fDate(this, opts);
             } else {
+                this.value = '';
                 let emptyText = $this.attr('data-empty');
                 $this.attr('placeholder', emptyText).attr('disabled','disabled').addClass('disabled');
             }

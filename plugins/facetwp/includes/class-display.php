@@ -107,14 +107,14 @@ class FacetWP_Display
                     $preload_data = FWP()->facet->render( $args );
                     $html = $preload_data['template'];
                     $wp_query = $temp_query;
+
+                    $this->load_assets = true;
                 }
 
                 $output = '<div class="{class}" data-name="{name}">{html}</div>';
                 $output = str_replace( '{class}', $class_name, $output );
                 $output = str_replace( '{name}', $atts['template'], $output );
                 $output = str_replace( '{html}', $html, $output );
-
-                $this->load_assets = true;
             }
         }
         elseif ( isset( $atts['sort'] ) ) {

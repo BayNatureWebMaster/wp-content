@@ -2,7 +2,7 @@
 /*
 Plugin Name: FacetWP - Cache
 Description: Caching support for FacetWP
-Version: 1.7
+Version: 1.7.1
 Author: FacetWP, LLC
 Author URI: https://facetwp.com/
 GitHub URI: facetwp/facetwp-cache
@@ -19,7 +19,7 @@ class FacetWP_Cache
     function __construct() {
 
         // setup variables
-        define( 'FACETWP_CACHE_VERSION', '1.7' );
+        define( 'FACETWP_CACHE_VERSION', '1.7.1' );
         define( 'FACETWP_CACHE_DIR', dirname( __FILE__ ) );
 
         add_action( 'init' , [ $this, 'init' ] );
@@ -61,7 +61,7 @@ class FacetWP_Cache
         }
 
         // Manually purge cache
-        if ( isset( $_GET['fwpcache'] ) && current_user_can( 'manage_options' ) ) {
+        if ( isset( $_GET['fwpcache'] ) && current_user_can( apply_filters( 'facetwp_admin_settings_capability', 'manage_options' ) ) ) {
             $this->cleanup( $_GET['fwpcache'] );
         }
     }
@@ -158,7 +158,7 @@ class FacetWP_Cache
     function admin_bar_menu( $wp_admin_bar ) {
 
         // Only show the menu on the front-end
-        if ( ! current_user_can( 'manage_options' ) ) {
+        if ( ! current_user_can( apply_filters( 'facetwp_admin_settings_capability', 'manage_options' ) ) ) {
             return;
         }
 
