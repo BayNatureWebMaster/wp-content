@@ -37,7 +37,13 @@ function test_parse ( $content_str ) {
 	//echo "sub str l = " .strlen($sub_str);
 	$the_first_paragraph = substr( $sub_str , 0, $p2);
 	//echo "the leng = ". strlen( $the_first_paragraph ) . "<br>";
-	echo $the_first_paragraph . "<br>";
+	if ( strlen( $the_first_paragraph )  > 10) {
+			echo $the_first_paragraph . "<br><br>";
+
+	}
+	else {
+		echo get_the_excerpt() . "<br><br>";
+	}
 }
 
 function show_first_paragraph ( $content_str ) {
@@ -98,7 +104,9 @@ function display_become_a_member_message () {
 }
 function show_member_login_message() {
 	$content_str = get_the_content();
+	//echo "show first paragraph";
 	show_first_paragraph( $content_str );
+	//echo "show messages";
 	display_become_a_member_message();
 	display_member_login_message();
 }

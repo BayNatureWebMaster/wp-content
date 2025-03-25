@@ -37,7 +37,8 @@
 
 	<div class="entry-content">
 		
-		<?php if ( enable_member_content() ) { 
+		<?php
+		if ( enable_member_content() ) { 
 			the_content(); 
 		}
 		else {
@@ -46,8 +47,10 @@
 		?>
 
 	</div><!-- .entry-content -->
+	<?php echo (" where is the author"); ?>
+	<?php get_template_part( 'template-parts/partials/author' ); ?>
 
-	<?php get_template_part( 'template-parts/partials/articles' ); ?>
+	<?php /*get_template_part( 'template-parts/partials/articles' ); */ ?>
 
 	<?php get_template_part( 'template-parts/partials/share' ); ?>
 
