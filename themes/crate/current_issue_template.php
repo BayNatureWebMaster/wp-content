@@ -29,6 +29,7 @@ get_header();
 <a href="https://baynature.app.neoncrm.com/np/clients/baynature/giftstore.jsp">Buy a print copy of this issue at the BN Store</a><br><br>
 <?php 
 $issueKey = get_field('current_issue_key');
+//echo "issue key = ".$issueKey;
 currentIssueRenderPosts( $issueKey ); ?>
 </div>
 

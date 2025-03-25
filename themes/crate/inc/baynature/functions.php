@@ -20,17 +20,116 @@ function disable_x_pingback( $headers ) {
 return $headers;
 }
 
-function findPageUrl () {
-	//global $wp;
-	// need to fetch the parameters as well - needs work
-	//$current_url = home_url(add_query_arg(array(), $wp->request));
-	if (isset($_GET['ppc'])) {
-  		$ppc = $_GET['ppc'];
-		} else {
-  	//Handle the case where there is no parameter
-		$ppc = "firth";
+function sshow_first_paragraph ( $content_str ) {
+	//$ctags = explode( ">" , $content_str);
+	//bn_print_r($content_str);
+	echo get_the_excerpt();
+}
+
+function test_parse ( $content_str ) {
+	$str_1 = $content_str; //"<img> ododod </img><div>odododod</div><p class=\"has-drop-cap\">This is the text I'm looking for</p><div>Other stuff</div>";
+	$p1 = strpos( $str_1 , "<p class=\"has-drop-cap\">");
+	$sub_str = substr($str_1 , $p1);
+	//echo "subs 1 = ".$sub_str;
+	$p2 = strpos( $sub_str , "</p>") + 4;
+	//echo "the sub str leng = ". strlen( $sub_str ) . "<br>";
+	//echo "p2 = ".$p2 . "<br>";
+	//echo "sub str l = " .strlen($sub_str);
+	$the_first_paragraph = substr( $sub_str , 0, $p2);
+	//echo "the leng = ". strlen( $the_first_paragraph ) . "<br>";
+	echo $the_first_paragraph . "<br>";
+}
+
+function show_first_paragraph ( $content_str ) {
+	//echo $content_str;
+
+	$html = "div class='entry-content'";
+	// find the first <p> tag in the content_str. p1
+	$p1 = strpos( $content_str , "<p class=\"has-drop-cap\">");
+	// get sub str from this point up till the end
+	$first_sub_str = substr( $content_str, $sp1, 50);
+	$first_sub_str .= "</p>";
+	//echo "show the str and l = ". strlen($first_sub_str);
+	//echo($first_sub_str);
+	// find the first </p> tag in the first_sub_str. p2
+	$p2 = strpos( $first_sub_str , "</p>");
+	test_parse($content_str);
+	// if p1 < p2 find the str starting with p1 and ending with p2
+	//echo "p1 = ".$p1;
+	//echo "p2 = ".$p2;
+	if ( $p2 > $p1) {
+		$first_paragraph = substr($first_sub_str, 0, $p2);
+		//echo $first_paragraph;
 	}
-	return $ppc;
+	else {
+		//echo get_the_excerpt();
+	}
+}
+
+function display_member_login_message () {
+	$member_login_message = get_field("member_login_message");
+	$html = "<div class='container subscribe-wrap'>";
+	$html .= "<div class='subscribe-content'>";
+	$html .= "<div class='subscribe-message'>";
+	$html .= "<p>".$member_login_message."</p>";
+	$html .= "</div>";
+	$html .= "<div class='subscribe-button'>";
+	$html .= "<a class ='button button-large' href='https://baynature.app.neoncrm.com/login'>Member Login</a>";
+	$html .="</div>";
+	$html .="</div>";
+	$html .="</div>";
+	echo $html;
+}
+function display_become_a_member_message () {
+	$non_member_message = get_field("non_member_message");
+	$member_content_heading = get_field('member_content_heading');
+	$html = "<div class='container subscribe-wrap'>";
+	$html .= "<h3>".$member_content_heading."</h3>";
+	$html .= "<div class='subscribe-content'>";
+	$html .= "<div class='subscribe-message'>";
+	$html .= "<p>".$non_member_message."</p>";
+	$html .= "</div>";
+	$html .= "<div class='subscribe-button'>";
+	$html .= "<a class ='button button-large' href='/membership/'>Join / Renew</a>";
+	$html .="</div>";
+	$html .="</div>";
+	$html .="</div>";
+	echo $html;
+}
+function show_member_login_message() {
+	$content_str = get_the_content();
+	show_first_paragraph( $content_str );
+	display_become_a_member_message();
+	display_member_login_message();
+}
+
+function enable_member_content() {
+	$member_key = get_field('member_content_key' );
+	//echo "the key =".$member_key;
+	//$member_key = "bn842E0r92";
+	if (isset($_GET['utm_campaign'])) {
+  		$utm_campaign = $_GET['utm_campaign'];
+		} else {
+  		//Handle the case where there is no parameter
+		$utm_campaign = "firth";
+	}
+	if ( str_contains( $utm_campaign , $member_key ) ) {
+		return true;
+	}
+	return false;
+}
+function findPageUrl () {
+	$member_key = get_field('member_content_key' );;
+	if (isset($_GET['utm_campaign'])) {
+  		$utm_campaign = $_GET['utm_campaign'];
+		} else {
+  		//Handle the case where there is no parameter
+		$utm_campaign = "firth";
+	}
+	if ( str_contains( $utm_campaign , $member_key ) ) {
+		return "Member Access";
+	}
+	return "No Access";
 }
 add_shortcode('page_url','findPageUrl');
 
