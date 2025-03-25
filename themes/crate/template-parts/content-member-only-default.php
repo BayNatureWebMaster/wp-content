@@ -47,7 +47,6 @@
 		?>
 
 	</div><!-- .entry-content -->
-	<?php echo (" where is the author"); ?>
 	<?php get_template_part( 'template-parts/partials/author' ); ?>
 
 	<?php /*get_template_part( 'template-parts/partials/articles' ); */ ?>
