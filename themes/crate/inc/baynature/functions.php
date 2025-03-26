@@ -96,7 +96,7 @@ function display_become_a_member_message () {
 	$html .= "<p>".$non_member_message."</p>";
 	$html .= "</div>";
 	$html .= "<div class='subscribe-button'>";
-	$html .= "<a class ='button button-large' href='/membership/'>Join / Renew</a>";
+	$html .= "<a class ='button button-large paywall-join-renew' href='/membership/'>Join / Renew</a>";
 	$html .="</div>";
 	$html .="</div>";
 	$html .="</div>";
