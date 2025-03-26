@@ -73,7 +73,7 @@ function show_first_paragraph ( $content_str ) {
 }
 
 function display_member_login_message () {
-	$member_login_message = get_field("member_login_message");
+	$member_login_message = "If you are a Bay Nature Member, please login to your account for full access to the current issue of Bay Nature magazine."; //get_field("member_login_message");
 	$html = "<div class='container subscribe-wrap'>";
 	$html .= "<div class='subscribe-content'>";
 	$html .= "<div class='subscribe-message'>";
@@ -87,8 +87,8 @@ function display_member_login_message () {
 	echo $html;
 }
 function display_become_a_member_message () {
-	$non_member_message = get_field("non_member_message");
-	$member_content_heading = get_field('member_content_heading');
+	$non_member_message = "Access to the current issue of Bay Nature magazine is a benefit of Bay Nature Membership. Get the award-winning Bay Nature magazine quarterly in print and online, plus live educational talks and naturalist-led hikes by becoming a Member."; //get_field("non_member_message");
+	$member_content_heading = "To continue reading this story ..."; //get_field('member_content_heading');
 	$html = "<div class='container subscribe-wrap'>";
 	$html .= "<h3>".$member_content_heading."</h3>";
 	$html .= "<div class='subscribe-content'>";
