@@ -80,7 +80,8 @@ function display_member_login_message () {
 	$html .= "<p>".$member_login_message."</p>";
 	$html .= "</div>";
 	$html .= "<div class='subscribe-button'>";
-	$html .= "<a class ='button button-large' href='https://baynature.app.neoncrm.com/login'>Member Login</a>";
+	//$html .= "<a class ='button button-large' href='https://baynature.app.neoncrm.com/login'>Member Login</a>";
+	$html .= "<a class ='button button-large' href='https://baynature.app.neoncrm.com/np/publicaccess/neonPage.do?pageId=38&'>Member Login</a>";
 	$html .="</div>";
 	$html .="</div>";
 	$html .="</div>";
