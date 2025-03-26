@@ -62,7 +62,7 @@
 ?>
 	</header><!-- .entry-header -->
 
-	<?php get_template_part( 'template-parts/partials/share' ); ?>
+	<?php //get_template_part( 'template-parts/partials/share' ); ?>
 
 	<div class="entry-content">
 		<?php
