@@ -51,7 +51,7 @@
 
 	<?php /*get_template_part( 'template-parts/partials/articles' ); */ ?>
 
-	<?php get_template_part( 'template-parts/partials/share' ); ?>
+	<?php //get_template_part( 'template-parts/partials/share' ); ?>
 
 	<?php get_template_part( 'template-parts/partials/subscribe' ); ?>
 

@@ -87,7 +87,7 @@
 
 	<?php get_template_part( 'template-parts/partials/author' ); ?>
 
-	<?php get_template_part( 'template-parts/partials/share' ); ?>
+	<?php //get_template_part( 'template-parts/partials/share' ); ?>
 
 	<?php get_template_part( 'template-parts/partials/subscribe' ); ?>
 
