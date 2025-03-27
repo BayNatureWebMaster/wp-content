@@ -23,6 +23,7 @@
 	</figure>
 
 	<?php endif; ?>
+	<?php get_template_part( 'template-parts/partials/issue-bar' ); ?>
 
 	<header class="entry-header">
 		<?php if ( is_singular() ) { ?>
