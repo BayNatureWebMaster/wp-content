@@ -20,14 +20,8 @@ function disable_x_pingback( $headers ) {
 return $headers;
 }
 
-function sshow_first_paragraph ( $content_str ) {
-	//$ctags = explode( ">" , $content_str);
-	//bn_print_r($content_str);
-	echo get_the_excerpt();
-}
-
 function test_parse ( $content_str ) {
-	$str_1 = $content_str; //"<img> ododod </img><div>odododod</div><p class=\"has-drop-cap\">This is the text I'm looking for</p><div>Other stuff</div>";
+	$str_1 = $content_str;
 	$p1 = strpos( $str_1 , "<p class=\"has-drop-cap\">");
 	$sub_str = substr($str_1 , $p1);
 	//echo "subs 1 = ".$sub_str;
@@ -38,7 +32,7 @@ function test_parse ( $content_str ) {
 	$the_first_paragraph = substr( $sub_str , 0, $p2);
 	//echo "the leng = ". strlen( $the_first_paragraph ) . "<br>";
 	if ( strlen( $the_first_paragraph )  > 10) {
-			echo $the_first_paragraph . "<br><br>";
+		echo $the_first_paragraph . "<br><br>";
 
 	}
 	else {
@@ -73,7 +67,7 @@ function show_first_paragraph ( $content_str ) {
 }
 
 function display_member_login_message () {
-	$member_login_message = "If you are a Bay Nature Member, please login to your account for full access to the current issue of Bay Nature magazine."; //get_field("member_login_message");
+	$member_login_message =acf_get_field("member_login_message")["default_value"];
 	$html = "<div class='container subscribe-wrap'>";
 	$html .= "<div class='subscribe-content'>";
 	$html .= "<div class='subscribe-message'>";
@@ -88,7 +82,7 @@ function display_member_login_message () {
 	echo $html;
 }
 function display_become_a_member_message () {
-	$non_member_message = "Access to the current issue of Bay Nature magazine is a benefit of Bay Nature Membership. Get the award-winning Bay Nature magazine quarterly in print and online, plus live educational talks and naturalist-led hikes by becoming a Member."; //get_field("non_member_message");
+	$non_member_message = acf_get_field("non_member_message")["default_value"];
 	$member_content_heading = "To continue reading this story ..."; //get_field('member_content_heading');
 	$html = "<div class='container subscribe-wrap'>";
 	$html .= "<h3>".$member_content_heading."</h3>";
@@ -105,15 +99,13 @@ function display_become_a_member_message () {
 }
 function show_member_login_message() {
 	$content_str = get_the_content();
-	//echo "show first paragraph";
 	show_first_paragraph( $content_str );
-	//echo "show messages";
 	display_become_a_member_message();
 	display_member_login_message();
 }
 
 function enable_member_content() {
-	$member_key = get_field('member_content_key' );
+	$member_key = acf_get_field('member_content_key' )["default_value"];
 	//echo "the key =".$member_key;
 	//$member_key = "bn842E0r92";
 	if (isset($_GET['utm_campaign'])) {
