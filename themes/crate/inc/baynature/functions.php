@@ -68,14 +68,14 @@ function show_first_paragraph ( $content_str ) {
 
 function display_member_login_message () {
 	$member_login_message =acf_get_field("member_login_message")["default_value"];
+	$member_login_link = acf_get_field("member_login_link")["default_value"];
 	$html = "<div class='container subscribe-wrap'>";
 	$html .= "<div class='subscribe-content'>";
 	$html .= "<div class='subscribe-message'>";
 	$html .= "<p>".$member_login_message."</p>";
 	$html .= "</div>";
 	$html .= "<div class='subscribe-button'>";
-	//$html .= "<a class ='button button-large' href='https://baynature.app.neoncrm.com/login'>Member Login</a>";
-	$html .= "<a class ='button button-large paywall-member-login' href='https://baynature.app.neoncrm.com/np/publicaccess/neonPage.do?pageId=38&'>Member Login</a>";
+	$html .= "<a class ='button button-large paywall-member-login' href='".$member_login_link."'>Member Login</a>";
 	$html .="</div>";
 	$html .="</div>";
 	$html .="</div>";
@@ -83,23 +83,32 @@ function display_member_login_message () {
 }
 function display_become_a_member_message () {
 	$non_member_message = acf_get_field("non_member_message")["default_value"];
-	$member_content_heading = "To continue reading this story ..."; //get_field('member_content_heading');
+	$become_a_member_link = acf_get_field("become_a_member_link")["default_value"];
 	$html = "<div class='container subscribe-wrap'>";
-	$html .= "<h3>".$member_content_heading."</h3>";
+	$html .= "<h3>".get_pay_wall_heading()."</h3>";
 	$html .= "<div class='subscribe-content'>";
 	$html .= "<div class='subscribe-message'>";
 	$html .= "<p>".$non_member_message."</p>";
 	$html .= "</div>";
 	$html .= "<div class='subscribe-button'>";
-	$html .= "<a class ='button button-large paywall-join-renew' href='/membership/'>Join / Renew</a>";
+	$html .= "<a class ='button button-large paywall-join-renew' href='".$become_a_member_link."'>Join / Renew</a>";
 	$html .="</div>";
 	$html .="</div>";
 	$html .="</div>";
 	echo $html;
 }
+
+function get_pay_wall_heading() {
+	$member_content_heading = acf_get_field('paywall_heading')["default_value"];
+	$html = "<h3>".$member_content_heading."</h3>";
+	return $html;
+}
+
+
 function show_member_login_message() {
 	$content_str = get_the_content();
 	show_first_paragraph( $content_str );
+	//get_pay_wall_heading();
 	display_become_a_member_message();
 	display_member_login_message();
 }
