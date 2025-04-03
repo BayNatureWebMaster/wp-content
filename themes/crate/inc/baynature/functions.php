@@ -115,8 +115,26 @@ function show_member_login_message() {
 
 function enable_member_content() {
 	$member_key = acf_get_field('member_content_key' )["default_value"];
-	//echo "the key =".$member_key;
-	//$member_key = "bn842E0r92";
+	$limited_access_key = acf_get_field('limited_access_key' )["default_value"];
+	//$limited_access_key_expiration_date = acf_get_field( 'limited_access_key_expiration_date' )["default_value"];
+	$limitted_access_expiration_year = acf_get_field('limited_access_expiration_year')["default_value"];
+	$limitted_access_expiration__month = acf_get_field('limited_access_expiration_month')["default_value"];;
+	$limitted_access_expiration__day = acf_get_field('limited_access_expiration_day')["default_value"];;
+	//echo "expiration month = ".$limitted_access_expiration__month."<br>";
+	//echo "expiration day = ".$limitted_access_expiration__day."<br>";
+	//echo "expiration_year = ".$limitted_access_expiration_year."<br>";
+
+	//echo $limited_access_key . " ?= k6P07Yj";
+	
+	$date_now = date("m/d/y");
+	$date_now_array = explode("/", $date_now);
+	$now_month = intval($date_now_array[0]);
+	$now_day = intval($date_now_array[1]);
+	$now_year = intval($date_now_array[2]);;
+	//echo "now month = ".$now_month."<br>";
+	//echo "now day = ".$now_day."<br>";
+	//echo "now_year = ".$now_year."<br>";
+
 	if (isset($_GET['utm_campaign'])) {
   		$utm_campaign = $_GET['utm_campaign'];
 		} else {
@@ -125,6 +143,45 @@ function enable_member_content() {
 	}
 	if ( str_contains( $utm_campaign , $member_key ) ) {
 		return true;
+	} else {
+		// test to see if the Limited Access Key is present
+		if ( str_contains( $utm_campaign , $limited_access_key )) {
+			//echo "limited access key present - test expiration date<br>";
+			// the key is present - next test if the key has expired
+			//echo $date_now . "<br>";
+			if ( $now_year > $limitted_access_expiration_year ) {
+				//echo " year expiration: lock content ";
+				return false;
+			} else {
+				if ( $now_year < $limitted_access_expiration_year) {
+					//echo "year behind : Unlock content";
+					return true;
+				} else {
+					//echo "same year - examine month";
+					if ( $now_month > $limitted_access_expiration__month ) {
+						//echo "month past expiration: lock content";
+						return false;
+					} else {
+						if ( $now_month < $limitted_access_expiration__month ) {
+							//echo "month not here yet Unlock content";
+							return true;
+						}
+						else {
+							//echo "same month - examine day";
+							if ( $limitted_access_expiration__day >  $now_day) {
+								//echo "day not here yet Unlock content";
+								return true;
+							}
+							else {
+								//echo "day is past expiration: lock content";
+								return false;
+							}
+						}
+
+					}
+				}
+			}
+		}
 	}
 	return false;
 }
