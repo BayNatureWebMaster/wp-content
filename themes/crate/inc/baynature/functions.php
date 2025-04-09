@@ -20,11 +20,20 @@ function disable_x_pingback( $headers ) {
 return $headers;
 }
 
-function test_parse ( $content_str ) {
+
+/******************************************************************
+ * * Paywall functions
+ * *
+ * * April 8 2025
+ * *
+ * ****************************************************************/
+function show_first_paragraph ( $content_str ) {
 	$str_1 = $content_str;
+	// find the start of the first paragraph. It will have the drop cap class
 	$p1 = strpos( $str_1 , "<p class=\"has-drop-cap\">");
 	$sub_str = substr($str_1 , $p1);
 	//echo "subs 1 = ".$sub_str;
+	// locate the close paragraph tag
 	$p2 = strpos( $sub_str , "</p>") + 4;
 	//echo "the sub str leng = ". strlen( $sub_str ) . "<br>";
 	//echo "p2 = ".$p2 . "<br>";
@@ -36,39 +45,14 @@ function test_parse ( $content_str ) {
 
 	}
 	else {
+		// if in the event there is no first paragraph show the excerpt
 		echo get_the_excerpt() . "<br><br>";
 	}
 }
 
-function show_first_paragraph ( $content_str ) {
-	//echo $content_str;
-
-	$html = "div class='entry-content'";
-	// find the first <p> tag in the content_str. p1
-	$p1 = strpos( $content_str , "<p class=\"has-drop-cap\">");
-	// get sub str from this point up till the end
-	$first_sub_str = substr( $content_str, $sp1, 50);
-	$first_sub_str .= "</p>";
-	//echo "show the str and l = ". strlen($first_sub_str);
-	//echo($first_sub_str);
-	// find the first </p> tag in the first_sub_str. p2
-	$p2 = strpos( $first_sub_str , "</p>");
-	test_parse($content_str);
-	// if p1 < p2 find the str starting with p1 and ending with p2
-	//echo "p1 = ".$p1;
-	//echo "p2 = ".$p2;
-	if ( $p2 > $p1) {
-		$first_paragraph = substr($first_sub_str, 0, $p2);
-		//echo $first_paragraph;
-	}
-	else {
-		//echo get_the_excerpt();
-	}
-}
-
 function display_member_login_message () {
-	$member_login_message =acf_get_field("member_login_message")["default_value"];
-	$member_login_link = acf_get_field("member_login_link")["default_value"];
+	$member_login_message = get_field("paywall_login_message" , "option");
+	$member_login_link =  get_field("paywall_login_link" , "option");
 	$html = "<div class='container subscribe-wrap'>";
 	$html .= "<div class='subscribe-content'>";
 	$html .= "<div class='subscribe-message'>";
@@ -82,8 +66,8 @@ function display_member_login_message () {
 	echo $html;
 }
 function display_become_a_member_message () {
-	$non_member_message = acf_get_field("non_member_message")["default_value"];
-	$become_a_member_link = acf_get_field("become_a_member_link")["default_value"];
+	$non_member_message = get_field("paywall_become_a_member_message" , "option");
+	$become_a_member_link = get_field("paywall_become_a_member_link" , "option");
 	$html = "<div class='container subscribe-wrap'>";
 	$html .= "<h3>".get_pay_wall_heading()."</h3>";
 	$html .= "<div class='subscribe-content'>";
@@ -99,7 +83,7 @@ function display_become_a_member_message () {
 }
 
 function get_pay_wall_heading() {
-	$member_content_heading = acf_get_field('paywall_heading')["default_value"];
+	$member_content_heading = get_field('paywall_greeting' , 'option');
 	$html = "<h3>".$member_content_heading."</h3>";
 	return $html;
 }
@@ -108,52 +92,69 @@ function get_pay_wall_heading() {
 function show_member_login_message() {
 	$content_str = get_the_content();
 	show_first_paragraph( $content_str );
-	//get_pay_wall_heading();
 	display_become_a_member_message();
 	display_member_login_message();
 }
 
-function enable_member_content() {
-	$member_key = acf_get_field('member_content_key' )["default_value"];
-	$limited_access_key = acf_get_field('limited_access_key' )["default_value"];
-	$limitted_access_expiration_year = acf_get_field('limited_access_expiration_year')["default_value"];
-	$limitted_access_expiration__month = acf_get_field('limited_access_expiration_month')["default_value"];;
-	$limitted_access_expiration__day = 28; //acf_get_field('limited_access_expiration_day')["default_value"];;
-	//echo "expiration month = ".$limitted_access_expiration__month."<br>";
-	//echo "expiration day = ".$limitted_access_expiration__day."<br>";
-	//echo "expiration_year = ".$limitted_access_expiration_year."<br>";
-	//bn_print_r (acf_get_field('limited_access_expiration_day')["value"]);
+/***************************************************************************************
+ * The unlock_paywall function is called by the paywall template. This function
+ * examines the utm_campaogn paramater to determin if it contains either the Master Key
+ * or the Staff Share Key. If the Master Key is present this function returns true.
+ * If the Staff Share Key is present and the expiration date has not past this function
+ * returns true. Otherwise this function returns false.
+ * 
+ * 
+ * April 9 2025
+ * 
+ * *************************************************************************************/
+function unlock_paywall() {
+	// get the keys
+	$master_key = get_field('master_key' , 'option');
+	$limited_access_key = get_field('staff_sharing_key' , 'option' );
+	// get the expiration date associated with the staff sharing key
+	$limitted_access_expiration_year = get_field( 'sharing_key_expiration_year' , 'option' );
+	$limitted_access_expiration__month =  (
+		(get_field( 'sharing_key_expiration_month' , 'option' ) > 12) ? 12 : get_field( 'sharing_key_expiration_month' , 'option'));
+	$limitted_access_expiration__day =  
+		((get_field( 'sharing_key_expiration_day' , 'option' ) > 31) ? 31 : get_field( 'sharing_key_expiration_day' , 'option' ));
+	// get the current month, day, and year
 	$date_now = date("m/d/y");
 	$date_now_array = explode("/", $date_now);
 	$now_month = intval($date_now_array[0]);
 	$now_day = intval($date_now_array[1]);
 	$now_year = intval($date_now_array[2]);;
-
+	// determine if the Master Key is present
 	if (isset($_GET['utm_campaign'])) {
   		$utm_campaign = $_GET['utm_campaign'];
 		} else {
-  		//Handle the case where there is no parameter
+  		//Handle the case where there is no utm_campaign parameter
 		$utm_campaign = "firth";
 	}
-	if ( str_contains( $utm_campaign , $member_key ) ) {
+	if ( str_contains( $utm_campaign , $master_key ) ) {
 		return true;
 	} else {
-		// test to see if the Limited Access Key is present
+		// test to see if the Staff Sharing Key is present
 		if ( str_contains( $utm_campaign , $limited_access_key )) {
-			// the limited access key is present - next test if the key has expired
+			// the the Staff Sharing key is present - next test if the key has expired
 			if ( $now_year > $limitted_access_expiration_year ) {
 				// year expired: lock content ";
 				return false;
 			} else {
 				if ( $now_year < $limitted_access_expiration_year) {
-					// "year not expired : Unlock content";
+					// "expiration date is next year : Unlock content";
 					return true;
 				} else {
-					// same year - examine month
+					// is the expriation year before the current year?
+					if ($now_year > $limitted_access_expiration_year)) {
+						// "expiration year is in the past : lock content";
+						return false;
+					}
+					// the expiration year = the current year - has the expriation month past?
 					if ( $now_month > $limitted_access_expiration__month ) {
 						// month past expiration: lock content
 						return false;
 					} else {
+						// see if we are currently in the expriation month
 						if ( $now_month < $limitted_access_expiration__month ) {
 							// month not here yet Unlock content
 							return true;

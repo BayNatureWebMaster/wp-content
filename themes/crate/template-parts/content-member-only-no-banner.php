@@ -66,8 +66,7 @@
 
 	<div class="entry-content">
 		<?php
-		// ?utm_campaign=BN-MEMBER-10378
-		if ( enable_member_content() ) {
+		if ( unlock_paywall() ) {
 			the_content(
 				sprintf(
 					/* translators: %s: Name of current post. */

@@ -39,7 +39,7 @@
 	<div class="entry-content">
 		
 		<?php
-		if ( enable_member_content() ) { 
+		if ( unlock_paywall() ) { 
 			the_content(); 
 		}
 		else {
