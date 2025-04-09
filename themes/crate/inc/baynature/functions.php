@@ -137,16 +137,16 @@ function unlock_paywall() {
 		if ( str_contains( $utm_campaign , $limited_access_key )) {
 			// the the Staff Sharing key is present - next test if the key has expired
 			if ( $now_year > $limitted_access_expiration_year ) {
-				// year expired: lock content ";
+				// year expired: lock content
 				return false;
 			} else {
-				if ( $now_year < $limitted_access_expiration_year) {
-					// "expiration date is next year : Unlock content";
+				if ( $now_year < $limitted_access_expiration_year ) {
+					// expiration date is next year : Unlock content
 					return true;
 				} else {
 					// is the expriation year before the current year?
-					if ($now_year > $limitted_access_expiration_year)) {
-						// "expiration year is in the past : lock content";
+					if ( $now_year > $limitted_access_expiration_year ) {
+						// expiration year is in the past : lock content
 						return false;
 					}
 					// the expiration year = the current year - has the expriation month past?
