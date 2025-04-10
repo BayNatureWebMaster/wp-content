@@ -115,8 +115,41 @@ function unlock_paywall() {
 	$limitted_access_expiration_year = get_field( 'sharing_key_expiration_year' , 'option' );
 	$limitted_access_expiration__month =  (
 		(get_field( 'sharing_key_expiration_month' , 'option' ) > 12) ? 12 : get_field( 'sharing_key_expiration_month' , 'option'));
+	switch ($limitted_access_expiration__month) {
+		case 1:
+			// jan - 31
+		case 3:
+			// march - 31
+		case 5:
+			// may - 31
+		case 7:
+			// july - 31
+		case 8:
+			// august - 31
+		case 10:
+			// october - 31
+		case 12:
+			// december - 31
+			$max_day = 31;
+			break;
+		case 9:
+			// sept - 30
+		case 4:
+			// april - 30
+		case 11:
+			// november - 30
+		case 6:
+			// june - 30
+			$max_day = 30;
+			break;
+		case 2:
+			// feb - 28
+			$max_day = 28;
+			break;
+
+	}
 	$limitted_access_expiration__day =  
-		((get_field( 'sharing_key_expiration_day' , 'option' ) > 31) ? 31 : get_field( 'sharing_key_expiration_day' , 'option' ));
+		((get_field( 'sharing_key_expiration_day' , 'option' ) > $max_day) ? $max_day : get_field( 'sharing_key_expiration_day' , 'option' ));
 	// get the current month, day, and year
 	$date_now = date("m/d/y");
 	$date_now_array = explode("/", $date_now);
