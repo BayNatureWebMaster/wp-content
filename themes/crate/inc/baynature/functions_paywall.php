@@ -128,6 +128,13 @@ function unlock_paywall() {
 	}
 	$limitted_access_expiration__day =  
 		((get_field( 'sharing_key_expiration_day' , 'option' ) > $max_day) ? $max_day : get_field( 'sharing_key_expiration_day' , 'option' ));
+
+	echo $limited_access_key ."<br>";
+	echo $limitted_access_expiration_year ."<br>";
+	echo $limitted_access_expiration__month ."<br>";
+	echo $limitted_access_expiration__day ."<br>";
+	echo $max_day ."<br>";
+
 	// get the current month, day, and year
 	$date_now = date("m/d/y");
 	$date_now_array = explode("/", $date_now);
@@ -139,7 +146,7 @@ function unlock_paywall() {
   		$utm_campaign = $_GET['utm_campaign'];
 		} else {
   		//Handle the case where there is no utm_campaign parameter
-		$utm_campaign = "firth";
+		return false;
 	}
 	if ( str_contains( $utm_campaign , $master_key ) ) {
 		return true;

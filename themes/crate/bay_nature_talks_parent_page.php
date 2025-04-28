@@ -1,6 +1,6 @@
 <?php
 /**
- * The template for displaying the current issue content template
+ * The template for displaying the Bay Nature Talks Parent Page
  * Template Name: Bay Nature Talks Parent Page
  *
  *
@@ -33,3 +33,8 @@ render_bay_nature_talks_parent_page(  ); ?>
 
 <?php get_footer(); ?>
 
+<?php
+function render_bay_nature_talks_parent_page() {
+	
+}
+?>
