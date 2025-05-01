@@ -134,6 +134,7 @@ function unlock_paywall() {
 	echo $limitted_access_expiration__month ."<br>";
 	echo $limitted_access_expiration__day ."<br>";
 	echo $max_day ."<br>";
+	
 
 	// get the current month, day, and year
 	$date_now = date("m/d/y");
