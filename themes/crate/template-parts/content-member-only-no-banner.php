@@ -66,6 +66,7 @@
 
 	<div class="entry-content">
 		<?php
+		echo "Call unlock_paywall";
 		if ( unlock_paywall() ) {
 			the_content(
 				sprintf(
