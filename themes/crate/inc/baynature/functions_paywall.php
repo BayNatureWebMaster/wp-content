@@ -88,8 +88,10 @@ function show_member_login_message() {
 function unlock_paywall() {
 	// get the keys
 	$master_key = get_field('master_key' , 'option');
+	echo "master key = ".$master_key ."<br>";
 	$limited_access_key = get_field('staff_sharing_key' , 'option' );
 	// get the expiration date associated with the staff sharing key
+	$max_day = 30;
 	$limitted_access_expiration_year = get_field( 'sharing_key_expiration_year' , 'option' );
 	$limitted_access_expiration__month =  (
 		(get_field( 'sharing_key_expiration_month' , 'option' ) > 12) ? 12 : get_field( 'sharing_key_expiration_month' , 'option'));
@@ -129,12 +131,12 @@ function unlock_paywall() {
 	$limitted_access_expiration__day =  
 		((get_field( 'sharing_key_expiration_day' , 'option' ) > $max_day) ? $max_day : get_field( 'sharing_key_expiration_day' , 'option' ));
 
-	echo $limited_access_key ."<br>";
-	echo $limitted_access_expiration_year ."<br>";
-	echo $limitted_access_expiration__month ."<br>";
-	echo $limitted_access_expiration__day ."<br>";
-	echo $max_day ."<br>";
-	
+	echo "la_key = " .$limited_access_key ."<br>";
+	echo "la_year = " .$limitted_access_expiration_year ."<br>";
+	echo "la_month = " .$limitted_access_expiration__month ."<br>";
+	echo "la_day = " .$limitted_access_expiration__day ."<br>";
+	echo "max day = " .$max_day ."<br>";
+
 
 	// get the current month, day, and year
 	$date_now = date("m/d/y");
