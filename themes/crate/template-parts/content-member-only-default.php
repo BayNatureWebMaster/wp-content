@@ -43,7 +43,7 @@
 			the_content(); 
 		}
 		else {
-			show_member_login_message();
+			show_member_login_message( "article");
 		}
 		?>
 

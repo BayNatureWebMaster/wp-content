@@ -43,11 +43,11 @@ function display_member_login_message () {
 	$html .="</div>";
 	echo $html;
 }
-function display_become_a_member_message () {
+function display_become_a_member_message ( $contentType ) {
 	$non_member_message = get_field("paywall_become_a_member_message" , "option");
 	$become_a_member_link = get_field("paywall_become_a_member_link" , "option");
 	$html = "<div class='container subscribe-wrap'>";
-	$html .= "<h3>".get_pay_wall_heading()."</h3>";
+	$html .= "<h3>".get_pay_wall_heading( $contentType )."</h3>";
 	$html .= "<div class='subscribe-content'>";
 	$html .= "<div class='subscribe-message'>";
 	$html .= "<p>".$non_member_message."</p>";
@@ -60,17 +60,23 @@ function display_become_a_member_message () {
 	echo $html;
 }
 
-function get_pay_wall_heading() {
-	$member_content_heading = get_field('paywall_greeting' , 'option');
+function get_pay_wall_heading( $contentType ) {
+	//echo " what is this ? ".$contentType;
+	if (strcmp($contentType, "talks") === 0) {
+		$member_content_heading = "To view this Bay Nature Talk ...";
+	}
+	else {
+		$member_content_heading = get_field('paywall_greeting' , 'option');
+	}
 	$html = "<h3>".$member_content_heading."</h3>";
 	return $html;
 }
 
 
-function show_member_login_message() {
+function show_member_login_message( $contentType ) {
 	$content_str = get_the_content();
 	show_first_paragraph( $content_str );
-	display_become_a_member_message();
+	display_become_a_member_message( $contentType );
 	display_member_login_message();
 }
 
@@ -85,7 +91,7 @@ function show_member_login_message() {
  * April 9 2025
  * 
  * *************************************************************************************/
-function unlock_paywall() {
+function unlock_paywall(  ) {
 	// get the keys
 	$master_key = get_field('master_key' , 'option');
 	//echo "master key = ".$master_key ."<br>";

@@ -81,7 +81,7 @@
 					the_title( '<span class="screen-reader-text">"', '"</span>', false )
 				)
 			);
-		} else show_member_login_message();
+		} else show_member_login_message("article");
 			?>
 	</div><!-- .entry-content -->
 
