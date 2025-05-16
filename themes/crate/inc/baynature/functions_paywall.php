@@ -19,7 +19,7 @@ function show_first_paragraph ( $content_str ) {
 	$the_first_paragraph = substr( $sub_str , 0, $p2);
 	//echo "the leng = ". strlen( $the_first_paragraph ) . "<br>";
 	if ( strlen( $the_first_paragraph )  > 10) {
-		echo $the_first_paragraph . "<br><br>";
+		echo $the_first_paragraph ;
 		$remaining_str = substr($sub_str, $p2);
 		return $remaining_str;
 	}
@@ -30,14 +30,17 @@ function show_first_paragraph ( $content_str ) {
 	}
 }
 
-function display_the_next_paragraph( $content_str ) {
+function display_the_next_paragraph( $content_str , $searchFor ) {
 	// find the next <p in the content str
-	$p1 = strpos( $content_str ,"<p");
+	//$p1 = strpos( $content_str ,"<p");
+	$p1 = strpos( $content_str , $searchFor);
 	$sub_str = substr(  $content_str , $p1 );
 	// find the end of the paragraph
 	$p2 = strpos( $sub_str , "</p>") + 4;
 	$the_paragraph = substr( $sub_str , 0, $p2);
 	echo $the_paragraph;
+	$remaining_str = substr($sub_str, $p2);
+	return $remaining_str;
 }
 
 function display_member_login_message () {
@@ -87,9 +90,10 @@ function get_pay_wall_heading( $contentType ) {
 
 function show_member_login_message( $contentType ) {
 	$content_str = get_the_content();
-	$remaining_str = show_first_paragraph( $content_str );
+	$remaining_str = display_the_next_paragraph( $content_str , "<p class=\"has-drop-cap\">"); //show_first_paragraph( $content_str );
 	if ( strcmp( $contentType , "article") === 0 ) {
-		display_the_next_paragraph( $remaining_str );
+		$remaining_str = display_the_next_paragraph( $remaining_str , "<p" );
+		//display_the_next_paragraph( $remaining_str ,  "<p");
 	}
 	display_become_a_member_message( $contentType );
 	display_member_login_message();
