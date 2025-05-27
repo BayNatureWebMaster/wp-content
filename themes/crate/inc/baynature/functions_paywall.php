@@ -177,6 +177,7 @@ function is_staff_share_key_set () {
 	$limitted_access_expiration_year = get_field( 'sharing_key_expiration_year' , 'option' );
 	$limitted_access_expiration__month =  (
 		(get_field( 'sharing_key_expiration_month' , 'option' ) > 12) ? 12 : get_field( 'sharing_key_expiration_month' , 'option'));
+	/*
 	switch ($limitted_access_expiration__month) {
 		case 1:
 			// jan - 31
@@ -226,7 +227,7 @@ function is_staff_share_key_set () {
 	$now_month = intval($date_now_array[0]);
 	$now_day = intval($date_now_array[1]);
 	$now_year = intval($date_now_array[2]);;
-	/*
+	
 	// test to see if the Staff Sharing Key is present
 	if ( str_contains( $utm_campaign , $limited_access_key )) {
 		// the the Staff Sharing key is present - next test if the key has expired
