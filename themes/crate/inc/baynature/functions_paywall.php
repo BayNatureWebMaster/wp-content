@@ -177,9 +177,7 @@ function is_staff_share_key_set () {
 	$limitted_access_expiration_year = get_field( 'sharing_key_expiration_year' , 'option' );
 	$limitted_access_expiration__month =  (
 		(get_field( 'sharing_key_expiration_month' , 'option' ) > 12) ? 12 : get_field( 'sharing_key_expiration_month' , 'option'));
-	return false;
-}
-	/*
+
 	switch ($limitted_access_expiration__month) {
 		case 1:
 			// jan - 31
@@ -213,6 +211,9 @@ function is_staff_share_key_set () {
 			break;
 
 	}
+	return false;
+}
+	/*
 	$limitted_access_expiration__day =  
 		((get_field( 'sharing_key_expiration_day' , 'option' ) > $max_day) ? $max_day : get_field( 'sharing_key_expiration_day' , 'option' ));
 
