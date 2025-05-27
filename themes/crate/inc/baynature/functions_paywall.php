@@ -228,53 +228,45 @@ function is_staff_share_key_set () {
 	$now_month = intval($date_now_array[0]);
 	$now_day = intval($date_now_array[1]);
 	$now_year = intval($date_now_array[2]);;
-	/*
+	
 	// test to see if the Staff Sharing Key is present
 	if ( str_contains( $utm_campaign , $limited_access_key )) {
 		// the the Staff Sharing key is present - next test if the key has expired
 		if ( $now_year > $limitted_access_expiration_year ) {
 			// year expired: lock content
 			return false;
-		} else {
-			if ( $now_year < $limitted_access_expiration_year ) {
-				// expiration date is next year : Unlock content
-				return true;
-			} else {
-				// is the expriation year before the current year?
-				if ( $now_year > $limitted_access_expiration_year ) {
-					// expiration year is in the past : lock content
-					return false;
-				}
-				// the expiration year = the current year - has the expriation month past?
-				if ( $now_month > $limitted_access_expiration__month ) {
-					// month past expiration: lock content
-					return false;
-					} else {
-					// see if we are currently in the expriation month
-					if ( $now_month < $limitted_access_expiration__month ) {
-						// month not here yet Unlock content
-						return true;
-					}
-					else {
-						// same month - examine day
-						if ( $limitted_access_expiration__day >  $now_day) {
-							// day not here yet Unlock content";
-							return true;
-						}
-						else {
-							// day is past expiration: lock content
-							return false;
-						}
-					}
-				}
-			}
 		}
-	}
-	*/
+
+		if ( $now_year < $limitted_access_expiration_year ) {
+			// expiration date is next year : Unlock content
+				return true;
+			}
+		// is the expriation year before the current year?
+		if ( $now_year > $limitted_access_expiration_year ) {
+			// expiration year is in the past : lock content
+			return false;
+			}
+		// the expiration year = the current year - has the expriation month past?
+		if ( $now_month > $limitted_access_expiration__month ) {
+			// month past expiration: lock content
+			return false;
+			}
+		// see if we are currently in the expriation month
+		if ( $now_month < $limitted_access_expiration__month ) {
+			// month not here yet Unlock content
+			return true;
+			}
+		// same month - examine day
+		if ( $limitted_access_expiration__day >  $now_day) {
+			// day not here yet Unlock content";
+			return true;
+			}
+		
+		// day is past expiration: lock content
+		}
 	return false;
 }
 
-*/
 function unlock_paywall(  ) {
 	// get the keys
 	$master_key = get_field('master_key' , 'option');
