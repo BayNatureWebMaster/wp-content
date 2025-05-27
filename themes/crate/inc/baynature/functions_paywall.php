@@ -228,7 +228,7 @@ function is_staff_share_key_set () {
 	$now_month = intval($date_now_array[0]);
 	$now_day = intval($date_now_array[1]);
 	$now_year = intval($date_now_array[2]);;
-	
+	/*
 	// test to see if the Staff Sharing Key is present
 	if ( str_contains( $utm_campaign , $limited_access_key )) {
 		// the the Staff Sharing key is present - next test if the key has expired
@@ -270,6 +270,7 @@ function is_staff_share_key_set () {
 			}
 		}
 	}
+	*/
 	return false;
 }
 
