@@ -111,7 +111,7 @@ function show_member_login_message( $contentType ) {
  * 
  * April 9 2025
  * 
- * *************************************************************************************
+ * *************************************************************************************/
 function unlock_paywall () {
 	echo "paywall test";
 	if ( is_cookie_key_set() ) {
@@ -267,7 +267,7 @@ function is_staff_share_key_set () {
 	return false;
 }
 
-function unlock_paywall(  ) {
+function was_unlock_paywall(  ) {
 	// get the keys
 	$master_key = get_field('master_key' , 'option');
 	//echo "master key = ".$master_key ."<br>";
