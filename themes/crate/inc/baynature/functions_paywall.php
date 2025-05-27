@@ -113,7 +113,6 @@ function show_member_login_message( $contentType ) {
  * utm_campaign=bn842E0r92
  * *************************************************************************************/
 function unlock_paywall () {
-	echo "paywall test";
 	if ( is_cookie_key_set() ) {
 		return true;
 	}
@@ -146,11 +145,9 @@ function set_cookie_key() {
 }
 
 function is_cookie_key_set() {
-	echo "test cookie";
 	$master_key = get_field('master_key' , 'option');
 	if (isset($_COOKIE['PW_KEY'])) {
 		$pw_key = htmlspecialchars($_COOKIE["PW_KEY"]);
-		echo "show cookie =".$pw_key;
 		if ( str_contains( $pw_key , $master_key ) ) {
   			return true;
   		}
