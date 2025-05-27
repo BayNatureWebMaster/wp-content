@@ -142,7 +142,7 @@ function set_cookie_key() {
 	$master_key = get_field('master_key' , 'option');
 	$name = "PW_KEY";
 	$eTime = time()+60*60*24;
-	setcookie( $name,$master_key, $eTime,"","",false,false);
+	setcookie( $name,$master_key, $eTime,"/","",false,false);
 }
 
 function is_cookie_key_set() {
