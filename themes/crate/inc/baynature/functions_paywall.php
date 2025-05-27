@@ -168,7 +168,7 @@ function is_master_key_set () {
 	}
 	return false;
 }
-
+*/
 function is_staff_share_key_set () {
 // get the keys
 	$limited_access_key = get_field('staff_sharing_key' , 'option' );
@@ -272,7 +272,7 @@ function is_staff_share_key_set () {
 	}
 	return false;
 }
-*/
+
 
 function unlock_paywall(  ) {
 	// get the keys
