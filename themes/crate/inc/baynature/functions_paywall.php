@@ -110,7 +110,7 @@ function show_member_login_message( $contentType ) {
  * 
  * 
  * April 9 2025
- * 
+ * utm_campaign=bn842E0r92
  * *************************************************************************************/
 function unlock_paywall () {
 	echo "paywall test";
@@ -168,7 +168,7 @@ function is_master_key_set () {
 	}
 	return false;
 }
-*/
+
 function is_staff_share_key_set () {
 // get the keys
 	$limited_access_key = get_field('staff_sharing_key' , 'option' );
