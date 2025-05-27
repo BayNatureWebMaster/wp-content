@@ -177,6 +177,8 @@ function is_staff_share_key_set () {
 	$limitted_access_expiration_year = get_field( 'sharing_key_expiration_year' , 'option' );
 	$limitted_access_expiration__month =  (
 		(get_field( 'sharing_key_expiration_month' , 'option' ) > 12) ? 12 : get_field( 'sharing_key_expiration_month' , 'option'));
+	return false;
+}
 	/*
 	switch ($limitted_access_expiration__month) {
 		case 1:
@@ -270,11 +272,11 @@ function is_staff_share_key_set () {
 				}
 			}
 		}
-	*/}
+	}
 	return false;
 }
 
-
+*/
 function unlock_paywall(  ) {
 	// get the keys
 	$master_key = get_field('master_key' , 'option');
