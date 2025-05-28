@@ -3,32 +3,9 @@
  * * Paywall functions
  * *
  * * April 8 2025
+ * * May 28 2025: Added Cookie storage for the Master Key
  * *
  * ****************************************************************/
-function show_first_paragraph ( $content_str ) {
-	$str_1 = $content_str;
-	// find the start of the first paragraph. It will have the drop cap class
-	$p1 = strpos( $str_1 , "<p class=\"has-drop-cap\">");
-	$sub_str = substr($str_1 , $p1);
-	//echo "subs 1 = ".$sub_str;
-	// locate the close paragraph tag
-	$p2 = strpos( $sub_str , "</p>") + 4;
-	//echo "the sub str leng = ". strlen( $sub_str ) . "<br>";
-	//echo "p2 = ".$p2 . "<br>";
-	//echo "sub str l = " .strlen($sub_str);
-	$the_first_paragraph = substr( $sub_str , 0, $p2);
-	//echo "the leng = ". strlen( $the_first_paragraph ) . "<br>";
-	if ( strlen( $the_first_paragraph )  > 10) {
-		echo $the_first_paragraph ;
-		$remaining_str = substr($sub_str, $p2);
-		return $remaining_str;
-	}
-	else {
-		// if in the event there is no first paragraph show the excerpt
-		echo get_the_excerpt() . "<br><br>";
-		return "";
-	}
-}
 
 function display_the_next_paragraph( $content_str , $searchFor ) {
 	// find the next <p in the content str
@@ -89,13 +66,13 @@ function get_pay_wall_heading( $contentType ) {
 
 
 function show_member_login_message( $contentType ) {
-	//$number_of_paragraphs = get_field("paywall_article_number_of_paragraphs" , "option");
+	$number_of_paragraphs = get_field("paywall_display_n_paragraphts" , "option");
 	$content_str = get_the_content();
-	$remaining_str = display_the_next_paragraph( $content_str , "<p class=\"has-drop-cap\">"); //show_first_paragraph( $content_str );
+	$remaining_str = display_the_next_paragraph( $content_str , "<p class=\"has-drop-cap\">");
 	if ( strcmp( $contentType , "article") === 0 ) {
-		 //for ($i = 1; $i <= $number_of_paragraphs; $i++ ) {
+		 for ($i = 1; $i <= $number_of_paragraphs; $i++ ) {
 		 	$remaining_str = display_the_next_paragraph( $remaining_str , "<p" );
-		// }
+		}
 	}
 	display_become_a_member_message( $contentType );
 	display_member_login_message();
@@ -133,14 +110,14 @@ function is_master_key () {
 			set_cookie_key();
 		}
 	}
-
 }
 add_action( 'init', 'is_master_key', 0 );
 
 function set_cookie_key() {
 	$master_key = get_field('master_key' , 'option');
+	$number_of_days = (( get_field("paywall_cookie_expiration_in_n_days" , "option") <= 0 ) ? 3 : get_field("paywall_cookie_expiration_in_n_days" , "option"));
 	$name = "PW_KEY";
-	$eTime = time()+60*60*24;
+	$eTime = time()+60*60*24*$number_of_days;
 	setcookie( $name,$master_key, $eTime,"/","",false,false);
 }
 
@@ -255,7 +232,7 @@ function is_staff_share_key_set ( ) {
 		}
 	return false;
 }
-
+/*
 function was_unlock_paywall(  ) {
 	// get the keys
 	$master_key = get_field('master_key' , 'option');
@@ -369,5 +346,5 @@ function was_unlock_paywall(  ) {
 		}
 	}
 	return false;
-}
+}*/
 ?>
