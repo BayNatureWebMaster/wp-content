@@ -67,7 +67,6 @@ function get_pay_wall_heading( $contentType ) {
 
 function show_member_login_message( $contentType ) {
 	$number_of_paragraphs = get_field("paywall_display_n_paragraphts" , "option");
-	echo "n p = " .$number_of_paragraphs;
 	$content_str = get_the_content();
 	$remaining_str = display_the_next_paragraph( $content_str , "<p class=\"has-drop-cap\">");
 	if ( strcmp( $contentType , "article") === 0 ) {
