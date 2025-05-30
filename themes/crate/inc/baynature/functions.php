@@ -468,7 +468,7 @@ padding-top:10px;
 }
 </style>
 <div class="cta-box-responsive">
-Bay Nature’s email newsletter delivers local nature stories, hikes, and events to your inbox each week. <br><a class="cta-link-color subscribe-cta article_newsletter" href="/sign-up-for-connections/">Sign up today!</a>
+Bay Nature’s email newsletter delivers local nature stories, hikes, and events to your inbox each week. <br><a class="cta-link-color article_newsletter" href="/sign-up-for-connections/">Sign up today!</a>
 <div class="cta-box-image"><img src="https://baynature.org/wp-content/uploads/2023/03/Heron-Silhouette-150px-white.png"></div>
 </div>';
 	return $html;
