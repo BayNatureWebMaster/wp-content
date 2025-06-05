@@ -68,7 +68,7 @@ function get_pay_wall_heading( $contentType ) {
 function show_member_login_message( $contentType ) {
 	$number_of_paragraphs = get_field("paywall_display_n_paragraphts" , "option");
 	$content_str = get_the_content();
-	$remaining_str = display_the_next_paragraph( $content_str , "<p class=\"has-drop-cap\">");
+	$remaining_str = display_the_next_paragraph( $content_str , "<p" ); //"<p class=\"has-drop-cap\">");
 	if ( strcmp( $contentType , "article") === 0 ) {
 		 for ($i = 1; $i < $number_of_paragraphs; $i++ ) {
 		 	$remaining_str = display_the_next_paragraph( $remaining_str , "<p" );
