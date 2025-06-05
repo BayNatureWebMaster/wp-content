@@ -34,7 +34,7 @@
 		<?php } else { ?>
 			<?php the_title( '<h2 class="entry-title"><a href="' . esc_url( get_permalink() ) . '" rel="bookmark">', '</a></h2>' ); ?>
 		<?php } ?>
-		/* start new code */
+		<?php /* start new code */ ?>
 		<?php if ( is_singular( array( 'post', 'article' ) ) ) { ?>
 			<div class="entry-source">
 
