@@ -18,7 +18,7 @@ function display_the_next_paragraph( $content_str , $searchFor ) {
 		$p2 = strpos( $content_str , "</p>") + 4;
 		echo "p2 - p1 = ".$p2 - $p1;
 		if ( ($p2 - $p1 ) > 200 ) $not_found = false;
-		$not_found = false;
+		//$not_found = false;
 	}
 	$p2 = strpos( $sub_str , "</p>") + 4;
 
