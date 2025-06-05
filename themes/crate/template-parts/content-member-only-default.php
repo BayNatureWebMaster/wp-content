@@ -34,6 +34,43 @@
 		<?php } else { ?>
 			<?php the_title( '<h2 class="entry-title"><a href="' . esc_url( get_permalink() ) . '" rel="bookmark">', '</a></h2>' ); ?>
 		<?php } ?>
+		/* start new code */
+		<?php if ( is_singular( array( 'post', 'article' ) ) ) { ?>
+			<div class="entry-source">
+
+				<span class="byline">
+					<?php
+						echo esc_html( 'by ' );
+					if ( function_exists( 'coauthors_posts_links' ) ) {
+						coauthors_posts_links();
+					} else {
+						the_author();
+					}
+					?>
+				</span>
+
+				<div class="meta-group">
+
+					<div class="meta-date">
+						<?php echo esc_html( get_the_date() ); ?>
+					</div>
+
+					<?php if ( get_post_meta( get_the_ID(), 'sponsor', true ) ) { ?>
+						<div class="meta-sponsor">
+							<?php if ( get_post_meta( get_the_ID(), 'sponsor_link', true ) ) { ?>
+								<a href="<?php echo esc_url( get_post_meta( get_the_ID(), 'sponsor_link', true ) ); ?>" target="_blank" rel="noopener noreferrer"><?php echo esc_html( 'Sponsored by ' . get_post_meta( get_the_ID(), 'sponsor', true ) ); ?></a>
+							<?php } else { ?>
+								<?php echo esc_html( 'Sponsored by ' . get_post_meta( get_the_ID(), 'sponsor', true ) ); ?>
+							<?php } ?>
+						</div>
+					<?php } ?>
+
+				</div><!-- .meta-group -->
+
+			</div><!-- .entry-meta -->
+			<?php
+}//end if
+		/* end new code */
 	</header><!-- .entry-header -->
 
 	<div class="entry-content">
