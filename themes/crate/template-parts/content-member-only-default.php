@@ -70,7 +70,7 @@
 			</div><!-- .entry-meta -->
 			<?php
 }//end if
-		/* end new code */
+	/* end new code */ ?>
 	</header><!-- .entry-header -->
 
 	<div class="entry-content">
