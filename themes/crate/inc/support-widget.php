@@ -78,6 +78,10 @@ class BN_Support_Widget extends WP_Widget {
 			<input class="widefat" id="<?php echo esc_attr( $this->get_field_id( 'title' ) ); ?>" name="<?php echo esc_attr( $this->get_field_name( 'title' ) ); ?>" type="text" value="<?php echo esc_attr( $title ); ?>">
 		</p>
 		<p>
+			<label for="<?php echo esc_attr( $this->get_field_id( 'newsletter' ) ); ?>"><?php esc_attr_e( 'Newsletter Text:', 'crate' ); ?></label> 
+			<input class="widefat" id="<?php echo esc_attr( $this->get_field_id( 'newsletter' ) ); ?>" name="<?php echo esc_attr( $this->get_field_name( 'newsletter' ) ); ?>" type="text" value="<?php echo esc_attr( $newsletter ); ?>">
+		</p>
+		<p>
 			<label for="<?php echo esc_attr( $this->get_field_id( 'subscribe' ) ); ?>"><?php esc_attr_e( 'Subscribe Text:', 'crate' ); ?></label> 
 			<input class="widefat" id="<?php echo esc_attr( $this->get_field_id( 'subscribe' ) ); ?>" name="<?php echo esc_attr( $this->get_field_name( 'subscribe' ) ); ?>" type="text" value="<?php echo esc_attr( $subscribe ); ?>">
 		</p>
@@ -85,10 +89,7 @@ class BN_Support_Widget extends WP_Widget {
 			<label for="<?php echo esc_attr( $this->get_field_id( 'donate' ) ); ?>"><?php esc_attr_e( 'Donate Text:', 'crate' ); ?></label> 
 			<input class="widefat" id="<?php echo esc_attr( $this->get_field_id( 'donate' ) ); ?>" name="<?php echo esc_attr( $this->get_field_name( 'donate' ) ); ?>" type="text" value="<?php echo esc_attr( $donate ); ?>">
 		</p>
-		<p>
-			<label for="<?php echo esc_attr( $this->get_field_id( 'newsletter' ) ); ?>"><?php esc_attr_e( 'Newsletter Text:', 'crate' ); ?></label> 
-			<input class="widefat" id="<?php echo esc_attr( $this->get_field_id( 'newsletter' ) ); ?>" name="<?php echo esc_attr( $this->get_field_name( 'newsletter' ) ); ?>" type="text" value="<?php echo esc_attr( $newsletter ); ?>">
-		</p>
+		
 		<p>
 			<label for="<?php echo esc_attr( $this->get_field_id( 'cta' ) ); ?>"><?php esc_attr_e( 'Call To Action:', 'crate' ); ?></label> 
 			<textarea class="widefat" rows="4" cols="50" id="<?php echo esc_attr( $this->get_field_id( 'cta' ) ); ?>" name="<?php echo esc_attr( $this->get_field_name( 'cta' ) ); ?>" ><?php echo esc_html( $cta ); ?></textarea>
