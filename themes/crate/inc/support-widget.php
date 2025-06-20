@@ -30,19 +30,6 @@ class BN_Support_Widget extends WP_Widget {
 			echo $args['before_title'] . apply_filters( 'widget_text', $instance['title'] ) . $args['after_title'];
 		}
 		echo '<ol class="ways-to-support">';
-		if ( ! empty( $instance['subscribe'] ) ) {
-			echo '<li>';
-				echo '<p><span>'. apply_filters( 'widget_title', $instance['subscribe'] ) .'</span></p>';
-				echo '<a target="_self" href="/membership/" class="button subscribe_sidebar">'. __( 'Join', 'crate' ) .'</a>';
-			echo '</li>';
-		}
-		if ( ! empty( $instance['donate'] ) ) {
-			echo '<li>';
-				echo '<p><span>'. apply_filters( 'widget_title', $instance['donate'] ) .'</span></p>';
-				echo '<a target="_self" href="https://baynature.app.neoncrm.com/forms/donate" class="button button-alt donate-sidebar">'. __( 'Donate', 'crate' ) .'</a>';
-				//echo '<a href="" class="button button-alt donate-sidebar">'. __( 'Donate', 'crate' ) .'</a>';
-			echo '</li>';
-		}
 		if ( ! empty( $instance['newsletter'] ) ) {
 			echo '<li>';
 				echo '<p><span>'. apply_filters( 'widget_title', $instance['newsletter'] ) .'</span></p>';
@@ -56,6 +43,20 @@ class BN_Support_Widget extends WP_Widget {
 				//echo do_shortcode( '[subscribe email_placeholder="Your email" button_text="Go"]' );
 			echo '</li>';
 		}
+		if ( ! empty( $instance['subscribe'] ) ) {
+			echo '<li>';
+				echo '<p><span>'. apply_filters( 'widget_title', $instance['subscribe'] ) .'</span></p>';
+				echo '<a target="_self" href="/membership/" class="button subscribe_sidebar">'. __( 'Join', 'crate' ) .'</a>';
+			echo '</li>';
+		}
+		if ( ! empty( $instance['donate'] ) ) {
+			echo '<li>';
+				echo '<p><span>'. apply_filters( 'widget_title', $instance['donate'] ) .'</span></p>';
+				echo '<a target="_self" href="https://baynature.app.neoncrm.com/forms/donate" class="button button-alt donate-sidebar">'. __( 'Donate', 'crate' ) .'</a>';
+				//echo '<a href="" class="button button-alt donate-sidebar">'. __( 'Donate', 'crate' ) .'</a>';
+			echo '</li>';
+		}
+		
 		echo '</ol>';
 		echo $args['after_widget'];
 	}
