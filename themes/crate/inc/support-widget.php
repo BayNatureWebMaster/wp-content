@@ -46,7 +46,7 @@ class BN_Support_Widget extends WP_Widget {
 		if ( ! empty( $instance['subscribe'] ) ) {
 			echo '<li>';
 				echo '<p><span>'. apply_filters( 'widget_title', $instance['subscribe'] ) .'</span></p>';
-				echo '<a target="_self" href="/membership/" class="button subscribe_sidebar">'. __( 'Join', 'crate' ) .'</a>';
+				echo '<a target="_self" href="/membership/" class="button subscribe_sidebar">'. __( 'Join for $40/year', 'crate' ) .'</a>';
 			echo '</li>';
 		}
 		if ( ! empty( $instance['donate'] ) ) {
