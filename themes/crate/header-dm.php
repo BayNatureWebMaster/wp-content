@@ -90,7 +90,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 			}
 		?>
 		<!-- LRT the following displays the two Jane Kim images : remove  -->
-		<div class="header-main-wrap" <?php  echo $header_bg; ?>>
+		<div class="header-main-wrap" <?php  /* echo $header_bg; */?>>
 			<div class="container header-main">
 
 				<div class="header-top">
