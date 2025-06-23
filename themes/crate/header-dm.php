@@ -102,12 +102,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 							<span class="visuallyhidden"><?php bloginfo( 'name' ); ?></span>
 						</a>
 					</div>
-					<!--  LRT the following is the call out box -->
-					<?php if ( get_field( 'header_callout_area', 'option' ) ) { ?>
-						<div class="header-call-out <?php echo esc_attr( 'visibility-' . get_field( 'header_callout_visibility', 'option' ) ); ?>">
-							<?php  /* echo get_field( 'header_callout_area', 'option' ); */ ?>
-						</div>
-					<?php } ?>
+					<!--  LRT the following is where the call out box was -->
 
 					<nav class="utility-nav">
 						<?php  wp_nav_menu( array(
