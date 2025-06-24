@@ -9,7 +9,7 @@
  * @package Crate
  */
 
-get_header("dm"); ?>
+get_header( "dm" ); ?>
 
 	<div id="primary" class="content-area">
 		<main id="main" class="site-main" role="main">
