@@ -45,6 +45,10 @@ function display_the_next_paragraph( $content_str , $searchFor ) {
 
 function is_valid_paragraph ( $the_paragraph ) {
 	// get length
+	$minimum_character_count = get_field("paragraph_validator_minimum_characters" , "option");
+	$mimumm_sentence_count = get_field("paragraph_validator_minimum_sentence_count" , "option");
+	echo "m c c =".$minimum_character_count;
+	echo "<br>m s c=".$mimumm_sentence_count."<br>";
 	$paragraph_length = strlen( $the_paragraph );
 	$number_of_sentences = substr_count( $the_paragraph , ".");
 	if ( 100 < $paragraph_length && 3 < $number_of_sentences ) {
