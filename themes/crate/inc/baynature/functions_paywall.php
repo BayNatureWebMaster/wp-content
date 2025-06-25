@@ -36,6 +36,7 @@ function display_the_next_paragraph( $content_str , $searchFor ) {
 		}
 		else {
 			$content_str = substr($sub_str, $p2);
+			echo "hide this p= ".$the_paragraph;
 		}
 		
 	}
