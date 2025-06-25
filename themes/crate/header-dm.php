@@ -107,7 +107,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 					<nav class="utility-nav">
 						<?php  wp_nav_menu( array(
 							'theme_location' => 'utility',
-							'container'	     => false,
+							'container'	     => 'div',
 						) ); ?>
 					</nav>
 
