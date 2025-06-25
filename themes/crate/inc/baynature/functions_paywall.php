@@ -44,7 +44,13 @@ function display_the_next_paragraph( $content_str , $searchFor ) {
 }
 
 function is_valid_paragraph ( $the_paragraph ) {
-	return true;
+	// get length
+	$paragraph_length = strlen( $the_paragraph );
+	$number_of_sentences = substr_count( $the_paragraph , ".");
+	if ( 100 < $paragraph_length && 3 < $number_of_sentences ) {
+		return true;
+	}
+	return false;
 
 }
 
