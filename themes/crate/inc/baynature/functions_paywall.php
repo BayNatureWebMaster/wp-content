@@ -55,7 +55,9 @@ function is_valid_paragraph ( $the_paragraph ) {
 	//echo "p length =".$paragraph_length."<br>";
 
 	//echo "n sentences=".$number_of_sentences."<br>";
-	if ( $minimum_character_count <= $paragraph_length && $mimumm_sentence_count < $number_of_sentences ) {
+	//if ( $minimum_character_count <= $paragraph_length && $mimumm_sentence_count < $number_of_sentences ) {
+	if ( $minimum_character_count <= $paragraph_length  ) {
+
 		return true;
 	}
 	return false;
