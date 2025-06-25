@@ -7,7 +7,7 @@
  * *
  * ****************************************************************/
 
-function was_display_the_next_paragraph( $content_str , $searchFor ) {
+function display_the_next_paragraph( $content_str , $searchFor ) {
 	// find the next <p in the content str
 	//$p1 = strpos( $content_str ,"<p");
 	$p1 = strpos( $content_str , $searchFor);
@@ -20,7 +20,7 @@ function was_display_the_next_paragraph( $content_str , $searchFor ) {
 	return $remaining_str;
 }
 
-function display_the_next_paragraph( $content_str , $searchFor ) {
+function new_display_the_next_paragraph( $content_str , $searchFor ) {
 	// find the next <p in the content str
 	//$p1 = strpos( $content_str ,"<p");
 	while ( strlen ($content_str) > 0) {
@@ -51,8 +51,8 @@ function is_valid_paragraph ( $the_paragraph ) {
 	echo "<br>m s c=".$mimumm_sentence_count."<br>";
 	$paragraph_length = strlen( $the_paragraph );
 	$number_of_sentences = substr_count( $the_paragraph , ".");
-	echo "p l=".$paragraph_length."<<br>";
-	echo "n c=".$number_of_sentences."<br>";
+	echo "p length =".$paragraph_length."<br>";
+	echo "n sentences=".$number_of_sentences."<br>";
 	if ( 100 < $paragraph_length && 3 < $number_of_sentences ) {
 		return true;
 	}
