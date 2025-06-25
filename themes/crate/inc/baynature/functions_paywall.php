@@ -7,7 +7,7 @@
  * *
  * ****************************************************************/
 
-function display_the_next_paragraph( $content_str , $searchFor ) {
+function was_display_the_next_paragraph( $content_str , $searchFor ) {
 	// find the next <p in the content str
 	//$p1 = strpos( $content_str ,"<p");
 	$p1 = strpos( $content_str , $searchFor);
@@ -18,6 +18,34 @@ function display_the_next_paragraph( $content_str , $searchFor ) {
 	echo $the_paragraph;
 	$remaining_str = substr($sub_str, $p2);
 	return $remaining_str;
+}
+
+function display_the_next_paragraph( $content_str , $searchFor ) {
+	// find the next <p in the content str
+	//$p1 = strpos( $content_str ,"<p");
+	while ( strlen ($content_str) > 0) {
+		$p1 = strpos( $content_str , $searchFor);
+		$sub_str = substr(  $content_str , $p1 );
+		// find the end of the paragraph
+		$p2 = strpos( $sub_str , "</p>") + 4;
+		$the_paragraph = substr( $sub_str , 0, $p2);
+		if ( is_valid_paragraph( $the_paragraph ) ) {
+			echo $the_paragraph;
+			$remaining_str = substr($sub_str, $p2);
+			return $remaining_str;
+		}
+		else {
+			$content_str = substr($sub_str, $p2);
+		}
+		
+	}
+	// content str is empty
+	return $content_str;
+}
+
+function is_valid_paragraph ( $the_paragraph ) {
+	return true;
+
 }
 
 function display_member_login_message () {
