@@ -29,7 +29,7 @@ function display_the_next_paragraph( $content_str , $searchFor ) {
 		// find the end of the paragraph
 		$p2 = strpos( $sub_str , "</p>") + 4;
 		$the_paragraph = substr( $sub_str , 0, $p2);
-		if ( is_valid_paragraph( $the_paragraph ) ) {
+		if ( is_valid_paragraph( $the_paragraph ) || 0 == strcmp($searchFor , '<p class=\"has-drop-cap\">') ) {
 			echo $the_paragraph;
 			$remaining_str = substr($sub_str, $p2);
 			return $remaining_str;
