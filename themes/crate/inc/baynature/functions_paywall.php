@@ -7,7 +7,7 @@
  * *
  * ****************************************************************/
 
-function display_the_next_paragraph( $content_str , $searchFor ) {
+function was_display_the_next_paragraph( $content_str , $searchFor ) {
 	// find the next <p in the content str
 	//$p1 = strpos( $content_str ,"<p");
 	$p1 = strpos( $content_str , $searchFor);
@@ -20,7 +20,7 @@ function display_the_next_paragraph( $content_str , $searchFor ) {
 	return $remaining_str;
 }
 
-function new_display_the_next_paragraph( $content_str , $searchFor ) {
+function display_the_next_paragraph( $content_str , $searchFor ) {
 	// find the next <p in the content str
 	//$p1 = strpos( $content_str ,"<p");
 	while ( strlen ($content_str) > 0) {
@@ -53,11 +53,10 @@ function is_valid_paragraph ( $the_paragraph ) {
 	$number_of_sentences = substr_count( $the_paragraph , ".");
 	echo "p length =".$paragraph_length."<br>";
 	echo "n sentences=".$number_of_sentences."<br>";
-	if ( 100 < $paragraph_length && 3 < $number_of_sentences ) {
+	if ( 100 <= $paragraph_length && 3 <= $number_of_sentences ) {
 		return true;
 	}
 	return false;
-
 }
 
 function display_member_login_message () {
