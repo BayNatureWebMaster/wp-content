@@ -36,7 +36,7 @@ function display_the_next_paragraph( $content_str , $searchFor ) {
 		}
 		else {
 			$content_str = substr($sub_str, $p2);
-			echo "hide this p= ".$the_paragraph;
+			//echo "hide this p= ".$the_paragraph;
 		}
 		
 	}
@@ -54,7 +54,7 @@ function is_valid_paragraph ( $the_paragraph ) {
 	$number_of_sentences = substr_count( $the_paragraph , ".");
 	//echo "p length =".$paragraph_length."<br>";
 	//echo "n sentences=".$number_of_sentences."<br>";
-	if ( 100 >= $paragraph_length && 3 >= $number_of_sentences ) {
+	if ( $minimum_character_count <= $paragraph_length && $mimumm_sentence_count <= $number_of_sentences ) {
 		return true;
 	}
 	return false;
