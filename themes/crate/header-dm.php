@@ -126,7 +126,15 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 			</div>
 		</div>
 
-
+<nav class="utility-nav">
+						<div class="container">
+						<?php  wp_nav_menu( array(
+							'theme_location' => 'utility',
+							'container'	     => 'div',
+						) ); ?>
+					</div>
+					</nav>
+					
 		<div class="primary-nav">
 			<div class="container">
 				<?php // This is the primary nav. ?>
