@@ -105,7 +105,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 					<!--  LRT the following is where the call out box was -->
 					<!--  end -->
 					<nav class="utility-nav">
-						<div class="container">
+						<div class="container" style="height:40px;">
 						<?php  wp_nav_menu( array(
 							'theme_location' => 'utility',
 							'container'	     => 'div',
@@ -127,7 +127,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 		</div>
 
 		<div class="primary-nav">
-			<div class="container" style="height:40px;">
+			<div class="container">
 				<?php // This is the primary nav. ?>
 				<nav class="primary-nav-container" role="navigation" itemscope="itemscope" itemtype="http://schema.org/SiteNavigationElement">
 					<?php wp_nav_menu( array(
