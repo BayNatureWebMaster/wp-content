@@ -104,11 +104,14 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 					</div>
 					<!--  LRT the following is where the call out box was -->
 					<!--  end -->
-					<nav class="utility-nav">
-						<?php  wp_nav_menu( array(
+					<div class="onboard-menu">
+						<nav class="utility-nav">
+							<?php  wp_nav_menu( array(
 							'theme_location' => 'utility',
 							'container'	     => 'false',
-						) ); ?>
+							) ); ?>
+						</nav>
+					</div>
 					<nav class="mobile-nav">
 						<?php  wp_nav_menu( array(
 							'theme_location' => 'mobile',
