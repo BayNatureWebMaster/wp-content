@@ -108,7 +108,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 					<!--  LRT the following is where the call out box was -->
 					<!--  end -->
 					<div class="tagline-and-menu-container">
-						<div style="float:left">
+						<div style="float:left; width:33%;">
 							Nonprofit journalism exploring the San Francisco Bay Area's natural world
 						</div>
 						<div class="onboard-menu">
