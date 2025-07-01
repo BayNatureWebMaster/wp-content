@@ -96,22 +96,29 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 				<div class="header-top">
 
 					<?php // This logo component contains microdata that will produce a generated logo in Google search results. ?>
-					<div>
-					<div itemscope itemtype="http://schema.org/Organization" class="site-logo" style="float:left;">
-						<a itemprop="url" href="<?php echo esc_url( home_url( '/' ) ); ?>" rel="home">
-							<?php echo wp_get_attachment_image( get_field( 'site_logo', 'option' ), 'full', false , array( 'itemprop' => 'logo', 'alt' => 'Logo' ) ); ?>
-							<span class="visuallyhidden"><?php bloginfo( 'name' ); ?></span>
-						</a>
+					<div class="logo-container">
+						<div itemscope itemtype="http://schema.org/Organization" class="site-logo" style="float:left;">
+							<a itemprop="url" href="<?php echo esc_url( home_url( '/' ) ); ?>" rel="home">
+								<?php echo wp_get_attachment_image( get_field( 'site_logo', 'option' ), 'full', false , array( 'itemprop' => 'logo', 'alt' => 'Logo' ) ); ?>
+								<span class="visuallyhidden"><?php bloginfo( 'name' ); ?></span>
+							</a>
+						</div>
 					</div>
+
 					<!--  LRT the following is where the call out box was -->
 					<!--  end -->
-					<div class="onboard-menu">
-						<nav class="utility-nav">
-							<?php  wp_nav_menu( array(
-							'theme_location' => 'utility',
-							'container'	     => 'false',
-							) ); ?>
-						</nav>
+					<div class="tagline-and-menu-container">
+						<div style="float:left">
+							Nonprofit journalism exploring the San Francisco Bay Area's natural world
+						</div>
+						<div class="onboard-menu">
+							<nav class="utility-nav">
+								<?php  wp_nav_menu( array(
+								'theme_location' => 'utility',
+								'container'	     => 'false',
+								) ); ?>
+							</nav>
+						</div>
 					</div>
 				</div>
 					<nav class="mobile-nav">
