@@ -120,7 +120,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 							</nav>
 						</div>
 					</div>
-				</div>
 					<nav class="mobile-nav">
 						<?php  wp_nav_menu( array(
 							'theme_location' => 'mobile',
