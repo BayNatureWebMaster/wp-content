@@ -96,7 +96,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 				<div class="header-top">
 
 					<?php // This logo component contains microdata that will produce a generated logo in Google search results. ?>
-					<div itemscope itemtype="http://schema.org/Organization" class="site-logo">
+					<div>
+					<div itemscope itemtype="http://schema.org/Organization" class="site-logo" style="float:left;">
 						<a itemprop="url" href="<?php echo esc_url( home_url( '/' ) ); ?>" rel="home">
 							<?php echo wp_get_attachment_image( get_field( 'site_logo', 'option' ), 'full', false , array( 'itemprop' => 'logo', 'alt' => 'Logo' ) ); ?>
 							<span class="visuallyhidden"><?php bloginfo( 'name' ); ?></span>
@@ -112,6 +113,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 							) ); ?>
 						</nav>
 					</div>
+				</div>
 					<nav class="mobile-nav">
 						<?php  wp_nav_menu( array(
 							'theme_location' => 'mobile',
