@@ -141,9 +141,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 				</nav>
 			</div>
 		</div>
-		<div style="float:left; width:100%; padding:1.3rem 1.6rem;">
-			Nonprofit journalism exploring the San Francisco Bay Area's natural world
-		</div>
 	</header>
 
 	<div class="site-content">
