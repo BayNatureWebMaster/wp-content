@@ -58,6 +58,50 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 		visibility: hidden;
 	}
 </style>
+<style>
+
+#menu-utility-menu {
+	display: flex;
+	flex-direction: row;
+}
+.utility-nav {
+	max-width:100%;
+}
+.utility-nav li {
+	margin-left:.4rem;
+	margin-top:.8rem;
+}
+
+.button-clear {
+	display:inline-block; 
+	margin:0; 
+	padding:1.3rem 1.6rem; 
+	min-width:11rem; 
+	border-radidus:0; 
+	background-color:#ffffff!important;
+color: #fff!important;
+text-align: center;
+text-decoration: none;
+text-transform: uppercase;
+letter-spacing: .05rem;
+font-weight: 500;
+font-size: 1.3rem;
+font-family: ff-tisa-sans-web-pro,sans-serif;
+-webkit-transition: all .2s ease; 
+transition: all .2s ease; 
+-webkit-appearance: none; 
+-moz-appearance: none; 
+appearance: none;'
+width='60px'
+}
+
+.tagline-and-menu-container {
+	width:100%;
+}
+.onboard-menu {
+	float:right;
+}
+</style>
 <!-- call wp_head() to do the rest -->
 <?php wp_head(); ?>
 
