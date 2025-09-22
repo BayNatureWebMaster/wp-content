@@ -7,7 +7,7 @@
  * *
  * ****************************************************************/
 
-function was_display_the_next_paragraph( $content_str , $searchFor ) {
+function display_the_next_paragraph( $content_str , $searchFor ) {
 	// find the next <p in the content str
 	//$p1 = strpos( $content_str ,"<p");
 	$p1 = strpos( $content_str , $searchFor);
@@ -20,7 +20,8 @@ function was_display_the_next_paragraph( $content_str , $searchFor ) {
 	return $remaining_str;
 }
 
-function display_the_next_paragraph( $content_str , $searchFor ) {
+// experiment with other method of validating paragraph : not currently used
+function new_display_the_next_paragraph( $content_str , $searchFor ) {
 	// find the next <p in the content str
 	//$p1 = strpos( $content_str ,"<p");
 	while ( strlen ($content_str) > 0) {
@@ -29,15 +30,13 @@ function display_the_next_paragraph( $content_str , $searchFor ) {
 		// find the end of the paragraph
 		$p2 = strpos( $sub_str , "</p>") + 4;
 		$the_paragraph = substr( $sub_str , 0, $p2);
-		echo "what is this =".strcmp($searchFor , '<p class=\"has-drop-cap\">').  $searchFor;
-		if ( is_valid_paragraph( $the_paragraph ) || 0 == strcmp($searchFor , '<p class=\"has-drop-cap\">') ) {
+		if ( is_valid_paragraph( $the_paragraph ) ) {
 			echo $the_paragraph;
 			$remaining_str = substr($sub_str, $p2);
 			return $remaining_str;
 		}
 		else {
 			$content_str = substr($sub_str, $p2);
-			//echo "hide this p= ".$the_paragraph;
 		}
 		
 	}
@@ -45,20 +44,18 @@ function display_the_next_paragraph( $content_str , $searchFor ) {
 	return $content_str;
 }
 
+// experiment with other method of validating paragraph : not currently used
 function is_valid_paragraph ( $the_paragraph ) {
 	// get length
 	$minimum_character_count = get_field("paragraph_validator_minimum_characters" , "option");
 	$mimumm_sentence_count = get_field("paragraph_validator_minimum_sentence_count" , "option");
-	//echo "m c c =".$minimum_character_count;
-	//echo "<br>m s c=".$mimumm_sentence_count."<br>";
+	echo "m c c =".$minimum_character_count;
+	echo "<br>m s c=".$mimumm_sentence_count."<br>";
 	$paragraph_length = strlen( $the_paragraph );
 	$number_of_sentences = substr_count( $the_paragraph , ".");
 	echo "p length =".$paragraph_length."<br>";
-
-	//echo "n sentences=".$number_of_sentences."<br>";
-	//if ( $minimum_character_count <= $paragraph_length && $mimumm_sentence_count < $number_of_sentences ) {
-	if ( $minimum_character_count <= $paragraph_length  ) {
-
+	echo "n sentences=".$number_of_sentences."<br>";
+	if ( 100 < $paragraph_length && 3 < $number_of_sentences ) {
 		return true;
 	}
 	return false;
