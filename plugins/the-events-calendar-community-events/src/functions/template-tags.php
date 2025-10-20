@@ -3,12 +3,10 @@ if ( ! function_exists( 'tribe_is_community_my_events_page' ) ) {
 	/**
 	 * Tests if the current page is the My Events page
 	 *
-	 *
-	 * @since  1.0.1
+	 * @since 1.0.1
 	 * @since 4.10.0 Updated logic to check route, instead of relying on variable.
 	 *
 	 * @return bool whether it is the My Events page.
-	 *
 	 */
 	function tribe_is_community_my_events_page() {
 		$wp_route = get_query_var( 'WP_Route' );
@@ -21,11 +19,10 @@ if ( ! function_exists( 'tribe_is_community_edit_event_page' ) ) {
 	/**
 	 * Tests if the current page is the Edit Event page
 	 *
-	 * @since  1.0.1
+	 * @since 1.0.1
 	 * @since 4.10.0 Updated logic to check route, instead of relying on variable.
 	 *
 	 * @return bool whether it is the Edit Event page.
-	 *
 	 */
 	function tribe_is_community_edit_event_page() {
 		$wp_route = get_query_var( 'WP_Route' );
@@ -37,9 +34,11 @@ if ( ! function_exists( 'tribe_separated_field' ) ) {
 	/**
 	 * Utility function to compile separated lists.
 	 *
+	 * @since 3.1
+	 *
 	 * @param string $body Body.
 	 * @param string $separator Separator.
-	 * @param string $field Fild.
+	 * @param string $field Field.
 	 *
 	 * @return string
 	 */
@@ -52,7 +51,6 @@ if ( ! function_exists( 'tribe_separated_field' ) ) {
 /**
  * Echo the Community form title field
  *
- * @author Peter Chester
  * @since 3.1
  */
 function tribe_community_events_form_title() {
@@ -65,7 +63,6 @@ function tribe_community_events_form_title() {
 /**
  * Echo the Community form content editor
  *
- * @author Peter Chester
  * @since 3.1
  */
 function tribe_community_events_form_content() {
@@ -78,7 +75,6 @@ function tribe_community_events_form_content() {
 /**
  * Echo the Community form image delete button
  *
- * @author Peter Chester
  * @since 3.1
  */
 function tribe_community_events_form_image_delete() {
@@ -91,7 +87,6 @@ function tribe_community_events_form_image_delete() {
 /**
  * Echo the Community form image preview
  *
- * @author Peter Chester
  * @since 3.1
  */
 function tribe_community_events_form_image_preview() {
@@ -104,7 +99,6 @@ function tribe_community_events_form_image_preview() {
 /**
  * Echo the Community form currency symbol
  *
- * @author Peter Chester
  * @since 3.1
  */
 function tribe_community_events_form_currency_symbol() {
@@ -121,6 +115,10 @@ function tribe_community_events_form_currency_symbol() {
 
 /**
  * Return URL for adding a new event.
+ *
+ * @since 3.1
+ *
+ * @return string The URL for adding a new event.
  */
 function tribe_community_events_add_event_link() {
 	/** @var Tribe__Events__Community__Main $community */
@@ -133,6 +131,10 @@ function tribe_community_events_add_event_link() {
 
 /**
  * Return URL for listing events.
+ *
+ * @since 3.1
+ *
+ * @return string The URL for listing events.
  */
 function tribe_community_events_list_events_link() {
 	/** @var Tribe__Events__Community__Main $community */
@@ -145,6 +147,12 @@ function tribe_community_events_list_events_link() {
 
 /**
  * Return URL for editing an event.
+ *
+ * @since 3.1
+ *
+ * @param int|null $event_id The event ID.
+ *
+ * @return string The URL for editing an event.
  */
 function tribe_community_events_edit_event_link( $event_id = null ) {
 	/** @var Tribe__Events__Community__Main $community */
@@ -157,6 +165,12 @@ function tribe_community_events_edit_event_link( $event_id = null ) {
 
 /**
  * Return URL for deleting an event.
+ *
+ * @since 3.1
+ *
+ * @param int|null $event_id The event ID.
+ *
+ * @return string The URL for deleting an event.
  */
 function tribe_community_events_delete_event_link( $event_id = null ) {
 	/** @var Tribe__Events__Community__Main $community */
@@ -170,10 +184,10 @@ function tribe_community_events_delete_event_link( $event_id = null ) {
 /**
  * Return the event start date on the Community submission form with a default of today.
  *
- * @param null|int $event_id
- * @return string event date
- * @author Peter Chester
  * @since 3.1
+ *
+ * @param int|null $event_id The event ID.
+ * @return string event date
  */
 function tribe_community_events_get_start_date( $event_id = null ) {
 	$event_id          = Tribe__Events__Main::postIdHelper( $event_id );
@@ -195,10 +209,10 @@ function tribe_community_events_get_start_date( $event_id = null ) {
 /**
  * Return the event end date on the Community submission form with a default of today.
  *
- * @param null|int $event_id
- * @return string event date
- * @author Peter Chester
  * @since 3.1
+ *
+ * @param int|null $event_id The event ID.
+ * @return string event date
  */
 function tribe_community_events_get_end_date( $event_id = null ) {
 	$event_id          = Tribe__Events__Main::postIdHelper( $event_id );
@@ -220,10 +234,10 @@ function tribe_community_events_get_end_date( $event_id = null ) {
 /**
  * Return true if event is an all day event.
  *
- * @param null|int $event_id
- * @return bool event date
- * @author Peter Chester
  * @since 3.1
+ *
+ * @param int|null $event_id The event ID.
+ * @return bool event date
  */
 function tribe_community_events_is_all_day( $event_id = null ) {
 	$event_id = Tribe__Events__Main::postIdHelper( $event_id );
@@ -235,10 +249,10 @@ function tribe_community_events_is_all_day( $event_id = null ) {
 /**
  * Return form select fields for event start time.
  *
- * @param null|int $event_id
- * @return string time select HTML
- * @author Peter Chester
  * @since 3.1
+ *
+ * @param int|null $event_id The event ID.
+ * @return string time select HTML
  */
 function tribe_community_events_form_start_time_selector( $event_id = null ) {
 
@@ -267,10 +281,10 @@ function tribe_community_events_form_start_time_selector( $event_id = null ) {
 /**
  * Return form select fields for event end time.
  *
- * @param null|int $event_id
- * @return string time select HTML
- * @author Peter Chester
  * @since 3.1
+ *
+ * @param int|null $event_id The event ID.
+ * @return string time select HTML
  */
 function tribe_community_events_form_end_time_selector( $event_id = null ) {
 
@@ -298,9 +312,9 @@ function tribe_community_events_form_end_time_selector( $event_id = null ) {
 /**
  * Get the error or notice messages for a given form result.
  *
- * @return string error/notice HTML
- * @author Peter Chester
  * @since 3.1
+ *
+ * @return string error/notice HTML
  */
 function tribe_community_events_get_messages() {
 	/** @var Tribe__Events__Community__Main $community */
@@ -314,9 +328,9 @@ function tribe_community_events_get_messages() {
 /**
  * Echo Organizer edit form contents
  *
- * @param int|null $organizer_id (optional)
- * @author Peter Chester
  * @since 3.1
+ *
+ * @param int|null $organizer_id The organizer ID.
  */
 function tribe_community_events_organizer_edit_form( $organizer_id = null ) {
 	if ( $organizer_id ) {
@@ -347,9 +361,9 @@ function tribe_community_events_organizer_edit_form( $organizer_id = null ) {
 /**
  * Echo Organizer select menu
  *
- * @param int|null $event_id (optional)
- * @author Peter Chester
  * @since 3.1
+ *
+ * @param int|null $event_id The event ID.
  */
 function tribe_community_events_organizer_select_menu( $event_id = null ) {
 	if ( ! $event_id ) {
@@ -366,10 +380,10 @@ function tribe_community_events_organizer_select_menu( $event_id = null ) {
 /**
  * Test to see if this is the Organizer edit screen
  *
- * @param int|null $organizer_id (optional)
- * @return bool
- * @author Peter Chester
  * @since 3.1
+ *
+ * @param int|null $organizer_id The organizer ID.
+ * @return bool
  */
 function tribe_community_events_is_organizer_edit_screen( $organizer_id = null ) {
 	$organizer_id = Tribe__Events__Main::postIdHelper( $organizer_id );
@@ -380,10 +394,10 @@ function tribe_community_events_is_organizer_edit_screen( $organizer_id = null )
 /**
  * Return Organizer Description
  *
- * @param int|null $organizer_id (optional)
- * @return string
- * @author Peter Chester
  * @since 3.1
+ *
+ * @param int|null $organizer_id The organizer ID.
+ * @return string
  */
 function tribe_community_events_get_organizer_description( $organizer_id = null ) {
 	$organizer_id = tribe_get_organizer_id( $organizer_id );
@@ -396,9 +410,9 @@ function tribe_community_events_get_organizer_description( $organizer_id = null 
 /**
  * Echo Venue edit form contents
  *
- * @param int|null $venue_id (optional)
- * @author Peter Chester
  * @since 3.1
+ *
+ * @param int|null $venue_id The venue ID.
  */
 function tribe_community_events_venue_edit_form( $venue_id = null ) {
 	if ( $venue_id ) {
@@ -430,9 +444,9 @@ function tribe_community_events_venue_edit_form( $venue_id = null ) {
 /**
  * Echo Venue select menu
  *
- * @param int|null $event_id (optional)
- * @author Peter Chester
  * @since 3.1
+ *
+ * @param int|null $event_id The event ID.
  */
 function tribe_community_events_venue_select_menu( $event_id = null ) {
 	if ( ! $event_id ) {
@@ -451,9 +465,9 @@ function tribe_community_events_venue_select_menu( $event_id = null ) {
 /**
  * Echo Series select menu
  *
- * @param int|null $event_id (optional)
- *
  * @since 4.10.0
+ *
+ * @param int|null $event_id The event ID.
  */
 function tribe_community_events_series_select_menu( $event_id = null ) {
 
@@ -481,10 +495,10 @@ function tribe_community_events_series_select_menu( $event_id = null ) {
 /**
  * Test to see if this is the Venue edit screen
  *
- * @param int|null $venue_id (optional)
- * @return bool
- * @author Peter Chester
  * @since 3.1
+ *
+ * @param int|null $venue_id The venue ID.
+ * @return bool
  */
 function tribe_community_events_is_venue_edit_screen( $venue_id = null ) {
 	$venue_id = Tribe__Events__Main::postIdHelper( $venue_id );
@@ -494,10 +508,10 @@ function tribe_community_events_is_venue_edit_screen( $venue_id = null ) {
 /**
  * Return Venue Description
  *
- * @param int|null $venue_id (optional)
- * @return string
- * @author Peter Chester
  * @since 3.1
+ *
+ * @param int|null $venue_id The venue ID.
+ * @return string
  */
 function tribe_community_events_get_venue_description( $venue_id = null ) {
 	$venue_id = tribe_get_venue_id( $venue_id );
@@ -508,10 +522,10 @@ function tribe_community_events_get_venue_description( $venue_id = null ) {
 /**
  * Event Website URL
  *
- * @param null|object|int $event
- * @return string The event's website URL
+ * @since 3.1
  * @deprecated 4.10.11 Use tribe_get_event_website_url().
  *
+ * @return string The event's website URL
  */
 function tribe_community_get_event_website_url( $event = null ) {
 	_deprecated_function(
@@ -537,9 +551,13 @@ function tribe_community_events_logout_url() {
 }
 
 /**
- * @param string $field
+ * Check if a field is required
  *
- * @return bool
+ * @since 3.1
+ *
+ * @param string $field The field name.
+ *
+ * @return bool Whether the field is required.
  */
 function tribe_community_is_field_required( $field ) {
 	/** @var Tribe__Events__Community__Main $community */
@@ -548,6 +566,15 @@ function tribe_community_is_field_required( $field ) {
 	return in_array( $field, $community->required_fields_for_submission(), true );
 }
 
+/**
+ * Check if a field group is required
+ *
+ * @since 3.1
+ *
+ * @param string $field The field name.
+ *
+ * @return bool Whether the field group is required.
+ */
 function tribe_community_is_field_group_required( $field ) {
 	/** @var Tribe__Events__Community__Main $community */
 	$community = tribe( 'community.main' );
@@ -556,9 +583,13 @@ function tribe_community_is_field_group_required( $field ) {
 }
 
 /**
- * @param string $field
+ * Return the required field marker
  *
- * @return string
+ * @since 3.1
+ *
+ * @param string $field The field name.
+ *
+ * @return string The required field marker.
  */
 function tribe_community_required_field_marker( $field ) {
 	if ( tribe_community_is_field_required( $field ) || tribe_community_is_field_group_required( $field ) ) {
@@ -569,12 +600,12 @@ function tribe_community_required_field_marker( $field ) {
 }
 
 /**
- * Community field label.
+ * Echo the field label
+ *
+ * @since 3.1
  *
  * @param string $field The field name.
- * @param string $text  The field label.
- *
- * @return void
+ * @param string $text The field label text.
  */
 function tribe_community_events_field_label( $field, $text ) {
 	$label_text = apply_filters( 'tribe_community_events_field_label_text', $text, $field );
@@ -651,23 +682,24 @@ function tribe_community_events_field_classes( $field, $classes = [], $echo = tr
 }
 
 /**
- * Check if the community event field has error.
+ * Check if a field has an error
  *
  * @since 4.7.1
  *
  * @param string $field The field name.
  *
- * @return boolean
+ * @return bool Whether the field has an error.
  */
 function tribe_community_events_field_has_error( $field ) {
 	return apply_filters( 'tribe_community_events_field_has_error', false, $field );
 }
 
 /**
- * Indicates if single geography mode is enabled (this typically implies there
- * is no need for country, state/province or timezone options).
+ * Check if single geo mode is enabled
  *
- * @return boolean
+ * @since 4.7.1
+ *
+ * @return bool Whether single geo mode is enabled.
  */
 function tribe_community_events_single_geo_mode() {
 	/** @var Tribe__Events__Community__Main $community */
@@ -690,7 +722,9 @@ function tribe_community_events_single_geo_mode() {
  *
  * @since 4.3
  *
- * @param WP_Post|int $event Either the `WP_Post` event object or the event post `ID`
+ * @param WP_Post|int $event Either the `WP_Post` event object or the event post `ID`.
+ *
+ * @return bool Whether the event is a community event.
  */
 function tribe_community_events_is_community_event( $event ) {
 	$event_id = Tribe__Main::post_id_helper( $event );
@@ -736,10 +770,10 @@ function tribe_community_events_list_columns() {
 }
 
 /**
- * Buttons for toggling future or past events
+ * Echo the previous/next navigation
  *
  * @since 4.5
- * @since 5.0.0 refactored method to allow for `tribe_community_events_show_prev_next_nav` which allows for hiding the buttons.
+ * @since 5.0.0 Refactored method to allow for `tribe_community_events_show_prev_next_nav` which allows for hiding the buttons.
  */
 function tribe_community_events_prev_next_nav() {
 	/**
@@ -794,11 +828,11 @@ function tribe_community_events_prev_next_nav() {
 
 if ( ! function_exists( 'tribe_community_tickets_is_frontend_attendees_report' ) ) {
 	/**
-	 * A handy function for knowing if we're on a front-end Attendees Report.
+	 * Check if we're on a front-end Attendees Report
 	 *
 	 * @since 4.10.17
 	 *
-	 * @return boolean
+	 * @return bool Whether we're on a front-end Attendees Report.
 	 */
 	function tribe_community_tickets_is_frontend_attendees_report() {
 		$wp_route = get_query_var( 'WP_Route' );
@@ -809,11 +843,11 @@ if ( ! function_exists( 'tribe_community_tickets_is_frontend_attendees_report' )
 
 if ( ! function_exists( 'tribe_community_tickets_is_frontend_sales_report' ) ) {
 	/**
-	 * A handy function for knowing if we're on a front-end Sales Report.
+	 * Check if we're on a front-end Sales Report
 	 *
 	 * @since 4.10.17
 	 *
-	 * @return boolean
+	 * @return bool Whether we're on a front-end Sales Report.
 	 */
 	function tribe_community_tickets_is_frontend_sales_report() {
 		$wp_route = get_query_var( 'WP_Route' );
@@ -827,9 +861,9 @@ if ( ! function_exists( 'tribe_community_tickets_is_frontend_sales_report' ) ) {
  *
  * @since 4.10.17
  *
- * @param string $repository The slug of the repository to build/return.
+ * @param string $repository The repository name.
  *
- * @return \Tribe\Community\Tickets\Repositories\Payout
+ * @return \Tribe\Community\Tickets\Repositories\Payout The payouts repository.
  */
 function tribe_payouts( $repository = 'default' ) {
 	$map = [
@@ -847,4 +881,118 @@ function tribe_payouts( $repository = 'default' ) {
 	$map = apply_filters( 'tribe_community_tickets_payout_repository_map', $map, $repository );
 
 	return tribe( Tribe__Utils__Array::get( $map, $repository, $map['default'] ) );
+}
+
+/**
+ * Return the base event label
+ *
+ * @since 5.0.7
+ *
+ * @return string The base event label.
+ */
+function tec_events_community_event_label() {
+	/**
+	 * Filter the base event label.
+	 *
+	 * @since 5.0.7
+	 *
+	 * @param string $label The base event label.
+	 */
+	return apply_filters( 'tec_events_community_event_label', __( 'Event', 'tribe-events-community' ) );
+}
+
+/**
+ * Return the singular event label
+ *
+ * @since 5.0.7
+ *
+ * @return string The singular event label.
+ */
+function tec_events_community_event_label_singular() {
+	/**
+	 * Filter the singular event label.
+	 *
+	 * @since 5.0.7
+	 *
+	 * @param string $label The singular event label.
+	 */
+	return apply_filters( 'tec_events_community_event_label_singular', tec_events_community_event_label() );
+}
+
+/**
+ * Return the singular lowercase event label
+ *
+ * @since 5.0.7
+ *
+ * @return string The singular lowercase event label.
+ */
+function tec_events_community_event_label_singular_lowercase() {
+	/**
+	 * Filter the singular lowercase event label.
+	 *
+	 * @since 5.0.7
+	 *
+	 * @param string $label The singular lowercase event label.
+	 */
+	return apply_filters( 'tec_events_community_event_label_singular_lowercase', __( 'event', 'tribe-events-community' ) );
+}
+
+/**
+ * Return the plural event label
+ *
+ * @since 5.0.7
+ *
+ * @return string The plural event label.
+ */
+function tec_events_community_event_label_plural() {
+	/**
+	 * Filter the plural event label.
+	 *
+	 * @since 5.0.7
+	 *
+	 * @param string $label The plural event label.
+	 */
+	return apply_filters( 'tec_events_community_event_label_plural', __( 'Events', 'tribe-events-community' ) );
+}
+
+/**
+ * Return the plural lowercase event label
+ *
+ * @since 5.0.7
+ *
+ * @return string The plural lowercase event label.
+ */
+function tec_events_community_event_label_plural_lowercase() {
+	/**
+	 * Filter the plural lowercase event label.
+	 *
+	 * @since 5.0.7
+	 *
+	 * @param string $label The plural lowercase event label.
+	 */
+	return apply_filters( 'tec_events_community_event_label_plural_lowercase', __( 'events', 'tribe-events-community' ) );
+}
+
+/**
+ * Return the event label in the specified case
+ *
+ * @since 5.0.7
+ *
+ * @param string $variant The case to return the label in.
+ *
+ * @return string The event label in the specified case.
+ */
+function tec_events_community_get_event_label( $variant = 'singular' ) {
+	switch ( $variant ) {
+		case 'singular':
+			return tec_events_community_event_label_singular();
+		case 'singular_lowercase':
+			return tec_events_community_event_label_singular_lowercase();
+		case 'plural':
+			return tec_events_community_event_label_plural();
+		case 'plural_lowercase':
+			return tec_events_community_event_label_plural_lowercase();
+		default:
+			return tec_events_community_event_label_singular();
+	}
 }

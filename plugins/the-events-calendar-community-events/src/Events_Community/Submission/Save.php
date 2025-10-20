@@ -162,7 +162,7 @@ class Save {
 		// translators: %s is the event type.
 		$saved_message    = sprintf( __( '%s updated.', 'tribe-events-community' ), $events_label_singular );
 		$saved_event_link = $this->community->get_view_edit_links( $this->event_id );
-		$message_string   = "{$saved_message} {$saved_event_link}";
+		$message_string   = "<span>{$saved_message}</span> {$saved_event_link}";
 
 		// Add the success message.
 		$this->messages->add_message( $message_string, 'success' );

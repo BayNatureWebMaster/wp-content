@@ -3,11 +3,13 @@
 namespace TEC\Events_Community\Callbacks\Listing;
 
 use TEC\Events_Community\Callbacks\Abstract_Callback;
+use TEC\Events_Community\Listing\Pagination;
+use WP_Query;
 
 /**
  * Class Callback_Listing
  *
- * @4.10.14
+ * @since 4.10.14
  *
  * @package TEC\Events_Community\Callbacks\Listing
  */
@@ -102,37 +104,29 @@ class Callback_Listing extends Abstract_Callback {
 	 * Return the HTML that will be displayed when the callback() is called.
 	 *
 	 * @since 4.10.16 Fixed the $paged variable not being overwritten correctly.
+	 * @since 5.0.10 Implemented new pagination class.
 	 *
 	 * @return string
 	 */
 	public function display_events() {
-
 		global $paged;
 
-		if ( empty( $paged ) ) {
-			$paged = $this->get_page_args( 'listPage' );
-		}
+		$current_page = (int) ( $paged ?: $this->get_page_args( 'listPage' ) ?: 1 );
+		$events       = $this->get_events( $current_page );
 
-		$paged = empty( $paged ) ? 1 : $paged;
+		$template = $this->get_page_args( 'shortcode' )
+			? 'community/event-list-shortcode'
+			: 'community/event-list';
 
-		$events = $this->get_events( $paged );
-
-		$shortcode = $this->get_page_args( 'shortcode' );
-
-		$template = 'community/event-list';
-
-		// If shortcode, load our shortcode template.
-		if ( $shortcode ) {
-			$template = 'community/event-list-shortcode';
-		}
+		$pagination = $this->build_pagination( $events, $current_page );
 
 		$args = [
-			'events' => $events,
-			'paged'  => $paged
+			'events'     => $events,
+			'paged'      => $current_page,
+			'pagination' => $pagination,
 		];
 
 		return $this->display_template( $template, $args );
-
 	}
 
 	/**
@@ -156,4 +150,43 @@ class Callback_Listing extends Abstract_Callback {
 		return $this->display_events();
 	}
 
+	/**
+	 * Build the pagination view-model for the current listing.
+	 *
+	 * @since 5.0.10
+	 *
+	 * @param WP_Query $events       Query used to compute total pages.
+	 * @param int      $current_page Current page (1-based).
+	 *
+	 * @return Pagination|null Null when there is only one page.
+	 */
+	protected function build_pagination( WP_Query $events, int $current_page ): ?Pagination {
+		$community_events = tribe( 'community.main' );
+		$total_pages      = $events->max_num_pages;
+
+		// Nothing to paginate.
+		if ( $total_pages <= 1 ) {
+			return null;
+		}
+
+		$url_resolver = function ( int $page ) use ( $community_events ): string {
+			return $community_events->fix_pagenum_link_with_query_vars(
+				get_pagenum_link( $page )
+			);
+		};
+
+		// phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
+		$pagination_range = (int) $community_events->paginationRange;
+
+		/** @var Pagination $pagination */
+		$pagination = tribe( Pagination::class );
+		$pagination->create_pagination(
+			$total_pages,
+			max( 1, $current_page ),
+			$url_resolver,
+			$pagination_range
+		);
+
+		return $pagination;
+	}
 }

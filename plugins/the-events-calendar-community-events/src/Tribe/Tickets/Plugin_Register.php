@@ -33,6 +33,7 @@ class  Tribe__Events__Community__Tickets__Plugin_Register extends Tribe__Abstrac
 	 * Constructor method.
 	 *
 	 * @since 5.0.0 Migrated to Community from Community Tickets.
+	 * @since 5.0.7 switched to using `tec_tickets_fully_loaded` instead of `tribe_tickets_plugin_loaded`.
 	 */
 	public function __construct() {
 		// @todo If we'll need this class, need to evaluate base_dir usage.
@@ -40,7 +41,7 @@ class  Tribe__Events__Community__Tickets__Plugin_Register extends Tribe__Abstrac
 		$this->version  = Tribe__Events__Community__Tickets__Main::VERSION;
 
 		// If ET isn't loaded, then we don't want to register Community Tickets logic.
-		if ( ! did_action( 'tribe_tickets_plugin_loaded' ) ) {
+		if ( ! did_action( 'tec_tickets_fully_loaded' ) ) {
 			return;
 		}
 

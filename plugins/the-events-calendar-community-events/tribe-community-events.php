@@ -3,8 +3,8 @@
  * Plugin Name: The Events Calendar: Community
  * Plugin URI:  https://evnt.is/1acd
  * Description: Community is an add-on providing additional functionality to the open source plugin The Events Calendar. Empower users to submit and manage their events on your website. <a href="https://theeventscalendar.com/products/community-events/?utm_campaign=in-app&utm_source=docblock&utm_medium=plugin-community">Check out the full feature list</a>. Need more features? Peruse our selection of <a href="https://theeventscalendar.com/products/?utm_campaign=in-app&utm_source=docblock&utm_medium=plugin-community" target="_blank">plugins</a>.
- * Version: 5.0.5.1
- * Requires at least: 6.3
+ * Version: 5.0.12
+ * Requires at least: 6.6
  * Requires PHP: 7.4
  * Author:      The Events Calendar
  * Author URI:  https://evnt.is/1aor
@@ -13,8 +13,9 @@
  * License:     GPLv2 or later
  * License URI: https://www.gnu.org/licenses/gpl-2.0.html
  * WC requires at least: 7.1
- * WC tested up to: 9.1.2
+ * WC tested up to: 9.8.5
  */
+
 
 /*
 Copyright 2011-2024 by The Events Calendar and the contributors
@@ -151,6 +152,7 @@ function tribe_community_init() {
  *
  * @since 4.6
  * @since 5.0.0 changed logic to check for `Tribe__Main`.
+ * @since 5.0.10 Added the `tec_events_community_fully_loaded` action hook.
  *
  * @return bool
  */
@@ -170,6 +172,13 @@ function tribe_community_events_init() {
 	}
 
 	tribe_community_events_load();
+
+	/**
+	 * Fires when Community is fully loaded.
+	 *
+	 * @since 5.0.10
+	 */
+	do_action( 'tec_events_community_fully_loaded' );
 
 	return true;
 }
@@ -195,7 +204,10 @@ function tribe_community_events_load( $no_tec_mode = false ) {
 
 	new Tribe__Events__Community__PUE( EVENTS_COMMUNITY_FILE );
 
-	tribe_singleton( 'community.main', new Tribe__Events__Community__Main( ! $no_tec_mode ) );
+	$main = new Tribe__Events__Community__Main( ! $no_tec_mode );
+	tribe_singleton( 'community.main', $main );
+	tribe_singleton( Tribe__Events__Community__Main::class, $main );
+
 	tribe_singleton( 'community.templates', new Tribe__Events__Community__Templates() );
 
 	add_action( 'admin_init', [ 'Tribe__Events__Community__Schema', 'init' ] );

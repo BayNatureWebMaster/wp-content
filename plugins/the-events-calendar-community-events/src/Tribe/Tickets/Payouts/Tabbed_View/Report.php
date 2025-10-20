@@ -179,7 +179,7 @@ class Report {
 
 		$page_title         = __( 'Payouts', 'tribe-events-community' );
 		$this->payouts_page = add_submenu_page(
-			null,
+			'',
 			$page_title,
 			$page_title,
 			$cap,

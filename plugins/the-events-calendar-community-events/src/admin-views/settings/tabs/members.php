@@ -3,6 +3,7 @@
  * The Members settings tab.
  *
  * @since 5.0.4
+ * @since 5.0.10 Added a div container to the "My Events" header for style consistency.
  */
 
 $trash_vs_delete_options = [
@@ -48,7 +49,11 @@ $tec_events_community_members_fields = [
 	],
 	'tec-events-community-settings-my-events-title' => [
 		'type' => 'html',
-		'html' => '<h3 id="tec-events-community-settings-my-events" class="tec-settings-form__section-header tec-settings-form__section-header--sub">' . esc_html__( 'My Events', 'tribe-events-community' ) . '</h3>',
+		'html' => '<div class="tec-settings-form__header-block tec-settings-form__element--rowspan-2">'
+			. '<h3 id="tec-events-community-settings-my-events" class="tec-settings-form__section-header tec-settings-form__section-header--sub">'
+			. esc_html__( 'My Events', 'tribe-events-community' )
+			. '</h3>'
+			. '</div>',
 	],
 	'eventsPerPage'                                 => [
 		'type'            => 'text',

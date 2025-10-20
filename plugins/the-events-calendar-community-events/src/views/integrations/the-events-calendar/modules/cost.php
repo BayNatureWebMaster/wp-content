@@ -20,9 +20,9 @@ defined( 'WPINC' ) or die;
  * @version 5.0.4
  */
 
-$events_label_singular         = tribe_get_event_label_singular();
-$events_label_plural           = tribe_get_event_label_plural();
-$events_label_plural_lowercase = tribe_get_event_label_plural_lowercase();
+$events_label_singular         = tec_events_community_event_label_singular();
+$events_label_plural           = tec_events_community_event_label_plural();
+$events_label_plural_lowercase = tec_events_community_event_label_plural_lowercase();
 $show_cost_on_community        = apply_filters( 'tribe_events_community_display_cost_section', true );
 
 if ( ! $show_cost_on_community ) {

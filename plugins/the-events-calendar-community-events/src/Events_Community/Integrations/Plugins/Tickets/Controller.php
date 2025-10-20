@@ -24,9 +24,11 @@ class Controller extends Plugin_Integration_Abstract {
 
 	/**
 	 * @inheritDoc
+	 *
+	 * @since 5.0.7 switched to using `tec_tickets_fully_loaded` instead of `tribe_tickets_plugin_loaded`.
 	 */
 	public function load_conditionals(): bool {
-		return did_action( 'tribe_tickets_plugin_loaded' );
+		return did_action( 'tec_tickets_fully_loaded' );
 	}
 
 	/**

@@ -1,0 +1,1 @@
+(()=>{const t=window.tribe_events_community_tickets||{};window.tribe_events_community_tickets=t,function(t,i){"use strict";i.init=function(){t(".wp-list-table").wrap('<div class="tribe-scrollable-table"/>')},t(i.init)}(jQuery,t),window.tec=window.tec||{},window.tec.community=window.tec.community||{},window.tec.community.eventsCommunityTickets={}})();

@@ -1,9 +1,9 @@
 <?php return array(
     'root' => array(
         'name' => 'the-events-calendar/events-pro',
-        'pretty_version' => 'dev-master',
-        'version' => 'dev-master',
-        'reference' => 'e6ca435e597e5f57de67e5a94bc97f57f561d49d',
+        'pretty_version' => 'dev-release/T25.krypto',
+        'version' => 'dev-release/T25.krypto',
+        'reference' => 'e1237d268f298ca1e48f5bf88ad79abb4ceae225',
         'type' => 'wordpress-plugin',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -29,9 +29,9 @@
             'dev_requirement' => false,
         ),
         'the-events-calendar/events-pro' => array(
-            'pretty_version' => 'dev-master',
-            'version' => 'dev-master',
-            'reference' => 'e6ca435e597e5f57de67e5a94bc97f57f561d49d',
+            'pretty_version' => 'dev-release/T25.krypto',
+            'version' => 'dev-release/T25.krypto',
+            'reference' => 'e1237d268f298ca1e48f5bf88ad79abb4ceae225',
             'type' => 'wordpress-plugin',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),

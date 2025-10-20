@@ -45,7 +45,7 @@ class  Tribe__Events__Community__Plugin_Register extends Tribe__Abstract_Plugin_
 	 *
 	 * @var string
 	 */
-	public static string $minimum_et_version = '5.13.4-dev';
+	public static string $minimum_et_version = '5.23.0-dev';
 
 	/**
 	 * Constructor method.
@@ -72,11 +72,12 @@ class  Tribe__Events__Community__Plugin_Register extends Tribe__Abstract_Plugin_
 	 * it indicates a dependency on TEC. Community Events requires at least
 	 * a minimum of Common version 6.0.
 	 *
-	 * If the `tribe_tickets_plugin_loaded` action has been fired,
+	 * If the `tec_tickets_fully_loaded` action has been fired,
 	 * it indicates a dependency on ET. Community Events requires at least
 	 * a minimum of Common version 6.0.
 	 *
 	 * @since 5.0.0
+	 * @since 5.0.7 switched to using `tec_tickets_fully_loaded` instead of `tribe_tickets_plugin_loaded`.
 	 *
 	 * @param $dependencies array $dependencies An array of dependencies for the plugins. These can include parent, add-on and other dependencies.
 	 *
@@ -84,7 +85,7 @@ class  Tribe__Events__Community__Plugin_Register extends Tribe__Abstract_Plugin_
 	 */
 	public function find_dependent_plugins( $dependencies ): array {
 		// Check if Event Tickets (ET) dependency exists.
-		if ( did_action( 'tribe_tickets_plugin_loaded' ) ) {
+		if ( did_action( 'tec_tickets_fully_loaded' ) ) {
 			// ET version 5.13.0 uses a minimum of Common version 6.0.
 			$dependencies['parent-dependencies']['Tribe__Tickets__Main'] = self::$minimum_et_version;
 		}

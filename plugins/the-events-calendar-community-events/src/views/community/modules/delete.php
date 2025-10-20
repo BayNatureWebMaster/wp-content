@@ -25,7 +25,15 @@ $current_user = wp_get_current_user(); ?>
 </div>
 
 <div id="my-events">
-	<a href="<?php echo esc_url( tribe_community_events_list_events_link() ); ?>" class="button"><?php printf( __( 'My %s', 'tribe-events-community' ), tribe_get_event_label_plural() ); ?></a>
+	<a href="<?php echo esc_url( tribe_community_events_list_events_link() ); ?>" class="button">
+		<?php
+		printf(
+		/* translators: %s: Event label plural. */
+			esc_html__( 'My %s', 'tribe-events-community' ),
+			esc_html( tec_events_community_event_label_plural() )
+		);
+		?>
+	</a>
 </div>
 
 <div id="not-user">

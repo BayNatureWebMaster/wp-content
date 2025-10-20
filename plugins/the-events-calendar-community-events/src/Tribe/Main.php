@@ -1,9 +1,12 @@
 <?php
+// phpcs:disable WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
 
 // Don't load directly.
+use TEC\Events_Community\Listing\Pagination;
 use TEC\Events_Community\Settings\Default_Settings_Strategy;
 use TEC\Events_Community\Submission\Messages;
 use Automattic\WooCommerce\Utilities\FeaturesUtil;
+use TEC\Common\StellarWP\Assets\Config as Assets_Config;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	die( '-1' );
@@ -20,14 +23,12 @@ if ( ! class_exists( 'Tribe__Events__Community__Main' ) ) {
 	class Tribe__Events__Community__Main {
 
 		/**
-		 * The current version of Community
+		 * The current version of Community.
 		 */
-		const VERSION = '5.0.5.1';
-
-
+		const VERSION = '5.0.12';
 
 		/**
-		 * Singleton instance variable
+		 * Singleton instance variable.
 		 *
 		 * @var object
 		 */
@@ -41,14 +42,14 @@ if ( ! class_exists( 'Tribe__Events__Community__Main' ) ) {
 		protected $should_print_before_after_html = true;
 
 		/**
-		 * Loadscripts or not
+		 * Load scripts or not.
 		 *
 		 * @var bool
 		 */
 		private $loadScripts = false;
 
 		/**
-		 * plugin options
+		 * Plugin options.
 		 *
 		 * @var array
 		 */
@@ -62,42 +63,42 @@ if ( ! class_exists( 'Tribe__Events__Community__Main' ) ) {
 		protected static $tec_installed;
 
 		/**
-		 * this plugin's directory
+		 * This plugin's directory.
 		 *
 		 * @var string
 		 */
 		public $pluginDir;
 
 		/**
-		 * this plugin's path
+		 * This plugin's path.
 		 *
 		 * @var string
 		 */
 		public $pluginPath;
 
 		/**
-		 * this plugin's url
+		 * This plugin's url.
 		 *
 		 * @var string
 		 */
 		public $pluginUrl;
 
 		/**
-		 * this plugin's slug
+		 * This plugin's slug.
 		 *
 		 * @var string
 		 */
 		public $pluginSlug;
 
 		/**
-		 * tribe url (used for calling the mothership)
+		 * Tribe url (used for calling the mothership).
 		 *
 		 * @var string
 		 */
 		public static $tribeUrl = 'http://tri.be/';
 
 		/**
-		 * default event status
+		 * Default event status.
 		 *
 		 * @var string
 		 */
@@ -109,6 +110,42 @@ if ( ! class_exists( 'Tribe__Events__Community__Main' ) ) {
 		 * @var bool
 		 */
 		public $allowAnonymousSubmissions;
+
+		/**
+		 * Setting to prevent new venue creation.
+		 *
+		 * @since 5.0.10
+		 *
+		 * @var bool
+		 */
+		public $prevent_new_venues;
+
+		/**
+		 * Setting for the default venue ID.
+		 *
+		 * @since 5.0.10
+		 *
+		 * @var int
+		 */
+		public $default_community_venue_id;
+
+		/**
+		 * Setting to prevent new organizer creation.
+		 *
+		 * @since 5.0.10
+		 *
+		 * @var bool
+		 */
+		public $prevent_new_organizers;
+
+		/**
+		 * Setting for the default organizer ID.
+		 *
+		 * @since 5.0.10
+		 *
+		 * @var int
+		 */
+		public $default_community_organizer_id;
 
 		/**
 		 * Setting to allow editing submissions.
@@ -125,56 +162,56 @@ if ( ! class_exists( 'Tribe__Events__Community__Main' ) ) {
 		public $allowUsersToDeleteSubmissions;
 
 		/**
-		 * setting to trash items instead of permanent delete
+		 * Setting to trash items instead of permanent delete.
 		 *
 		 * @var bool
 		 */
 		public $trashItemsVsDelete;
 
 		/**
-		 * setting to use visual editor
+		 * Setting to use visual editor.
 		 *
 		 * @var bool
 		 */
 		public $useVisualEditor;
 
 		/**
-		 * setting to control # of events per page
+		 * Setting to control the number of events per page.
 		 *
 		 * @var int
 		 */
 		public $eventsPerPage;
 
 		/**
-		 * setting for pagination range
+		 * Setting for pagination range.
 		 *
 		 * @var string
 		 */
 		public $paginationRange;
 
 		/**
-		 * message to be displayed to the user
+		 * Message to be displayed to the user.
 		 *
 		 * @var array
 		 */
 		public $messages;
 
 		/**
-		 * the type of the message (error, notice, etc.)
+		 * The type of the message (error, notice, etc.).
 		 *
 		 * @var string
 		 */
 		public $messageType;
 
 		/**
-		 * the rewrite slug to use
+		 * The rewrite slug to use.
 		 *
 		 * @var string
 		 */
 		public $communityRewriteSlug;
 
 		/**
-		 * Array of rewrite slugs for different components
+		 * Array of rewrite slugs for different components.
 		 *
 		 * @var array
 		 */
@@ -188,42 +225,50 @@ if ( ! class_exists( 'Tribe__Events__Community__Main' ) ) {
 		public $context;
 
 		/**
-		 * is the current page the my events list?
+		 * Is the current page the "My events list" page?
 		 *
 		 * @var bool
 		 */
 		public $isMyEvents = false;
 
 		/**
-		 * is the current page the event edit page?
+		 * Is the current page the event edit page?
 		 *
 		 * @var bool
 		 */
 		public $isEditPage = false;
 
 		/**
-		 * should the permalinks be flushed upon plugin load?
+		 * Should the permalinks be flushed upon plugin load?
 		 *
 		 * @var bool
 		 */
 		public $maybeFlushRewrite;
 
 		/**
+		 * Setting whether to allow anonymous submissions.
+		 *
 		 * @var Tribe__Events__Community__Anonymous_Users
 		 */
 		public $anonymous_users;
 
 		/**
+		 * Setting to block access to the admin dashboard.
+		 *
 		 * @var array
 		 */
 		public $blockRolesFromAdmin;
 
 		/**
+		 * Setting to block user roles to access the admin dashboard.
+		 *
 		 * @var array
 		 */
 		public $blockRolesList;
 
 		/**
+		 * Setting to send email alerts about new submissions.
+		 *
 		 * @var bool
 		 */
 		public $emailAlertsEnabled;
@@ -234,6 +279,8 @@ if ( ! class_exists( 'Tribe__Events__Community__Main' ) ) {
 		public $users_can_create;
 
 		/**
+		 * Email addresses to send email alerts to.
+		 *
 		 * @var array
 		 */
 		public $emailAlertsList;
@@ -306,18 +353,37 @@ if ( ! class_exists( 'Tribe__Events__Community__Main' ) ) {
 		const OPTIONNAME = 'tribe_community_events_options';
 
 		/**
+		 * The group the assets belong to.
+		 *
+		 * @since 5.0.9
+		 *
+		 * @var string
+		 */
+		public static string $assets_group = 'events-community';
+
+		/**
+		 * The group the shortcode assets belong to.
+		 *
+		 * @since 5.0.9
+		 *
+		 * @var string
+		 */
+		public static string $shortcode_assets_group = 'events-community-shortcode';
+
+		/**
 		 * Class constructor
 		 * Sets all the class vars up and such
 		 *
 		 * @since 1.0
 		 * @since 5.0.0.1 Added compatibility check for WooCommerce HPOS.
+		 * @since 5.0.10 Added Form Defaults settings.
 		 *
 		 * @param bool $tec_installed Whether The Events Calendar plugin is installed or not.
 		 */
 		public function __construct( bool $tec_installed = true ) {
 			self::$tec_installed = $tec_installed;
 
-			// Load multisite defaults
+			// Load multisite defaults.
 			if ( is_multisite() ) {
 				$tribe_community_events_mu_defaults = [];
 
@@ -330,21 +396,25 @@ if ( ! class_exists( 'Tribe__Events__Community__Main' ) ) {
 
 			self::set_woocommerce_compatibility_checks();
 
-			// get options
-			$this->defaultStatus                 = $this->getOption( 'defaultStatus' );
-			$this->allowAnonymousSubmissions     = $this->getOption( 'allowAnonymousSubmissions' );
-			$this->allowUsersToEditSubmissions   = $this->getOption( 'allowUsersToEditSubmissions' );
-			$this->allowUsersToDeleteSubmissions = $this->getOption( 'allowUsersToDeleteSubmissions' );
-			$this->trashItemsVsDelete            = $this->getOption( 'trashItemsVsDelete' );
-			$this->useVisualEditor               = $this->getOption( 'useVisualEditor' );
-			$this->eventsPerPage                 = $this->getOption( 'eventsPerPage', 10 );
-			$this->eventListDateFormat           = $this->getOption( 'eventListDateFormat' );
-			$this->paginationRange               = 3;
-			$this->defaultStatus                 = $this->getOption( 'defaultStatus' );
-			$this->emailAlertsEnabled            = $this->getOption( 'emailAlertsEnabled' );
-			$emailAlertsList                     = $this->getOption( 'emailAlertsList' );
+			// Get the options.
+			$this->defaultStatus                  = $this->getOption( 'defaultStatus' );
+			$this->allowAnonymousSubmissions      = $this->getOption( 'allowAnonymousSubmissions' );
+			$this->prevent_new_venues             = $this->getOption( 'prevent_new_venues' );
+			$this->default_community_venue_id     = $this->getOption( 'defaultCommunityVenueID' );
+			$this->prevent_new_organizers         = $this->getOption( 'prevent_new_organizers' );
+			$this->default_community_organizer_id = $this->getOption( 'defaultCommunityOrganizerID' );
+			$this->allowUsersToEditSubmissions    = $this->getOption( 'allowUsersToEditSubmissions' );
+			$this->allowUsersToDeleteSubmissions  = $this->getOption( 'allowUsersToDeleteSubmissions' );
+			$this->trashItemsVsDelete             = $this->getOption( 'trashItemsVsDelete' );
+			$this->useVisualEditor                = $this->getOption( 'useVisualEditor' );
+			$this->eventsPerPage                  = $this->getOption( 'eventsPerPage', 10 );
+			$this->eventListDateFormat            = $this->getOption( 'eventListDateFormat' );
+			$this->paginationRange                = 3;
+			$this->defaultStatus                  = $this->getOption( 'defaultStatus' );
+			$this->emailAlertsEnabled             = $this->getOption( 'emailAlertsEnabled' );
+			$email_alerts_list                    = $this->getOption( 'emailAlertsList' );
 
-			$this->emailAlertsList = explode( "\n", $emailAlertsList );
+			$this->emailAlertsList = explode( "\n", $email_alerts_list );
 
 			$this->blockRolesFromAdmin = $this->getOption( 'blockRolesFromAdmin' );
 			$this->blockRolesList      = $this->getOption( 'blockRolesList' );
@@ -367,7 +437,7 @@ if ( ! class_exists( 'Tribe__Events__Community__Main' ) ) {
 
 			add_shortcode( 'tribe_community_events_title', [ $this, 'doShortCodeTitle' ] );
 
-			//allow shortcodes for dynamic titles
+			// Allow shortcodes for dynamic titles.
 			add_filter( 'the_title', 'do_shortcode' );
 			add_filter( 'wp_title', 'do_shortcode' );
 
@@ -379,7 +449,8 @@ if ( ! class_exists( 'Tribe__Events__Community__Main' ) ) {
 
 			/**
 			 * In 3.5 this is causing an error moved self::maybeLoadAssets(); into function init()...
-			 * Also is important to remember that using methods with Params we need to make sure the Hook doesn't pass any params.
+			 * It is also important to remember that when using methods with params, we need to make sure the Hook
+			 * doesn't pass any params.
 			 * In the case of `wp` it passes an instance of the class WP which was breaking how maybeLoadAssets works.
 			 *
 			 * @central #71943
@@ -387,6 +458,8 @@ if ( ! class_exists( 'Tribe__Events__Community__Main' ) ) {
 			add_action( 'wp', [ $this, 'maybeLoadAssets' ], 10, 0 );
 
 			add_action( 'tribe_load_text_domains', [ $this, 'loadTextDomain' ], 1 );
+
+			add_action( 'tribe_plugins_loaded', [ $this, 'register_assets' ] );
 
 			add_action( 'init', [ $this, 'init' ], 5 );
 
@@ -396,7 +469,7 @@ if ( ! class_exists( 'Tribe__Events__Community__Main' ) ) {
 
 			add_filter( 'tribe_tickets_user_can_manage_attendees', [ $this, 'user_can_manage_own_event_attendees' ], 10, 3 );
 
-			// Tribe common resources
+			// Tribe common resources.
 			include_once( $this->pluginPath . 'vendor/the-events-calendar/wp-router/wp-router.php' );
 
 			add_filter( 'query_vars', [ $this, 'communityEventQueryVars' ] );
@@ -404,13 +477,13 @@ if ( ! class_exists( 'Tribe__Events__Community__Main' ) ) {
 			// Priority set to 11 so some core body_class items can be removed after added.
 			add_filter( 'body_class', [ $this, 'setBodyClasses' ], 11 );
 
-			// Hook into templates class and add theme body classes
+			// Hook into the templates class and add theme body classes.
 			add_filter( 'body_class', [ tribe( Tribe__Events__Community__Theme_Compatibility::class ), 'add_body_classes' ], 55 );
 
-			// ensure that we don't include tabindexes in our form fields
+			// Ensure that we don't include tabindexes in our form fields.
 			add_filter( 'tribe_events_tab_index', '__return_null' );
 
-			// options page hook
+			// Options page hook.
 			add_action( 'tribe_settings_do_tabs', [ $this, 'do_settings' ], 12, 2 );
 
 			add_action( 'plugin_action_links_' . trailingslashit( $this->pluginDir ) . 'Main.php', [ $this, 'addLinksToPluginActions' ] );
@@ -430,8 +503,6 @@ if ( ! class_exists( 'Tribe__Events__Community__Main' ) ) {
 
 			add_filter( 'tribe_events_multiple_organizer_template', [ $this, 'overwrite_multiple_organizers_template' ] );
 
-			add_action( 'plugins_loaded', [ $this, 'register_resources' ] );
-
 			add_action( 'admin_init', [ $this, 'run_updates' ], 10, 0 );
 
 			add_action( 'wp_ajax_tribe_events_community_delete_post', [ $this, 'ajaxDoDelete' ] );
@@ -449,7 +520,7 @@ if ( ! class_exists( 'Tribe__Events__Community__Main' ) ) {
 
 			add_filter( 'tribe_events_assets_should_enqueue_frontend' , [ $this, 'should_enqueue_tec_frontend' ] );
 
-			// Binding the Implementations needs to happen to plugins_loaded
+			// Binding the Implementations needs to happen to plugins_loaded.
 			$this->bind_implementations();
 		}
 
@@ -482,9 +553,9 @@ if ( ! class_exists( 'Tribe__Events__Community__Main' ) ) {
 		}
 
 		/**
-		 * Registers this plugin as being active for other tribe plugins and extensions.
+		 * Registers this plugin as being active for other Tribe plugins and extensions.
 		 *
-		 * @return bool Indicates if Tribe Common wants the plugin to run
+		 * @return bool Indicates if Tribe Common wants the plugin to run.
 		 */
 		public function register_active_plugin() {
 			if ( ! function_exists( 'tribe_register_plugin' ) ) {
@@ -495,9 +566,9 @@ if ( ! class_exists( 'Tribe__Events__Community__Main' ) ) {
 		}
 
 		/**
-		 * Method used to overwrite the admin template for multiple organizers
+		 * Method used to overwrite the admin template for multiple organizers.
 		 *
-		 * @param string $template The original template
+		 * @param string $template The original template.
 		 *
 		 * @return string
 		 */
@@ -512,7 +583,7 @@ if ( ! class_exists( 'Tribe__Events__Community__Main' ) ) {
 			include $community_file;
 			$community_html = trim( ob_get_clean() );
 
-			// Only use this URL if the template is not empty
+			// Only use this URL if the template is not empty.
 			if ( empty( $community_html ) ) {
 				return $template;
 			}
@@ -521,7 +592,7 @@ if ( ! class_exists( 'Tribe__Events__Community__Main' ) ) {
 		}
 
 		/**
-		 * Object accessor method for the Event_Form object
+		 * Object accessor method for the Event_Form object.
 		 *
 		 * @return Tribe__Events__Community__Event_Form
 		 */
@@ -537,7 +608,31 @@ if ( ! class_exists( 'Tribe__Events__Community__Main' ) ) {
 			}
 
 			return $this->form;
-		}//end event_form
+		}
+
+		/**
+		 * Registers the plugin's asset group and resources.
+		 *
+		 * This method ensures that asset registration occurs at the appropriate time,
+		 * after Tribe Common has fully loaded. If Tribe Common has already fired,
+		 * assets are registered immediately. Otherwise, the registration is deferred
+		 * via `tribe_common_loaded`.
+		 *
+		 * @since 5.0.9
+		 *
+		 * @return void
+		 */
+		public function register_assets(): void {
+			if ( did_action( 'tribe_common_loaded' ) ) {
+				$this->register_assets_group();
+				$this->register_resources();
+
+				return;
+			}
+
+			add_action( 'tribe_common_loaded', [ $this, 'register_assets_group' ] );
+			add_action( 'tribe_common_loaded', [ $this, 'register_resources' ], 20 );
+		}
 
 		/**
 		 * Determines what assets to load.
@@ -547,12 +642,12 @@ if ( ! class_exists( 'Tribe__Events__Community__Main' ) ) {
 		public function maybeLoadAssets( $force = false ) {
 			$force = tribe_is_truthy( $force );
 
-			// We are not forcing if it's not a boolean
+			// We are not forcing if it's not a boolean.
 			if ( ! is_bool( $force ) ) {
 				$force = false;
 			}
 
-			// If we are forcing it we just bail
+			// If we are forcing it, we just bail.
 			if ( ! $force && ! tribe_is_community_my_events_page() && ! tribe_is_community_edit_event_page() ) {
 				return;
 			}
@@ -583,14 +678,32 @@ if ( ! class_exists( 'Tribe__Events__Community__Main' ) ) {
 		 * Registers scripts and styles.
 		 */
 		public function register_resources() {
-			tribe_asset( $this, 'tribe-events-community-list', 'tribe-events-community-list.css', [ 'tec-variables-skeleton', 'tec-variables-full' ] );
-			tribe_asset( $this, 'tribe-events-community-shortcodes', 'tribe-events-community-shortcodes.css' );
+			tec_asset(
+				self::class,
+				'tribe-events-community-list',
+				'css/tribe-events-community-list.css',
+				[ 'tec-variables-skeleton', 'tec-variables-full' ],
+				null,
+				[
+					'groups' => [ static::$assets_group ],
+				]
+			);
+			tec_asset(
+				self::class,
+				'tribe-events-community-shortcodes',
+				'css/tribe-events-community-shortcodes.css',
+				[],
+				null,
+				[
+					'groups' => [ static::$shortcode_assets_group ],
+				]
+			);
 
-			// Our stylesheet
-			tribe_asset(
-				$this,
+			// Our stylesheet.
+			tec_asset(
+				self::class,
 				$this->get_community_events_post_type() . '-community-styles',
-				'tribe-events-community.css',
+				'css/tribe-events-community.css',
 				[
 					'tec-variables-skeleton',
 					'tec-variables-full',
@@ -599,46 +712,85 @@ if ( ! class_exists( 'Tribe__Events__Community__Main' ) ) {
 					'tribe-common-admin',
 					'tribe-dependency-style',
 					'tribe-events-community-list',
+				],
+				null,
+				[
+					'groups' => [ static::$assets_group ],
 				]
 			);
 
 			// Admin stylesheet
-			tribe_asset(
-				$this,
+			tec_asset(
+				self::class,
 				$this->get_community_events_post_type() . '-community-admin-styles',
-				'tribe-events-community-admin.css',
-				[]
+				'css/tribe-events-community-admin.css',
+				[],
+				null,
+				[
+					'groups' => [ static::$assets_group ],
+				]
 			);
 
 			if ( ! class_exists( 'Tribe__Events__Community__Templates' ) ) {
 				require_once EVENTS_COMMUNITY_DIR . '/src/Tribe/Tribe__Events__Templates.php';
 			}
 
-			// Custom stylesheet
+			// Custom stylesheet.
 			$override_sheet = Tribe__Templates::locate_stylesheet( 'tribe-events/community/tribe-events-community.css' );
 
 			if ( ! empty( $override_sheet ) && file_exists( $override_sheet ) ) {
-				tribe_asset(
-					$this,
+				tec_asset(
+					self::class,
 					'tribe-events-community-override-style',
 					$override_sheet,
 					[],
 					'wp_enqueue_scripts',
 					[
-						'groups' => [ 'events-styles' ],
+						'groups' => [ 'events-styles', static::$assets_group ],
 					]
 				);
 			}
 
 			// Our javascript
-			tribe_asset(
-				$this,
+			tec_asset(
+				self::class,
 				$this->get_community_events_post_type() . '-community',
-				'tribe-events-community.js',
+				'js/tribe-events-community.js',
 				[
 					'jquery',
 					'tribe-dependency',
+				],
+				null,
+				[
+					'groups' => [ static::$assets_group ],
 				]
+			);
+		}
+
+		/**
+		 * Register the assets group for the build directory.
+		 *
+		 * @since 5.0.9
+		 */
+		public function register_assets_group() {
+			/*
+			 * Register the `/build` directory assets as a different group to ensure back-compatibility.
+			 * This needs to happen after tribe_common_loaded.
+			 */
+			Assets_Config::add_group_path(
+				self::class,
+				// phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
+				self::instance()->pluginPath,
+				'build/',
+				true
+			);
+
+			Assets_Config::add_group_path(
+				self::class . '-packages',
+				// phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
+				self::instance()->pluginPath,
+				'build/',
+				false
 			);
 		}
 
@@ -657,7 +809,7 @@ if ( ! class_exists( 'Tribe__Events__Community__Main' ) ) {
 		}
 
 		/**
-		 * Enqueue on Community Events Pages
+		 * Enqueue on Community Events Pages.
 		 *
 		 * @since  4.4
 		 *
@@ -671,6 +823,7 @@ if ( ! class_exists( 'Tribe__Events__Community__Main' ) ) {
 			$assets->remove( 'tribe-events-pro' );
 			$assets->remove( 'tribe-events-pro-geoloc' );
 
+			tribe_asset_enqueue_group( static::$assets_group );
 			tribe_asset_enqueue_group( 'events-admin' );
 
 			tribe_asset_enqueue( 'tribe-events-dynamic' );
@@ -691,7 +844,7 @@ if ( ! class_exists( 'Tribe__Events__Community__Main' ) ) {
 				// Workaround for `post_content` alias.
 				$key = 'post_content' === $key ? 'tcepostcontent' : $key;
 
-				/* Translators : %s the form field label for required fields. */
+				/* Translators: %s the form field label for required fields. */
 				$message                = __( '%s is required', 'tribe-events-community' );
 				$error_messages[ $key ] = sprintf( $message, $label );
 			}
@@ -767,7 +920,7 @@ if ( ! class_exists( 'Tribe__Events__Community__Main' ) ) {
 		public function maybeRedirectMyEvents() {
 
 			if ( ! is_admin() ) {
-				//redirect my events with no args to todays page
+				// Redirect my events with no args to today's page.
 				global $paged;
 				if ( empty( $paged ) && isset( $_GET['tribe_action'] ) && $_GET['tribe_action'] == 'list' ) {
 					$paged = 1;
@@ -787,7 +940,7 @@ if ( ! class_exists( 'Tribe__Events__Community__Main' ) ) {
 		public function redirectUglyUrls() {
 
 			if ( ! is_admin() ) {
-				// redirect ugly link URLs to pretty permalinks
+				// Redirect ugly link URLs to pretty permalinks.
 				if ( isset( $_GET['tribe_action'] ) ) {
 					if ( isset( $_GET['paged'] ) ) {
 						$url = $this->getUrl( $_GET['tribe_action'], null, $_GET['paged'] );
@@ -803,7 +956,6 @@ if ( ! class_exists( 'Tribe__Events__Community__Main' ) ) {
 					exit;
 				}
 			}
-
 		}
 
 		/**
@@ -951,7 +1103,7 @@ if ( ! class_exists( 'Tribe__Events__Community__Main' ) ) {
 			// phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
 			$community_slug = $this->communityRewriteSlug;
 
-			// Fallback if community slug is empty.
+			// Fallback if the community slug is empty.
 			if ( empty( $community_slug ) ) {
 				$community_slug = $this->get_rewrite_slug( 'community' );
 			}
@@ -960,7 +1112,7 @@ if ( ! class_exists( 'Tribe__Events__Community__Main' ) ) {
 		}
 
 		/**
-		 * Get delete button for an event.
+		 * Get the delete button for an event.
 		 *
 		 * @since 1.0
 		 *
@@ -975,8 +1127,8 @@ if ( ! class_exists( 'Tribe__Events__Community__Main' ) ) {
 			 *
 			 * @since 4.10.1
 			 *
-			 * @param bool Our default is based on the `allowUsersToDeleteSubmissions` option.
-			 * @param WP_Post The post event.
+			 * @param bool    $allow_users_to_delete_submissions Our default is based on the `allowUsersToDeleteSubmissions` option.
+			 * @param WP_Post $event                             The post event.
 			 *
 			 * @return bool Whether this individual can delete events.
 			 */
@@ -1022,7 +1174,7 @@ if ( ! class_exists( 'Tribe__Events__Community__Main' ) ) {
 		}
 
 		/**
-		 * Get edit button for an event.
+		 * Get the edit button for an event.
 		 *
 		 * @since 1.0
 		 *
@@ -1079,7 +1231,7 @@ if ( ! class_exists( 'Tribe__Events__Community__Main' ) ) {
 		}
 
 		/**
-		 * Get title for a page.
+		 * Get the title for a page.
 		 *
 		 * @since 1.0
 		 *
@@ -1109,7 +1261,7 @@ if ( ! class_exists( 'Tribe__Events__Community__Main' ) ) {
 
 			/**
 			 * Allow users to hook and change the Page Title for all the existing pages.
-			 * Don't remove the 'unknown' key from the array
+			 * Don't remove the 'unknown' key from the array.
 			 */
 			$i18n = apply_filters( 'tribe_ce_i18n_page_titles', $i18n, $action, $post_type );
 
@@ -1310,7 +1462,7 @@ if ( ! class_exists( 'Tribe__Events__Community__Main' ) ) {
 		}
 
 		/**
-		 * Adds the event specific query vars to WordPress.
+		 * Adds the event-specific query vars to WordPress.
 		 *
 		 * @link  http://codex.wordpress.org/Custom_Queries#Permalinks_for_Custom_Archives
 		 *
@@ -1331,55 +1483,248 @@ if ( ! class_exists( 'Tribe__Events__Community__Main' ) ) {
 		}
 
 		/**
-		 * Send email alert to email list when an event is submitted.
+		 * Sends the email alerts to all configured recipients and marks the email as sent.
 		 *
-		 * @since 1.0
+		 * @since 5.0.7
 		 *
-		 * @param int $tribe_event_id The event ID.
+		 * @param WP_Post $event   The event post object.
+		 * @param string  $message The email message HTML.
 		 *
-		 * @return boolean
-		 *
+		 * @return array{all: bool, count: int} Array containing whether all emails were sent successfully and how many were sent.
 		 */
-		public function sendEmailAlerts( $tribe_event_id ) {
-			$post         = get_post( intval( $tribe_event_id ) );
-			$already_sent = get_post_meta( $tribe_event_id, self::$submission_email_sent_meta_key, true );
-
-			if ( tribe_is_truthy( $already_sent ) ) {
-				return false;
+		protected function send_alert_emails( $event, $message ) {
+			//phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
+			if ( empty( $event ) || ! is_array( $this->emailAlertsList ) ) {
+				return [
+					'all'   => false,
+					'count' => 0,
+				];
 			}
 
-			$subject = sprintf( '[%s] ' . __( 'Community Submission', 'tribe-events-community' ) . ':', wp_specialchars_decode( get_bloginfo( 'name' ), ENT_QUOTES ) ) . ' "' . $post->post_title . '"';
-
-			// Get Message HTML from Email Template
-			ob_start();
-			include Tribe__Events__Community__Templates::getTemplateHierarchy( 'community/email-template' );
-
-			$message = ob_get_clean();
+			$subject = $this->get_email_subject( $event );
 			$headers = [ 'Content-Type: text/html' ];
-			$h       = implode( "\r\n", $headers ) . "\r\n";
+			$headers = implode( "\r\n", $headers ) . "\r\n";
 
-			if ( ! is_array( $this->emailAlertsList ) ) {
-				return false;
+			$sent_all   = true;
+			$sent_count = 0;
+
+			//phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
+			foreach ( $this->emailAlertsList as $email ) {
+				$email = trim( $email );
+
+				if ( empty( $email ) || ! is_email( $email ) ) {
+					continue;
+				}
+
+				//phpcs:ignore WordPressVIPMinimum.Functions.RestrictedFunctions.wp_mail_wp_mail
+				$sent_one = wp_mail( $email, $subject, $message, $headers );
+				if ( ! $sent_one ) {
+					$sent_all = false;
+				} else {
+					++$sent_count;
+				}
 			}
 
-			$sent_all = true;
-
-			foreach ( $this->emailAlertsList as $email ) {
-				$sent_one = wp_mail( trim( $email ), $subject, $message, $h );
-
-				if ( ! $sent_one ) {
+			// Only mark as sent if at least one email was sent successfully.
+			if ( $sent_count > 0 ) {
+				$marked = update_post_meta( $event->ID, self::$submission_email_sent_meta_key, 'yes' );
+				// If we failed to mark as sent, consider this a failure.
+				if ( ! $marked ) {
 					$sent_all = false;
 				}
 			}
 
-			update_post_meta( $tribe_event_id, self::$submission_email_sent_meta_key, 'yes' );
-
-			return $sent_all;
+			return [
+				'all'   => $sent_all,
+				'count' => $sent_count,
+			];
 		}
 
 		/**
-		 * Searches current user's events for the event closest to
-		 * today but not in the past, and returns the 'page' that event is on.
+		 * Send email alerts for event submissions.
+		 *
+		 * @since 5.0.7
+		 *
+		 * @param int $tribe_event_id The event ID.
+		 *
+		 * @return bool Whether the emails were sent successfully.
+		 */
+		public function send_email_alerts( $tribe_event_id ) {
+			$event = $this->validate_post( $tribe_event_id );
+
+			if ( ! $event ) {
+				return false;
+			}
+
+			if ( $this->is_alert_email_already_sent( $tribe_event_id ) ) {
+				return false;
+			}
+
+			$message = $this->build_alert_email_message( $event );
+			if ( empty( $message ) ) {
+				return false;
+			}
+
+			$sent = $this->send_alert_emails( $event, $message );
+
+			return $sent['all'] && $sent['count'] > 0;
+		}
+
+		/**
+		 * Validates a post ID and returns the event post if valid.
+		 *
+		 * @since 5.0.7 Introduced.
+		 *
+		 * @param int $post_id The post ID to validate.
+		 *
+		 * @return WP_Post|false The post object if valid, false otherwise.
+		 */
+		protected function validate_post( $post_id ) {
+			$post_id = absint( $post_id );
+			if ( empty( $post_id ) ) {
+				return false;
+			}
+
+			// Get post.
+			$post = get_post( $post_id );
+			if ( ! $post instanceof WP_Post ) {
+				return false;
+			}
+
+			/**
+			 * Filters the validation result for a post.
+			 *
+			 * @since 5.0.7
+			 *
+			 * @param WP_Post|false $post   The post object if valid, false otherwise.
+			 * @param int          $post_id The post ID being validated.
+			 */
+			return apply_filters( 'tec_events_community_validate_post', $post, $post_id );
+		}
+
+		/**
+		 * Checks if an email alert has already been sent for an event.
+		 *
+		 * @since 5.0.7
+		 *
+		 * @param int $tribe_event_id The event ID to check.
+		 *
+		 * @return bool Whether the email has already been sent.
+		 */
+		protected function is_alert_email_already_sent( $tribe_event_id ) {
+			$already_sent = get_post_meta( $tribe_event_id, self::$submission_email_sent_meta_key, true );
+			return tribe_is_truthy( $already_sent );
+		}
+
+		/**
+		 * Builds the email message for an event submission.
+		 *
+		 * @since 5.0.7
+		 *
+		 * @param WP_Post $event The event post object.
+		 *
+		 * @return string The email message HTML.
+		 */
+		protected function build_alert_email_message( $event ) {
+			if ( empty( $event ) ) {
+				return '';
+			}
+
+			$subject       = $this->get_email_subject( $event );
+			$template_path = $this->get_email_alert_template_path();
+
+			if ( empty( $template_path ) ) {
+				return '';
+			}
+
+			ob_start();
+			$tribe_event_id = $event->ID;
+			if ( empty( $post ) ) {
+				$post = get_post( $tribe_event_id );
+			}
+
+			/**
+			 * Action hook before loading the email template.
+			 *
+			 * @since 4.5.14
+			 * @since 5.0.7 Moved to the build_email_message method.
+			 *
+			 * @param int|string $tribe_event_id The Event ID.
+			 */
+			do_action( 'tribe_events_community_before_email_template', $tribe_event_id );
+
+			include $template_path;
+
+			/**
+			 * Action hook after loading the email template.
+			 *
+			 * @since 4.5.14
+			 * @since 5.0.7 Moved to the build_email_message method.
+			 *
+			 * @param int|string $tribe_event_id The Event ID.
+			 */
+			do_action( 'tribe_events_community_after_email_template', $tribe_event_id );
+			return ob_get_clean();
+		}
+
+		/**
+		 * Gets the email subject for an event submission.
+		 *
+		 * @since 5.0.7
+		 *
+		 * @param WP_Post $event The event post object.
+		 *
+		 * @return string The email subject.
+		 */
+		protected function get_email_subject( $event ) {
+			$blog_name = wp_specialchars_decode( get_bloginfo( 'name' ), ENT_QUOTES );
+
+			return sprintf(
+				'[%s] %s: "%s"',
+				$blog_name,
+				__( 'Community Submission', 'tribe-events-community' ),
+				get_the_title( $event->ID )
+			);
+		}
+
+		/**
+		 * Gets the path to the email template.
+		 *
+		 * @since 5.0.7
+		 *
+		 * @return string|false The path to the template file, or false if not found.
+		 */
+		protected function get_email_alert_template_path() {
+			$template_path = Tribe__Events__Community__Templates::getTemplateHierarchy( 'integrations/the-events-calendar/email-template' );
+			/**
+			 * Filter the path to the email template to use.
+			 *
+			 * @since 5.0.7
+			 *
+			 * @param string $template_path The path to the email template.
+			 */
+			$template_path = apply_filters(
+				'tec_events_community_email_alert_template_path',
+				$template_path
+			);
+
+			if ( ! empty( $template_path ) && file_exists( $template_path ) ) {
+				return $template_path;
+			}
+
+			// Fallback to the basic template.
+			$template_path = Tribe__Events__Community__Templates::getTemplateHierarchy( 'community/email-template' );
+
+			if ( ! empty( $template_path ) && file_exists( $template_path ) ) {
+				return $template_path;
+			}
+
+			return false;
+		}
+
+		/**
+		 * Searches the current user's events for the event closest to today
+		 * but not in the past, and returns the 'page' that the event is on.
 		 *
 		 * @since 1.0
 		 * @return object The page object.
@@ -1457,7 +1802,7 @@ if ( ! class_exists( 'Tribe__Events__Community__Main' ) ) {
 				wp_send_json_error( __( 'This event does not appear to exist.', 'tribe-events-community' ) );
 			}
 
-			// security check.
+			// Security check.
 			if ( ! ( current_user_can( 'delete_post', $event->ID ) || $this->user_can_delete_their_submissions( $event->ID ) ) ) {
 				wp_send_json_error( __( 'You do not have permission to delete this event.', 'tribe-events-community' ) );
 				wp_die();
@@ -1490,7 +1835,7 @@ if ( ! class_exists( 'Tribe__Events__Community__Main' ) ) {
 		}
 
 		/**
-		 * Delete view for an event.
+		 * Delete the view for an event.
 		 *
 		 * @param int $tribe_event_id The event's ID.
 		 *
@@ -1502,7 +1847,7 @@ if ( ! class_exists( 'Tribe__Events__Community__Main' ) ) {
 			$this->default_template_compatibility();
 
 			if ( wp_verify_nonce( $_GET['_wpnonce'], 'tribe_community_events_delete' ) && current_user_can( 'delete_post', $tribe_event_id ) ) {
-				//does this event even exist?
+				// Does this event even exist?
 				$event = get_post( $tribe_event_id );
 
 				if ( isset( $event->ID ) ) {
@@ -1543,7 +1888,7 @@ if ( ! class_exists( 'Tribe__Events__Community__Main' ) ) {
 
 		/**
 		 * If a request comes in to delete a featured image,
-		 * delete it and redirect back to the event page
+		 * delete it, and redirect back to the event page
 		 *
 		 * @see do_action('before_tribe_community_event_page')
 		 * @see Tribe__Events__Community__Main::doEventForm()
@@ -1553,7 +1898,7 @@ if ( ! class_exists( 'Tribe__Events__Community__Main' ) ) {
 		 * @return void
 		 */
 		public function maybe_delete_featured_image( $event_id ) {
-			// Delete the featured image, if there was a request to do so.
+			// Delete the featured image if there was a request to do so.
 			if ( $event_id && isset( $_GET['action'] ) && $_GET['action'] == 'deleteFeaturedImage' && wp_verify_nonce( $_GET['_wpnonce'], 'tribe_community_events_featured_image_delete' ) && current_user_can( 'edit_post', $event_id ) ) {
 				$featured_image_id = get_post_thumbnail_id( $event_id );
 				if ( $featured_image_id ) {
@@ -1572,15 +1917,15 @@ if ( ! class_exists( 'Tribe__Events__Community__Main' ) ) {
 		}
 
 		/**
-		 * Get the View/Edit link for the post
+		 * Get the View/Edit link for the post.
 		 *
 		 * @since 3.7
 		 * @since 4.10.13 Changed the check for the edit link to use `user_can_edit_their_submissions` instead. Added additional check to make sure users are able to edit their submissions.
-		 * @since 5.0.0 Added additional logic for logged out users.
+		 * @since 5.0.0 Added additional logic for logged-out users.
 		 *
 		 * @param int $event_id post ID of event.
 		 *
-		 * @return string HTML link
+		 * @return string HTML link.
 		 */
 		public function get_view_edit_links( $event_id ) {
 			$edit_link = '';
@@ -1595,7 +1940,7 @@ if ( ! class_exists( 'Tribe__Events__Community__Main' ) ) {
 			}
 
 			if ( ! is_user_logged_in() ) {
-				// Logged out users shouldn't be able to edit submissions.
+				// Logged-out users shouldn't be able to edit submissions.
 				return $view_link;
 			}
 
@@ -1623,11 +1968,11 @@ if ( ! class_exists( 'Tribe__Events__Community__Main' ) ) {
 		}
 
 		/**
-		 * Check for and return submitted event
+		 * Check for and return submitted event.
 		 *
 		 * @since 3.3
 		 *
-		 * @return array event array or empty array if not a CE submitted event
+		 * @return array Event array or empty array if not a CE submitted event.
 		 */
 		private function get_submitted_event() {
 			// Validate the submitted data via nonce.
@@ -1652,7 +1997,7 @@ if ( ! class_exists( 'Tribe__Events__Community__Main' ) ) {
 		 *
 		 * @since 3.3
 		 *
-		 * @return array required fields
+		 * @return array Required fields.
 		 */
 		public function required_fields_for_submission() {
 			$required_fields = [
@@ -1668,9 +2013,9 @@ if ( ! class_exists( 'Tribe__Events__Community__Main' ) ) {
 			}
 
 			/**
-			 * Required Community Event Fields
+			 * Required Community Event Fields.
 			 *
-			 * @param array $required_fields An array of required fields (case sensitive) from:
+			 * @param array $required_fields An array of required fields (case-sensitive) from:
 			 *                               post_title, post_content, EventStartDate, EventStartTime, EventEndDate,
 			 *                               EventEndTime, EventCurrencySymbol, tax_input (for Event Categories), venue,
 			 *                               organizer, EventShowMapLink, EventURL, is_recurring,
@@ -1731,7 +2076,7 @@ if ( ! class_exists( 'Tribe__Events__Community__Main' ) ) {
 		 *
 		 * @param string $caption
 		 *
-		 * @return string HTML login form
+		 * @return string HTML login form.
 		 */
 		public function login_form( $caption = '' ) {
 			ob_start();
@@ -1781,7 +2126,7 @@ if ( ! class_exists( 'Tribe__Events__Community__Main' ) ) {
 
 		/**
 		 * Add hidden form fields to our rendering of the WordPress login form so we know when logging in is attempted
-		 * within our context and so we can redirect upon successful login.
+		 * within our context, and so we can redirect upon successful login.
 		 *
 		 * @since 4.6.3
 		 *
@@ -1794,13 +2139,13 @@ if ( ! class_exists( 'Tribe__Events__Community__Main' ) ) {
 				$this->isEditPage
 				|| $this->isMyEvents
 			) {
-				// Identify an attempt from our login form
+				// Identify an attempt from our login form.
 				$content .= sprintf( '%1$s<input type="hidden" name="%2$s" value="1" />%1$s', PHP_EOL, $this->login_form_id );
 
 				/**
-				 * Where to redirect upon successful login from Community login form.
+				 * Where to redirect upon successful login from the Community login form.
 				 *
-				 * Default is just the current URL without the failed query var (if exists).
+				 * Default is just the current URL without the failed query var (if it exists).
 				 *
 				 * @since 4.6.3
 				 *
@@ -1916,7 +2261,7 @@ if ( ! class_exists( 'Tribe__Events__Community__Main' ) ) {
 		}
 
 		/**
-		 * Indicates whether or not the image size was exceeded
+		 * Indicates whether or not the image size was exceeded.
 		 *
 		 * @return boolean
 		 */
@@ -1928,7 +2273,7 @@ if ( ! class_exists( 'Tribe__Events__Community__Main' ) ) {
 		}
 
 		/**
-		 * Indicate the max upload size allowed
+		 * Indicate the max upload size allowed.
 		 *
 		 * @since 4.5.12
 		 *
@@ -1936,9 +2281,9 @@ if ( ! class_exists( 'Tribe__Events__Community__Main' ) ) {
 		 */
 		public function max_file_size_allowed() {
 			/**
-			 * Filter the the max upload size allowed.
+			 * Filter the max upload size allowed.
 			 *
-			 * By default, it's using the `wp_max_upload_size()` value
+			 * By default, it's using the `wp_max_upload_size()` value.
 			 *
 			 * @since 4.5.12
 			 *
@@ -1948,7 +2293,7 @@ if ( ! class_exists( 'Tribe__Events__Community__Main' ) ) {
 		}
 
 		/**
-		 * If we have a spam submission, just kick the user away
+		 * Check if the submission is spam. Redirect, if yes.
 		 *
 		 * @return void
 		 */
@@ -1990,7 +2335,7 @@ if ( ! class_exists( 'Tribe__Events__Community__Main' ) ) {
 		 *
 		 * @since 1.0
 		 * @since 4.10.17 Added filter `tec_events_community_event_editor_post_content`.
-		 * @since 5.0.1 Added an additional check when $event is defined but get_post_field() doesn't return a value.
+		 * @since 5.0.1 Added an additional check when $event is defined, but get_post_field() doesn't return a value.
 		 *
 		 * @param object $event The event to display the tile for.
 		 *
@@ -2002,7 +2347,7 @@ if ( ! class_exists( 'Tribe__Events__Community__Main' ) ) {
 				$event = get_post();
 			}
 			if ( $event ) {
-				// In the off chance we can't fetch get_post_field, use the event object itself.
+				// On the off chance we can't fetch get_post_field, use the event object itself.
 				$post_content = get_post_field( 'post_content', $event->ID );
 				$post_content = '' !== $post_content ? $post_content : ( $event->post_content ?? '' );
 			} elseif ( ! empty( $_POST['post_content'] ) ) {
@@ -2015,7 +2360,7 @@ if ( ! class_exists( 'Tribe__Events__Community__Main' ) ) {
 
 			$classes = tribe_community_events_field_classes( 'post_content', [ 'frontend' ], false );
 
-			// if the admin wants the rich editor, and they are using WP 3.3, show the WYSIWYG, otherwise default to just a text box
+			// If the admin wants the rich editor, and they are using WP 3.3, show the WYSIWYG, otherwise default to just a text box.
 			if ( $this->useVisualEditor && function_exists( 'wp_editor' ) ) {
 				$settings = [
 					'wpautop'       => true,
@@ -2059,7 +2404,7 @@ if ( ! class_exists( 'Tribe__Events__Community__Main' ) ) {
 
 			$src = $this->locatePublishStatusIcon( $status );
 
-			return '<img src="' . esc_url( $src ) . '" alt="' . esc_attr( $status ) . ' icon" class="icon ' . esc_attr( $status ) . '">';
+			return '<img src="' . esc_url( $src ) . '" class="icon ' . esc_attr( $status ) . '">';
 		}
 
 		/**
@@ -2067,7 +2412,7 @@ if ( ! class_exists( 'Tribe__Events__Community__Main' ) ) {
 		 *
 		 * @since   4.8.14
 		 *
-		 * @param string $icon_name - File name of the icon ( pending, draft, future, publish ).
+		 * @param string $icon_name - File name of the icon (pending, draft, future, publish).
 		 *
 		 * @return string
 		 * @version 4.8.14
@@ -2104,104 +2449,6 @@ if ( ! class_exists( 'Tribe__Events__Community__Main' ) ) {
 			// No icons found, use our default icons.
 			return $this->pluginUrl . 'src/resources/images/' . esc_attr( $icon );
 
-		}
-
-
-		/**
-		 * Filter pagination
-		 *
-		 * @since 1.0
-		 *
-		 * @param object $query The query to paginate
-		 * @param int    $pages The pages
-		 * @param int    $range The range
-		 * @param bool   $shortcode
-		 *
-		 * @return string The pagination links
-		 */
-		public function pagination( $query, $pages = 0, $range = 3, $shortcode = false ) {
-			$output = '';
-
-			// Cast as Int for PHP 8 compatibility.
-			$range = (int) $range;
-			$pages = (int) $pages;
-
-			$showitems = ( $range * 2 ) + 1;
-
-			global $paged;
-			$paged = (int) $paged;
-			if ( empty( $paged ) ) {
-				$paged = 1;
-			}
-
-			if ( $pages == 0 ) {
-				//global $wp_query;
-				$pages = ceil( $query->found_posts / $this->eventsPerPage );
-
-				if ( ! $pages ) {
-					$pages = 1;
-				}
-			}
-
-			if ( $paged > $pages ) {
-				$this->enqueueOutputMessage( __( 'The requested page number was not found.', 'tribe-events-community' ) );
-			}
-			if ( 1 != $pages ) {
-				add_filter( 'get_pagenum_link', [ $this, 'fix_pagenum_link' ] );
-
-				// If we are using the Community Shortcode, we should paginate the current post URL
-				if ( $shortcode ) {
-					// Ensure that the URLs will always end with slash.
-					// This is necessary for the Events List to be paginated on posts or pages with ugly permalinks.
-					$url = rtrim( get_permalink(), '/' ) . '/';
-
-					$output .= "<div class='tribe-pagination'>";
-					if ( $paged > 2 && $paged > $range + 1 && $showitems < $pages ) {
-						$output .= "<a href='" . esc_url( $url . $paged ) . "'>&laquo;</a>";
-					}
-					if ( $paged > 1 && $showitems < $pages ) {
-						$output .= "<a href='" . esc_url( $url . ( $paged - 1 ) ) . "'>&lsaquo;</a>";
-					}
-
-					for ( $i = 1; $i <= $pages; $i++ ) {
-						if ( 1 != $pages && ( ! ( $i >= $paged + $range + 1 || $i <= $paged - $range - 1 ) || $pages <= $showitems ) ) {
-							$output .= ( $paged == $i ) ? '<span class="current">' . $i . '</span>' : '<a href="' . esc_url( $url . $i ) . '" class="inactive">' . $i . '</a>';
-						}
-					}
-
-					if ( $paged < $pages && $showitems < $pages ) {
-						$output .= "<a href='" . esc_url( $url . ( $paged + 1 ) ) . "'>&rsaquo;</a>";
-					}
-					if ( $paged < $pages - 1 && $paged + $range - 1 < $pages && $showitems < $pages ) {
-						$output .= "<a href='" . esc_url( $url . $paged ) . "'>&raquo;</a>";
-					}
-					$output .= "</div>\n";
-				} else {
-					$output .= "<div class='tribe-pagination'>";
-					if ( $paged > 2 && $paged > $range + 1 && $showitems < $pages ) {
-						$output .= "<a href='" . esc_url( $this->fix_pagenum_link_with_query_vars( get_pagenum_link( 1 ) ) ) . "'>&laquo;</a>";
-					}
-					if ( $paged > 1 && $showitems < $pages ) {
-						$output .= "<a href='" . esc_url( $this->fix_pagenum_link_with_query_vars( get_pagenum_link( $paged - 1 ) ) ) . "'>&lsaquo;</a>";
-					}
-
-					for ( $i = 1; $i <= $pages; $i++ ) {
-						if ( ! ( $i >= $paged + $range + 1 || $i <= $paged - $range - 1 ) || $pages <= $showitems ) {
-							$output .= ( $paged == $i ) ? '<span class="current">' . esc_html( $i ) . '</span>' : '<a href="' . esc_url( $this->fix_pagenum_link_with_query_vars( get_pagenum_link( $i ) ) ) . '" class="inactive">' . esc_html( $i ) . '</a>';
-						}
-					}
-
-					if ( $paged < $pages && $showitems < $pages ) {
-						$output .= "<a href='" . esc_url( $this->fix_pagenum_link_with_query_vars( get_pagenum_link( $paged + 1 ) ) ) . "'>&rsaquo;</a>";
-					}
-					if ( $paged < $pages - 1 && $paged + $range - 1 < $pages && $showitems < $pages ) {
-						$output .= "<a href='" . esc_url( $this->fix_pagenum_link_with_query_vars( get_pagenum_link( $pages ) ) ) . "'>&raquo;</a>";
-					}
-					$output .= "</div>\n";
-				}
-			}
-
-			return $output;
 		}
 
 		/**
@@ -2261,7 +2508,7 @@ if ( ! class_exists( 'Tribe__Events__Community__Main' ) ) {
 		}
 
 		/**
-		 * Add messages to the error/notice queue
+		 * Add messages to the error/notice queue.
 		 *
 		 * @todo redscar - Can this be replaced with the messages class?
 		 *
@@ -2281,14 +2528,18 @@ if ( ! class_exists( 'Tribe__Events__Community__Main' ) ) {
 		 * Output a message to the user.
 		 *
 		 * @since 1.0
+		 * @since 5.0.9 Refactored message output logic to use a dedicated template for improved accessibility and maintainability.
 		 *
 		 * @param string $type The message type.
 		 * @param bool   $echo Whether to display or return the message.
 		 *
 		 * @return string The message.
-		 */
+		 *
+		 * @phpcs:disable WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
+		 * @phpcs:disable Universal.NamingConventions.NoReservedKeywordParameterNames.echoFound
+		 * @phpcs:disable WordPress.NamingConventions.ValidFunctionName.MethodNameInvalid
+		 * */
 		public function outputMessage( $type = null, $echo = true ) {
-
 			if ( ! $type && ! $this->messageType ) {
 				$type = 'updated';
 			} elseif ( ! $type && $this->messageType ) {
@@ -2297,55 +2548,54 @@ if ( ! class_exists( 'Tribe__Events__Community__Main' ) ) {
 
 			$errors = [];
 
-			if ( isset( $this->messages ) && ! empty( $this->messages ) ) {
-				$errors = [
-					[
-						'type'    => $type,
-						'message' => '<p>' . join( '</p><p>', $this->messages ) . '</p>',
-					],
+			if ( ! empty( $this->messages ) ) {
+				$errors[] = [
+					'type'    => $type,
+					'message' => '<p>' . join( '</p><p>', $this->messages ) . '</p>',
 				];
 			}
 
 			$errors = apply_filters( 'tribe_community_events_form_errors', $errors );
 
-			if ( ! is_array( $errors ) ) {
+			if ( ! is_array( $errors ) || empty( $errors ) ) {
 				return '';
 			}
 
-			// Prevent the undefined property notice $messages on Community shortcodes
-			if ( empty( $this->messages ) ) {
-				$this->messages = [];
-			}
+			// Avoid undefined property notice.
+			$existing_messages = $this->messages ?? [];
 
 			ob_start();
 
-			$existing_messages = isset( $this->messages ) ? $this->messages : [];
-
-			/**
-			 * Allows for adding content before the form's various messages.
-			 *
-			 * @since 4.5.15
-			 *
-			 * @param array $existing_messages The current array of messages to display on the form; empty array if none exist.
-			 */
 			do_action( 'tribe_community_events_before_form_messages', $existing_messages );
 
-			foreach ( $errors as $error ) {
-				printf(
-					'<div class="tribe-community-notice tribe-community-notice-%1$s">%2$s</div>',
-					esc_attr( $error['type'] ),
-					wp_kses_post( $error['message'] )
-				);
-			}
+			// Only pass data to template.
+			$messages = array_map(
+				function ( $error ) {
+					return [
+						'type'    => $error['type'],
+						'message' => $error['message'],
+						'role'    => ( 'error' === $error['type'] ) ? 'alert' : 'status',
+					];
+				},
+				$errors
+			);
+
+			include dirname( __DIR__ ) . '/views/community/form-status-message.php';
 
 			unset( $this->messages );
 
+			$output = ob_get_clean();
+
 			if ( $echo ) {
-				echo ob_get_clean();
-			} else {
-				return ob_get_clean();
+				// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped, StellarWP.XSS.EscapeOutput.OutputNotEscaped
+				echo $output;
+
+				return '';
 			}
+
+			return $output;
 		}
+		//phpcs:enable
 
 		/**
 		 * Filter pagination links.
@@ -2358,12 +2608,12 @@ if ( ! class_exists( 'Tribe__Events__Community__Main' ) ) {
 		 */
 		public function fix_pagenum_link( $result ) {
 
-			// pretty permalinks - fix page one to have args so we don't redirect to todays's page
+			// Pretty permalinks - fix page one to have args so we don't redirect to today's page.
 			if ( '' != get_option( 'permalink_structure' ) && ! strpos( $result, '/page/' ) ) {
 				$result = $this->getUrl( 'list', null, 1 );
 			}
 
-			// ugly links - fix page one to have args so we don't redirect to todays's page
+			// Ugly links - fix page one to have args so we don't redirect to today's page.
 			if ( '' == get_option( 'permalink_structure' ) && ! strpos( $result, 'paged=' ) ) {
 				$result = $this->getUrl( 'list', null, 1 );
 			}
@@ -2408,9 +2658,9 @@ if ( ! class_exists( 'Tribe__Events__Community__Main' ) ) {
 		}
 
 		/**
-		 * @param array $user_caps      The capabilities the user has
-		 * @param array $requested_caps The capabilities the user needs
-		 * @param array $args           [0] = The specific cap requested, [1] = The user ID
+		 * @param array $user_caps      The capabilities the user has.
+		 * @param array $requested_caps The capabilities the user needs.
+		 * @param array $args           [0] = The specific cap requested, [1] = The user ID.
 		 *
 		 * @return array mixed
 		 */
@@ -2424,7 +2674,6 @@ if ( ! class_exists( 'Tribe__Events__Community__Main' ) ) {
 
 		/**
 		 * Determine if the specified user can edit the specified post.
-		 **
 		 *
 		 * @since      4.10.0
 		 *
@@ -2460,7 +2709,7 @@ if ( ! class_exists( 'Tribe__Events__Community__Main' ) ) {
 		/**
 		 * Add a settings tab.
 		 *
-		 * Additionally sets up a filter to append information to the existing events template setting tooltip.
+		 * Additionally, sets up a filter to append information to the existing events template setting tooltip.
 		 *
 		 * @since 5.0.4
 		 *
@@ -2480,7 +2729,7 @@ if ( ! class_exists( 'Tribe__Events__Community__Main' ) ) {
 		/**
 		 * Add a settings tab.
 		 *
-		 * Additionally sets up a filter to append information to the existing events template setting tooltip.
+		 * Additionally, sets up a filter to append information to the existing events template setting tooltip.
 		 *
 		 * @since 1.0
 		 * @deprecated 5.0.4
@@ -2498,9 +2747,9 @@ if ( ! class_exists( 'Tribe__Events__Community__Main' ) ) {
 		 * This method filters the tooltip for the tribeEventsTemplate setting to make it clear that it also
 		 * impacts on Community output.
 		 *
-		 * @param $text
-		 * @param $tooltip
-		 * @param $field = null (this may not provided when tribe_field_tooltip callbacks take place)
+		 * @param string      $text    The new text to display.
+		 * @param string      $tooltip The current tooltip text.
+		 * @param string|null $field   This may not be provided when tribe_field_tooltip callbacks take place.
 		 *
 		 * @return string
 		 */
@@ -2517,8 +2766,8 @@ if ( ! class_exists( 'Tribe__Events__Community__Main' ) ) {
 		 * Add a Community origin to the audit system.
 		 *
 		 * @since 1.0
-		 * @return string The Community slug.
 		 *
+		 * @return string The Community slug.
 		 */
 		public function filterPostOrigin() {
 			return 'community-events';
@@ -2547,11 +2796,11 @@ if ( ! class_exists( 'Tribe__Events__Community__Main' ) ) {
 		 *
 		 * @since 1.0
 		 *
+		 * @param string $optionName Name of option.
 		 * @param mixed  $default    Default value.
 		 * @param bool   $force
-		 * @param string $optionName Name of option.
 		 *
-		 * @return mixed Results of option query.
+		 * @return mixed Results of the option query.
 		 *
 		 */
 		public function getOption( $optionName, $default = '', $force = false ) {
@@ -2574,13 +2823,14 @@ if ( ! class_exists( 'Tribe__Events__Community__Main' ) ) {
 		}
 
 		/**
-		 * Set value for a specific option.
+		 * Set the value for a specific option.
 		 *
 		 * @since 1.0
 		 *
+		 * @param string $optionName Name of option.
 		 * @param string $value      Value to set.
 		 *
-		 * @param string $optionName Name of option.
+		 * @return void
 		 */
 		public function setOption( $optionName, $value ) {
 			if ( ! $optionName ) {
@@ -2598,8 +2848,8 @@ if ( ! class_exists( 'Tribe__Events__Community__Main' ) ) {
 		 * Get the plugin's path.
 		 *
 		 * @since 1.0
-		 * @return string The path.
 		 *
+		 * @return string The path.
 		 */
 		public static function getPluginPath() {
 			return self::instance()->pluginPath;
@@ -2609,8 +2859,8 @@ if ( ! class_exists( 'Tribe__Events__Community__Main' ) ) {
 		 * Get the current user's role.
 		 *
 		 * @since 1.0
-		 * @return string The role.
 		 *
+		 * @return string The role.
 		 */
 		public function getCurrentUserRole() {
 			$user_roles = $this->getUserRoles();
@@ -2622,13 +2872,13 @@ if ( ! class_exists( 'Tribe__Events__Community__Main' ) ) {
 		}
 
 		/**
-		 * get roles for a specified user, or current user
+		 * Get roles for a specified user, or current user.
 		 *
 		 * @since 3.1
 		 *
-		 * @param integer $user_id defaults to get_current_user_id()
+		 * @param integer $user_id Defaults to get_current_user_id().
 		 *
-		 * @return array user roles or an empty array if none found
+		 * @return array User roles or an empty array if none found.
 		 */
 		public function getUserRoles( $user_id = 0 ) {
 			$user_id = $user_id ? $user_id : get_current_user_id();
@@ -2672,19 +2922,19 @@ if ( ! class_exists( 'Tribe__Events__Community__Main' ) ) {
 			// Get Current User ID
 			$user_id = get_current_user_id();
 
-			// Let WordPress worry about admin access for unauthenticated users
+			// Let WordPress worry about admin access for unauthenticated users.
 			if ( ! is_user_logged_in() ) {
 				return;
 			}
 
-			// If the user has access privileges then we don't need to interfere, else hide the WP Admin Bar
+			// If the user has access privileges, then we don't need to interfere, else hide the WP Admin Bar.
 			if ( $this->user_can_access_admin( $user_id ) ) {
 				return;
 			} else {
 				add_filter( 'show_admin_bar', '__return_false' );
 			}
 
-			// If it is not an admin request - or if it is an ajax request - then we don't need to interfere
+			// If it is not an admin request, or if it is an ajax request, then we don't need to interfere.
 			if (
 				! is_admin()
 				|| wp_doing_ajax()
@@ -2692,7 +2942,7 @@ if ( ! class_exists( 'Tribe__Events__Community__Main' ) ) {
 				return;
 			}
 
-			// Make sure the action to send the email comes from the FE
+			// Make sure the action to send the email comes from the FE.
 			if (
 				'email' === tribe_get_request_var( 'action' )
 				&& 'tickets-attendees' === tribe_get_request_var( 'page' )
@@ -2706,7 +2956,7 @@ if ( ! class_exists( 'Tribe__Events__Community__Main' ) ) {
 		}
 
 		/**
-		 * Get determination if the user has a role that allows access to the admin
+		 * Get determination if the user has a role that allows access to the admin.
 		 *
 		 * @since 4.5.9
 		 *
@@ -2723,13 +2973,13 @@ if ( ! class_exists( 'Tribe__Events__Community__Main' ) ) {
 		}
 
 		/**
-		 * Determine if the user has a role that allows him to access the admin
+		 * Determine if the user has a role that allows him to access the admin.
 		 *
 		 * @since 3.1
 		 *
 		 * @param int $user_id
 		 *
-		 * @return bool Whether the user is allowed to access the admin (by this plugin)
+		 * @return bool Whether the user is allowed to access the admin (by this plugin).
 		 */
 		protected function user_can_access_admin( $user_id = 0 ) {
 			if ( ! is_array( $this->blockRolesList ) || empty( $this->blockRolesList ) ) {
@@ -2741,7 +2991,7 @@ if ( ! class_exists( 'Tribe__Events__Community__Main' ) ) {
 			}
 			$user_roles = $this->getUserRoles( $user_id );
 
-			// if a user has multiple roles, still let him in if he has a non-blocked role
+			// If a user has multiple roles, still let them in if they have a non-blocked role.
 			$diff = array_diff( $user_roles, $this->blockRolesList );
 			if ( empty( $diff ) ) {
 				return false;
@@ -2785,8 +3035,8 @@ if ( ! class_exists( 'Tribe__Events__Community__Main' ) ) {
 		 * Add the Community toolbar items.
 		 *
 		 * @since  1.0.1
+		 *
 		 * @return void
-		 * @author Paul Hughes
 		 */
 		public function addCommunityToolbarItems() {
 			/** @var WP_Admin_Bar $wp_admin_bar */
@@ -2844,17 +3094,18 @@ if ( ! class_exists( 'Tribe__Events__Community__Main' ) ) {
 		 * Load the plugin's textdomain.
 		 *
 		 * @since 1.0
+		 *
 		 * @return void
 		 */
 		public function loadTextDomain() {
 			$mopath = $this->pluginDir . 'lang/';
 			$domain = 'tribe-events-community';
 
-			// If we don't have Common classes load the old fashioned way
+			// If we don't have Common classes, load the old-fashioned way.
 			if ( ! class_exists( 'Tribe__Main' ) ) {
 				load_plugin_textdomain( $domain, false, $mopath );
 			} else {
-				// This will load `wp-content/languages/plugins` files first
+				// This will load `wp-content/languages/plugins` files first.
 				Tribe__Main::instance()->load_text_domain( $domain, $mopath );
 			}
 		}
@@ -2863,11 +3114,12 @@ if ( ! class_exists( 'Tribe__Events__Community__Main' ) ) {
 		 * Init the plugin.
 		 *
 		 * @since 1.0
+		 *
 		 * @return void
 		 */
 		public function init() {
 
-			// Setup Main Service Provider.
+			// Set up Main Service Provider.
 			tribe_register_provider( 'Tribe__Events__Community__Service_Provider' );
 			$this->anonymous_users = $this->anonymous_users_handler();
 
@@ -2896,7 +3148,7 @@ if ( ! class_exists( 'Tribe__Events__Community__Main' ) ) {
 				 * Filters the anonymous users handler.
 				 *
 				 * This filter allows hooking into anonymous users logic.
-				 * Only the last handler that is sent to this filter will run. To overwrite the logic use a higher priority.
+				 * Only the last handler sent to this filter will run. To overwrite the logic, use a higher priority.
 				 *
 				 * @since 5.0.0
 				 *
@@ -2906,7 +3158,7 @@ if ( ! class_exists( 'Tribe__Events__Community__Main' ) ) {
 			}
 
 			if ( ! is_callable( $handler ) ) {
-				// By default Community allows anonymous users to access everything (if $this->allowAnonymousSubmissions is true).
+				// By default, Community allows anonymous users to access everything (if $this->allowAnonymousSubmissions is true).
 				return '';
 			}
 
@@ -2919,7 +3171,7 @@ if ( ! class_exists( 'Tribe__Events__Community__Main' ) ) {
 		 * Grabs the slugs from options, allows other plugins to filter them,
 		 * then sets a value from get_default_rewrite_slugs($slug) if they are blank.
 		 *
-		 * Note these slugs are NOT translated, as this can lead to 404s on multi-lingual sites.
+		 * Note, these slugs are NOT translated, as this can lead to 404s on multilingual sites.
 		 *
 		 * @since 4.6.3
 		 * @since 5.0.0 Refactored to use `get_default_rewrite_slugs` and to make it more dynamic.
@@ -2976,6 +3228,12 @@ if ( ! class_exists( 'Tribe__Events__Community__Main' ) ) {
 			}
 		}
 
+		/**
+		 * Initialize and load the captcha plugin for form validation.
+		 *
+		 * @since 1.0
+		 * @since 5.0.0 Added null captcha fallback
+		 */
 		public function load_captcha_plugin() {
 			$this->captcha = apply_filters( 'tribe_community_events_captcha_plugin', new Tribe__Events__Community__Captcha__Recaptcha_V2() );
 			if ( empty( $this->captcha ) ) {
@@ -2984,6 +3242,13 @@ if ( ! class_exists( 'Tribe__Events__Community__Main' ) ) {
 			$this->captcha->init();
 		}
 
+		/**
+		 * Get the captcha plugin instance.
+		 *
+		 * @since 1.0.0
+		 *
+		 * @return Tribe__Events__Community__Captcha__Abstract_Captcha The captcha plugin instance
+		 */
 		public function captcha() {
 			return $this->captcha;
 		}
@@ -2992,8 +3257,8 @@ if ( ! class_exists( 'Tribe__Events__Community__Main' ) ) {
 		 * Singleton instance method.
 		 *
 		 * @since 1.0
-		 * @return Tribe__Events__Community__Main The instance
 		 *
+		 * @return Tribe__Events__Community__Main The instance.
 		 */
 		public static function instance() {
 			return tribe( 'community.main' );
@@ -3003,8 +3268,8 @@ if ( ! class_exists( 'Tribe__Events__Community__Main' ) ) {
 		 * Sets the setting variable that says the rewrite rules should be flushed upon plugin load.
 		 *
 		 * @since  1.0.1
+		 *
 		 * @return void
-		 * @author Paul Hughes
 		 */
 		public static function activateFlushRewrite() {
 			$options                        = self::getOptions();
@@ -3020,7 +3285,6 @@ if ( ! class_exists( 'Tribe__Events__Community__Main' ) ) {
 		 * @param string $content
 		 *
 		 * @return string An empty string.
-		 * @author Paul Hughes
 		 */
 		public function removeEditPostLink( $content ) {
 			$content = '';
@@ -3036,7 +3300,6 @@ if ( ! class_exists( 'Tribe__Events__Community__Main' ) ) {
 		 * @param string $content
 		 *
 		 * @return string
-		 * @author Paul Hughes
 		 */
 		public function helpTabForumsLink( $content ) {
 			$promo_suffix = '?utm_source=helptab&utm_medium=plugin-community&utm_campaign=in-app';
@@ -3045,7 +3308,7 @@ if ( ! class_exists( 'Tribe__Events__Community__Main' ) ) {
 		}
 
 		/**
-		 * Allows multisite installs to override defaults for settings.
+		 * Allows multisite installations to override defaults for settings.
 		 *
 		 * @since  1.0.6
 		 *
@@ -3054,7 +3317,6 @@ if ( ! class_exists( 'Tribe__Events__Community__Main' ) ) {
 		 * @param mixed  $value The current default.
 		 *
 		 * @return mixed The MU default value of the option.
-		 * @author Paul Hughes
 		 */
 		public function multisiteDefaultOverride( $value, $key, $field ) {
 			if ( isset( $field['parent_option'] ) && $field['parent_option'] == self::OPTIONNAME ) {
@@ -3070,9 +3332,9 @@ if ( ! class_exists( 'Tribe__Events__Community__Main' ) ) {
 		}
 
 		/**
-		 * Add in Community Event Slugs to the System Info after Settings
+		 * Add in Community Event Slugs to the System Info after Settings.
 		 *
-		 * @param $systeminfo
+		 * @param array $systeminfo The system information.
 		 *
 		 * @return mixed
 		 */
@@ -3112,14 +3374,13 @@ if ( ! class_exists( 'Tribe__Events__Community__Main' ) ) {
 		}
 
 		/**
-		 * Make necessary database updates on admin_init
+		 * Make necessary database updates on admin_init.
 		 *
 		 * @since 4.5.10
-		 *
 		 */
 		public function run_updates() {
 			if ( ! class_exists( 'Tribe__Events__Updater' ) ) {
-				return; // core needs to be updated for compatibility
+				return; // Core needs to be updated for compatibility.
 			}
 
 			$updater = new Tribe__Events__Community__Updater( self::VERSION );
@@ -3129,13 +3390,13 @@ if ( ! class_exists( 'Tribe__Events__Community__Main' ) ) {
 		}
 
 		/**
-		 * Hooked to tribe_tickets_user_can_manage_attendees
-		 * Allows event creator to edit attendees if allowUsersToEditSubmissions is true
+		 * Hooked to tribe_tickets_user_can_manage_attendees.
+		 * Allows event creator to edit attendees if allowUsersToEditSubmissions is true.
 		 *
 		 * @since 4.6.1
 		 *
-		 * @param boolean $user_can user can/can't edit
-		 * @param int     $user_id  ID of user to check, uses current user if empty
+		 * @param boolean $user_can User can/can't edit.
+		 * @param int     $user_id  ID of user to check, uses the current user if empty.
 		 * @param int     $event_id Event ID.
 		 *
 		 * @return boolean
@@ -3145,14 +3406,14 @@ if ( ! class_exists( 'Tribe__Events__Community__Main' ) ) {
 				$user_id = get_current_user_id();
 			}
 
-			// Cannot manage attendees without user.
+			// Cannot manage attendees without a user.
 			if ( ! $user_id ) {
 				return false;
 			}
 
 			// If Event Tickets is active.
 			if ( class_exists( 'Tribe__Tickets__Main', false ) ) {
-				// Cannot manage attendees without event, when not on the attendees page.
+				// Cannot manage attendees without an event, when not on the attendees page.
 				if (
 					! tribe( TEC\Tickets\Admin\Attendees\Page::class )->is_on_page()
 					&& empty( $event_id )
@@ -3165,7 +3426,7 @@ if ( ! class_exists( 'Tribe__Events__Community__Main' ) ) {
 				}
 			}
 
-			// Can manage attendees from admin area.
+			// Can manage attendees from the admin area.
 			if ( is_admin() ) {
 				return true;
 			}
@@ -3200,7 +3461,7 @@ if ( ! class_exists( 'Tribe__Events__Community__Main' ) ) {
 		 */
 		public function linked_posts_post_status( $post_status, $post_type ) {
 
-			// Only return publish if we are on the frontend.
+			// Only return "publish" if we are on the frontend.
 			if ( ! is_admin() ) {
 				return [ 'publish' ];
 			}
@@ -3268,7 +3529,7 @@ if ( ! class_exists( 'Tribe__Events__Community__Main' ) ) {
 			$submit_url = esc_url( $this->getUrl( 'add' ) );
 
 			/**
-			 * Allows to modify the default submission link on Community Submission Form.
+			 * Allows modifying the default submission link on the Community Submission Form.
 			 *
 			 * @since 5.0.0
 			 *
@@ -3294,7 +3555,7 @@ if ( ! class_exists( 'Tribe__Events__Community__Main' ) ) {
 		}
 
 		/**
-		 * Handle ajax requests from admin form
+		 * Handle ajax requests from the admin form.
 		 *
 		 * @todo redscar - Move to new class?
 		 */
@@ -3319,7 +3580,7 @@ if ( ! class_exists( 'Tribe__Events__Community__Main' ) ) {
 		 *
 		 * @since 5.0.0
 		 *
-		 * @return mixed The settings class that should be used for Community, or an empty string if the handler is not callable.
+		 * @return mixed The settings class that should be used for Community or an empty string if the handler is not callable.
 		 */
 		public static function get_settings_strategy() {
 			static $strategy_set = false;
@@ -3330,7 +3591,7 @@ if ( ! class_exists( 'Tribe__Events__Community__Main' ) ) {
 				 * Filters the settings handler.
 				 *
 				 * This filter allows hooking into the settings logic.
-				 * Only the last handler that is sent to this filter will run. To overwrite the logic use a higher priority.
+				 * Only the last handler sent to this filter will run. To overwrite the logic use a higher priority.
 				 *
 				 * @since 5.0.0
 				 *
@@ -3384,7 +3645,7 @@ if ( ! class_exists( 'Tribe__Events__Community__Main' ) ) {
 					 *
 					 * @param string $label The singular event label. Default 'Event'.
 					 */
-					return apply_filters( 'tribe_community_events_event_label_singular', 'Event' );
+					return apply_filters( 'tribe_community_events_event_label_singular', tec_events_community_event_label_singular() );
 				case 'plural':
 					/**
 					 * Filter the plural event label.
@@ -3395,8 +3656,9 @@ if ( ! class_exists( 'Tribe__Events__Community__Main' ) ) {
 					 *
 					 * @param string $label The plural event label. Default 'Events'.
 					 */
-					return apply_filters( 'tribe_community_events_event_label_plural', 'Events' );
+					return apply_filters( 'tribe_community_events_event_label_plural', tec_events_community_event_label_plural() );
 				case 'singular_lowercase':
+				case 'lowercase':
 					/**
 					 * Filter the singular lowercase event label.
 					 *
@@ -3406,7 +3668,7 @@ if ( ! class_exists( 'Tribe__Events__Community__Main' ) ) {
 					 *
 					 * @param string $label The singular lowercase event label. Default 'event'.
 					 */
-					return apply_filters( 'tribe_community_events_event_label_singular_lowercase', 'event' );
+					return apply_filters( 'tribe_community_events_event_label_singular_lowercase', tec_events_community_event_label_singular_lowercase() );
 				default:
 					/**
 					 * Filter the default event label.
@@ -3417,7 +3679,7 @@ if ( ! class_exists( 'Tribe__Events__Community__Main' ) ) {
 					 *
 					 * @param string $label The default event label. Default 'Event'.
 					 */
-					return apply_filters( 'tribe_community_events_event_label_default', 'Event' );
+					return apply_filters( 'tribe_community_events_event_label_default', tec_events_community_event_label_singular() );
 			}
 		}
 
@@ -3471,17 +3733,48 @@ if ( ! class_exists( 'Tribe__Events__Community__Main' ) ) {
 			return apply_filters( 'tribe_community_events_get_event_query', $data, $args, $full );
 		}
 
+		/**
+		 * Retrieves the parent plugins that are enabled.
+		 *
+		 * @since 5.0.8
+		 *
+		 * @return array An array of parent plugins that are enabled.
+		 */
+		public function get_parent_plugins() {
+			return [
+				'tec' => $this->tec_enabled(),
+				'et' => $this->et_enabled(),
+			];
+		}
+
+		/**
+		 * Check if The Events Calendar is enabled.
+		 *
+		 * @since 5.0.7 switched to using `tec_events_fully_loaded` instead of `tribe_events_bound_implementations`.
+		 * @return int|null
+		 */
 		public function tec_enabled() {
-			return did_action('tribe_events_bound_implementations');
+			return did_action( 'tec_events_fully_loaded' );
 		}
 
+		/**
+		 * Check if Events Pro is enabled.
+		 *
+		 * @since 5.0.7 switched to using `tec_events_pro_fully_loaded` instead of class_exists().
+		 * @return int|null
+		 */
 		public function ecp_enabled() {
-			// @todo redscar - find an action that can be used instead of class exists.
-			return class_exists( Tribe__Events__Pro__Main::class, false );
+			return did_action( 'tec_events_pro_fully_loaded' );
 		}
 
+		/**
+		 * Check if Event Tickets is enabled.
+		 *
+		 * @since 5.0.7 switched to using `tec_tickets_fully_loaded` instead of `tribe_tickets_plugin_loaded`.
+		 * @return int|null
+		 */
 		public function et_enabled() {
-			return did_action('tribe_tickets_plugin_loaded');
+			return did_action( 'tec_tickets_fully_loaded' );
 		}
 
 		/**
@@ -3572,7 +3865,7 @@ if ( ! class_exists( 'Tribe__Events__Community__Main' ) ) {
 		 * Retrieves default rewrite slugs based on the provided slug key.
 		 * If no key is provided, returns all default rewrite slugs.
 		 *
-		 * This method allows for a flexible retrieval of either a specific rewrite slug or all rewrite slugs,
+		 * This method allows for the flexible retrieval of either a specific rewrite slug or all rewrite slugs,
 		 * depending on the need. It checks if the provided slug key exists in the array of slugs and returns it;
 		 * if no key is provided, it returns the entire array of default rewrite slugs.
 		 *
@@ -3640,7 +3933,7 @@ if ( ! class_exists( 'Tribe__Events__Community__Main' ) ) {
 		 * By passing true to class_exists(), we allow the autoloader to attempt loading the class
 		 * if it's not already loaded. WooCommerce autoloads most of its classes early in the
 		 * initialization process, so there is minimal risk that the class isn't available.
-		 * This also ensures that we don’t miss the class if it's available but hasn't been explicitly loaded yet.
+		 * This also ensures that we don't miss the class if it's available but hasn't been explicitly loaded yet.
 		 *
 		 * The hooks here are intentionally using anonymous methods as we do not want them to be removed.
 		 *
@@ -3665,6 +3958,25 @@ if ( ! class_exists( 'Tribe__Events__Community__Main' ) ) {
 		}
 
 		/**
+		 * Gets the template instance used to setup the rendering html.
+		 *
+		 * @since 5.0.10
+		 *
+		 * @return Tribe__Template The template instance.
+		 */
+		public function get_template_file(): Tribe__Template {
+			if ( empty( $this->template ) ) {
+				$this->template = new Tribe__Template();
+				$this->template->set_template_origin( tribe( 'community.main' ) );
+				$this->template->set_template_folder( 'src/views' );
+				$this->template->set_template_context_extract( true );
+				$this->template->set_template_folder_lookup( true );
+			}
+
+			return $this->template;
+		}
+
+		/**
 		 * Deprecated methods
 		 */
 
@@ -3681,7 +3993,7 @@ if ( ! class_exists( 'Tribe__Events__Community__Main' ) ) {
 		}
 
 		/**
-		 * Checks if it should flush rewrite rules (after plugin is loaded).
+		 * Checks if it should flush rewrite rules (after the plugin is loaded).
 		 *
 		 * @since  1.0.1
 		 *
@@ -3713,6 +4025,82 @@ if ( ! class_exists( 'Tribe__Events__Community__Main' ) ) {
 				// Do nothing.
 				return;
 			}
+		}
+
+		/**
+		 * Send email alerts for event submissions.
+		 *
+		 * @since 1.0
+		 * @deprecated 5.0.7 Use send_email_alerts() instead.
+		 *
+		 * @param int $tribe_event_id The event ID.
+		 *
+		 * @return bool Whether the emails were sent successfully.
+		 */
+		public function sendEmailAlerts( $tribe_event_id ) {
+			_deprecated_function( __METHOD__, '5.0.7', 'send_email_alerts' );
+
+			return $this->send_email_alerts( $tribe_event_id );
+		}
+
+		/**
+		 * Filter pagination (deprecated wrapper).
+		 *
+		 * @deprecated 5.0.10 Use TEC\Events_Community\Listing\Pagination + community/pagination.php
+		 *
+		 * @param \WP_Query $query     Query to paginate.
+		 * @param mixed     $pages     Total pages (0 or '' = auto-calc from $query).
+		 * @param int       $range     Siblings around current.
+		 * @param bool      $shortcode Whether shortcode context is active.
+		 *
+		 * @return string HTML from template, or '' if not applicable.
+		 */
+		public function pagination( $query, $pages = 0, $range = 3, $shortcode = false ) {
+			_deprecated_function(
+				__METHOD__,
+				'5.0.10',
+				'TEC\\Events_Community\\Listing\\Pagination + community/pagination.php'
+			);
+
+			$range = (int) $range;
+
+			// Back-compat: auto-calc when $pages is 0/''.
+			if ( ! $pages ) {
+				// phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
+				$per_page = max( 1, (int) $this->eventsPerPage );
+				$found    = (int) ( $query->found_posts ?? 0 );
+				$pages    = (int) ceil( $found / $per_page );
+			}
+
+			$pages = max( 1, (int) $pages );
+			if ( 1 === $pages ) {
+				return '';
+			}
+
+			// Legacy source of truth for current page.
+			global $paged;
+			$current = max( 1, (int) ( $paged ?? 1 ) );
+
+			$url_resolver = $shortcode
+				? static function ( int $n ): string {
+					$base = trailingslashit( get_permalink() );
+					return trailingslashit( $base . $n );
+				}
+				: function ( int $n ): string {
+					$link = get_pagenum_link( $n );
+					$link = $this->fix_pagenum_link( $link );
+					return $this->fix_pagenum_link_with_query_vars( $link );
+				};
+
+			/** @var Pagination $pagination */
+			$pagination = tribe( Pagination::class );
+			$pagination->create_pagination( $pages, $current, $url_resolver, $range );
+
+			return (string) $this->get_template_file()->template(
+				'community/pagination',
+				[ 'pagination' => $pagination ],
+				false
+			);
 		}
 	}
 }

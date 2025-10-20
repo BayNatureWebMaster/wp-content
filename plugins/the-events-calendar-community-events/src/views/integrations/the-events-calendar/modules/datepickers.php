@@ -44,10 +44,10 @@ if ( $has_post && 0 !== get_the_ID() && 'auto-draft' !== get_post_status( $has_p
 	$tz_choice     = ! empty( $_POST['EventTimezone'] ) ? $_POST['EventTimezone'] : $tz_choice;
 }
 
-$events_label_singular           = tribe_get_event_label_singular();
-$events_label_plural             = tribe_get_event_label_plural();
-$events_label_singular_lowercase = tribe_get_event_label_singular_lowercase();
-$events_label_plural_lowercase   = tribe_get_event_label_plural_lowercase();
+$events_label_singular           = tec_events_community_event_label_singular();
+$events_label_plural             = tec_events_community_event_label_plural();
+$events_label_singular_lowercase = tec_events_community_event_label_singular_lowercase();
+$events_label_plural_lowercase   = tec_events_community_event_label_plural_lowercase();
 
 ?>
 

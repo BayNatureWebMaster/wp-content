@@ -163,7 +163,7 @@ class Venue_Logic {
 	 * Adds allowed inner venue fields to the submission's allowed inner fields mapping.
 	 *
 	 * Merges the provided allowed inner fields array with the submission's allowed venue fields.
-	 * If the creation of new venues has been disabled, only accepts existing venue IDs.
+	 * If the creation of new venues has been disabled, it only accepts existing venue IDs.
 	 *
 	 * @since 5.0.0
 	 *
@@ -204,6 +204,7 @@ class Venue_Logic {
 	 * present in the allowed venue fields.
 	 *
 	 * @since 5.0.0
+	 * @since 5.0.12 Added a type-check for the State to ensure it is correctly saved.
 	 *
 	 * @param array $submission The current submission array.
 	 *
@@ -218,6 +219,20 @@ class Venue_Logic {
 			$submission['VenueShowMap'] = true;
 		}
 
+		// If there's only one venue, we're good.
+		// It's a string when editing a venue through a shortcode like [tribe_community_events view="edit_venue" id="338"].
+		// It's an array otherwise.
+		// phpcs:disable WordPress.Security.NonceVerification.Missing
+		if (
+			isset( $_POST['venue']['State'] )
+			&& (
+				is_string( $_POST['venue']['State'] )
+				|| count( $_POST['venue']['State'] ) === 1
+			)
+		) {
+			return $submission;
+		}
+		// phpcs:enable WordPress.Security.NonceVerification.Missing
 
 		// Fix an issue with the venue state not being properly defined when submitting the event.
 		if ( isset( $_POST['venue']['State'][0] ) ) {
@@ -291,7 +306,7 @@ class Venue_Logic {
 		// Set the router for the route instance.
 		$route->set_router( $router );
 
-		// Setup the route.
+		// Set up the route.
 		$route->setup();
 
 		// Add the route to the routes factory.
@@ -310,6 +325,7 @@ class Venue_Logic {
 	 * fields under it.
 	 *
 	 * @since 5.0.0
+	 * @since Add parent_option to the settings.
 	 *
 	 * @param array $community_tab_fields The existing Community settings tab fields.
 	 *
@@ -344,6 +360,7 @@ class Venue_Logic {
 				'options'         => $venue_options,
 				'can_be_empty'    => true,
 				'conditional'     => $venue_exist,
+				'parent_option'   => Tribe__Events__Community__Main::OPTIONNAME,
 			],
 		];
 
@@ -354,6 +371,7 @@ class Venue_Logic {
 				'tooltip'         => _x( 'Users will be limited to choosing from existing venues.', 'Tooltip for preventing new venues.', 'tribe-events-community' ),
 				'default'         => false,
 				'validation_type' => 'boolean',
+				'parent_option'   => Tribe__Events__Community__Main::OPTIONNAME,
 			],
 		];
 

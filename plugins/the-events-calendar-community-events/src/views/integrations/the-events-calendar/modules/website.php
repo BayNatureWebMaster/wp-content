@@ -21,7 +21,15 @@
 
 <div class="tribe-section tribe-section-website">
 	<div class="tribe-section-header">
-		<h3><?php printf( __( '%s Website', 'tribe-events-community' ), tribe_get_event_label_singular() ); ?></h3>
+		<h3>
+			<?php
+			printf(
+				/* translators: %s: Event label singular. */
+				esc_html__( '%s Website', 'tribe-events-community' ),
+				esc_html( tec_events_community_event_label_singular() )
+			);
+			?>
+		</h3>
 	</div>
 
 	<?php

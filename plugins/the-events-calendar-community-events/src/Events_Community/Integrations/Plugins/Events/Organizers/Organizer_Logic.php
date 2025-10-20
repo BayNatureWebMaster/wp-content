@@ -150,7 +150,7 @@ class Organizer_Logic {
 	 * Adds allowed inner fields to the submission's allowed inner fields mapping.
 	 *
 	 * Merges the given allowed inner fields array with the submission's allowed organizer fields.
-	 * If the creation of new organizers has been disabled, only accepts existing organizer IDs.
+	 * If the creation of new organizers has been disabled, it only accepts existing organizer IDs.
 	 *
 	 * @since 5.0.0
 	 *
@@ -208,7 +208,7 @@ class Organizer_Logic {
 	/**
 	 * Changes the header link title based on the post type.
 	 *
-	 * This method modifies the header link title if the post is a organizer.
+	 * This method modifies the header link title if the post is an organizer.
 	 *
 	 * @since 5.0.0
 	 *
@@ -249,7 +249,7 @@ class Organizer_Logic {
 		// Set the router for the route instance.
 		$route->set_router( $router );
 
-		// Setup the route.
+		// Set up the route.
 		$route->setup();
 
 		// Add the route to the routes factory.
@@ -269,6 +269,7 @@ class Organizer_Logic {
 	 * fields under it.
 	 *
 	 * @since 5.0.0
+	 * @since 5.0.10 Add parent_option to the settings.
 	 *
 	 * @param array $community_tab_fields The existing Community settings tab fields.
 	 *
@@ -302,6 +303,7 @@ class Organizer_Logic {
 				'options'         => $organizer_options,
 				'can_be_empty'    => true,
 				'conditional'     => $organizers_exist,
+				'parent_option'   => Tribe__Events__Community__Main::OPTIONNAME,
 			],
 		];
 
@@ -312,6 +314,7 @@ class Organizer_Logic {
 				'tooltip'         => _x( 'Users will be limited to choosing from existing organizers.', 'Tooltip for preventing new organizers.', 'tribe-events-community' ),
 				'default'         => false,
 				'validation_type' => 'boolean',
+				'parent_option'   => Tribe__Events__Community__Main::OPTIONNAME,
 			],
 		];
 

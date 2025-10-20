@@ -231,6 +231,7 @@ abstract class Abstract_Callback implements Callback_Interface {
 	 * Displays a template with the given arguments.
 	 *
 	 * @since 4.10.14
+	 * @since 5.0.0 Added default template variable, allowing to overwrite it if needed.
 	 *
 	 * @param string $template The template file name.
 	 * @param array  $args     The template arguments.
@@ -238,6 +239,9 @@ abstract class Abstract_Callback implements Callback_Interface {
 	 * @return string The rendered template HTML.
 	 */
 	protected function display_template( string $template, array $args ): string {
+		// Merge template into args with the ability to override.
+		$args = array_merge( [ 'template' => $this->get_template() ], $args );
+
 		$this->pre_filters();
 
 		ob_start();

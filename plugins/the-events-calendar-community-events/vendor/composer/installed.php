@@ -1,9 +1,9 @@
 <?php return array(
     'root' => array(
         'name' => 'the-events-calendar/events-community',
-        'pretty_version' => 'dev-master',
-        'version' => 'dev-master',
-        'reference' => '0b377b0dc028dfbbb0a89c00a7f6381fc78cc2b7',
+        'pretty_version' => 'dev-release/T25.jessicajones',
+        'version' => 'dev-release/T25.jessicajones',
+        'reference' => '817899e83b0f2fcab220b77ebebed7a1faeb5fae',
         'type' => 'wordpress-plugin',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -29,9 +29,9 @@
             'dev_requirement' => false,
         ),
         'the-events-calendar/events-community' => array(
-            'pretty_version' => 'dev-master',
-            'version' => 'dev-master',
-            'reference' => '0b377b0dc028dfbbb0a89c00a7f6381fc78cc2b7',
+            'pretty_version' => 'dev-release/T25.jessicajones',
+            'version' => 'dev-release/T25.jessicajones',
+            'reference' => '817899e83b0f2fcab220b77ebebed7a1faeb5fae',
             'type' => 'wordpress-plugin',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
@@ -40,7 +40,7 @@
         'the-events-calendar/wp-router' => array(
             'pretty_version' => 'dev-master',
             'version' => 'dev-master',
-            'reference' => '5a689c585a0bacb2bdcbe48ebd56a867783828cb',
+            'reference' => '7b6159ad882f6bb43f67e01dd2763dc7bd7026f3',
             'type' => 'wordpress-plugin',
             'install_path' => __DIR__ . '/../the-events-calendar/wp-router',
             'aliases' => array(

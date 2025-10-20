@@ -11,6 +11,7 @@ use Tribe__Date_Utils;
 use Tribe__Events__Community__Main;
 use Tribe__Events__Main;
 use Tribe__Main;
+use Tribe__Events__Community__Templates;
 
 /**
  * Class Provider
@@ -135,6 +136,7 @@ class Controller extends Plugin_Integration_Abstract {
 			2
 		);
 		add_filter( 'tec_events_community_event_slug', [ $this, 'overwrite_default_event_slug' ], 15 );
+		add_filter( 'tec_events_community_email_alert_template_path', [ $this, 'override_email_alert_template_path' ], 15 );
 	}
 
 	/**
@@ -585,7 +587,7 @@ class Controller extends Plugin_Integration_Abstract {
 		switch ( $field ) {
 			case 'tax_input.tribe_events_cat':
 				// translators: %s is the field label.
-				return sprintf( _x( '%s Category', 'field label for event categories', 'tribe-events-community' ), tribe_get_event_label_singular() );
+				return sprintf( _x( '%s Category', 'field label for event categories', 'tribe-events-community' ), tec_events_community_event_label_singular() );
 			case 'tax_input.post_tag':
 				return _x( 'Tag', 'field label for post tags', 'tribe-events-community' );
 			default:
@@ -680,5 +682,20 @@ class Controller extends Plugin_Integration_Abstract {
 	public function overwrite_default_event_slug(): string {
 		// Get the event slug from options with a default fallback.
 		return tribe_get_option( 'eventsSlug', 'events' );
+	}
+
+	/**
+	 * Override the email template path to use TEC's template.
+	 *
+	 * @since 5.0.7
+	 *
+	 * @param string $template_path The default template path.
+	 *
+	 * @return string The TEC template path.
+	 */
+	public function override_email_alert_template_path( string $template_path ): string {
+		$tec_template = Tribe__Events__Community__Templates::getTemplateHierarchy( 'integrations/the-events-calendar/email-template' );
+
+		return ! empty( $tec_template ) && file_exists( $tec_template ) ? $tec_template : $template_path;
 	}
 }

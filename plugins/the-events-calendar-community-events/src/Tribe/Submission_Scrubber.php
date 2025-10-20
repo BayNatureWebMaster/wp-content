@@ -137,7 +137,7 @@ class Tribe__Events__Community__Submission_Scrubber {
 	 * @return void
 	 */
 	protected function set_post_type(): void {
-		$this->submission['post_type'] = tribe( Tribe__Events__Community__Main::class )->get_community_events_post_type();
+		$this->submission['post_type'] = tribe( 'community.main' )->get_community_events_post_type();
 	}
 
 	/**

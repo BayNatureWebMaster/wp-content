@@ -136,18 +136,19 @@ class Event_Handler {
 	 * are valid WP_Post objects.
 	 *
 	 * @since 5.0.0
+	 * @since 5.0.6 Switched to using $event->ID.
 	 *
 	 * @param array   $submission The submission data.
 	 * @param WP_Post $event The event data.
 	 */
 	protected function update_series( array $submission, WP_Post $event ) {
-		// Check if the submission includes a series and if the function to update the event with the series exists.
-		if ( empty( $submission['Series'] ) || ! function_exists( 'tribe_update_event_with_series' ) ) {
+		// Check if the submission includes a recurrence and if the function to update the event with the series exists.
+		if ( empty( $submission['recurrence'] ) || ! function_exists( 'tribe_update_event_with_series' ) ) {
 			return;
 		}
 
 		// Retrieve the new event and the series as WP_Post objects.
-		$new_event = get_post( $event['ID'] );
+		$new_event = get_post( $event->ID );
 		$series    = get_post( $submission['Series'] );
 
 		// Update the event with the series if both are valid WP_Post objects.

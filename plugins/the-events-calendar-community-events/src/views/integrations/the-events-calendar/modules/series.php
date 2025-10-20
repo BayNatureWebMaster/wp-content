@@ -41,9 +41,15 @@ if ( ! isset( $event ) ) {
 	<div class="tribe-section-header">
 		<h3 class="<?php echo tribe_community_events_field_has_error( 'series' ) ? 'error' : ''; ?>">
 			<?php
-			printf( esc_html_x( '%1$s %2$s', 'Event Series metabox title on Community Edit Page', 'tribe-events-community' ), tribe_get_event_label_singular(), $series_label_singular );
-			echo tribe_community_required_field_marker( 'series' );
+			printf(
+			/* translators: 1: Event label singular. 2: Series label singular. */
+				esc_html_x( '%1$s %2$s', 'Event Series metabox title on Community Edit Page', 'tribe-events-community' ),
+				esc_html( tec_events_community_event_label_singular() ),
+				esc_html( $series_label_singular )
+			);
+			echo esc_html( tribe_community_required_field_marker( 'series' ) );
 			?>
+
 		</h3>
 	</div>
 

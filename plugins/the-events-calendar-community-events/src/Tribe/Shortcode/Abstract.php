@@ -94,8 +94,8 @@ abstract class Tribe__Events__Community__Shortcode__Abstract {
 	 * @return mixed the login form or true (if user has the necessary permissions to submit new events)
 	 */
 	public function is_logged_in( $event_id = false ) {
-		$events_label     = tribe_get_event_label_singular_lowercase();
-		$edit             = false;
+		$events_label = tec_events_community_event_label_singular_lowercase();
+		$edit         = false;
 
 		if ( $event_id ) {
 			$edit = true;

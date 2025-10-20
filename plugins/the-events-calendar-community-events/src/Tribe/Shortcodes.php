@@ -38,7 +38,18 @@ class Tribe__Events__Community__Shortcodes extends Tribe__Events__Community__Sho
 		$community->maybeLoadAssets( true );
 		$community->enqueue_assets();
 
-		tribe_asset_enqueue( 'tribe-events-community-shortcodes' );
+		/**
+		 * Fires when the Community Events shortcode form is rendered,
+		 * allowing plugins or code to enqueue necessary assets (e.g., Custom Tables v1).
+		 *
+		 * Use this hook to enqueue or modify assets specifically needed for
+		 * frontend rendering of the Community Events form via shortcode.
+		 *
+		 * @since 5.0.9
+		 */
+		do_action( 'tec_events_community_shortcode_assets' );
+
+		tribe_asset_enqueue_group( $community::$shortcode_assets_group );
 	}
 
 	/**

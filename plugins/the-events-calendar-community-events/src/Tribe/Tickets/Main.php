@@ -3,6 +3,7 @@
 use Tribe\Community\Tickets\Payouts;
 use Tribe\Community\Tickets\Payouts\Service_Provider as Payouts_Provider;
 use TEC\Tickets\Admin\Attendees\Page as Attendees_Page;
+use TEC\Common\StellarWP\Assets\Config as Assets_Config;
 
 class Tribe__Events__Community__Tickets__Main {
 	/**
@@ -133,6 +134,24 @@ class Tribe__Events__Community__Tickets__Main {
 	];
 
 	/**
+	 * The group the assets belong to.
+	 *
+	 * @since 5.0.9
+	 *
+	 * @var string
+	 */
+	public static string $assets_group = 'events-community-tickets';
+
+	/**
+	 * The group the admin assets belong to.
+	 *
+	 * @since 5.0.9
+	 *
+	 * @var string
+	 */
+	public static string $admin_assets_group = 'events-community-tickets-admin';
+
+	/**
 	 * Singleton to instantiate the Community Tickets class
 	 */
 	public static function instance() {
@@ -165,8 +184,6 @@ class Tribe__Events__Community__Tickets__Main {
 	 * @since 5.0.0 Migrated to Community from Community Tickets.
 	 */
 	public function bootstrap() {
-		$this->register_resources();
-
 		// No need to bootstrap, we already did.
 		if ( has_action( 'init', [ $this, 'init' ] ) ) {
 			return;
@@ -189,6 +206,8 @@ class Tribe__Events__Community__Tickets__Main {
 
 		add_action( 'init', [ $this, 'init' ], 5 );
 
+		$this->register_assets();
+
 		add_action( 'tribe_load_text_domains', [ $this, 'load_text_domain' ] );
 
 		// this allows event owners to fetch/read orders on posts they own
@@ -204,11 +223,6 @@ class Tribe__Events__Community__Tickets__Main {
 
 			add_filter( 'user_has_cap', [ $this, 'give_subscribers_upload_files_cap' ], 10, 3 );
 		}
-
-		add_action( 'admin_enqueue_scripts', [ $this, 'maybe_enqueue_admin_resources' ], 11 );
-
-		add_action( 'tribe_community_events_enqueue_resources', [ $this, 'maybe_enqueue_frontend' ] );
-		add_action( 'wp_enqueue_scripts', [ $this, 'maybe_enqueue_frontend' ] );
 
 		add_filter( 'tribe_events_template_paths', [ $this, 'add_template_paths' ] );
 		add_action( 'wp_router_generate_routes', [ $this, 'generate_routes' ] );
@@ -247,7 +261,7 @@ class Tribe__Events__Community__Tickets__Main {
 
 		add_filter( 'tribe_tickets_get_default_module', [ $this, 'filter_prevent_edd_provider' ] );
 
-		add_action( 'admin_init', [ $this, 'run_updates' ], 10, 0 );
+		add_action( 'init', [ $this, 'run_updates' ], 10, 0 );
 
 		add_filter( 'tec_events_community_modify_default_rewrite_slugs', [ $this, 'add_additional_rewrite_slugs' ] );
 
@@ -266,6 +280,31 @@ class Tribe__Events__Community__Tickets__Main {
 		tribe_register_provider( \TEC\Community_Tickets\Tickets\Commerce\Provider::class );
 
 	}
+
+	/**
+	 * Registers the plugin's asset group and resources.
+	 *
+	 * This method ensures that asset registration occurs at the appropriate time,
+	 * after Tribe Common has fully loaded. If Tribe Common has already fired,
+	 * assets are registered immediately. Otherwise, the registration is deferred
+	 * via `tribe_common_loaded`.
+	 *
+	 * @since 5.0.9
+	 *
+	 * @return void
+	 */
+	public function register_assets(): void {
+		if ( did_action( 'tribe_common_loaded' ) ) {
+			$this->register_assets_group();
+			$this->register_resources();
+
+			return;
+		}
+
+		add_action( 'tribe_common_loaded', [ $this, 'register_assets_group' ] );
+		add_action( 'tribe_common_loaded', [ $this, 'register_resources' ], 20 );
+	}
+
 
 	/**
 	 * Bootstrap of the Plugin on Init
@@ -423,57 +462,101 @@ class Tribe__Events__Community__Tickets__Main {
 	 * Includes filters for version numbers
 	 *
 	 * @since 5.0.0 Migrated to Community from Community Tickets.
+	 * @since 5.0.9 Refactored to use conditional asset loading.
 	 *
 	 * @return void
 	 */
 	public function register_resources() {
-		tribe_asset(
-			$this,
+		tec_asset(
+			self::class,
 			'events-community-tickets-admin-js',
-			'events-community-tickets-admin.js',
-			[ 'jquery' ]
-		);
-
-		tribe_asset(
-			$this,
-			'events-community-tickets-js',
-			'events-community-tickets.js',
+			'js/events-community-tickets-admin.js',
+			[ 'jquery' ],
+			null,
 			[
-				'jquery',
-				'tribe-bumpdown',
+				'groups'       => [ static::$admin_assets_group ],
+				'conditionals' => [ $this, 'should_enqueue_admin_assets' ],
 			]
 		);
 
-		tribe_asset(
-			$this,
+		tec_asset(
+			self::class,
+			'events-community-tickets-js',
+			'js/events-community-tickets.js',
+			[
+				'jquery',
+				'tribe-bumpdown',
+				'event-tickets-admin-js',
+			],
+			null,
+			[
+				'groups'       => [ static::$assets_group ],
+				'conditionals' => [ $this, 'should_enqueue_frontend_assets' ],
+			]
+		);
+
+		tec_asset(
+			self::class,
 			'events-community-tickets-admin-css',
-			'events-community-tickets-admin.css'
+			'css/events-community-tickets-admin.css',
+			[],
+			null,
+			[
+				'groups'       => [ static::$admin_assets_group ],
+				'conditionals' => [ $this, 'should_enqueue_admin_assets' ],
+			]
 		);
 
-		tribe_asset(
-			$this,
+		tec_asset(
+			self::class,
 			'events-community-tickets-css',
-			'events-community-tickets.css'
+			'css/events-community-tickets.css',
+			[
+				'event-tickets-admin-tables-css',
+			],
+			null,
+			[
+				'groups'       => [ static::$assets_group ],
+				'conditionals' => [ $this, 'should_enqueue_frontend_assets' ],
+			]
 		);
 
-		tribe_asset(
-			$this,
+		tec_asset(
+			self::class,
 			'events-community-tickets-shortcodes-css',
-			'events-community-tickets-shortcodes.css',
+			'css/events-community-tickets-shortcodes.css',
 			[
 				'events-community-tickets-css',
+			],
+			null,
+			[
+				'groups'       => [ static::$assets_group ],
+				'conditionals' => [ $this, 'should_enqueue_shortcode_assets' ],
 			]
 		);
 	}
 
 	/**
-	 * Enqueue the admin resources where needed.
+	 * Determines whether admin assets should be enqueued.
 	 *
-	 * @since 5.0.0 Migrated to Community from Community Tickets.
+	 * Checks if the current screen is one of the Community Events admin pages
+	 * where admin assets should be loaded.
 	 *
-	 * @param string $screen WP_Screen ID.
+	 * @since 5.0.9
+	 *
+	 * @return bool Whether admin assets should be enqueued.
 	 */
-	public function maybe_enqueue_admin_resources( $screen ) {
+	public function should_enqueue_admin_assets() {
+		if ( ! function_exists( 'get_current_screen' ) ) {
+			return false;
+		}
+
+		$screen = get_current_screen();
+
+		if ( ! $screen ) {
+			return false;
+		}
+
 		$ce_admin_pages = [
 			'tribe_events_page_tec-events-settings',
 			'tribe_events_page_tickets-orders',
@@ -481,18 +564,139 @@ class Tribe__Events__Community__Tickets__Main {
 			'tribe_events_page_events-community-tickets-payouts',
 		];
 
-		if (
-		in_array( $screen, $ce_admin_pages, true )
-		) {
-			tribe_asset_enqueue( 'events-community-tickets-admin-css' );
-			tribe_asset_enqueue( 'events-community-tickets-admin-js' );
+		$should_enqueue = in_array( $screen->id, $ce_admin_pages, true );
+
+		if ( $should_enqueue ) {
+			tribe_asset_enqueue_group( static::$admin_assets_group );
 		}
+
+		return $should_enqueue;
+	}
+
+	/**
+	 * Determines whether frontend assets should be enqueued.
+	 *
+	 * Checks if the current page is a community event page or if we're not
+	 * in the admin area, indicating frontend asset loading is needed.
+	 *
+	 * @since 5.0.9
+	 *
+	 * @return bool Whether frontend assets should be enqueued.
+	 */
+	public function should_enqueue_frontend_assets() {
+		// Always enqueue on community event pages.
+		if ( tribe_is_community_my_events_page() || tribe_is_community_edit_event_page() ) {
+			return true;
+		}
+
+		// Enqueue when not in admin area.
+		if ( ! $this->is_really_admin() ) {
+			return true;
+		}
+
+		return false;
+	}
+
+	/**
+	 * Determines whether shortcode-specific assets should be enqueued.
+	 *
+	 * Checks if the current post contains the 'tribe_community_tickets' shortcode,
+	 * indicating that shortcode-specific assets are needed.
+	 *
+	 * @since 5.0.9
+	 *
+	 * @return bool Whether shortcode assets should be enqueued.
+	 */
+	public function should_enqueue_shortcode_assets() {
+		$post = get_post();
+
+		if (
+			$post
+			&& ! empty( $post->post_content )
+			&& has_shortcode( $post->post_content, 'tribe_community_tickets' )
+		) {
+			return true;
+		}
+
+		return false;
+	}
+
+	/**
+	 * Determines whether events admin assets should be enqueued.
+	 *
+	 * Checks if the current page is a community event page where
+	 * events admin styling is needed for consistency.
+	 *
+	 * @since 5.0.9
+	 *
+	 * @return bool Whether events admin assets should be enqueued.
+	 */
+	public function should_enqueue_events_admin_assets() {
+		// Always enqueue on community event pages for styling consistency.
+		if ( tribe_is_community_my_events_page() || tribe_is_community_edit_event_page() ) {
+			return true;
+		}
+
+		// Enqueue when not in admin area for frontend styling.
+		if ( ! $this->is_really_admin() ) {
+			return true;
+		}
+
+		return false;
+	}
+
+	/**
+	 * Register the assets group for the build directory.
+	 *
+	 * @since 5.0.9
+	 */
+	protected function register_assets_group() {
+		/*
+		 * Register the `/build` directory assets as a different group to ensure back-compatibility.
+		 * This needs to happen after tribe_common_loaded.
+		 */
+		Assets_Config::add_group_path(
+			self::class,
+			// phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
+			$this->plugin_path . 'build',
+			'',
+			true
+		);
+
+		Assets_Config::add_group_path(
+			self::class . '-packages',
+			// phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
+			$this->plugin_path . 'build',
+			'',
+			false
+		);
+	}
+
+	/**
+	 * Enqueue the admin resources where needed.
+	 *
+	 * @deprecated 5.0.9 Use conditional asset loading instead.
+	 *
+	 * @since 5.0.0 Migrated to Community from Community Tickets.
+	 * @since 5.0.9 Assets now handled by conditionals.
+	 *
+	 * @param string $screen WP_Screen ID.
+	 */
+	public function maybe_enqueue_admin_resources( $screen ) {
+		_deprecated_function( __METHOD__, '5.0.9', 'Assets are now automatically enqueued via conditionals in register_resources().' );
+		// Admin assets are now automatically enqueued via conditionals.
 	}
 
 	/**
 	 * Enqueue the front end resources, add nonces for forms
+	 *
+	 * @deprecated 5.0.9 Use conditional asset loading instead.
+	 * @since 5.0.0 Migrated to Community from Community Tickets.
+	 * @since 5.0.9 Assets now handled by conditionals.
 	 */
 	public function maybe_enqueue_frontend() {
+		_deprecated_function( __METHOD__, '5.0.9', 'Assets are now automatically enqueued via conditionals in register_resources().' );
+
 		$nonces = [
 			'add_ticket_nonce'    => wp_create_nonce( 'add_ticket_nonce' ),
 			'edit_ticket_nonce'   => wp_create_nonce( 'edit_ticket_nonce' ),
@@ -502,29 +706,8 @@ class Tribe__Events__Community__Tickets__Main {
 
 		wp_localize_script( 'events-community-tickets-js', 'TribeTickets', $nonces );
 
-		$post = get_post();
-
-		if (
-			$post
-			&& ! empty( $post->post_content )
-			&& has_shortcode( $post->post_content, 'tribe_community_tickets' )
-		) {
-			tribe_asset_enqueue_group( 'events-admin' );
-			tribe_asset_enqueue( 'events-community-tickets-css' );
-		}
-
-		if ( ! $this->is_really_admin() ) {
-			// enqueue the styles so our page nav looks ok
-			tribe_asset_enqueue( 'events-community-tickets-css' );
-		}
-
-		if (
-			tribe_is_community_my_events_page()
-			|| tribe_is_community_edit_event_page()
-		) {
-			tribe_asset_enqueue_group( 'event-tickets-admin' );
-			tribe_asset_enqueue_group( 'event-tickets-plus-admin' );
-		}
+		// Ensure events-admin asset group is loaded when needed.
+		$this->should_enqueue_events_admin_assets();
 	}
 
 	/**

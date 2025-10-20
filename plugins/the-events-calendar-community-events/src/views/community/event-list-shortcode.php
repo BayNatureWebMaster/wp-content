@@ -9,22 +9,30 @@
  *
  * @link    https://evnt.is/1ao4 Help article for Community & Tickets template files.
  *
- * @version 4.10.17
+ * @version 5.0.10
  *
- * @since   4.6.3
- * @since   4.8.2 Updated template link.
- * @since   4.10.17 Corrected template override path.
+ * @since 4.6.3
+ * @since 4.8.2 Updated template link.
+ * @since 4.10.17 Corrected template override path.
+ * @since 5.0.10 Replaced pagination logic.
+ *
+ * @var $events
+ * @var $paged
+ * @var $pagination Pagination Object
+ * @var $template   Tribe__Template Template Object
  */
 
-// Don't load directly
+// Don't load directly.
+use TEC\Events_Community\Listing\Pagination;
+
 if ( ! defined( 'ABSPATH' ) ) {
 	die( '-1' );
 }
 
 $organizer_label_singular      = tribe_get_organizer_label_singular();
 $venue_label_singular          = tribe_get_venue_label_singular();
-$events_label_plural           = tribe_get_event_label_plural();
-$events_label_plural_lowercase = tribe_get_event_label_plural_lowercase();
+$events_label_plural           = tec_events_community_event_label_plural();
+$events_label_plural_lowercase = tec_events_community_event_label_plural_lowercase();
 
 $columns = tribe_community_events_list_columns();
 
@@ -138,7 +146,7 @@ do_action( 'tribe_community_events_shortcode_before_list_navigation' );
 
 	<?php // list pagination
 	echo wp_kses_post( tribe_community_events_get_messages( true ) );
-	echo $main->pagination( $events, $pages = '', $range = $main->paginationRange, $shortcode = true );
+	$template->template( 'community/pagination' );
 	?>
 </div>
 
@@ -221,6 +229,6 @@ do_action( 'tribe_community_events_shortcode_after_list_table' );
 <div class="tribe-nav tribe-nav-bottom">
 	<?php
 	echo wp_kses_post( tribe_community_events_get_messages( true ) );
-	echo $main->pagination( $events, '', $main->paginationRange, true );
+	$template->template( 'community/pagination' );
 	?>
 </div>

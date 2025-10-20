@@ -39,6 +39,8 @@ if ( ! class_exists( 'Tribe__Events__Community__Templates' ) ) {
 		 * 2) parent template, 3) plugin resources. will look in the events/
 		 * directory in a theme and the views/ directory in the plugin
 		 *
+		 * @since 5.0.11 Moved func_get_args() to the beginning of the function to avoid PHP 8.3 compatibility issues.
+		 *
 		 * @param string $template template file to search for.
 		 * @param array  $args additional arguments to affect the template path.
 		 *                         - namespace
@@ -47,9 +49,11 @@ if ( ! class_exists( 'Tribe__Events__Community__Templates' ) ) {
 		 *
 		 * @return string Template path.
 		 **/
+		// phpcs:ignore WordPress.NamingConventions.ValidFunctionName.MethodNameInvalid
 		public static function getTemplateHierarchy( $template, $args = [] ) {
+			$passed = func_get_args();
+
 			if ( ! is_array( $args ) ) {
-				$passed        = func_get_args();
 				$args          = [];
 				$backwards_map = [ 'namespace', 'plugin_path' ];
 				$count         = count( $passed );

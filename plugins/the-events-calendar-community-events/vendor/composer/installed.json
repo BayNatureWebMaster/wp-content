@@ -117,18 +117,18 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/the-events-calendar/WP-Router.git",
-                "reference": "5a689c585a0bacb2bdcbe48ebd56a867783828cb"
+                "reference": "7b6159ad882f6bb43f67e01dd2763dc7bd7026f3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/the-events-calendar/WP-Router/zipball/5a689c585a0bacb2bdcbe48ebd56a867783828cb",
-                "reference": "5a689c585a0bacb2bdcbe48ebd56a867783828cb",
+                "url": "https://api.github.com/repos/the-events-calendar/WP-Router/zipball/7b6159ad882f6bb43f67e01dd2763dc7bd7026f3",
+                "reference": "7b6159ad882f6bb43f67e01dd2763dc7bd7026f3",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.2.0"
             },
-            "time": "2023-08-31T18:44:17+00:00",
+            "time": "2025-09-18T13:01:23+00:00",
             "default-branch": true,
             "type": "wordpress-plugin",
             "installation-source": "dist",

@@ -9,13 +9,17 @@
  *
  * @link https://evnt.is/1aiy
  *
- * @version 5.0.0
+ * @since 5.0.0 Initial template.
+ * @since 7.7.8 Removed `aria-describedby` attribute event link.
+ *
+ * @version 7.7.8
  *
  * @var WP_Post $event The event post object with properties added by the `tribe_get_event` function.
  *
  * @see tribe_get_event() For the format of the event object.
  *
  */
+
 use Tribe__Date_Utils as Dates;
 use Tribe__Events__Timezones as Timezones;
 
@@ -45,7 +49,7 @@ $start = Timezones::is_mode( 'site' ) ? $event->dates->start_site : $event->date
 $start_time = Dates::time_between( $start->format( 'Y-m-d 0:0:0' ), $start->format( Dates::DBDATETIMEFORMAT ) );
 ?>
 <article
-	<?php tribe_classes( $classes ) ?>
+	<?php tec_classes( $classes ); ?>
 	data-js="tribe-events-pro-week-grid-event"
 	data-start-time="<?php echo esc_attr( $start_time ); ?>"
 	data-event-id="<?php echo esc_attr( $event->ID ); ?>"
@@ -55,7 +59,6 @@ $start_time = Dates::time_between( $start->format( 'Y-m-d 0:0:0' ), $start->form
 		class="tribe-events-pro-week-grid__event-link"
 		data-js="<?php echo esc_attr( implode( ' ', $data_js ) ); ?>"
 		data-tooltip-content="#tribe-events-tooltip-content-<?php echo esc_attr( $event->ID ); ?>"
-		aria-describedby="tribe-events-tooltip-content-<?php echo esc_attr( $event->ID ); ?>"
 	>
 		<div class="tribe-events-pro-week-grid__event-link-inner">
 

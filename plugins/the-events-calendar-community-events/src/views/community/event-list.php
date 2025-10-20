@@ -8,16 +8,22 @@
  *
  * @link    https://evnt.is/1ao4 Help article for Community & Tickets template files.
  *
- * @version 4.10.17
+ * @version 5.0.10
  *
- * @since   2.1
- * @since   4.8.2 Updated template link.
- * @since   4.10.14 Cleaned up file
- * @since   4.10.17 Corrected template override path.
+ * @since 2.1
+ * @since 4.8.2 Updated template link.
+ * @since 4.10.14 Cleaned up file
+ * @since 4.10.17 Corrected template override path.
+ * @since 5.0.9 Made the dropdown more accessible.
+ * @since 5.0.10 Replaced pagination logic.
  *
  * @var $events
  * @var $paged
+ * @var $pagination Pagination Object
+ * @var $template Tribe__Template Template Object
  */
+
+use TEC\Events_Community\Listing\Pagination;
 
 $columns = tribe_community_events_list_columns();
 
@@ -82,12 +88,15 @@ do_action( 'tribe_community_events_before_list_navigation' );
 	</div>
 	<div class="table-menu-wrapper ce-top">
 		<?php if ( $show_display_options_dropdown && $events->have_posts() ) : ?>
-			<a
+			<button
+				type="button"
 				class="table-menu-btn button tribe-button tribe-button-tertiary tribe-button-activate"
-				href="#"
+				aria-haspopup="true"
+				aria-expanded="false"
+				aria-controls="display-options-menu"
 			>
-				<?php echo apply_filters( 'tribe_community_events_list_display_button_text', __( 'Display Option', 'tribe-events-community' ) ); ?>
-			</a>
+				<?php echo esc_html( apply_filters( 'tribe_community_events_list_display_button_text', __( 'Display Option', 'tribe-events-community' ) ) ); ?>
+			</button>
 		<?php endif; ?>
 
 		<?php
@@ -98,12 +107,12 @@ do_action( 'tribe_community_events_before_list_navigation' );
 		?>
 
 		<div class="table-menu table-menu-hidden">
-			<ul>
+			<ul role="menu">
 				<?php foreach ( $columns as $column_slug => $column_label ) : ?>
 					<?php $i = array_search( $column_slug, array_keys( $columns ) ); ?>
-					<li>
+					<li role="none">
 						<label
-							class="<?php echo sanitize_html_class( in_array( $column_slug, $blocked_columns ) ? 'tribe-hidden' : '' ) ?>"
+							class="<?php echo sanitize_html_class( in_array( $column_slug, $blocked_columns ) ? 'tribe-hidden' : '' ); ?>"
 							for="<?php echo sanitize_html_class( 'tribe-toggle-column-' . $column_slug ); ?>"
 						>
 							<input
@@ -121,7 +130,7 @@ do_action( 'tribe_community_events_before_list_navigation' );
 
 	<?php // list pagination
 	echo tribe_community_events_get_messages();
-	echo $main->pagination( $events, '', $main->paginationRange );
+	$template->template( 'community/pagination' );
 	?>
 </div>
 
@@ -199,8 +208,7 @@ do_action( 'tribe_community_events_after_list_table' );
 
 <div class="tribe-nav tribe-nav-bottom">
 	<?php
-	echo tribe_community_events_get_messages();
-	echo $main->pagination( $events, '', $main->paginationRange );
+	$template->template( 'community/pagination' );
 	?>
 </div>
 </div>

@@ -9,7 +9,10 @@
  *
  * @link https://evnt.is/1aiy
  *
- * @version 5.0.0
+ * @since 5.0.0 Initial template.
+ * @since 7.7.8 Removed invalid role attributes from structure.
+ *
+ * @version 7.7.8
  *
  * @var array $multiday_events     An array of each day multi-day events and more event count, if any, in the shape
  *                                 `[ <Y-m-d> => [ 'events' => [ ...$multiday_events], 'more_events' => <int> ] ]`.
@@ -17,8 +20,9 @@
  * @var array $events              An array of each day non multi-day events, if any, in the shape `[ <Y-m-d> => [ ...$events ] ]`.
  * @var array $days                An array of days with additional data.
  */
+
 ?>
-<div class="tribe-events-pro-week-grid__body" role="rowgroup">
+<div class="tribe-events-pro-week-grid__body">
 
 	<?php if ( count( $multiday_events ) && $has_multiday_events ) : ?>
 
@@ -27,16 +31,20 @@
 				<div
 					class="tribe-events-pro-week-grid__multiday-events-row"
 					data-js="tribe-events-pro-week-multiday-events-row"
-					role="row"
 				>
 
 					<?php $this->template( 'week/grid-body/multiday-events-row-header' ); ?>
 
 					<?php foreach ( $multiday_events as $day => list( $day_multiday_events, $more_events ) ) : ?>
-						<?php $this->template(
+						<?php
+						$this->template(
 							'week/grid-body/multiday-events-day',
-							[ 'day' => $day, 'events' => $day_multiday_events ]
-						); ?>
+							[
+								'day'    => $day,
+								'events' => $day_multiday_events,
+							]
+						);
+						?>
 					<?php endforeach; ?>
 
 				</div>
@@ -48,24 +56,25 @@
 	<div class="tribe-events-pro-week-grid__events-scroll-wrapper">
 		<div class="tribe-events-pro-week-grid__events-row-outer-wrapper" data-js="tribe-events-pro-week-grid-events-row-outer-wrapper">
 			<div class="tribe-events-pro-week-grid__events-row-wrapper" data-js="tribe-events-pro-week-grid-events-row-wrapper">
-				<div class="tribe-events-pro-week-grid__events-row" role="row">
+				<div class="tribe-events-pro-week-grid__events-row">
 
 					<?php $this->template( 'week/grid-body/events-row-header' ); ?>
 
 					<?php foreach ( $events as $day => $day_events ) : ?>
-						<?php $this->template(
+						<?php
+						$this->template(
 							'week/grid-body/events-day',
 							[
 								'events'      => $day_events,
 								'more_events' => ! empty( $days[ $day ]['more_events'] ) ? $days[ $day ]['more_events'] : false,
 								'more_url'    => ! empty( $days[ $day ]['day_url'] ) ? $days[ $day ]['day_url'] : false,
 							]
-						); ?>
+						);
+						?>
 					<?php endforeach; ?>
 
 				</div>
 			</div>
 		</div>
 	</div>
-
 </div>

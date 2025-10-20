@@ -3,7 +3,7 @@
 defined( 'WPINC' ) or die;
 
 /**
- * Event submission form taxonomy block.
+ * Event submission form, taxonomy block.
  *
  * Renders the taxonomy field in the submission form.
  *
@@ -37,27 +37,32 @@ $ajax_args    = [
 $taxonomy_label = $taxonomy_obj->label;
 
 // Check if we already have an event on the actual taxonomy label.
-if ( false === strpos( $taxonomy_obj->label, tribe_get_event_label_singular() ) ) {
-	$taxonomy_label = sprintf( '%s %s', tribe_get_event_label_singular(), $taxonomy_obj->label );
+if ( false === strpos( $taxonomy_obj->label, tec_events_community_event_label_singular() ) ) {
+	$taxonomy_label = sprintf( '%s %s', tec_events_community_event_label_singular(), $taxonomy_obj->label );
 }
 
 // Check if we have terms.
-$has_terms = count(
-	get_terms(
-		$taxonomy,
-		[
-			'hide_empty' => false,
-			'number' => 1,
-			'fields' => 'ids',
-			]
-	)
-) > 0;
+$terms = get_terms(
+	[
+		'taxonomy'   => $taxonomy,
+		'hide_empty' => false,
+		'number'     => 1,
+		'fields'     => 'ids',
+	]
+);
+
+// Return empty if it's not an array or is WP_Error.
+if ( ! is_array( $terms ) ) {
+	$terms = [];
+}
+
+$has_terms = count( $terms ) > 0;
 
 // Setup selected tags.
 $value = ! empty( $_POST['tax_input'][ $taxonomy ] ) ? array_map( 'esc_attr' , $_POST['tax_input'][ $taxonomy ] ) : [];
 
 
-// If no tags from $_POST then look for saved tags.
+// If no tags from $_POST, then look for saved tags.
 if ( empty( $value ) ) {
 	$terms = wp_get_post_terms( get_the_ID(), $taxonomy );
 	$value = wp_list_pluck( $terms, 'term_id' );
@@ -91,7 +96,7 @@ $taxonomy_placeholder = __( 'terms', 'tribe-events-community' );
 // Default taxonomies labels have word "Event", which is redundant for the placeholder attribute.
 // That is removed here, along with any extra spaces around the remaining text.
 if ( ! empty( $taxonomy_label ) ) {
-	$taxonomy_placeholder = str_replace( tribe_get_event_label_singular(), '', $taxonomy_label );
+	$taxonomy_placeholder = str_replace( tec_events_community_event_label_singular(), '', $taxonomy_label );
 	$taxonomy_placeholder = strtolower( trim( $taxonomy_placeholder ) );
 }
 

@@ -3,9 +3,9 @@
 Contributors: theeventscalendar, stellarwp, borkweb, bordoni, brianjessee, aguseo, camwynsp, jentheo, leahkoerper, lucatume, neillmcshea, vicskf, zbtirrell
 Tags: events, calendar, event, schedule, organizer
 Donate link: https://evnt.is/29
-Stable tag: 6.10.1.1
-Requires at least: 6.5
-Tested up to: 6.7.1
+Stable tag: 6.15.8
+Requires at least: 6.6
+Tested up to: 6.8.2
 Requires PHP: 7.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -231,6 +231,277 @@ Previous versions of The Events Calendar are not cross-compatible with 6.X add-o
 Remember to always make a backup of your database and files before updating!
 
 == Changelog ==
+
+= [6.15.8] 2025-10-14 =
+
+* Fix - Tweak a few style rules to ensure Kadence overrides work. [TEC-5504]
+* Tweak - Automatically disabled Avada’s “Combine Third Party CSS Files” option when The Events Calendar is active to prevent stylesheet conflicts.  [TEC-5682]
+* Tweak - Events list view structure updated to use proper list HTML. [TEC-5210]
+* Tweak - Make Tooltips on calendar view dismissable with `esc` key. [TEC-5217]
+* Language - 7 new strings added, 23 updated, 0 fuzzied, and 0 obsoleted.
+* Language - Fixed text domains and improved string translations across multiple components for better internationalization support.
+* Language - Move 'Free' string to TEC text domain for improved i18n. [TEC-5603]
+
+= [6.15.7] 2025-10-07 =
+
+* Tweak - Added `aria-label` to nav tags to make page landmarks unique. [TEC-5208]
+* Tweak - Event Date time block structure updated to improve accessibility. [TEC-5531]
+* Tweak - Change default opt-in status to prevent false positives in checks when the value is not set. [TEC-5583]
+* Tweak - Add ARIA landmark roles and `aria-current` attributes to breadcrumbs to improve screen reader support. [TEC-5205]
+* Tweak - Replace breadcrumbs with a "Back to Events" link on Venue and Organizer single pages for clearer navigation and improved accessibility.[TEC-5207][TEC-5205]
+* Tweak - Changed views: `blocks/event-datetime`, `v2/components/backlink`, `v2/components/breadcrumbs`, `v2/components/breadcrumbs/breadcrumb`, `v2/components/breadcrumbs/linked-breadcrumb`, `v2/components/header`, `v2/list/nav`, `v2/list/top-bar/nav`
+* Language - 4 new strings added, 6 updated, 0 fuzzied, and 0 obsoleted.
+
+= [6.15.6] 2025-09-30 =
+
+* Version - The Events Calendar 6.15.6 is only compatible with Events Pro 7.7.6 and higher.
+* Fix - Elementor Venue widget now shows the map show or hide option with proper styling options. [TEC-5092]
+* Fix - Enhanced iCal feed timezone definitions to include extended DST transition data for better calendar compatibility. [TEC-5061]
+* Fix - Onboarding wizard now shows loading spinner properly while waiting for Event Tickets installation. [TEC-5584]
+* Fix - Prevent ICS download from redirecting when List view is disabled. [TEC-5609]
+* Tweak - Added filters: `tec_events_views_v2_should_redirect`, `tec_events_ical_timezone_extend_years`
+* Tweak - Changed views: `v2/month/calendar-body/day/cell-title`, `v2/month/calendar-body/day/cell`, `v2/month/calendar-body/day/more-events`, `v2/month/mobile-events/mobile-day`, `v2/month/mobile-events/mobile-day/more-events`
+* Tweak - Hide the Event Tickets upsell on the currency page when Event Tickets is enabled. [TEC-5585]
+* Tweak - Introduce subtabs for the Integration settings for better organization. [TEC-5681]
+* Tweak - Updated Community Addon upsell link to go to the proper page. [TEC-5586]
+* Accessibility - Add aria-label for the more events link in month view. [TEC-5216]
+* Accessibility - Adjust aria-label for month view day link to use formatting from TEC settings. [TEC-5214]
+* Compatibility - Conditionally remove template option if Elementor Pro is active to avoid conflicts. [TEC-5610]
+* Language - 4 new strings added, 75 updated, 0 fuzzied, and 0 obsoleted.
+
+= [6.15.5] 2025-09-23 =
+
+* Tweak - Adds search capabilities to the countries dropdown in onboarding. [TEC-5581]
+* Language - 0 new strings added, 0 updated, 0 fuzzied, and 0 obsoleted.
+
+= [6.15.4] 2025-09-16 =
+
+* Fix - Add more robust checking for dates to handle occurrences and similar non-post events. [TEC-1052]
+* Fix - Fixed an issue where Venues and Organizers created via Community Events could have missing permalinks when events were published. [CE-330]
+* Tweak - Changed views: `blocks/event-venue`, `blocks/parts/map`, `blocks/parts/venue`, `modules/meta/map`, `modules/meta/organizer`, `modules/meta/venue`, `v2/components/header`, `v2/day/event/venue`, `v2/list`, `v2/list/event/venue`
+* Accessibility - Return keyboard focus to the triggering button after closing the datepicker for improved accessibility. [CE-278]
+* Language - 0 new strings added, 13 updated, 0 fuzzied, and 0 obsoleted.
+
+= [6.15.3] 2025-09-10 =
+
+* Tweak - Changed views: `blocks/event-venue`, `blocks/parts/map`, `blocks/parts/venue`, `modules/meta/map`, `modules/meta/organizer`, `modules/meta/venue`, `v2/components/header`, `v2/day`, `v2/day/event/venue`, `v2/list`, `v2/list/event/venue`
+* Security - Ensures password protected Venues and Organizers have their data protected. [SVUL-19]
+* Language - 0 new strings added, 59 updated, 0 fuzzied, and 0 obsoleted.
+
+= [6.15.2] 2025-09-09 =
+
+* Fix - Corrected path for enqueuing ACF scripts to avoid 404 errors. [TEC-5604]
+* Fix - Fix the process of updating event time zone data. [TEC-5423]
+* Fix - Make sure the user is redirected to the correct settings page after clicking on the "Fix Time Zone Data" button. [TEC-5423]
+* Tweak - Added search capabilities to the currency dropdown in onboarding. [TEC-5580]
+* Tweak - Added search capabilities to the timezone dropdown in onboarding. [TEC-5579]
+* Tweak - Changed views: `blocks/parts/subscribe-list`, `v2/components/subscribe-links/item`.
+* Tweak - Hide unsupported items from the Subscribe to Calendar dropdown for archive pages. [TEC-4242]
+* Tweak - Visual updates to the ECP teaser pill in TEC->Settings->Display.
+* Language - 0 new strings added, 20 updated, 1 fuzzied, and 1 obsoleted.
+
+= [6.15.1.1] 2025-09-03 =
+
+* Security - Ensures only known values are accepted for the ORDER BY query clause. [SVUL-19]
+
+= [6.15.1] 2025-09-02 =
+
+* Fix - Figure out where assets are located in complex environments with a mix of symlinked or normally placed plugins. Resolving as a result issues with Recurring Events UI in WordPress.com. [ECP-1929]
+* Tweak - Changed views: `blocks/event-links`, `integrations/elementor/templates/starter`, `integrations/event-tickets/emails/template-parts/header/head/tec-styles`
+* Compatibility - PHP 8.3 compatibility improvements. [TEC-5571]
+* Language - 0 new strings added, 2 updated, 0 fuzzied, and 0 obsoleted.
+
+= [6.15.0.1] 2025-08-20 =
+
+* Fix - Ensures the Actions Scheduler Logs table is present before attempting to use it. [TCMN-190]
+* Fix - Resolves issues with Day breaking in multiple lines above the Calendar's month view. [TEC-5590]
+
+= [6.15.0] 2025-08-19 =
+
+* Version - The Events Calendar 6.15.0 is only compatible with Event Tickets 5.26.0 and higher.
+* [EXPERIMENTAL] Feature - Introduced new REST endpoints for managing your Events, Venues and Organizers. Note: This API is for experimental use only and requires the X-TEC-EEA header. It may be subject to breaking changes in upcoming releases.
+* Language - 153 new strings added, 140 updated, 1 fuzzied, and 0 obsoleted.
+
+= [6.14.2] 2025-07-22 =
+
+* Tweak - Implemented an Enable setting for Category Colors. [TEC-5533]
+* Tweak - Updated the Category Colors settings to add a tooltip to the Reset Button option that explains Superpowers must be enabled. [TEC-5534]
+* Tweak - Changed views: `v2/components/top-bar/category-color-picker`, `v2/day/event/featured-image`, `v2/list/event/featured-image`, `v2/month`, `v2/month/calendar-body/day`, `v2/month/calendar-body/day/calendar-events/calendar-event/featured-image`, `v2/month/calendar-body/day/calendar-events/calendar-event/tooltip/featured-image`, `v2/month/calendar-body/day/cell-title`, `v2/month/calendar-header`
+* Performance - Avoid use of TIMESTAMPDIFF when fetching overlapping events. [TEC-5537]
+* Accessibility - Updated day views with proper aria label and titles for event linked featured images. [TEC-5179]
+* Language - 2 new strings added, 24 updated, 0 fuzzied, and 0 obsoleted.
+
+= [6.14.1] 2025-07-16 =
+
+* Fix - Ensure all featured images on calendar views have dimensions set to reduce layout shifts. [TEC-4715]
+* Fix - Ensure views selector links have proper aria-current attributes.
+ Tweak - Changed views: `v2/components/events-bar/views/list/item`, `v2/day/event/featured-image`, `v2/latest-past/event/featured-image`, `v2/list/event/featured-image`, `v2/month/calendar-body/day/calendar-events/calendar-event/featured-image`, `v2/month/mobile-events/mobile-day/mobile-event/featured-image`
+* Language - 0 new strings added, 1 updated, 0 fuzzied, and 0 obsoleted.
+
+= [6.14.0] 2025-07-03 =
+
+* Feature - Category Colors functionality has been merged into The Events Calendar. [TEC-5364]
+* Feature - Events Variables for Yoast SEO [TEC-5437]
+* Fix - Add width and height attributes on images displayed in our Events pages [TEC-4715]
+* Fix - Disabled Event Views should redirect to default view [TEC-5427]
+* Fix - Recognize when the theme is registering single or archive Event templates when using a Block theme, and avoid registering our own. [TEC-5525]
+* Tweak - Added actions: `tec_events_category_colors_saved`, `tec_events_category_colors_migration_status_updated`, `tec_events_category_colors_migration_reset`, `tribe_log`, `tec_events_category_colors_migration_preprocessor_start`, `tec_events_category_colors_migration_preprocessor_end`, `tec_events_category_colors_migration_validator_start`, `tec_events_category_colors_migration_validator_end`, `tec_events_category_colors_migration_runner_start`, `tec_events_category_colors_migration_runner_end`, `tec_events_category_colors_migration_post_schedule_action`, `tec_events_category_colors_migration_post_cancel_action`, `tec_events_settings_tab_display_category_colors`, `tec_conditional_content_header_notice`
+* Tweak - Added filters: `tec_events_category_color_generator_batch_size`, `tec_events_category_colors_enabled`, `tec_events_category_colors_show_frontend_ui`, `tec_events_category_validate_meta_key`, `tec_events_category_validate_meta_value`, `tec_events_category_colors_force_migration_notice`, `tec_category_colors_is_tec_admin_page`, `tec_events_category_colors_migration_batch_size`, `tec_events_category_colors_migration_pre_schedule_action`, `tec_events_category_colors_migration_pre_execute_action`, `tec_events_category_colors_migration_`, `tec_events_category_colors_migration_pre_cancel_action`, `tec_events_category_color_enabled_views`, `tec_events_category_color_dropdown_categories`, `tec_events_category_color_raw_categories`, `tec_events_category_color_category_meta`, `tec_events_category_color_filtered_categories`, `tec_events_category_color_sorted_categories`, `tec_events_category_color_highest_priority_category`, `tec_events_category_color_event_categories`, `tec_events_category_color_category_priorities`, `tec_events_views_v2_view_template_vars`
+* Tweak - Add the conditional content notice to Event Aggregator pages [TEC-5530]
+* Tweak - Changed views: `blocks/classic-event-details`, `blocks/event-category`, `blocks/event-datetime`, `blocks/event-organizer`, `blocks/event-price`, `blocks/event-tags`, `blocks/event-venue`, `blocks/event-website`, `blocks/parts/subscribe-list`, `blocks/parts/subscribe-single`, `integrations/elementor/widgets/empty`, `integrations/elementor/widgets/event-calendar-link`, `integrations/elementor/widgets/event-categories`, `integrations/elementor/widgets/event-categories/header`, `integrations/elementor/widgets/event-cost`, `integrations/elementor/widgets/event-cost/header`, `integrations/elementor/widgets/event-datetime`, `integrations/elementor/widgets/event-datetime/all-day`, `integrations/elementor/widgets/event-datetime/end-date`, `integrations/elementor/widgets/event-datetime/end-time`, `integrations/elementor/widgets/event-datetime/header`, `integrations/elementor/widgets/event-datetime/range-separator`, `integrations/elementor/widgets/event-datetime/start-date`, `integrations/elementor/widgets/event-datetime/start-time`, `integrations/elementor/widgets/event-datetime/time-separator`, `integrations/elementor/widgets/event-export`, `integrations/elementor/widgets/event-export/button`, `integrations/elementor/widgets/event-export/link`, `integrations/elementor/widgets/event-export/list-item`, `integrations/elementor/widgets/event-image`, `integrations/elementor/widgets/event-navigation`, `integrations/elementor/widgets/event-navigation/next`, `integrations/elementor/widgets/event-navigation/previous`, `integrations/elementor/widgets/event-organizer`, `integrations/elementor/widgets/event-organizer/details`, `integrations/elementor/widgets/event-organizer/details/email`, `integrations/elementor/widgets/event-organizer/details/email/content`, `integrations/elementor/widgets/event-organizer/details/email/header`, `integrations/elementor/widgets/event-organizer/details/phone`, `integrations/elementor/widgets/event-organizer/details/phone/content`, `integrations/elementor/widgets/event-organizer/details/phone/header`, `integrations/elementor/widgets/event-organizer/details/website`, `integrations/elementor/widgets/event-organizer/details/website/content`, `integrations/elementor/widgets/event-organizer/details/website/header`, `integrations/elementor/widgets/event-organizer/header`, `integrations/elementor/widgets/event-organizer/names`, `integrations/elementor/widgets/event-status/passed`, `integrations/elementor/widgets/event-status/status`, `integrations/elementor/widgets/event-tags`, `integrations/elementor/widgets/event-tags/content`, `integrations/elementor/widgets/event-tags/header`, `integrations/elementor/widgets/event-title`, `integrations/elementor/widgets/event-venue`, `integrations/elementor/widgets/event-venue/address`, `integrations/elementor/widgets/event-venue/address/address`, `integrations/elementor/widgets/event-venue/address/header`, `integrations/elementor/widgets/event-venue/address/map_link`, `integrations/elementor/widgets/event-venue/header`, `integrations/elementor/widgets/event-venue/map`, `integrations/elementor/widgets/event-venue/name`, `integrations/elementor/widgets/event-venue/phone`, `integrations/elementor/widgets/event-venue/phone/header`, `integrations/elementor/widgets/event-venue/phone/phone`, `integrations/elementor/widgets/event-venue/single-venue`, `integrations/elementor/widgets/event-venue/website`, `integrations/elementor/widgets/event-venue/website/header`, `integrations/elementor/widgets/event-venue/website/website`, `integrations/elementor/widgets/event-website`, `integrations/elementor/widgets/event-website/header`, `integrations/elementor/widgets/event-website/link`, `modules/meta/venue`, `single-event`, `v2/components/events-bar`, `v2/components/events-bar/views`, `v2/components/header`, `v2/components/messages`, `v2/components/messages/error-icon`, `v2/components/messages/notice-icon`, `v2/components/top-bar/category-color-picker`, `v2/components/top-bar/today`, `v2/day`, `v2/day/event`, `v2/day/event/category`, `v2/day/event/date/featured`, `v2/day/event/featured-image`, `v2/day/top-bar`, `v2/day/top-bar/datepicker`, `v2/latest-past/event`, `v2/latest-past/event/date/featured`, `v2/latest-past/event/featured-image`, `v2/list`, `v2/list/event`, `v2/list/event/category`, `v2/list/event/date-tag`, `v2/list/event/date/featured`, `v2/list/nav/next-disabled`, `v2/list/nav/next`, `v2/list/nav/prev-disabled`, `v2/list/nav/prev`, `v2/list/top-bar`, `v2/list/top-bar/datepicker`, `v2/month`, `v2/month/calendar-body`, `v2/month/calendar-body/day`, `v2/month/calendar-body/day/calendar-events/calendar-event`, `v2/month/calendar-body/day/calendar-events/calendar-event/date/featured`, `v2/month/calendar-body/day/calendar-events/calendar-event/title`, `v2/month/calendar-body/day/calendar-events/calendar-event/tooltip/date/featured`, `v2/month/calendar-body/day/calendar-events/calendar-event/tooltip/title`, `v2/month/calendar-body/day/cell-title`, `v2/month/calendar-body/day/date-extras`, `v2/month/calendar-body/day/date`, `v2/month/calendar-body/day/multiday-events/multiday-event`, `v2/month/calendar-body/day/multiday-events/multiday-event/bar/featured`, `v2/month/calendar-body/day/multiday-events/multiday-event/bar/title`, `v2/month/calendar-body/day/multiday-events/multiday-event/hidden/link/featured`, `v2/month/calendar-body/day/multiday-events/multiday-event/hidden/link/title`, `v2/month/calendar-header`, `v2/month/mobile-events/mobile-day`, `v2/month/mobile-events/mobile-day/mobile-event`, `v2/month/mobile-events/mobile-day/mobile-event/date/featured`, `v2/month/mobile-events/mobile-day/mobile-event/featured-image`, `v2/month/mobile-events/mobile-day/mobile-event/title`, `v2/month/top-bar`, `v2/month/top-bar/datepicker`, `v2/widgets/widget-events-list`, `v2/widgets/widget-events-list/event`, `v2/widgets/widget-events-list/event/date/featured`, `v2/widgets/widget-events-qr-code`
+* Tweak - Update Month view templates to use a more semantically appropriate table structure. Developers are advised to carefully review any customizations for compatibility before updating. [TEC-5185]
+* Accessibility - Changed aria-labels to aria-descriptions for WCAG compliance. [TEC-5524]
+* Accessibility - Correct an issue where alert text was not announced by screen readers. [TEC-5184]
+* Accessibility - Correct some heading uses that were confusing and/or misapplied. [TEC-5199]
+* Accessibility - Correct some images where the alt text conflicted with the linked title. [TEC-5183]
+* Accessibility - Improve the keyboard navigation of the Views menu. [TEC-5192]
+* Accessibility - Remove redundant aria-label attributes where they duplicate existing visible text. [TEC-5197]
+* Accessibility - Remove redundant title attributes on some images and links. [TEC-5194, TEC-5195]
+* Accessibility - Updated featured icons in all calendar views to include accessible labels. Reorganized the Month view Feature icons to be more understandable when read by a screen reader. Reworked several icon applications to make them more accessible. [TEC-5190, TEC-5201]
+* Language - 59 new strings added, 132 updated, 1 fuzzied, and 1 obsoleted.
+
+= [6.13.2.1] 2025-06-05 =
+
+* Fix - Fix some hardcoded asset paths. [TEC-5523]
+* Fix - Utilize the newer version of our build process to ensure inline svgs are being handled properly. [TCMN-188]
+* Security - Fixed an issue where some templates were not sanitized properly.
+
+= [6.13.2] 2025-06-03 =
+
+* Version - The Events Calendar 6.13.2 is only compatible with Event Tickets 5.24.0 and higher.
+* Tweak - Updated Help Hub functionality to follow new standards.
+* Language - 8 new strings added, 23 updated, 0 fuzzied, and 0 obsoleted.
+
+= [6.13.1] 2025-05-27 =
+
+* Fix - Add Domain Path to the plugin header to ensure installed files get read. [TEC-5520]
+* Fix - Ensures symbolic links are followed on Assets Group Paths. [TCMN-187]
+* Fix - Update aggregator scripts to ensure globals remain global. [TEC-5509]
+* Language - 0 new strings added, 1 updated, 0 fuzzied, and 0 obsoleted.
+
+= [6.13.0] 2025-05-20 =
+
+* Version - The Events Calendar 6.13.0 is only compatible with Events Pro 7.6.0 and higher.
+* Version - The Events Calendar 6.13.0 is only compatible with Events Community 5.0.7 and higher.
+* Version - The Events Calendar 6.13.0 is only compatible with Event Tickets 5.23.0 and higher.
+* Version - The Events Calendar 6.13.0 is only compatible with Event Tickets Plus 6.5.0 and higher.
+* Feature - Add a `Block_Trait` to simplify block assets registration and avoid code duplication.
+* Fix - Improve Settings UX by preventing unstyled error state when tab object does not exist.
+* Fix - Update class steps to use namespaced class names consistently to improve class reusability.
+* Fix - In the onboarding API, improve data management by merging new params instead of overwriting existing ones.
+* Fix - Standardize asset loading by using a consistent function to load assets.
+* Tweak - Alter Telemetry to allow classes to hook in and supress the modal for specific pages.
+* Tweak - Hide Telemetry modal on the onboarding page.
+* Tweak - Improve the onboarding wizard by properly storing current tab completion and adding filter to force redirect.
+* Tweak - Replace `tribe_asset` with `tec_asset` function for proper asset pathing.
+* Tweak - Add `tec_events_onboarding_wizard_force_display` filter to allow bypassing Guided Setup display checks.
+* Tweak - Add `tec_events_onboarding_force_redirect_to_guided_setup` filter to bypass checks for redirecting to Guided Setup.
+* Tweak - Move Country and Currency lists to Common for better code reuse.
+* Tweak - Update asset handling to leverage group paths consistently.
+* Language - 2 new strings added, 252 updated, 4 fuzzied, and 38 obsoleted.
+
+= [6.12.0.1] 2025-05-14 =
+
+* Fix - Prevents fatal if QR library in common has not loaded. [TEC-5497]
+* Language - 10 new strings added, 247 updated, 1 fuzzied, and 0 obsoleted.
+
+= [6.12.0] 2025-05-13 =
+
+* Feature - Add an editor block to display an event QR code [TEC-5404]
+* Feature - Add a widget to display a QR code for an event [TEC-5405]
+* Feature - Add the [tec_event_qr] shortcode [TEC-5406]
+* Feature - Generate QR Code link in the Events Admin Table [TEC-5428]
+* Feature - QR Code metabox in Events Edit screen [TEC-5429]
+* Feature - Support QR Codes in TEC [TEC-5396]
+* Security - Harden backend requests to enforce user capabilities. [SVUL-15]
+* Tweak - Added filters: `tec_events_qr_enabled`, `tec_events_qr_valid_screens`, `tec_events_qr_code_supported_post_types`, `tec_events_qr_code_post_types`, `tec_events_qr_code_redirection_type`, `tec_events_qr_code_modal_vars`, `tec_events_qr_code_regenerate`, `tec_events_qr_current_event_url`, `tec_events_qr_upcoming_event_url`, `tec_events_qr_specific_event_url`, `tec_events_qr_redirection_url`, `tec_events_qr_widget_options`, `tec_events_qr_widget_fields`, `tec_events_qr_next_series_event_url`,
+* Tweak - Added actions: `tec_events_fully_loaded`
+* Tweak - Changed views: `blocks/parts/subscribe-list`, `v2/components/events-bar/views`, `v2/components/events-bar/views/list/item`, `v2/components/messages`, `v2/components/subscribe-links/single-event-list`, `v2/day`, `v2/list`, `v2/month`, `v2/widgets/widget-events-qr-code`
+* Accessibility - Add aria-labels to view options and aria-current to selected view. [TEC-5022]
+* Accessibility - Add aria-label to view selector button. [TEC-5021]
+* Accessibility - Add aria label to Add to calendar button. [TEC-5088]
+* Accessibility - Change focus to results after filtering `events/`. [FBAR-332]
+* Accessibility - Change wrapper div to a section tag to avoid multiple 'banner' landmarks. [TEC-3424]
+* Accessibility - Small tweaks to improve accessibility of user-facing messages. [FBAR-333]
+* Accessibility - Tweaked accordions so they will toggle and not submit when using keyboard navigation. [FBAR-343]
+* Language - 61 new strings added, 145 updated, 0 fuzzied, and 0 obsoleted.
+
+= [6.11.2.1] 2025-04-28 =
+
+* Version - The Events Calendar 6.11.2.1 is only compatible with Event Tickets 5.21.1.1 or higher.
+* Fix - Amend various callbacks of the External Calendar Embeds feature to not be so strict on the expected arguments, as a result fixing fatal errors when the arguments are not of the expected type. [TEC-5484]
+* Security - Added more safety checks to telemetry opt-ins/opt-outs. [TCMN-186]
+* Language - 0 new strings added, 186 updated, 0 fuzzied, and 61 obsoleted.
+
+= [6.11.2] 2025-04-09 =
+
+* Fix - Ensure that Copy and Render for our Legacy Widgets works for all Event related widgets [TEC-5447]
+* Fix - Prevent language notice when loading Aggregator cron interval too early. props @peter8nss
+* Language - 0 new strings added, 1 updated, 0 fuzzied, and 0 obsoleted.
+
+= [6.11.1] 2025-04-07 =
+
+* Version - The Events Calendar 6.11.1 is only compatible with Event Tickets 5.20.0 and higher
+* Fix - Avoid running unbound queries, avoid too long queries being killed. [ECP-1898]
+* Fix - Correct some text-domains copied from common
+* Fix - Ensures the ajaxComplete callback is fired after AJAX has actually completed. [FBAR-344]
+* Fix - Ensures `delete_custom_tables_data` method is called only for events. [TEC-5445]
+* Fix - Ensures `events_per_page` is type casted to int before used. [TEC-5442]
+* Fix - Include Label for viewing post type archives. props @mikeritter
+* Fix - Makes sure that Custom Tables are loaded after our Common library is loaded. [TEC-5445]
+* Fix - Prevent invalid argument supplied for foreach() warning, props to @zosterops-lateralis
+* Tweak - Fixed typo in the First Time Setup page.  [TEC-5415]
+* Tweak - Improve our widgets to enable copying it in between different instances of the Block and Site editor.
+* Tweak - Make sure our settings for showing comments is respected as much as possible. props @zosterops-lateralis
+* Tweak - Modify the URL params for Views HTML REST Requests to enable usage of GET requests enabling caching
+* Tweak - Modify the visibility of tribe-ea- statuses to prevent them from slowing down WP_Query that are unrelated to Aggregator
+* Tweak - Prevent REST API notice from showing in certain cases of false positives.
+* Performance - Aggregator query for Authors on the import form has better boundaries props @dilipbheda
+* Performance - Avoid duplicate queries by caching model queries results. [ECP-1898]
+* Language - 2 new strings added, 192 updated, 2 fuzzied, and 0 obsoleted.
+
+= [6.11.0.1] 2025-04-01 =
+
+* Fix - Ensures `get_current_screen()` function is only called if it exists, avoiding fatal error if called too early. [TEC-5439]
+
+= [6.11.0] 2025-03-31 =
+
+* Feature - Added External Calendar Embeds functionality. [TEC-5359]
+* Tweak - Add auto-width to Subscribe to Calendar button to accommodate translations. Props to @huubl [TEC-5430]
+* Tweak - Adjust CSS to make sure that onboarding wizard form elements are properly aligned on all WordPress versions. [TEC-5402]
+* Tweak - Adjusted vertical spacing in the onboarding wizard to better fit the content on the screen. [TEC-5402]
+* Tweak - Changed some organizer and venue fields in the onboarding wizard to not be required. [TEC-5408]
+* Tweak - Make sure the Setup Guide page shows up only when asked for. [TEC-5411]
+* Fix - Add check for single venue and single organizer to the Template_Bootstrap class. Use those checks for SEO titles and enable SEO plugins to overwrite their respective titles. [ECP-1059]
+* Fix - Add notice that at least one view is required for Onboarding Wizard display tab. [TEC-5398]
+* Fix - Add one time redirect to the Guided Setup page. [TEC-5401]
+* Fix - Adjusted logic for when to reset isSaving state for Onboarding Wizard. [TEC-5409]
+* Language - 49 new strings added, 158 updated, 0 fuzzied, and 2 obsoleted.
+
+= [6.10.3] 2025-03-25 =
+
+* Fix - Improved user experience by ensuring Event Tickets installation and activation notices only appear on TEC-related admin pages.
+* Language - 0 new strings added, 5 updated, 0 fuzzied, and 0 obsoleted.
+
+= [6.10.2] 2025-03-04 =
+
+* Feature - Use the filter hook in TCMN to define the pages to show IAN notifications [ET-2294]
+* Tweak - Added actions: `tec_events_before_view_html_cache`
+* Tweak - Added check that `$_FILES` is set before setting the param on an HTTP request. [TEC-5363]
+* Tweak - Added filters: `tec_events_filter_wp_robots_meta_directives`
+* Tweak - Added link to Events Calendar Pro in onboarding wizard. [TEC-5397]
+* Tweak - Changed views: `v2/month/top-bar/datepicker`, `v2/widgets/widget-events-list/event/date-tag`
+* Tweak - Removed filters: `tec_events_seo_robots_meta_content`, `tec_events_no_index_meta`
+* Tweak - Update docblocks in the `Tribe__Events__iCal` class.
+* Fix - Corrected template override file path for Event List Widget date-tag. [ECP-1725]
+* Fix - Fix past events shortcode attribute [TEC-5348]
+* Fix - Fix the time zone blocks in the iCal feed to make sure the iCal feed is valid and the calendar can be subscribed to. [TEC-5360]
+* Fix - Hide Not-Found notice in Astra Theme archive page [TEC-4853]
+* Fix - Hook the noindex directives into a new hook before the View HTML cache check. [TEC-5354]
+* Compatibility - Added 404 handling for day view when disabled or accessed outside the range of earliest and latest events, with an exception for the current month when no events exist. [TEC-5356]
+* Compatibility - Added 404 handling for month view when disabled or accessed outside the range of earliest and latest events, with an exception for the current month when no events exist. [TEC-5356]
+* Compatibility - Switched to using WordPress wp_robots for improved SEO plugin compatibility and to prevent duplicate meta robots tags. [TEC-5355]
+* Language - 0 new strings added, 129 updated, 0 fuzzied, and 0 obsoleted.
 
 = [6.10.1.1] 2025-02-12 =
 
@@ -647,4 +918,4 @@ Remember to always make a backup of your database and files before updating!
 
 * Tweak - Updated hook for showing Event name in the event tickets order report pages. [ET-1810]
 
-### For all versions, please see the full [changelog](https://github.com/the-events-calendar/the-events-calendar/blob/master/changelog.md) in our documentation.
+### For all versions, please see the full [changelog](https://github.com/the-events-calendar/the-events-calendar/blob/main/changelog.md) in our documentation.

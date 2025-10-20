@@ -135,11 +135,13 @@ class Tribe__Events__Community__Event_Form {
 		 */
 		do_action( 'tec_events_community_event_form_setup_hooks' );
 
-		// hooks that will need to be removed after we're done rendering.
+		// Hooks that will need to be removed after we're done rendering.
 		add_action( 'tribe_community_events_field_has_error', [ $this, 'indicate_field_errors' ], 10, 2 );
 
-		// @todo redscar - I believe the below isn't required anymore. Leaving commented out until I dive into it more.
-		// add_filter( 'tribe_display_event_linked_post_dropdown_id', [ $this, 'filter_linked_post_id' ], 10, 2 );
+		// Filter linked post IDs to apply default organizer/venue settings for community events.
+		add_filter( 'tribe_display_event_linked_post_dropdown_id', [ $this, 'filter_linked_post_id' ], 10, 2 );
+
+		// Filter the edit post link to apply the community edit URL.
 		add_filter( 'get_edit_post_link', [ $this, 'filter_edit_post_url' ], 10, 3 );
 
 		if ( ! empty( $_POST ) ) {
@@ -168,7 +170,7 @@ class Tribe__Events__Community__Event_Form {
 
 		remove_filter( 'the_content', 'do_shortcode', 11 );
 
-		// Get data from $_POST and override core function.
+		// Get data from $_POST and override the core function.
 		add_filter( 'tribe_get_hour_options', [ $this, 'getHours' ], 10, 3 );
 		add_filter( 'tribe_get_minute_options', [ $this, 'getMinutes' ], 10, 3 );
 		add_filter( 'tribe_get_meridian_options', [ $this, 'getMeridians' ], 10, 3 );
@@ -177,7 +179,7 @@ class Tribe__Events__Community__Event_Form {
 		 * @todo redscar - move logic to integration?
 		 */
 		if ( class_exists( 'Tribe__Events__Tickets__Eventbrite__Main' ) ) {
-			// Remove the eventbrite method hooked into the event form, if it exists.
+			// Remove the Eventbrite method hooked into the event form if it exists.
 			remove_action( 'tribe_events_cost_table', [ Tribe__Events__Tickets__Eventbrite__Main::instance(), 'eventBriteMetaBox' ], 1 );
 		}
 
@@ -320,57 +322,100 @@ class Tribe__Events__Community__Event_Form {
 		}
 	}
 
+	/**
+	 * Filters the linked post ID for organizers and venues.
+	 *
+	 * Applies default organizers and venues for community events when no selection is made.
+	 * Only applies defaults for auto-draft events (new event creation).
+	 *
+	 * @since 5.0.10
+	 *
+	 * @param int|array|string $ids  The linked post ID(s).
+	 * @param string           $type The post type (organizer or venue).
+	 *
+	 * @return int|array The filtered linked post ID(s).
+	 */
 	public function filter_linked_post_id( $ids, $type ) {
-		if ( Tribe__Events__Organizer::POSTTYPE === $type ) {
-			$community_events  = tribe( 'community.main' );
-			$default_organizer = $community_events->getOption( 'defaultCommunityOrganizerID' );
+		// Only apply defaults for auto-draft events (new events being created).
+		$is_new_event = ( 'auto-draft' === get_post_status( $this->event_id ) || ! absint( $this->event_id ) );
 
-			// Make saved organizer selections "sticky" in the event of form validation errors
-			$submitted_ids = [];
-			if ( isset( $_POST['organizer']['OrganizerID'] ) ) {
-				$submitted_ids = (array) $_POST['organizer']['OrganizerID'];
-			}
-
-			// In all other cases, respect the default organizer setting
-			if ( empty( $submitted_ids ) && ! empty( $default_organizer ) && empty( $ids ) ) {
-				$submitted_ids = [
-					$default_organizer
-				];
-			}
-
-			$submitted_ids = array_map( 'intval', (array) $submitted_ids );
-			$ids = array_map( 'intval', (array) $ids );
-
-			// Wipe the default $organizer_ids array when it contains a zero value and when we have other IDs to hand
-			if ( ! empty( $submitted_ids ) ) {
-				$ids = array_filter( $ids );
-			}
-
-			return array_merge( $ids, $submitted_ids );
-
-		} elseif ( Tribe__Events__Venue::POSTTYPE === $type ) {
-			// if the venue_id was posted, use that
-			if ( isset( $_POST['venue'] ) && isset( $_POST['venue']['VenueID'] ) ) {
-				$ids = $_POST['venue']['VenueID'];
-			}
-
-			// if the venue_id is an array, get the first element
-			if ( is_array( $ids ) ) {
-				$ids = reset( $ids );
-			}
-
-			// grab the first element from the array
-			$ids = stripslashes( $ids );
-
-			$apply_default_community = ( 'auto-draft' === get_post_status( $this->event_id ) || ! absint( $this->event_id ) );
-			if ( $apply_default_community && empty( $ids ) ) {
-				$ids = tribe( 'community.main' )->getOption( 'defaultCommunityVenueID' );
-			}
-
+		if ( ! $is_new_event ) {
 			return $ids;
-		} else {
-			return 0;
 		}
+
+		// Get community options once.
+		$community_options = get_option( Tribe__Events__Community__Main::OPTIONNAME, [] );
+
+		if ( Tribe__Events__Organizer::POSTTYPE === $type ) {
+			return $this->apply_default_organizer( $ids, $community_options );
+		}
+
+		if ( Tribe__Events__Venue::POSTTYPE === $type ) {
+			return $this->apply_default_venue( $ids, $community_options );
+		}
+
+		return 0;
+	}
+
+	/**
+	 * Applies default organizer when no organizer is selected.
+	 *
+	 * @since 5.0.10
+	 *
+	 * @param int|array $ids               The current organizer ID(s).
+	 * @param array     $community_options The community options array.
+	 *
+	 * @return array The organizer ID(s).
+	 */
+	private function apply_default_organizer( $ids, $community_options ) {
+		$default_organizer = $community_options['defaultCommunityOrganizerID'] ?? null;
+
+		// If no default is configured, return as-is.
+		if ( empty( $default_organizer ) ) {
+			return (array) $ids;
+		}
+
+		// If no organizers are selected, apply the default.
+		if ( empty( $ids ) ) {
+			return [ $default_organizer ];
+		}
+
+		// Sanitize and return existing selection.
+		return array_map( 'intval', array_filter( (array) $ids ) );
+	}
+
+	/**
+	 * Applies default venue when no venue is selected.
+	 *
+	 * @since 5.0.10
+	 *
+	 * @param int|string $ids               The current venue ID.
+	 * @param array      $community_options The community options array.
+	 *
+	 * @return int|string The venue ID.
+	 */
+	private function apply_default_venue( $ids, $community_options ) {
+		$default_venue = $community_options['defaultCommunityVenueID'] ?? null;
+
+		// If no default is configured, return as-is.
+		if ( empty( $default_venue ) ) {
+			return $ids;
+		}
+
+		// Handle array input (take first element).
+		if ( is_array( $ids ) ) {
+			$ids = reset( $ids );
+		}
+
+		// Sanitize the input.
+		$ids = stripslashes( (string) $ids );
+
+		// If no venue is selected, apply the default.
+		if ( empty( $ids ) ) {
+			return $default_venue;
+		}
+
+		return $ids;
 	}
 
 	/**
@@ -380,13 +425,13 @@ class Tribe__Events__Community__Event_Form {
 	 *
 	 * @param string $link    The edit link.
 	 * @param int    $post_id Post ID.
-	 * @param string $context The link context. If set to 'display' then ampersands
+	 * @param string $context The link context. If set to 'display', then ampersands
 	 *                        are encoded.
 	 *
 	 * @return string
 	 */
 	public function filter_edit_post_url( $link, $post_id, $context ) {
-		// When empty the user does not have permission to edit.
+		// When empty, the user does not have permission to edit.
 		$can_edit = ! empty( $link );
 		$community_edit_url = tribe( 'community.main' )->getUrl( 'edit', $post_id, null, get_post_type( $post_id ) );
 
@@ -479,7 +524,7 @@ class Tribe__Events__Community__Event_Form {
 	 * Indicates if either linked posts module (venues or organizers) should be rendered
 	 * or not.
 	 *
-	 * By default this will return true unless there are no linked posts to choose from
+	 * By default, this will return true unless there are no linked posts to choose from
 	 * and creation of further linked posts is disabled (in which case the UI becomes
 	 * useless noise).
 	 *
@@ -497,21 +542,21 @@ class Tribe__Events__Community__Event_Form {
 			Tribe__Events__Venue::POSTTYPE => 'venues',
 		];
 
-		// Check if this is a post type we care about
+		// Check if this is a post type we care about.
 		if ( ! isset( $map[ $post_type ] ) ) {
 			return true;
 		}
 
 		$prevent_new_option = 'prevent_new_' . $map[ $post_type ];
 
-		// If the prevent_new_* setting isn't turned on we can assume the module should display
+		// If the prevent_new_* setting isn't turned on, we can assume the module should display.
 		if ( ! tribe( 'community.main' )->getOption( $prevent_new_option, false ) ) {
 			return true;
 		}
 
 		// Otherwise let's check and ensure there are some posts for the user to select from:
 		// we'll apply the same logic as in Tribe__Events__Linked_Posts::saved_linked_post_dropdown()
-		// in terms of determining which post statuses are relevant
+		// in terms of determining which post statuses are relevant.
 		$pto = get_post_type_object( $post_type );
 
 		$statuses = current_user_can( $pto->cap->edit_others_posts )
@@ -546,6 +591,13 @@ class Tribe__Events__Community__Event_Form {
 		);
 	}
 
+	/**
+	 * Indicates if the series module should be rendered or not.
+	 *
+	 * @since 4.10.0
+	 *
+	 * @return bool
+	 */
 	public function should_show_series_module() {
 
 		if ( ! apply_filters( 'tec_community_events_use_series', false ) ) {
@@ -560,7 +612,7 @@ class Tribe__Events__Community__Event_Form {
 
 		// Otherwise let's check and ensure there are some posts for the user to select from:
 		// we'll apply the same logic as in Tribe__Events__Linked_Posts::saved_linked_post_dropdown()
-		// in terms of determining which post statuses are relevant
+		// in terms of determining which post statuses are relevant.
 		$pto = get_post_type_object( $post_type );
 
 		$statuses = current_user_can( $pto->cap->edit_others_posts )

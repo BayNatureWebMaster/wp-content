@@ -13,7 +13,7 @@ use TEC\Common\Contracts\Service_Provider;
 use TEC\Events\Custom_Tables\V1\Models\Occurrence;
 use TEC\Events\Custom_Tables\V1\Provider as TEC_Provider;
 use TEC\Events\Custom_Tables\V1\Migration\State;
-
+use TEC\Events_Pro\Custom_Tables\V1\Editors\Provider as ECP_Editor_Provider;
 /**
  * Class Provider.
  *
@@ -31,6 +31,7 @@ class Provider extends Service_Provider {
 	 * Registers any dependent providers.
 	 *
 	 * @since 4.10.0
+	 * @since 5.0.9 Implemented action `tec_events_community_shortcode_assets`.
 	 *
 	 * @return bool Whether the Event-wide maintenance mode was activated or not.
 	 */
@@ -61,11 +62,47 @@ class Provider extends Service_Provider {
 			$this->load_ecp_assets();
 
 			add_filter( 'tec_events_community_event_form_post_id', [ $this, 'normalize_post_id' ] );
+
+			// Hook into the ECP CT1 provider registration to set up shortcode assets.
+			add_action( 'tec_events_pro_custom_tables_v1_editors_provider_registered', [ $this, 'setup_shortcode_assets' ] );
 		}
 
 		$this->has_registered = true;
 
 		return true;
+	}
+
+	/**
+	 * Sets up shortcode asset enqueuing when the ECP CT1 provider is registered.
+	 *
+	 * This method hooks into the `tec_events_pro_custom_tables_v1_editors_provider_registered` action
+	 * to ensure the Events Pro Custom Tables V1 provider is fully registered before setting up
+	 * our shortcode asset enqueuing logic.
+	 *
+	 * @since 5.0.9
+	 *
+	 * @return void
+	 */
+	public function setup_shortcode_assets() {
+		add_action( 'tec_events_community_shortcode_assets', [ $this, 'enqueue_ct1_shortcode_assets' ] );
+	}
+
+	/**
+	 * Enqueues the Classic Editor Custom Tables v1 asset group for shortcode-based Community Events pages.
+	 *
+	 * This method should be hooked to the `tec_events_community_shortcode_assets` action
+	 * to load the necessary assets when the Community Events form is rendered via shortcode.
+	 *
+	 * @since 5.0.9
+	 *
+	 * @return void
+	 */
+	public function enqueue_ct1_shortcode_assets() {
+		$group_name = ECP_Editor_Provider::$classic_event_min_group_key;
+
+		if ( ! empty( $group_name ) ) {
+			tribe_asset_enqueue_group( $group_name );
+		}
 	}
 
 	/**

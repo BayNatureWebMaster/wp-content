@@ -11,12 +11,10 @@
  * @since 4.7.1
  * @since 4.8.2 Updated template link.
  * @since 4.10.6 Updated term description to properly display special characters.
+ * @since 5.0.9 Updated to use scrollable div for better accessibility.
  *
- * @version 4.10.7
- *
- * @var boolean $terms_enabled 		Whether terms are enabled.
- * @var string $terms_description 	Terms description.
- *
+ * @var boolean $terms_enabled      Whether terms are enabled.
+ * @var string  $terms_description  Terms description.
  */
 
 if ( empty( $terms_enabled ) ) {
@@ -30,7 +28,9 @@ if ( empty( $terms_description ) ) {
 ?>
 <div class="tribe-section tribe-section-terms">
 	<div class="tribe-section-header">
-		<h3><?php esc_html_e( 'Terms of Submission', 'tribe-events-community' ); ?></h3>
+		<h3 id="tec-terms-of-submission-heading">
+			<?php esc_html_e( 'Terms of Submission', 'tribe-events-community' ); ?>
+		</h3>
 	</div>
 
 	<?php
@@ -41,19 +41,30 @@ if ( empty( $terms_description ) ) {
 	?>
 
 	<div class="tribe-section-content">
-		<textarea
-				rows="5"
-				cols="100"
-				class="event-terms-description"
-				readonly
-		><?php echo esc_textarea( stripslashes( wp_specialchars_decode( $terms_description ) ) ); ?></textarea>
+		<div
+			class="tec-event-terms-description"
+			role="region"
+			aria-labelledby="tec-terms-of-submission-heading"
+			aria-describedby="tec-terms-scroll-instructions"
+			tabindex="0"
+		>
+			<?php
+			$terms_text = stripslashes( wp_specialchars_decode( $terms_description ) );
+
+			echo wp_kses_post( wpautop( $terms_text ) );
+			?>
+		</div>
+		<p id="tec-terms-scroll-instructions" class="screen-reader-text">
+			<?php esc_html_e( 'Use arrow keys or page up/down to scroll through the terms of submission.', 'tribe-events-community' ); ?>
+		</p>
+
 		<br/>
 		<input
-				type="checkbox"
-				id="terms"
-				name="terms"
-				value="true"
-				class="<?php tribe_community_events_field_classes( 'terms', [ 'event-terms-agree' ] ); ?>"
+			type="checkbox"
+			id="terms"
+			name="terms"
+			value="true"
+			class="<?php tribe_community_events_field_classes( 'terms', [ 'event-terms-agree' ] ); ?>"
 		/>
 		<?php tribe_community_events_field_label( 'terms', __( 'I agree to the terms of submission', 'tribe-events-community' ) ); ?>
 	</div>

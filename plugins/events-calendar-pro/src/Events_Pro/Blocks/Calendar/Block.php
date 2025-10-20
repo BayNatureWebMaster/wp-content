@@ -5,10 +5,10 @@
 
 namespace TEC\Events_Pro\Blocks\Calendar;
 
-use Tribe__Events__Pro__Main;
-use Tribe\Events\Views\V2\Manager;
-use Tribe__Main;
 use TEC\Common\Asset;
+use Tribe\Events\Views\V2\Manager;
+use Tribe__Events__Pro__Main;
+use Tribe__Main;
 
 /**
  * Class Block
@@ -25,11 +25,13 @@ class Block {
 	 * @since 7.2.0
 	 */
 	public function register_block() {
-		if ( ! file_exists( Tribe__Events__Pro__Main::instance()->pluginPath . 'src/resources/js/blocks/calendar-embed/index.js' ) ) {
+		$build_path = Tribe__Events__Pro__Main::instance()->pluginPath . 'build';
+		$block_root = "{$build_path}/resources/app/calendar-embed";
+		if ( ! file_exists( "{$block_root}/index.js" ) ) {
 			return;
 		}
 
-		register_block_type( Tribe__Events__Pro__Main::instance()->pluginPath . 'src/resources/js/blocks/calendar-embed' );
+		register_block_type( $block_root );
 
 		$this->setup_assets();
 	}

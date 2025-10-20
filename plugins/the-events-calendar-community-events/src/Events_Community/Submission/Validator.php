@@ -50,7 +50,7 @@ class Validator {
 	 * Validator constructor.
 	 */
 	public function __construct() {
-		$this->ce_main          = tribe( Tribe__Events__Community__Main::class );
+		$this->ce_main          = tribe( 'community.main' );
 		$this->messages         = Messages::get_instance();
 		$this->submission_valid = false;
 	}
@@ -133,6 +133,7 @@ class Validator {
 		$user_can_edit_their_submission  = $this->ce_main->user_can_edit_their_submissions( $event_id );
 		$is_editing_enabled_for_user     = $user_can_edit || $user_can_edit_their_submission;
 		$events_label_singular_lowercase = $this->ce_main->get_event_label( 'lowercase' );
+		$events_label_singular           = tribe( 'community.main' )->get_event_label( 'singular' );
 
 		// If the event is a draft, and you are not an author, or if the event is not a draft and editing is disabled, set to false.
 		if ( ( $is_draft && ! $is_author ) || ( ! $is_draft && ! $is_editing_enabled_for_user ) ) {
@@ -333,7 +334,7 @@ class Validator {
 		);
 		$lowercase_field                  = strtolower( $field );
 		$correct_case_field               = $lowercase_allowed_fields_mapping[ $lowercase_field ] ?? $field;
-		$events_label_singular            = tribe( Tribe__Events__Community__Main::class )->get_event_label( 'singular' );
+		$events_label_singular            = tribe( 'community.main' )->get_event_label( 'singular' );
 
 		switch ( $correct_case_field ) {
 			case 'post_title':

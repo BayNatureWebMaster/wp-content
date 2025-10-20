@@ -72,7 +72,7 @@ if ( ! class_exists( 'Tribe__Events__Ignored_Events' ) ) {
 				}
 			];
 
-			tribe_asset( $plugin, 'tribe-ignored-events', 'admin-ignored-events.js', [ 'jquery' ], 'admin_enqueue_scripts', $args );
+			tec_asset( $plugin, 'tribe-ignored-events', 'admin-ignored-events.js', [ 'jquery' ], 'admin_enqueue_scripts', $args );
 		}
 
 		/**
@@ -177,7 +177,7 @@ if ( ! class_exists( 'Tribe__Events__Ignored_Events' ) ) {
 
 			$html = '<p>' . esc_html__( 'Event Aggregator includes a new, better system for removing unwanted imported events from your calendar. Click the button below to transition previously deleted events. This process will remove unwanted records from your database and include recent or upcoming trashed events in your Ignored archive.', 'the-events-calendar' );
 			$html .= ' <a href="https://theeventscalendar.com/knowledgebase/ignored-events/" target="_blank">' . esc_html_x( 'Read more about Ignored Events.', 'link to knowlegebase article', 'the-events-calendar' ) . '</a></p>';
-			$html .= '<p style="display:inline-block;">' . get_submit_button( esc_html__( 'Migrate Legacy Ignored Events' ), 'secondary', 'tribe-migrate-legacy-events', false ) . '<span class="spinner"></span></p>';
+			$html .= '<p style="display:inline-block;">' . get_submit_button( esc_html__( 'Migrate Legacy Ignored Events', 'the-events-calendar' ), 'secondary', 'tribe-migrate-legacy-events', false ) . '<span class="spinner"></span></p>';
 
 			return Tribe__Admin__Notices::instance()->render( 'legacy-ignored-events', $html );
 		}

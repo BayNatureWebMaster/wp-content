@@ -22,6 +22,7 @@ defined( 'WPINC' ) or die;
 global $post;
 $post_id = isset( $post->ID ) ? $post->ID : null;
 ?>
+
 <div class="recurrence">
 	<?php Tribe__Events__Pro__Recurrence__Meta::loadRecurrenceData( $post_id ); ?>
 </div>

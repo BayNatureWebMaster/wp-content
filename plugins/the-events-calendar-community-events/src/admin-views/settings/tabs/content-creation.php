@@ -3,6 +3,7 @@
  * The Content Creation settings tab.
  *
  * @since 5.0.4
+ * @since 5.0.10 Added a div container to the "Terms of Submission" header for style consistency.
  */
 
 $statuses = [
@@ -68,7 +69,11 @@ $tec_events_community_content_creation_fields = [
 	],
 	'tec-events-community-settings-submission-terms-title' => [
 		'type' => 'html',
-		'html' => '<h3 id="tec-events-community-settings-submission-terms" class="tec-settings-form__section-header tec-settings-form__section-header--sub">' . esc_html__( 'Terms of Submission', 'tribe-events-community' ) . '</h3>',
+		'html' => '<div class="tec-settings-form__header-block tec-settings-form__element--rowspan-2">'
+			. '<h3 id="tec-events-community-settings-submission-terms" class="tec-settings-form__section-header tec-settings-form__section-header--sub">'
+			. esc_html__( 'Terms of Submission', 'tribe-events-community' )
+			. '</h3>'
+			. '</div>',
 	],
 	'termsEnabled'                                         => [
 		'type'            => 'checkbox_bool',
@@ -93,6 +98,13 @@ $content_creation_tab = new Tribe__Settings_Tab(
 	esc_html__( 'Content Creation', 'tribe-events-community' ),
 	[
 		'priority' => 36.05,
+		/**
+		 * Allow for customizing the settings fields for the Content Creation tab.
+		 *
+		 * @since 5.0.4
+		 *
+		 * @param array $tec_events_community_content_creation_fields
+		 */
 		'fields'   => apply_filters( 'tec_events_community_settings_content_creation_section', $tec_events_community_content_creation_fields ),
 	]
 );

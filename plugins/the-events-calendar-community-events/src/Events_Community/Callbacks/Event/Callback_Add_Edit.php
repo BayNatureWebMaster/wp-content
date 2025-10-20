@@ -102,7 +102,7 @@ class Callback_Add_Edit extends Abstract_Callback {
 		$main = tribe( 'community.main' );
 
 		if ( $this->event_id && class_exists( 'Tribe__Events__Pro__Main' ) && tribe_is_recurring_event( $this->event_id ) ) {
-			$events_label_singular_lowercase = tribe_get_event_label_singular_lowercase();
+			$events_label_singular_lowercase = tec_events_community_event_label_singular_lowercase();
 			/* translators : %1$s event label lowercase */
 			$main->enqueueOutputMessage( sprintf( __( 'Warning: You are editing a recurring %1$s. Changes will be applied to all occurrences of this %1$s.', 'tribe-events-community' ), $events_label_singular_lowercase ), 'error' );
 		}
@@ -187,7 +187,7 @@ class Callback_Add_Edit extends Abstract_Callback {
 		delete_transient( 'tribe_community_events_today_page' );
 
 		if ( $main->emailAlertsEnabled ) {
-			$main->sendEmailAlerts( $this->event_id );
+			$main->send_email_alerts( $this->event_id );
 		}
 
 		/**

@@ -19,6 +19,7 @@ use TEC\Events_Pro\Custom_Tables\V1\Series\Relationship;
 use TEC\Events_Pro\Custom_Tables\V1\Traits\With_Event_Recurrence;
 use TEC\Events_Pro\Custom_Tables\V1\Updates\Update_Controllers\Update_Controller_Interface as Update_Controller;
 use TEC\Events_Pro\Custom_Tables\V1\Updates\Transient_Occurrence_Redirector as Occurrence_Redirector;
+use Tribe\Events\Views\V2\Template_Bootstrap;
 use Tribe__Date_Utils;
 use WP_Post;
 use WP_REST_Request;
@@ -440,28 +441,28 @@ class Controller {
 	/**
 	 * For recurring events, if the event date is not specified, we should go to the series page
 	 * instead of locating the random occurrence to display here.
+	 *
+	 * @since 7.4.3 - Modify single event check.
 	 */
 	public function redirect_single_view() {
 		// Redirect to the Series page
 		global $wp_query, $post;
 
-		// If we are on a TEC single event, without the event date defined,
+		// If we are on a TEC recurring single event, without the event date defined,
 		// we should redirect to the series page if this is a recurring event.
-		if ( ! empty( $wp_query->query_vars['eventDate'] )
-		     || ! isset( $wp_query->query_vars['eventDisplay'] )
-		     || ! isset( $wp_query->query_vars['post_type'] ) ) {
-			return;
-		}
-
-		if ( $wp_query->query_vars['post_type'] !== TEC::POSTTYPE ) {
-			return;
-		}
-
-		if ( $wp_query->query_vars['eventDisplay'] !== 'single-event' ) {
+		if (
+			! empty( $wp_query->query_vars['eventDate'] )
+			|| ! isset( $wp_query->query_vars['post_type'] )
+		) {
 			return;
 		}
 
 		if ( ! $post instanceof WP_Post ) {
+			return;
+		}
+
+		// The eventDisplay check for single-event was always false, removed for different check.
+		if ( ! tribe( Template_Bootstrap::class )->is_single_event() ) {
 			return;
 		}
 
@@ -480,8 +481,8 @@ class Controller {
 		// In a series?
 		$series = Series_Relationship::find( $post_id, 'event_post_id' );
 		if ( $series instanceof Series_Relationship ) {
-			wp_redirect( get_post_permalink( $series->series_post_id ) );
-			exit;
+			wp_safe_redirect( get_post_permalink( $series->series_post_id ) ); // phpcs:ignore WordPressVIPMinimum.Security.ExitAfterRedirect.NoExit, StellarWP.CodeAnalysis.RedirectAndDie.Error
+			tribe_exit();
 		}
 	}
 

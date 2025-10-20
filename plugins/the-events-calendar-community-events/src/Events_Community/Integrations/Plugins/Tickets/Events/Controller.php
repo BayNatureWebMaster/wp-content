@@ -4,6 +4,7 @@ namespace TEC\Events_Community\Integrations\Plugins\Tickets\Events;
 
 use TEC\Events_Community\Integrations\Plugin_Integration_Abstract;
 use TEC\Common\Integrations\Traits\Module_Integration;
+use Tribe__Events__Community__Templates;
 
 /**
  * Class Provider
@@ -66,6 +67,7 @@ class Controller extends Plugin_Integration_Abstract {
 		add_filter( 'tribe_community_events_list_columns', [ $this, 'remove_date_columns' ] );
 		add_filter( 'tec_events_community_events_listing_show_prev_next_nav', '__return_false' );
 		add_filter( 'tec_events_community_events_listing_display_options_dropdown', '__return_false' );
+		add_filter( 'tec_events_community_email_alert_template_path', [ $this, 'override_email_alert_template_path' ] );
 	}
 
 	/**
@@ -93,5 +95,20 @@ class Controller extends Plugin_Integration_Abstract {
 	public function remove_date_columns( $columns ) {
 		unset( $columns['start_date'], $columns['end_date'] );
 		return $columns;
+	}
+
+	/**
+	 * Override the email template path to use ET's template.
+	 *
+	 * @since 5.0.7
+	 *
+	 * @param string $template_path The default template path.
+	 *
+	 * @return string The ET template path.
+	 */
+	public function override_email_alert_template_path( string $template_path ): string {
+		$et_template = Tribe__Events__Community__Templates::getTemplateHierarchy( 'integrations/event-tickets/email-template' );
+
+		return ! empty( $et_template ) && file_exists( $et_template ) ? $et_template : $template_path;
 	}
 }

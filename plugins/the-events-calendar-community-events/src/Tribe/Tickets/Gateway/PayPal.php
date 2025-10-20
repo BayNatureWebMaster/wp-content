@@ -12,6 +12,24 @@ class Tribe__Events__Community__Tickets__Gateway__PayPal extends Tribe__Events__
 	protected $api_signature;
 	protected $application_id;
 
+	/**
+	 * PayPal API Client ID.
+	 *
+	 * @since 5.0.12
+	 *
+	 * @var string
+	 */
+	protected $api_client_id;
+
+	/**
+	 * PayPal API Client Secret.
+	 *
+	 * @since 5.0.12
+	 *
+	 * @var string
+	 */
+	protected $api_client_secret;
+
 	protected $api_prod_url        = 'https://svcs.paypal.com/AdaptivePayments/';
 	protected $api_sandbox_url     = 'https://svcs.sandbox.paypal.com/AdaptivePayments/';
 	protected $payment_prod_url    = 'https://www.paypal.com/cgi-bin/webscr';

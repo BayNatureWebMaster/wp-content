@@ -1,6 +1,7 @@
 <?php
 
 use TEC\Common\Contracts\Service_Provider;
+use TEC\Events_Community\Notifications\Provider as Notifications_Provider;
 /**
  * Class Tribe__Events__Community__Service_Provider
  *
@@ -21,15 +22,34 @@ class Tribe__Events__Community__Service_Provider extends Service_Provider {
 	public function register() {
 		$this->container->singleton( 'community.integrations', 'Tribe__Events__Community__Integrations__Manager' );
 		$this->container->singleton( 'community.integrations.divi', 'Tribe__Events__Community__Integrations__Divi', [ 'hooks' ] );
-		$this->container->singleton( 'community.integrations.virtual-events', 'Tribe__Events__Community__Integrations__Virtual_Events', [ 'hooks' ] );
 		$this->container->singleton( 'community.shortcodes', 'Tribe__Events__Community__Shortcodes' );
-		$this->container->singleton( Tribe\Events\Community\Integrations\Event_Status::class, Tribe\Events\Community\Integrations\Event_Status::class, [ 'hooks' ] );
-		$this->container->singleton( Tribe\Events\Community\Integrations\Series::class, Tribe\Events\Community\Integrations\Series::class, [ 'hooks' ] );
-
 		// Register the Views v2 service provider.
 		$this->container->register( Tribe\Events\Community\Views\V2\Service_Provider::class );
 
+
+		// Set up IAN Client - In-App Notifications.
+		$this->container->register( TEC\Events_Community\Notifications\Provider::class );
+
+		// Register integrations only when TEC is activated.
+		$this->register_if_tec_active();
+
 		$this->hook();
+	}
+
+	/**
+	 * Registers TEC-dependent services if TEC is installed and activated.
+	 *
+	 * @since 5.0.7
+	 *
+	 * @return void
+	 */
+	protected function register_if_tec_active() {
+		if ( ! tribe( 'community.main' )->is_tec_installed() ) {
+			return;
+		}
+		$this->container->singleton( 'community.integrations.virtual-events', 'Tribe__Events__Community__Integrations__Virtual_Events', [ 'hooks' ] );
+		$this->container->singleton( Tribe\Events\Community\Integrations\Event_Status::class, Tribe\Events\Community\Integrations\Event_Status::class, [ 'hooks' ] );
+		$this->container->singleton( Tribe\Events\Community\Integrations\Series::class, Tribe\Events\Community\Integrations\Series::class, [ 'hooks' ] );
 	}
 
 	/**

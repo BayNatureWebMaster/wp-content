@@ -493,6 +493,30 @@ class Organizer_View extends List_View {
 	}
 
 	/**
+	 * Set up the default back link data for this View.
+	 *
+	 * This provides a structured array containing the URL and label
+	 * for the "Back to Events" link.
+	 *
+	 * @since 7.7.7
+	 *
+	 * @param array|false $back_link   Existing back link data, or false if none provided.
+	 * @param array       $breadcrumbs The breadcrumbs array (may be empty).
+	 *
+	 * @return array Back link data with 'url' and 'label' keys.
+	 */
+	public function setup_back_link( $back_link, $breadcrumbs ) {
+		return [
+			'url'   => tribe_get_events_link(),
+			'label' => sprintf(
+				/* translators: %s: Plural event label, e.g. "All Events" */
+				__( 'All %s', 'the-events-calendar' ),
+				tribe_get_event_label_plural()
+			),
+		];
+	}
+
+	/**
 	 * Setups up the Header Title for this view.
 	 *
 	 * @since 6.2.0

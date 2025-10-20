@@ -3,9 +3,9 @@
 Contributors: theeventscalendar, brianjessee, camwynsp, aguseo, bordoni, borkweb, brianjessee, GeoffBel, jentheo, leahkoerper, lucatume, neillmcshea, vicskf, zbtirrell
 Tags: widget, events, simple, tooltips, grid, month, list, calendar, event, venue, community, registration, api, dates, date, plugin, posts, sidebar, template, theme, time, google maps, google, maps, conference, workshop, concert, meeting, seminar, summit, forum, shortcode, The Events Calendar, The Events Calendar PRO
 Donate link: https://evnt.is/29
-Stable tag: 5.0.5.1
-Requires at least: 6.3
-Tested up to: 6.6.2
+Stable tag: 5.0.12
+Requires at least: 6.6
+Tested up to: 6.8.2
 Requires PHP: 7.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -162,6 +162,78 @@ Our Premium Plugins:
 * <a href="https://evnt.is/fa" target="_blank">The Events Calendar: Filter Bar</a>
 
 == Changelog ==
+
+= [5.0.12] 2025-09-23 =
+
+* Fix - Makes sure that the US State for a venue is correctly saved on the venue edit shortcode page. [CE-331]
+* Compatibility - Declares missing properties to avoid deprecation warnings with PHP 8.2 and higher. [CE-332]
+* Language - 0 new strings added, 5 updated, 0 fuzzied, and 0 obsoleted.
+
+= [5.0.11] 2025-09-16 =
+
+* Compatibility - PHP 8.3 compatibility improvements. [CE-285]
+* Language - 0 new strings added, 5 updated, 0 fuzzied, and 0 obsoleted.
+
+= [5.0.10] 2025-09-02 =
+
+* Feature - Added the `tec_events_community_fully_loaded` hook which fires when the Community plugin is fully loaded.
+* Fix - Make sure that the Users cannot create new Venues/Organizers settings work as expected. [CE-327]
+* Fix - Properly use the default setting for organizer or venue when submitting an event. [CE-326]
+* Tweak - Added actions: `tec_events_community_shortcode_assets`
+* Tweak - Changed views: `community/event-list`, `community/form-status-message`, `community/modules/image`, `community/modules/recurrence`, `community/modules/terms`
+* Tweak - Fixed some settings label alignments.
+* Tweak - Refactored pagination into its own class and dedicated template for easier maintenance. [CE-232]
+* Tweak - Remove the add_filter that runs a deprecated function to prevent throwing notices.
+* Accessibility - Improved pagination accessibility to better support screen readers and keyboard users. [CE-232]
+* Language - 7 new strings added, 87 updated, 0 fuzzied, and 1 obsoleted.
+
+= [5.0.9] 2025-08-26 =
+
+* Fix - Made the submission form consistent between the default URL and shortcode. [CE-267]
+* Tweak - Added actions: `tec_events_community_shortcode_assets`
+* Tweak - Added asset groups to keep our assets organized. [CE-328]
+* Tweak - Changed views: `community/event-list`, `community/form-status-message`, `community/modules/image`, `community/modules/recurrence`, `community/modules/terms`
+* Accessibility - Converted the Terms Of Submission section into a div to make it more accessible. [CE-295]
+* Accessibility - Made the Display Option dropdown on the event listing page more accessible. [CE-315]
+* Accessibility - Made the status icon on the Event Listing more accessible. [CE-280]
+* Accessibility - Messages after saving event are more accessible. [CE-298]
+* Accessibility - Updated the Choose Image programmatic name. [CE-282]
+* Accessibility - Validation error messages will now be announced. [CE-284]
+* Language - 3 new strings added, 59 updated, 0 fuzzied, and 3 obsoleted.
+
+= [5.0.8] 2025-07-16 =
+
+* Feature - Implemented cross-plugin notification injection system that allows CE notifications to appear in TEC and ET notification feeds regardless of which plugin requests the feed or which area it was added to in the feed.
+* Fix - Make sure add_submenu_page is called correctly to avoid deprecation messages. [TEC-5529]
+* Tweak - Avoid a warning by making sure that we are passing an array to 'count()'. [CE-273]
+* Tweak - Added actions: `tec_ian_icon`
+* Tweak - Changed views: `integrations/the-events-calendar/modules/taxonomy`
+* Language - 2 new strings added, 7 updated, 0 fuzzied, and 0 obsoleted.
+
+= [5.0.7.1] 2025-06-19 =
+
+* Fix - Ensure we do not create two instances of the main class, causing duplications. [CE-272]
+* Language - 1 new strings added, 76 updated, 2 fuzzied, and 0 obsoleted.
+
+= [5.0.7] 2025-05-20 =
+
+* Version - Events Community 5.0.7 is only compatible with The Events Calendar 6.13.0 and higher.
+* Version - Events Community 5.0.7 is only compatible with Event Tickets 5.23.0 and higher.
+* Fix - Corrected an issue where Admin Alerts would fatal when TEC was not active [CE-268]
+* Fix - Corrected a fatal that would occur when Community, Event Tickets, and Events Calendar Pro was bulk activated. [CE-269]
+* Tweak - Make sure update callbacks are executed prior `wp_loaded` action. [TEC-5436]
+* Tweak - Improved email alert templates with dedicated versions for TEC and Event Tickets integrations.
+* Tweak - Added helper functions for event labels that respect plugin integrations.
+* Tweak - Refactored email alert handling for better maintainability and extensibility.
+* Tweak - Switched from using `tribe_tickets_plugin_loaded` to `tec_tickets_fully_loaded` for better Event Tickets compatibility.
+* Tweak - Added template path filters to allow customizing email template paths
+* Deprecated - Deprecated `sendEmailAlerts` method in favor of `send_email_alerts` with improved functionality
+* Language - 3 new strings added, 40 updated, 0 fuzzied, and 1 obsoleted
+
+= [5.0.6] 2025-03-04 =
+
+* Tweak - Switched `$event[ID]` to `$events->ID` in `update_series` function. [CE-253]
+* Language - 0 new strings added, 0 updated, 0 fuzzied, and 0 obsoleted.
 
 = [5.0.5.1] 2025-02-19 =
 

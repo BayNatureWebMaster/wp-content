@@ -2,16 +2,16 @@
 # This file is distributed under the GPLv2 or later.
 msgid ""
 msgstr ""
-"Project-Id-Version: The Events Calendar: Community 5.0.5.1\n"
+"Project-Id-Version: The Events Calendar: Community 5.0.12\n"
 "Report-Msgid-Bugs-To: https://evnt.is/191x\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2025-02-18T21:16:58+00:00\n"
+"POT-Creation-Date: 2025-09-22T17:45:13+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"X-Generator: WP-CLI 2.11.0\n"
+"X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: tribe-events-community\n"
 
 #. Plugin Name of the plugin
@@ -31,8 +31,8 @@ msgstr ""
 
 #. Author of the plugin
 #: tribe-community-events.php
-#: tribe-community-events.php:277
-#: tribe-community-events.php:278
+#: tribe-community-events.php:289
+#: tribe-community-events.php:290
 msgid "The Events Calendar"
 msgstr ""
 
@@ -46,6 +46,7 @@ msgid "Community Settings"
 msgstr ""
 
 #: src/admin-views/community-options-template.php:18
+#, php-format
 msgid "<p>Community enables users to submit events through a form on your site. Whether soliciting contributions from anonymous users or registered members, you have complete editorial control over what makes it onto the calendar.</p><p>Check out our <a href=\"%s\">Community New User Primer</a> for information on configuring and using the plugin."
 msgstr ""
 
@@ -81,6 +82,7 @@ msgstr ""
 
 #. Translators: %1$s and %2$s are placeholders for the start and end of a link
 #: src/admin-views/settings/tabs/access-control.php:58
+#, php-format
 msgid "Redirect for users attempting to access the admin without permissions<br>Enter an absolute or relative URL<br>Leave blank for the %1$sCommunity List View%2$s"
 msgstr ""
 
@@ -109,116 +111,117 @@ msgstr ""
 msgid "One address per line"
 msgstr ""
 
-#: src/admin-views/settings/tabs/content-creation.php:26
-#: src/admin-views/settings/tabs/content-creation.php:93
+#: src/admin-views/settings/tabs/content-creation.php:27
+#: src/admin-views/settings/tabs/content-creation.php:98
 msgid "Content Creation"
 msgstr ""
 
-#: src/admin-views/settings/tabs/content-creation.php:30
+#: src/admin-views/settings/tabs/content-creation.php:31
 msgid "Allow anonymous submissions"
 msgstr ""
 
-#: src/admin-views/settings/tabs/content-creation.php:31
+#: src/admin-views/settings/tabs/content-creation.php:32
 msgid "Check this box to allow users to submit events without having a WordPress account"
 msgstr ""
 
-#: src/admin-views/settings/tabs/content-creation.php:38
+#: src/admin-views/settings/tabs/content-creation.php:39
 msgid "Use visual editor for event descriptions"
 msgstr ""
 
-#: src/admin-views/settings/tabs/content-creation.php:45
+#: src/admin-views/settings/tabs/content-creation.php:46
 msgid "Default Post Type for submitted events"
 msgstr ""
 
-#: src/admin-views/settings/tabs/content-creation.php:50
+#: src/admin-views/settings/tabs/content-creation.php:51
 msgid "Default status for submitted events"
 msgstr ""
 
-#: src/admin-views/settings/tabs/content-creation.php:59
+#: src/admin-views/settings/tabs/content-creation.php:60
 msgid "Spam Prevention"
 msgstr ""
 
 #. Translators: %1$s is a placeholder for the URL to the API settings
-#: src/admin-views/settings/tabs/content-creation.php:62
+#: src/admin-views/settings/tabs/content-creation.php:63
+#, php-format
 msgid "<p><i>To enable spam prevention for anonymous submissions, enter your reCAPTCHA API keys under <a href=\"%1$s\">Events &rarr; Settings &rarr; APIs</a></i></p>"
 msgstr ""
 
-#: src/admin-views/settings/tabs/content-creation.php:71
-#: src/views/community/modules/terms.php:33
+#: src/admin-views/settings/tabs/content-creation.php:74
+#: src/views/community/modules/terms.php:32
 msgid "Terms of Submission"
 msgstr ""
 
-#: src/admin-views/settings/tabs/content-creation.php:75
+#: src/admin-views/settings/tabs/content-creation.php:80
 msgid "Enable Terms of Submission?"
 msgstr ""
 
-#: src/admin-views/settings/tabs/content-creation.php:78
+#: src/admin-views/settings/tabs/content-creation.php:83
 msgid "Event submitters will have to agree to your terms to add/edit events."
 msgstr ""
 
-#: src/admin-views/settings/tabs/content-creation.php:83
+#: src/admin-views/settings/tabs/content-creation.php:88
 msgid "Terms of submission"
 msgstr ""
 
-#: src/admin-views/settings/tabs/content-creation.php:85
+#: src/admin-views/settings/tabs/content-creation.php:90
 msgid "The Terms of Submission that event submitters will have to agree to upon adding/editing events."
 msgstr ""
 
-#: src/admin-views/settings/tabs/members.php:9
+#: src/admin-views/settings/tabs/members.php:10
 msgid "Placed in the Trash"
 msgstr ""
 
-#: src/admin-views/settings/tabs/members.php:10
+#: src/admin-views/settings/tabs/members.php:11
 msgid "Permanently Deleted"
 msgstr ""
 
-#: src/admin-views/settings/tabs/members.php:18
-#: src/admin-views/settings/tabs/members.php:65
+#: src/admin-views/settings/tabs/members.php:19
+#: src/admin-views/settings/tabs/members.php:70
 msgid "Members"
 msgstr ""
 
-#: src/admin-views/settings/tabs/members.php:21
+#: src/admin-views/settings/tabs/members.php:22
 msgid "Control the permissions for your logged in users."
 msgstr ""
 
-#: src/admin-views/settings/tabs/members.php:27
+#: src/admin-views/settings/tabs/members.php:28
 msgid "Edit their submissions"
 msgstr ""
 
-#: src/admin-views/settings/tabs/members.php:28
+#: src/admin-views/settings/tabs/members.php:29
 msgid "Users can edit their events, venues, and organizers"
 msgstr ""
 
-#: src/admin-views/settings/tabs/members.php:35
+#: src/admin-views/settings/tabs/members.php:36
 msgid "Remove their submissions"
 msgstr ""
 
-#: src/admin-views/settings/tabs/members.php:36
+#: src/admin-views/settings/tabs/members.php:37
 msgid "Users can delete their events"
 msgstr ""
 
-#: src/admin-views/settings/tabs/members.php:43
+#: src/admin-views/settings/tabs/members.php:44
 msgid "Deleted events should be:"
 msgstr ""
 
-#: src/admin-views/settings/tabs/members.php:51
-#: src/Tribe/Main.php:1196
-#: src/views/community/event-list-shortcode.php:42
-#: src/views/community/event-list.php:38
+#: src/admin-views/settings/tabs/members.php:54
+#: src/Tribe/Main.php:1348
+#: src/views/community/event-list-shortcode.php:50
+#: src/views/community/event-list.php:44
 msgid "My Events"
 msgstr ""
 
-#: src/admin-views/settings/tabs/members.php:55
+#: src/admin-views/settings/tabs/members.php:60
 msgid "Events per page"
 msgstr ""
 
-#: src/admin-views/settings/tabs/members.php:56
+#: src/admin-views/settings/tabs/members.php:61
 msgid "This is the number of events displayed per page"
 msgstr ""
 
 #: src/admin-views/settings/tabs/tickets.php:13
 #: src/admin-views/tickets/payment-options.php:9
-#: src/Tribe/Tickets/Main.php:1436
+#: src/Tribe/Tickets/Main.php:1619
 msgid "Community Tickets"
 msgstr ""
 
@@ -294,6 +297,7 @@ msgstr ""
 
 #. translators: %1$s is the shortcode %2$s is the url to the Permalinks Settings
 #: src/admin-views/settings/tabs/urls.php:210
+#, php-format
 msgctxt "Pretty permalinks error for URL slugs"
 msgid "Community requires non-default (pretty) Permalinks to be enabled or the <code>%1$s</code> shortcode to exist on a post or page.<br><br>You cannot edit Community slugs for your events pages as you do not have pretty Permalinks enabled. In order to edit the slugs here, first <a href=\"%2$s\">enable pretty Permalinks</a>."
 msgstr ""
@@ -337,6 +341,7 @@ msgstr ""
 
 #. translators: %1$s is the opening anchor tag, %2$s is the closing anchor tag
 #: src/admin-views/tickets/payment-options.php:52
+#, php-format
 msgid "Review our %1$sUnderstanding Site Fees KB%2$s for a further explanation so that you set your site fees according to what Community Tickets supports."
 msgstr ""
 
@@ -444,6 +449,7 @@ msgid "Enable split payments"
 msgstr ""
 
 #: src/admin-views/tickets/payment-options.php:189
+#, php-format
 msgid ""
 "Leaving this box unchecked means that all funds will be collected by the payment methods configured in WooCommerce.\n"
 "\t\t\t\tCheck this box if you prefer the money for tickets to be distributed to the site and the event\n"
@@ -592,32 +598,37 @@ msgstr ""
 
 #. Translators: %1$s and %2$s are the opening and closing anchor tags, respectively.
 #: src/Community_Tickets/Tickets/Commerce/Admin/Settings.php:169
+#, php-format
 msgid "To begin using the tickets functionality within The Events Calendar: Community, Please %1$ssetup a provider%2$s."
 msgstr ""
 
 #: src/Events_Community/Block_Conversion/Blocks.php:217
-#: src/views/integrations/the-events-calendar/modules/website.php:42
+#: src/views/integrations/the-events-calendar/modules/website.php:50
 msgid "External Link:"
 msgstr ""
 
 #. translators: %s: Event label in singular lowercase
 #: src/Events_Community/Callbacks/Event/Callback_Add_Edit.php:82
 #: src/Tribe/Shortcode/Abstract.php:112
+#, php-format
 msgid "You do not have permission to edit this %s."
 msgstr ""
 
 #. translators: %s: Event label in singular form
 #: src/Events_Community/Callbacks/Event/Callback_Add_Edit.php:88
+#, php-format
 msgid "%s not found."
 msgstr ""
 
 #. translators : %1$s event label lowercase
 #: src/Events_Community/Callbacks/Event/Callback_Add_Edit.php:107
+#, php-format
 msgid "Warning: You are editing a recurring %1$s. Changes will be applied to all occurrences of this %1$s."
 msgstr ""
 
 #. translators : %1$s the maximum file size allowed for uploading.
 #: src/Events_Community/Callbacks/Event/Callback_Add_Edit.php:112
+#, php-format
 msgid "The file you attempted to upload exceeded the maximum file size of %1$s."
 msgstr ""
 
@@ -627,51 +638,55 @@ msgstr ""
 
 #. Translators: %1$s is the new version number.
 #: src/Events_Community/Integrations/Events_Community_Tickets_Provider.php:80
+#, php-format
 msgctxt "Plugin name upgraded to version number."
 msgid "Community Events to %1$s"
 msgstr ""
 
 #. Translators: %1$s is the plugin that was deactivated, %2$s is the plugin name, %3$s is the opening anchor tag, %4$s is the closing anchor tag.
 #: src/Events_Community/Integrations/Events_Community_Tickets_Provider.php:95
+#, php-format
 msgctxt "Notice message for the forced deactivation of the Community Events Tickets plugin after updating Community Events to the merged version."
 msgid "%1$s has been deactivated as it's now bundled into the %2$s. %3$sLearn More%4$s"
 msgstr ""
 
 #. Translators: %1$s is the plugin name, %2$s is the plugin that was deactivated, %3$s is the opening anchor tag, %4$s is the closing anchor tag.
 #: src/Events_Community/Integrations/Events_Community_Tickets_Provider.php:113
+#, php-format
 msgctxt "Notice message for the forced deactivation of the Community Tickets plugin after attempting to activate, and the plugin was merged to the Community Events."
 msgid "%1$s could not be activated. The %1$s functionality has been merged into %2$s. %3$sLearn More%4$s."
 msgstr ""
 
-#: src/Events_Community/Integrations/Plugins/Events/Controller.php:85
+#: src/Events_Community/Integrations/Plugins/Events/Controller.php:96
 msgid "Form Defaults"
 msgstr ""
 
-#: src/Events_Community/Integrations/Plugins/Events/Events/Controller.php:191
+#: src/Events_Community/Integrations/Plugins/Events/Events/Controller.php:193
 msgid "Category"
 msgstr ""
 
-#: src/Events_Community/Integrations/Plugins/Events/Events/Controller.php:207
+#: src/Events_Community/Integrations/Plugins/Events/Events/Controller.php:209
 msgid "Start Date"
 msgstr ""
 
-#: src/Events_Community/Integrations/Plugins/Events/Events/Controller.php:208
+#: src/Events_Community/Integrations/Plugins/Events/Events/Controller.php:210
 msgid "End Date"
 msgstr ""
 
-#: src/Events_Community/Integrations/Plugins/Events/Events/Controller.php:529
-#: src/Events_Community/Integrations/Plugins/Events/Events/Controller.php:541
-#: src/Events_Community/Integrations/Plugins/Events/Events/Controller.php:560
+#: src/Events_Community/Integrations/Plugins/Events/Events/Controller.php:531
+#: src/Events_Community/Integrations/Plugins/Events/Events/Controller.php:543
+#: src/Events_Community/Integrations/Plugins/Events/Events/Controller.php:562
 msgid "Start Time must be prior to End Time."
 msgstr ""
 
 #. translators: %s is the field label.
-#: src/Events_Community/Integrations/Plugins/Events/Events/Controller.php:588
+#: src/Events_Community/Integrations/Plugins/Events/Events/Controller.php:590
+#, php-format
 msgctxt "field label for event categories"
 msgid "%s Category"
 msgstr ""
 
-#: src/Events_Community/Integrations/Plugins/Events/Events/Controller.php:590
+#: src/Events_Community/Integrations/Plugins/Events/Events/Controller.php:592
 msgctxt "field label for post tags"
 msgid "Tag"
 msgstr ""
@@ -681,28 +696,28 @@ msgctxt "Header text that displays when editing a venue."
 msgid "Edit Organizer"
 msgstr ""
 
-#: src/Events_Community/Integrations/Plugins/Events/Organizers/Organizer_Logic.php:279
+#: src/Events_Community/Integrations/Plugins/Events/Organizers/Organizer_Logic.php:280
 msgctxt "Option for when there are no organizers available."
 msgid "No Default"
 msgstr ""
 
-#: src/Events_Community/Integrations/Plugins/Events/Organizers/Organizer_Logic.php:299
+#: src/Events_Community/Integrations/Plugins/Events/Organizers/Organizer_Logic.php:300
 msgctxt "Label for the default organizer option."
 msgid "Default organizer for submitted events"
 msgstr ""
 
-#: src/Events_Community/Integrations/Plugins/Events/Organizers/Organizer_Logic.php:311
+#: src/Events_Community/Integrations/Plugins/Events/Organizers/Organizer_Logic.php:313
 msgctxt "Label for preventing new organizers."
 msgid "Users cannot create new Organizers"
 msgstr ""
 
-#: src/Events_Community/Integrations/Plugins/Events/Organizers/Organizer_Logic.php:312
+#: src/Events_Community/Integrations/Plugins/Events/Organizers/Organizer_Logic.php:314
 msgctxt "Tooltip for preventing new organizers."
 msgid "Users will be limited to choosing from existing organizers."
 msgstr ""
 
 #: src/Events_Community/Integrations/Plugins/Events/Organizers/Routes/Route_Edit.php:112
-#: src/Tribe/Main.php:1102
+#: src/Tribe/Main.php:1254
 msgid "Edit an Organizer"
 msgstr ""
 
@@ -728,6 +743,7 @@ msgstr ""
 
 #. translators : %1$s the field that is required.
 #: src/Events_Community/Integrations/Plugins/Events/Organizers/Route_Callbacks/Callback_Edit.php:108
+#, php-format
 msgid "%1$s required"
 msgstr ""
 
@@ -736,7 +752,7 @@ msgid "Organizer updated."
 msgstr ""
 
 #: src/Events_Community/Integrations/Plugins/Events/Venues/Routes/Route_Edit.php:110
-#: src/Tribe/Main.php:1101
+#: src/Tribe/Main.php:1253
 msgid "Edit a Venue"
 msgstr ""
 
@@ -760,40 +776,40 @@ msgstr ""
 msgid "Venue updated."
 msgstr ""
 
-#: src/Events_Community/Integrations/Plugins/Events/Venues/Venue_Logic.php:264
+#: src/Events_Community/Integrations/Plugins/Events/Venues/Venue_Logic.php:279
 msgctxt "Header text that displays when editing a venue."
 msgid "Edit Venue"
 msgstr ""
 
-#: src/Events_Community/Integrations/Plugins/Events/Venues/Venue_Logic.php:320
+#: src/Events_Community/Integrations/Plugins/Events/Venues/Venue_Logic.php:336
 msgctxt "Option for when there are no venues available."
 msgid "Use New Venue/No Default"
 msgstr ""
 
-#: src/Events_Community/Integrations/Plugins/Events/Venues/Venue_Logic.php:341
+#: src/Events_Community/Integrations/Plugins/Events/Venues/Venue_Logic.php:357
 msgctxt "Label for the default venue option."
 msgid "Default venue for submitted events"
 msgstr ""
 
-#: src/Events_Community/Integrations/Plugins/Events/Venues/Venue_Logic.php:353
+#: src/Events_Community/Integrations/Plugins/Events/Venues/Venue_Logic.php:370
 msgctxt "Label for preventing new venues."
 msgid "Users cannot create new Venues"
 msgstr ""
 
-#: src/Events_Community/Integrations/Plugins/Events/Venues/Venue_Logic.php:354
+#: src/Events_Community/Integrations/Plugins/Events/Venues/Venue_Logic.php:371
 msgctxt "Tooltip for preventing new venues."
 msgid "Users will be limited to choosing from existing venues."
 msgstr ""
 
 #: src/Events_Community/Routes/Event/Route_Add.php:95
-#: src/Tribe/Main.php:824
-#: src/Tribe/Main.php:1218
-#: src/Tribe/Templates.php:294
+#: src/Tribe/Main.php:976
+#: src/Tribe/Main.php:1370
+#: src/Tribe/Templates.php:298
 msgid "Submit an Event"
 msgstr ""
 
 #: src/Events_Community/Routes/Event/Route_Edit.php:111
-#: src/Tribe/Main.php:1100
+#: src/Tribe/Main.php:1252
 msgid "Edit an Event"
 msgstr ""
 
@@ -812,17 +828,20 @@ msgstr ""
 #. translators: %s is the event type in lowercase.
 #. translators: %s: Singular label of the event
 #: src/Events_Community/Submission/Save.php:154
-#: src/Events_Community/Submission/Validator.php:141
+#: src/Events_Community/Submission/Validator.php:142
+#, php-format
 msgid "There was a problem saving your %s, please try again."
 msgstr ""
 
 #. translators: %s is the event type.
 #: src/Events_Community/Submission/Save.php:163
+#, php-format
 msgid "%s updated."
 msgstr ""
 
 #. translators: %s is the event type in lowercase.
 #: src/Events_Community/Submission/Save.php:171
+#, php-format
 msgid "Submit another %s"
 msgstr ""
 
@@ -840,46 +859,50 @@ msgid "The file is not a valid image"
 msgstr ""
 
 #. translators: %s is the field label.
-#. Translators : %s the form field label for required fields.
-#: src/Events_Community/Submission/Validator.php:167
-#: src/Events_Community/Submission/Validator.php:228
-#: src/Tribe/Main.php:695
+#. Translators: %s the form field label for required fields.
+#: src/Events_Community/Submission/Validator.php:168
+#: src/Events_Community/Submission/Validator.php:229
+#: src/Tribe/Main.php:848
+#, php-format
 msgid "%s is required"
 msgstr ""
 
 #. translators: %s is the field label that is invalid.
-#: src/Events_Community/Submission/Validator.php:258
+#: src/Events_Community/Submission/Validator.php:259
+#, php-format
 msgid "Invalid value for %s"
 msgstr ""
 
 #. translators: %s is the event label (singular).
-#: src/Events_Community/Submission/Validator.php:341
+#: src/Events_Community/Submission/Validator.php:342
+#, php-format
 msgid "%s Title"
 msgstr ""
 
 #. translators: %s is the event label (singular).
-#: src/Events_Community/Submission/Validator.php:345
+#: src/Events_Community/Submission/Validator.php:346
+#, php-format
 msgid "%s Description"
 msgstr ""
 
-#: src/Events_Community/Submission/Validator.php:348
+#: src/Events_Community/Submission/Validator.php:349
 msgctxt "field label for terms of submission"
 msgid "Terms of submission"
 msgstr ""
 
-#: src/Events_Community/Submission/Validator.php:440
+#: src/Events_Community/Submission/Validator.php:441
 msgid "Images must be png, jpg, or gif"
 msgstr ""
 
-#: src/Events_Community/Submission/Validator.php:462
+#: src/Events_Community/Submission/Validator.php:463
 msgid "Image exceeded the allowed file size"
 msgstr ""
 
-#: src/Events_Community/Submission/Validator.php:466
+#: src/Events_Community/Submission/Validator.php:467
 msgid "The image failed to upload successfully"
 msgstr ""
 
-#: src/Events_Community/Submission/Validator.php:469
+#: src/Events_Community/Submission/Validator.php:470
 msgid "The uploaded image could not be processed"
 msgstr ""
 
@@ -894,6 +917,7 @@ msgid ", "
 msgstr ""
 
 #: src/functions/php-min-version.php:64
+#, php-format
 msgid "<b>%1$s</b> requires <b>PHP %2$s</b> or higher."
 msgid_plural "<b>%1$s</b> require <b>PHP %2$s</b> or higher."
 msgstr[0] ""
@@ -907,30 +931,46 @@ msgstr ""
 msgid "Contact your Host or your system administrator and ask to upgrade to the latest version of PHP."
 msgstr ""
 
-#: src/functions/template-tags.php:565
+#: src/functions/template-tags.php:596
 #: src/views/community/edit-organizer.php:38
 #: src/views/integrations/the-events-calendar/edit-venue.php:36
 msgid "(required)"
 msgstr ""
 
-#: src/functions/template-tags.php:711
+#: src/functions/template-tags.php:745
 msgid "Publish status"
 msgstr ""
 
-#: src/functions/template-tags.php:712
+#: src/functions/template-tags.php:746
 msgid "Title"
 msgstr ""
 
-#: src/functions/template-tags.php:718
+#: src/functions/template-tags.php:752
 msgid "Recurring?"
 msgstr ""
 
-#: src/functions/template-tags.php:785
+#: src/functions/template-tags.php:819
 msgid "Upcoming events"
 msgstr ""
 
-#: src/functions/template-tags.php:791
+#: src/functions/template-tags.php:825
 msgid "Past events"
+msgstr ""
+
+#: src/functions/template-tags.php:901
+msgid "Event"
+msgstr ""
+
+#: src/functions/template-tags.php:937
+msgid "event"
+msgstr ""
+
+#: src/functions/template-tags.php:955
+msgid "Events"
+msgstr ""
+
+#: src/functions/template-tags.php:973
+msgid "events"
 msgstr ""
 
 #: src/Tribe/Captcha/Abstract_Captcha.php:154
@@ -954,6 +994,7 @@ msgid "Site Key"
 msgstr ""
 
 #: src/Tribe/Captcha/Recaptcha.php:32
+#, php-format
 msgid "Get your Site Key at %s"
 msgstr ""
 
@@ -962,6 +1003,7 @@ msgid "Secret Key"
 msgstr ""
 
 #: src/Tribe/Captcha/Recaptcha.php:42
+#, php-format
 msgid "Get your Secret Key at %s"
 msgstr ""
 
@@ -995,134 +1037,134 @@ msgctxt "Default placeholder text for the virtual event smart URL input."
 msgid "Enter URL for hosted video (YouTube, Vimeo, etc.)"
 msgstr ""
 
-#: src/Tribe/Main.php:997
+#: src/Tribe/Main.php:1149
 msgid "Delete"
 msgstr ""
 
-#: src/Tribe/Main.php:1001
+#: src/Tribe/Main.php:1153
 msgid "Delete All"
 msgstr ""
 
-#: src/Tribe/Main.php:1003
+#: src/Tribe/Main.php:1155
 msgid "Are you sure you want to permanently delete all instances of this recurring event?"
 msgstr ""
 
-#: src/Tribe/Main.php:1006
+#: src/Tribe/Main.php:1158
 msgid "Are you sure you want to permanently delete this instance of a recurring event?"
 msgstr ""
 
-#: src/Tribe/Main.php:1076
-#: src/views/community/modules/image.php:95
+#: src/Tribe/Main.php:1228
+#: src/views/community/modules/image.php:101
 msgid "Remove image"
 msgstr ""
 
-#: src/Tribe/Main.php:1093
+#: src/Tribe/Main.php:1245
 msgid "Remove an Event"
 msgstr ""
 
-#: src/Tribe/Main.php:1094
+#: src/Tribe/Main.php:1246
 msgid "Remove a Venue"
 msgstr ""
 
-#: src/Tribe/Main.php:1095
+#: src/Tribe/Main.php:1247
 msgid "Remove an Organizer"
 msgstr ""
 
-#: src/Tribe/Main.php:1096
-#: src/Tribe/Main.php:1103
+#: src/Tribe/Main.php:1248
+#: src/Tribe/Main.php:1255
 msgid "Unknown Post Type"
 msgstr ""
 
-#: src/Tribe/Main.php:1351
+#: src/Tribe/Main.php:1685
 msgid "Community Submission"
 msgstr ""
 
-#: src/Tribe/Main.php:1444
-#: src/Tribe/Main.php:1462
-#: src/Tribe/Main.php:1520
+#: src/Tribe/Main.php:1789
+#: src/Tribe/Main.php:1807
+#: src/Tribe/Main.php:1865
 msgid "You do not have permission to delete this event."
 msgstr ""
 
-#: src/Tribe/Main.php:1457
+#: src/Tribe/Main.php:1802
 msgid "This event does not appear to exist."
 msgstr ""
 
-#: src/Tribe/Main.php:1468
+#: src/Tribe/Main.php:1813
 msgid "Trashed Event: "
 msgstr ""
 
-#: src/Tribe/Main.php:1471
+#: src/Tribe/Main.php:1816
 msgid "There was an error trashing your event: "
 msgstr ""
 
-#: src/Tribe/Main.php:1476
+#: src/Tribe/Main.php:1821
 msgid "Deleted Event: "
 msgstr ""
 
-#: src/Tribe/Main.php:1479
+#: src/Tribe/Main.php:1824
 msgid "There was an error deleting your event: "
 msgstr ""
 
-#: src/Tribe/Main.php:1511
+#: src/Tribe/Main.php:1856
 msgid "Trashed Event #"
 msgstr ""
 
-#: src/Tribe/Main.php:1514
+#: src/Tribe/Main.php:1859
 msgid "Deleted Event #"
 msgstr ""
 
-#: src/Tribe/Main.php:1517
+#: src/Tribe/Main.php:1862
+#, php-format
 msgid "This event (#%s) does not appear to exist."
 msgstr ""
 
-#: src/Tribe/Main.php:1536
+#: src/Tribe/Main.php:1881
 msgctxt "As in \"go back to previous page\""
 msgid "Back"
 msgstr ""
 
-#: src/Tribe/Main.php:1593
+#: src/Tribe/Main.php:1938
 #: src/views/community/columns/title.php:42
 msgid "View"
 msgstr ""
 
-#: src/Tribe/Main.php:1606
+#: src/Tribe/Main.php:1951
 #: src/views/community/columns/title.php:48
 msgid "Edit"
 msgstr ""
 
-#: src/Tribe/Main.php:1778
+#: src/Tribe/Main.php:2123
 #: src/views/community/login-form.php:38
 msgid "Lost your password?"
 msgstr ""
 
-#: src/Tribe/Main.php:1907
+#: src/Tribe/Main.php:2252
+#, php-format
 msgctxt "failed login message"
 msgid "%1$sERROR%2$s: Invalid username, email address, or incorrect password."
 msgstr ""
 
-#: src/Tribe/Main.php:2147
-msgid "The requested page number was not found."
-msgstr ""
-
-#: src/Tribe/Main.php:2511
+#: src/Tribe/Main.php:2760
 msgid "This template is also used for Community."
 msgstr ""
 
-#: src/Tribe/Main.php:2802
+#: src/Tribe/Main.php:3052
+#, php-format
 msgid "Community: Submit %s"
 msgstr ""
 
-#: src/Tribe/Main.php:2810
+#: src/Tribe/Main.php:3060
+#, php-format
 msgid "Community: My %s"
 msgstr ""
 
-#: src/Tribe/Main.php:2819
-#: src/Tribe/Templates.php:247
-#: tribe-community-events.php:63
+#: src/Tribe/Main.php:3069
+#: src/Tribe/Templates.php:251
+#: tribe-community-events.php:64
 msgid "Community"
 msgstr ""
 
-#: src/Tribe/Main.php:2837
+#: src/Tribe/Main.php:3087
 msgid "Settings"
 msgstr ""
 
@@ -1130,31 +1172,33 @@ msgstr ""
 msgid "Please log in first."
 msgstr ""
 
-#: src/Tribe/Shortcodes.php:148
+#: src/Tribe/Shortcodes.php:159
 msgid "Community Shortcode error: The view you specified doesn't exist or the Event ID is invalid"
 msgstr ""
 
-#: src/Tribe/Shortcodes.php:159
+#: src/Tribe/Shortcodes.php:170
 msgid "Community Shortcode error: The view you specified doesn't exist or the Venue ID is invalid"
 msgstr ""
 
-#: src/Tribe/Shortcodes.php:169
+#: src/Tribe/Shortcodes.php:180
 msgid "Community Shortcode error: The view you specified doesn't exist or the Organizer ID is invalid"
 msgstr ""
 
-#: src/Tribe/Shortcodes.php:179
+#: src/Tribe/Shortcodes.php:190
 msgid "Community Shortcode error: Please specify which form you want to display"
 msgstr ""
 
-#: src/Tribe/Templates.php:133
+#: src/Tribe/Templates.php:137
+#, php-format
 msgid "Template overrides should be moved to the correct subdirectory: %s"
 msgstr ""
 
-#: src/Tribe/Templates.php:177
+#: src/Tribe/Templates.php:181
+#, php-format
 msgid "Template overrides should be moved to the correct subdirectory: tribe_get_template_part('%s')"
 msgstr ""
 
-#: src/Tribe/Templates.php:253
+#: src/Tribe/Templates.php:257
 msgid "Community - Legacy"
 msgstr ""
 
@@ -1163,6 +1207,7 @@ msgid "PayPal Split Payments"
 msgstr ""
 
 #: src/Tribe/Tickets/Adapter/WooCommerce_PayPal.php:34
+#, php-format
 msgid "Split the distribution of money between the site owner and event organizer at the time of ticket purchase with Community Tickets. Settings are available in %1$sEvents > Settings > Community%2$s"
 msgstr ""
 
@@ -1183,6 +1228,7 @@ msgid "Are you sure you want to delete this ticket? This cannot be undone."
 msgstr ""
 
 #: src/Tribe/Tickets/Event_Form.php:129
+#, php-format
 msgid "%1$sPayment options%2$s"
 msgstr ""
 
@@ -1247,28 +1293,28 @@ msgctxt "fee message to be added if flat fees set on free"
 msgid "including free tickets"
 msgstr ""
 
-#: src/Tribe/Tickets/Main.php:773
+#: src/Tribe/Tickets/Main.php:956
 #: src/views/community-tickets/modules/shortcode-attendees.php:39
 msgid "Attendees"
 msgstr ""
 
-#: src/Tribe/Tickets/Main.php:777
+#: src/Tribe/Tickets/Main.php:960
 msgid "Reports:"
 msgstr ""
 
-#: src/Tribe/Tickets/Main.php:806
+#: src/Tribe/Tickets/Main.php:989
 msgid "Sales"
 msgstr ""
 
-#: src/Tribe/Tickets/Main.php:1107
+#: src/Tribe/Tickets/Main.php:1290
 msgid "To update the pricing for tickets that already have sales, please contact the Site Admin."
 msgstr ""
 
-#: src/Tribe/Tickets/Main.php:1171
+#: src/Tribe/Tickets/Main.php:1354
 msgid "Editing ticket prices is not allowed once purchases have been made."
 msgstr ""
 
-#: src/Tribe/Tickets/Main.php:1442
+#: src/Tribe/Tickets/Main.php:1625
 msgid "Community Tickets - Legacy"
 msgstr ""
 
@@ -1290,6 +1336,7 @@ msgstr ""
 
 #. translators: %s: number of payouts
 #: src/Tribe/Tickets/Payouts.php:154
+#, php-format
 msgid "Pending Order Completion <span class=\"count\">(%s)</span>"
 msgid_plural "Pending Order Completion <span class=\"count\">(%s)</span>"
 msgstr[0] ""
@@ -1301,6 +1348,7 @@ msgstr ""
 
 #. translators: %s: number of payouts
 #: src/Tribe/Tickets/Payouts.php:163
+#, php-format
 msgid "Pending Payout <span class=\"count\">(%s)</span>"
 msgid_plural "Pending Payout <span class=\"count\">(%s)</span>"
 msgstr[0] ""
@@ -1312,6 +1360,7 @@ msgstr ""
 
 #. translators: %s: number of payouts
 #: src/Tribe/Tickets/Payouts.php:172
+#, php-format
 msgid "Paid <span class=\"count\">(%s)</span>"
 msgid_plural "Paid <span class=\"count\">(%s)</span>"
 msgstr[0] ""
@@ -1323,16 +1372,19 @@ msgstr ""
 
 #. translators: %s: number of payouts
 #: src/Tribe/Tickets/Payouts.php:181
+#, php-format
 msgid "Failed <span class=\"count\">(%s)</span>"
 msgid_plural "Failed <span class=\"count\">(%s)</span>"
 msgstr[0] ""
 msgstr[1] ""
 
 #: src/Tribe/Tickets/Payouts.php:627
+#, php-format
 msgid "Order status changed from %1$s to %2$s"
 msgstr ""
 
 #: src/Tribe/Tickets/Payouts/Payout.php:320
+#, php-format
 msgid "Payout for Order #%d"
 msgstr ""
 
@@ -1345,10 +1397,12 @@ msgid "View Payouts"
 msgstr ""
 
 #: src/Tribe/Tickets/Payouts/Tabbed_View/Report.php:148
+#, php-format
 msgid "See payouts for this %s"
 msgstr ""
 
 #: src/Tribe/Tickets/Payouts/Tabbed_View/Report.php:245
+#, php-format
 msgctxt "Browser title"
 msgid "%s - Payouts"
 msgstr ""
@@ -1362,11 +1416,13 @@ msgid "Total Payout Amount"
 msgstr ""
 
 #: src/Tribe/Tickets/Payouts/Tabbed_View/Report.php:395
+#, php-format
 msgctxt "event payout actions"
 msgid "Edit %s"
 msgstr ""
 
 #: src/Tribe/Tickets/Payouts/Tabbed_View/Report.php:396
+#, php-format
 msgctxt "event payout actions"
 msgid "View %s"
 msgstr ""
@@ -1402,6 +1458,7 @@ msgid "Status"
 msgstr ""
 
 #: src/Tribe/Tickets/Payouts/Tabbed_View/Table.php:171
+#, php-format
 msgid "Order #%s"
 msgstr ""
 
@@ -1447,10 +1504,12 @@ msgid "Attendees Report"
 msgstr ""
 
 #. Translators: dynamic 'Events' text.
+#. translators: %s: Event label plural.
 #: src/Tribe/Tickets/Route/Attendees_Report.php:113
 #: src/Tribe/Tickets/Route/Sales_Report.php:123
 #: src/views/community-tickets/modules/payment-options.php:40
-#: src/views/community/modules/delete.php:28
+#: src/views/community/modules/delete.php:32
+#, php-format
 msgid "My %s"
 msgstr ""
 
@@ -1476,6 +1535,7 @@ msgstr ""
 
 #. Translators: linked email address.
 #: src/views/community-tickets/modules/orders-report-after-organizer.php:34
+#, php-format
 msgctxt "before linked email address"
 msgid "Organizer PayPal: %s"
 msgstr ""
@@ -1502,16 +1562,19 @@ msgstr ""
 
 #. Translators: 1: per transaction fee amount, 2: flat fee amount
 #: src/views/community-tickets/modules/payment-options.php:134
+#, php-format
 msgid "Fees are %1$s%% per transaction plus a %2$s flat fee per ticket."
 msgstr ""
 
 #. Translators: 1: fee amount
 #: src/views/community-tickets/modules/payment-options.php:145
+#, php-format
 msgid "Fees are a flat fee of %1$s per ticket."
 msgstr ""
 
 #. Translators: the formatted percentage fee
 #: src/views/community-tickets/modules/payment-options.php:154
+#, php-format
 msgid "Fees are %s%% per transaction."
 msgstr ""
 
@@ -1521,6 +1584,7 @@ msgstr ""
 
 #. Translators: 1: singular name of the post type ticket to which ticket is attached.
 #: src/views/community-tickets/modules/shortcode-attendees.php:61
+#, php-format
 msgctxt "attendee screen summary"
 msgid "%1$s Details"
 msgstr ""
@@ -1532,6 +1596,7 @@ msgstr ""
 
 #. Translators: 1: link opening tag and URL 2: link closing tag
 #: src/views/community-tickets/modules/tickets.php:79
+#, php-format
 msgid "Before you can create tickets, please add your PayPal email address on the %1$sPayment options%2$s form."
 msgstr ""
 
@@ -1545,84 +1610,102 @@ msgstr ""
 
 #: src/views/community/edit-organizer.php:37
 #: src/views/integrations/the-events-calendar/edit-venue.php:35
+#, php-format
 msgid "%s Name:"
 msgstr ""
 
 #: src/views/community/edit-organizer.php:48
 #: src/views/community/modules/description.php:32
 #: src/views/integrations/the-events-calendar/edit-venue.php:46
+#, php-format
 msgid "%s Description:"
 msgstr ""
 
 #: src/views/community/edit-organizer.php:74
 #: src/views/community/modules/submit.php:25
 #: src/views/integrations/the-events-calendar/edit-venue.php:71
+#, php-format
 msgid "Update %s"
 msgstr ""
 
 #: src/views/community/edit-organizer.php:74
 #: src/views/community/modules/submit.php:27
+#, php-format
 msgid "Submit %s"
 msgstr ""
 
-#: src/views/community/email-template.php:52
-msgid "Recurring %s"
-msgstr ""
-
-#: src/views/community/email-template.php:58
-msgid "%s Venue"
-msgstr ""
-
-#: src/views/community/email-template.php:68
-msgid "Description"
-msgstr ""
-
-#: src/views/community/email-template.php:78
+#. translators: %s: Event label singular.
+#: src/views/community/email-template.php:37
+#: src/views/integrations/event-tickets/email-template.php:50
+#: src/views/integrations/the-events-calendar/email-template.php:54
+#, php-format
 msgid "Review %s"
 msgstr ""
 
-#: src/views/community/email-template.php:80
+#. translators: %s: Event label singular.
+#: src/views/community/email-template.php:43
+#: src/views/integrations/event-tickets/email-template.php:56
+#: src/views/integrations/the-events-calendar/email-template.php:60
+#, php-format
 msgid "View %s"
 msgstr ""
 
-#: src/views/community/event-list-shortcode.php:50
-#: src/views/community/event-list.php:43
+#. translators: 1: Start date. 2: End date.
+#: src/views/community/email-template.php:56
+#: src/views/integrations/event-tickets/email-template.php:69
+#: src/views/integrations/the-events-calendar/email-template.php:93
+#, php-format
+msgid "%1$s - %2$s"
+msgstr ""
+
+#: src/views/community/email-template.php:64
+#: src/views/integrations/event-tickets/email-template.php:77
+#: src/views/integrations/the-events-calendar/email-template.php:141
+msgid "Description"
+msgstr ""
+
+#: src/views/community/event-list-shortcode.php:58
+#: src/views/community/event-list.php:49
 #: src/views/community/modules/delete.php:24
 msgid "Add New"
 msgstr ""
 
-#: src/views/community/event-list-shortcode.php:68
-#: src/views/community/event-list.php:61
+#: src/views/community/event-list-shortcode.php:76
+#: src/views/community/event-list.php:67
 msgid "Search for:"
 msgstr ""
 
-#: src/views/community/event-list-shortcode.php:69
-#: src/views/community/event-list.php:67
+#: src/views/community/event-list-shortcode.php:77
+#: src/views/community/event-list.php:73
 msgid "Search Event Titles"
 msgstr ""
 
-#: src/views/community/event-list-shortcode.php:70
+#: src/views/community/event-list-shortcode.php:78
 msgid "Search"
 msgstr ""
 
-#: src/views/community/event-list-shortcode.php:106
-#: src/views/community/event-list.php:89
+#: src/views/community/event-list-shortcode.php:114
+#: src/views/community/event-list.php:98
 msgid "Display Option"
 msgstr ""
 
-#: src/views/community/event-list-shortcode.php:203
+#: src/views/community/event-list-shortcode.php:211
+#, php-format
 msgid "You have no past %1$s"
 msgstr ""
 
-#: src/views/community/event-list-shortcode.php:205
+#: src/views/community/event-list-shortcode.php:213
+#, php-format
 msgid "You have no upcoming %1$s"
 msgstr ""
 
-#: src/views/community/event-list.php:184
+#: src/views/community/event-list.php:193
+#, php-format
 msgid "You have no past %s"
 msgstr ""
 
-#: src/views/community/event-list.php:186
+#: src/views/community/event-list.php:195
+#, php-format
 msgid "You have no upcoming %s"
 msgstr ""
 
@@ -1631,69 +1714,75 @@ msgid "Anti-Spam Check"
 msgstr ""
 
 #: src/views/community/modules/custom/table-row.php:47
+#, php-format
 msgctxt "custom field label"
 msgid "%s:"
 msgstr ""
 
-#: src/views/community/modules/delete.php:32
+#: src/views/community/modules/delete.php:40
 msgid "Not"
 msgstr ""
 
-#: src/views/community/modules/delete.php:33
+#: src/views/community/modules/delete.php:41
 msgid "Log Out"
 msgstr ""
 
 #. Translators: %s - Event (singular)
 #: src/views/community/modules/header-links.php:26
+#, php-format
 msgid "Edit %s"
 msgstr ""
 
 #. Translators: %s - Event (singular)
 #: src/views/community/modules/header-links.php:32
+#, php-format
 msgid "Add New %s"
 msgstr ""
 
 #. Translators: %s - Events (plural)
 #: src/views/community/modules/header-links.php:38
+#, php-format
 msgid "View Your Submitted %s"
 msgstr ""
 
-#: src/views/community/modules/image.php:23
+#. translators: %s is the event label.
+#: src/views/community/modules/image.php:33
+#, php-format
 msgid "%s Image"
 msgstr ""
 
-#: src/views/community/modules/image.php:50
+#. translators: %1$s is the file size.
+#: src/views/community/modules/image.php:61
+#, php-format
 msgid "Choose a .jpg, .png, or .gif file under %1$s in size."
 msgstr ""
 
-#: src/views/community/modules/image.php:59
-msgid "Uploaded:"
-msgstr ""
-
-#: src/views/community/modules/image.php:71
+#: src/views/community/modules/image.php:70
 msgid "Selected:"
 msgstr ""
 
-#: src/views/community/modules/image.php:77
-msgid "Event Image"
-msgstr ""
-
-#: src/views/community/modules/image.php:80
+#: src/views/community/modules/image.php:75
 msgid "Choose Image"
 msgstr ""
 
-#: src/views/community/modules/image.php:83
-msgid "Upload File"
+#: src/views/community/modules/image.php:79
+msgid "No file chosen."
+msgstr ""
+
+#: src/views/community/modules/image.php:96
+msgid "The selected file is too large."
 msgstr ""
 
 #: src/views/community/modules/organizer-fields.php:47
 #: src/views/community/modules/venue-fields.php:34
 #: src/views/integrations/the-events-calendar/modules/organizer.php:38
 #: src/views/integrations/the-events-calendar/modules/venue.php:43
+#, php-format
 msgid "%s Details"
 msgstr ""
 
 #: src/views/community/modules/organizer-fields.php:59
+#, php-format
 msgid "%s Name"
 msgstr ""
 
@@ -1716,11 +1805,16 @@ msgid "Fake Title"
 msgstr ""
 
 #: src/views/community/modules/terms.php:58
+msgid "Use arrow keys or page up/down to scroll through the terms of submission."
+msgstr ""
+
+#: src/views/community/modules/terms.php:69
 msgid "I agree to the terms of submission"
 msgstr ""
 
 #. Translators: %s Events label.
 #: src/views/community/modules/title.php:27
+#, php-format
 msgid "%s Title:"
 msgstr ""
 
@@ -1756,8 +1850,65 @@ msgstr ""
 msgid "Show Google Maps Link"
 msgstr ""
 
+#. translators: 1: current page number, 2: total number of pages
+#: src/views/community/pagination.php:35
+#, php-format
+msgid "Page %1$s of %2$s"
+msgstr ""
+
+#. translators: %s: current page number
+#: src/views/community/pagination.php:55
+#, php-format
+msgid "Page %s, current"
+msgstr ""
+
+#: src/views/community/pagination.php:79
+msgctxt "pagination control"
+msgid "First page"
+msgstr ""
+
+#: src/views/community/pagination.php:83
+msgctxt "pagination control"
+msgid "Previous page"
+msgstr ""
+
+#: src/views/community/pagination.php:87
+msgctxt "pagination control"
+msgid "Next page"
+msgstr ""
+
+#: src/views/community/pagination.php:91
+msgctxt "pagination control"
+msgid "Last page"
+msgstr ""
+
+#. translators: %s: page number
+#: src/views/community/pagination.php:96
+#, php-format
+msgid "Page %s"
+msgstr ""
+
+#: src/views/integrations/the-events-calendar/email-template.php:77
+msgid "Organizer"
+msgid_plural "Organizers"
+msgstr[0] ""
+msgstr[1] ""
+
+#. translators: %s: Event label singular.
+#: src/views/integrations/the-events-calendar/email-template.php:103
+#, php-format
+msgid "Recurring %s"
+msgstr ""
+
+#. translators: %s: Event label singular.
+#: src/views/integrations/the-events-calendar/email-template.php:118
+#, php-format
+msgid "%s Venue"
+msgstr ""
+
 #. translators: %s events label.
 #: src/views/integrations/the-events-calendar/modules/cost.php:52
+#, php-format
 msgid "%s Cost"
 msgstr ""
 
@@ -1784,6 +1935,7 @@ msgid "Cost:"
 msgstr ""
 
 #: src/views/integrations/the-events-calendar/modules/cost.php:102
+#, php-format
 msgid "Leave blank to hide the field. Enter a 0 for %s that are free."
 msgstr ""
 
@@ -1792,10 +1944,12 @@ msgid "Additional Fields"
 msgstr ""
 
 #: src/views/integrations/the-events-calendar/modules/datepickers.php:56
+#, php-format
 msgid "%s Time &amp; Date"
 msgstr ""
 
 #: src/views/integrations/the-events-calendar/modules/datepickers.php:74
+#, php-format
 msgid "You have changed the recurrence rules of this %1$s. Saving the %1$s will update all future %2$s.  If you did not mean to change all %2$s, then please refresh the page."
 msgstr ""
 
@@ -1846,37 +2000,43 @@ msgstr ""
 msgid "All Day Event"
 msgstr ""
 
-#: src/views/integrations/the-events-calendar/modules/series.php:44
+#. translators: 1: Event label singular. 2: Series label singular.
+#: src/views/integrations/the-events-calendar/modules/series.php:46
+#, php-format
 msgctxt "Event Series metabox title on Community Edit Page"
 msgid "%1$s %2$s"
 msgstr ""
 
-#: src/views/integrations/the-events-calendar/modules/taxonomy.php:89
+#: src/views/integrations/the-events-calendar/modules/taxonomy.php:94
 msgid "terms"
 msgstr ""
 
-#: src/views/integrations/the-events-calendar/modules/taxonomy.php:146
+#: src/views/integrations/the-events-calendar/modules/taxonomy.php:151
 msgctxt "taxonomy selector ajax search placeholder"
 msgid "Searching…"
 msgstr ""
 
-#: src/views/integrations/the-events-calendar/modules/taxonomy.php:147
+#: src/views/integrations/the-events-calendar/modules/taxonomy.php:152
+#, php-format
 msgid "Search from existing %s"
 msgstr ""
 
-#: src/views/integrations/the-events-calendar/modules/website.php:24
+#. translators: %s: Event label singular.
+#: src/views/integrations/the-events-calendar/modules/website.php:28
+#, php-format
 msgid "%s Website"
 msgstr ""
 
-#: src/views/integrations/the-events-calendar/modules/website.php:51
+#: src/views/integrations/the-events-calendar/modules/website.php:59
 msgid "Enter URL for event information"
 msgstr ""
 
-#: tribe-community-events.php:283
-#: tribe-community-events.php:284
+#: tribe-community-events.php:295
+#: tribe-community-events.php:296
 msgid "Event Tickets"
 msgstr ""
 
-#: tribe-community-events.php:289
+#: tribe-community-events.php:301
+#, php-format
 msgid "To begin using The Events Calendar: Community, please install the latest version of either %1s or %2s."
 msgstr ""
