@@ -9,6 +9,7 @@
 
 function display_article_teaser ($content_str , $searchFor) {
 	$p1 = strpos( $content_str , $searchFor);
+	echo "teaser pos = ".$p1;
 	$teaser = substr(  $content_str , $p1 );
 	echo $teaser;
 }
