@@ -7,6 +7,12 @@
  * *
  * ****************************************************************/
 
+function display_article_teaser ($content_str , $searchFor) {
+	$p1 = strpos( $content_str , $searchFor);
+	$teaser = substr(  $content_str , $p1 );
+	echo $teaser;
+}
+
 function display_the_next_paragraph( $content_str , $searchFor ) {
 	// find the next <p in the content str
 	//$p1 = strpos( $content_str ,"<p");
@@ -104,9 +110,16 @@ function get_pay_wall_heading( $contentType ) {
 	$html = "<h3>".$member_content_heading."</h3>";
 	return $html;
 }
-
-
+// show_locked_content
 function show_member_login_message( $contentType ) {
+	$number_of_paragraphs = get_field("paywall_display_n_paragraphts" , "option");
+	$content_str = get_the_content();
+	display_article_teaser( $content_str , "<span class=\"end-teaser\">");
+	display_become_a_member_message( $contentType );
+	display_member_login_message();
+}
+
+function was_show_member_login_message( $contentType ) {
 	$number_of_paragraphs = get_field("paywall_display_n_paragraphts" , "option");
 	$content_str = get_the_content();
 	$remaining_str = display_the_next_paragraph( $content_str , "<p class=\"has-drop-cap\">");
