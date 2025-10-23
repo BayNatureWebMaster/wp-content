@@ -116,9 +116,7 @@ function get_pay_wall_heading( $contentType ) {
 function show_member_login_message( $contentType ) {
 	$number_of_paragraphs = get_field("paywall_display_n_paragraphts" , "option");
 	$content_str = get_the_content();
-	//display_article_teaser( $content_str , "<span class=\"end-teaser\">");
-
-	display_article_teaser( $content_str , 'end-teaser');
+	display_article_teaser( $content_str , "<span class=\"end-teaser\">");
 	display_become_a_member_message( $contentType );
 	display_member_login_message();
 }
