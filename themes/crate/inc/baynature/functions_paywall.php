@@ -112,12 +112,22 @@ function get_pay_wall_heading( $contentType ) {
 	$html = "<h3>".$member_content_heading."</h3>";
 	return $html;
 }
+
+function has_end_teaser_tag ( $content_str  , $searchFor ) {
+	if (false === strpos( $content_str , $searchFor)) {
+		return false;
+	}
+	else {
+		return true;
+	}
+}
 // show_locked_content
 function show_member_login_message( $contentType ) {
 	//$number_of_paragraphs = get_field("paywall_display_n_paragraphts" , "option");
+	$searchFor =  "<span class=\"end-teaser\">";
 	$content_str = get_the_content();
-	if ( has_end_teaser_tag() ) {
-		display_article_teaser( $content_str , "<span class=\"end-teaser\">");
+	if ( has_end_teaser_tag($content_str , $searchFor) ) {
+		display_article_teaser( $content_str , $searchFor);
 		display_become_a_member_message( $contentType );
 		display_member_login_message();
 	}
