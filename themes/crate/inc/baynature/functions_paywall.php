@@ -4,6 +4,10 @@
  * *
  * * April 8 2025
  * * May 28 2025: Added Cookie storage for the Master Key
+ * * October 2025: Added new display teaser function. Displays
+ * * content up to the end-teaser marker. If the end-teaser marker
+ * * is not found the fall back is to display the first two
+ * * paragraphs.
  * *
  * ****************************************************************/
 
@@ -27,7 +31,7 @@ function display_the_next_paragraph( $content_str , $searchFor ) {
 	$remaining_str = substr($sub_str, $p2);
 	return $remaining_str;
 }
-
+/*
 // experiment with other method of validating paragraph : not currently used
 function new_display_the_next_paragraph( $content_str , $searchFor ) {
 	// find the next <p in the content str
@@ -51,7 +55,8 @@ function new_display_the_next_paragraph( $content_str , $searchFor ) {
 	// content str is empty
 	return $content_str;
 }
-
+*/
+/*
 // experiment with other method of validating paragraph : not currently used
 function is_valid_paragraph ( $the_paragraph ) {
 	// get length
@@ -68,6 +73,7 @@ function is_valid_paragraph ( $the_paragraph ) {
 	}
 	return false;
 }
+*/
 
 function display_member_login_message () {
 	$member_login_message = get_field("paywall_login_message" , "option");
@@ -102,7 +108,6 @@ function display_become_a_member_message ( $contentType ) {
 }
 
 function get_pay_wall_heading( $contentType ) {
-	//echo " what is this ? ".$contentType;
 	if (strcmp($contentType, "talks") === 0) {
 		$member_content_heading = "To view this Bay Nature Talk ...";
 	}
