@@ -13,15 +13,12 @@
 
 function display_article_teaser ($content_str , $searchFor) {
 	$p1 = strpos( $content_str , $searchFor);
-	//echo "search for = " .$searchFor."<br>";
-	//echo "teaser pos = ".$p1;
 	$teaser = substr(  $content_str , 0, $p1 );
 	echo $teaser;
 }
 
 function display_the_next_paragraph( $content_str , $searchFor ) {
 	// find the next <p in the content str
-	//$p1 = strpos( $content_str ,"<p");
 	$p1 = strpos( $content_str , $searchFor);
 	$sub_str = substr(  $content_str , $p1 );
 	// find the end of the paragraph
@@ -31,49 +28,6 @@ function display_the_next_paragraph( $content_str , $searchFor ) {
 	$remaining_str = substr($sub_str, $p2);
 	return $remaining_str;
 }
-/*
-// experiment with other method of validating paragraph : not currently used
-function new_display_the_next_paragraph( $content_str , $searchFor ) {
-	// find the next <p in the content str
-	//$p1 = strpos( $content_str ,"<p");
-	while ( strlen ($content_str) > 0) {
-		$p1 = strpos( $content_str , $searchFor);
-		$sub_str = substr(  $content_str , $p1 );
-		// find the end of the paragraph
-		$p2 = strpos( $sub_str , "</p>") + 4;
-		$the_paragraph = substr( $sub_str , 0, $p2);
-		if ( is_valid_paragraph( $the_paragraph ) ) {
-			echo $the_paragraph;
-			$remaining_str = substr($sub_str, $p2);
-			return $remaining_str;
-		}
-		else {
-			$content_str = substr($sub_str, $p2);
-		}
-		
-	}
-	// content str is empty
-	return $content_str;
-}
-*/
-/*
-// experiment with other method of validating paragraph : not currently used
-function is_valid_paragraph ( $the_paragraph ) {
-	// get length
-	$minimum_character_count = get_field("paragraph_validator_minimum_characters" , "option");
-	$mimumm_sentence_count = get_field("paragraph_validator_minimum_sentence_count" , "option");
-	echo "m c c =".$minimum_character_count;
-	echo "<br>m s c=".$mimumm_sentence_count."<br>";
-	$paragraph_length = strlen( $the_paragraph );
-	$number_of_sentences = substr_count( $the_paragraph , ".");
-	echo "p length =".$paragraph_length."<br>";
-	echo "n sentences=".$number_of_sentences."<br>";
-	if ( 100 < $paragraph_length && 3 < $number_of_sentences ) {
-		return true;
-	}
-	return false;
-}
-*/
 
 function display_member_login_message () {
 	$member_login_message = get_field("paywall_login_message" , "option");
@@ -126,6 +80,7 @@ function has_end_teaser_tag ( $content_str  , $searchFor ) {
 		return true;
 	}
 }
+
 // show_locked_content
 function show_member_login_message( $contentType ) {
 	//$number_of_paragraphs = get_field("paywall_display_n_paragraphts" , "option");
@@ -264,14 +219,6 @@ function is_staff_share_key_set ( ) {
 
 	$limitted_access_expiration__day =  
 		((get_field( 'sharing_key_expiration_day' , 'option' ) > $max_day) ? $max_day : get_field( 'sharing_key_expiration_day' , 'option' ));
-
-	//echo "la_key = " .$limited_access_key ."<br>";
-	//echo "la_year = " .$limitted_access_expiration_year ."<br>";
-	//echo "la_month = " .$limitted_access_expiration__month ."<br>";
-	//echo "la_day = " .$limitted_access_expiration__day ."<br>";
-	//echo "max day = " .$max_day ."<br>";
-
-
 	// get the current month, day, and year
 	$date_now = date("m/d/y");
 	$date_now_array = explode("/", $date_now);
