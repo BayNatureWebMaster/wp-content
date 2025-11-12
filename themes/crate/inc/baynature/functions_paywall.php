@@ -8,6 +8,7 @@
  * * content up to the end-teaser marker. If the end-teaser marker
  * * is not found the fall back is to display the first two
  * * paragraphs.
+ * * Nov 12 2025. Clean up and documented. Passing to new dev team.
  * *
  * ****************************************************************/
 
