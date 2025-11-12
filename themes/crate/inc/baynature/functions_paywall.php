@@ -10,6 +10,14 @@
  * * paragraphs.
  * * Nov 12 2025. Clean up and documented. Passing to new dev team.
  * *
+ * * Note: The teaser tag is a span tag containing the css 
+ * * class end-teaser. The plan is to create a custom block, now
+ * * known as a patteren, containing this span tag and css class.
+ * * For reasons unknown at this time the pattern when used in 
+ * * the block editor does not get generated in the saved published
+ * * article. Therefore the author of the article must use 
+ * * a custom html block to create the span tag with the end-teaser
+ * * css class.
  * ****************************************************************/
 
 function display_article_teaser ($content_str , $searchFor) {
