@@ -82,9 +82,14 @@ function has_end_teaser_tag ( $content_str  , $searchFor ) {
 	}
 }
 
-// show_locked_content
+/* The content is locked. Display the content teaser and
+** locked content messaging.
+** If the content contains the end teaser tag, see below,
+** we display the content up-to the teaser tag. If 
+** the teaser tag is not present in the content we 
+** default to displaying the first N paragraphs.
+*/
 function show_member_login_message( $contentType ) {
-	//$number_of_paragraphs = get_field("paywall_display_n_paragraphts" , "option");
 	$searchFor =  "<span class=\"end-teaser\">";
 	$content_str = get_the_content();
 	if ( has_end_teaser_tag($content_str , $searchFor) ) {
@@ -93,11 +98,13 @@ function show_member_login_message( $contentType ) {
 		display_member_login_message();
 	}
 	else {
-		was_show_member_login_message( $contentType );
+		display_teaser_n_paragraphs( $contentType );
+		display_become_a_member_message( $contentType );
+		display_member_login_message();
 	}
 }
 
-function was_show_member_login_message( $contentType ) {
+function display_teaser_n_paragraphs( $contentType ) {
 	$number_of_paragraphs = get_field("paywall_display_n_paragraphts" , "option");
 	$content_str = get_the_content();
 	$remaining_str = display_the_next_paragraph( $content_str , "<p class=\"has-drop-cap\">");
@@ -106,8 +113,6 @@ function was_show_member_login_message( $contentType ) {
 		 	$remaining_str = display_the_next_paragraph( $remaining_str , "<p" );
 		}
 	}
-	display_become_a_member_message( $contentType );
-	display_member_login_message();
 }
 
 /***************************************************************************************
